@@ -1,0 +1,86 @@
+﻿@font-face {
+
+	font-family: 'IM FELL FLOWERS 1';
+    src: url('../Images/fonts/IMFeFlow1.eot');
+   
+ 
+    src: local('IM FELL FLOWERS 1'), url('../Images/fonts/IMFeFlow1.TTF') format('truetype');
+}
+
+
+@font-face {
+
+	font-family: 'IM FELL English Italic';
+    src: url('../Images/fonts/IMFeENit29p.eot');
+   
+ 
+    src: local('IM FELL English Italic'), url('../Images/fonts/IMFeENit29p.TTF') format('truetype');
+}
+
+
+@font-face {
+
+	font-family: 'IM FELL English';
+    src: url('../Images/fonts/IMFeENsc29p.eot');
+   
+ 
+    src: local('IM FELL English'), url('../Images/fonts/IMFeENrm29p.TTF') format('truetype');
+}
+
+
+@font-face {
+
+	font-family: 'IM FELL English SC';
+    src: url('../Images/fonts/IMFeENsc29p.eot');
+   
+ 
+    src: local('IM FELL English SC'), url('../Images/fonts/IMFeENrm29p.TTF') format('truetype');
+}
+
+
+
+@font-face {
+
+	font-family: 'Ardenwood Demo';
+    src: url('../Images/fonts/arded.eot');
+   
+ 
+    src: local('Ardenwood Demo'), url('../Images/fonts/arded.TTF') format('truetype');
+}
+
+@font-face {
+	/*font-family: swirly;*/
+	/*src: url('../Images/fonts/arded.TTF');*/
+	
+	
+	font-family: oldcop;
+    src: url('../Images/fonts/oldcop.eot');
+    
+   /* src: local(oldcop), url('../Images/fonts/oldcop.TTF') format('opentype');*/
+}
+
+
+@font-face {
+	/*font-family: swirly;*/
+	/*src: url('../Images/fonts/arded.TTF');*/
+	
+	
+	font-family: OptimusPrinceps;
+    src: url('../Images/fonts/OptimusPrinceps.eot');
+    
+    src: local(OptimusPrinceps), url('../Images/fonts/OptimusPrinceps.TTF') format('opentype');
+}
+
+@font-face {
+	/*font-family: swirly;*/
+	/*src: url('../Images/fonts/arded.TTF');*/
+	
+	
+	font-family: KingArthur;
+	
+	
+	
+  /*  src: url('../Images/fonts/KingArthur.eot');*/
+    
+/*    src: local(KingArthur), url('../Images/fonts/KingArthur.TTF') format('opentype');*/
+}

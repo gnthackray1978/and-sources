@@ -1,0 +1,226 @@
+﻿body {
+}
+
+.tree_Links
+{
+
+    position: absolute;
+    
+}
+
+.desktop_map_label
+{
+    padding: 5px;
+    border: medium solid #000000;
+    background-color: #FFFFFF;
+    filter: alpha(opacity=90);
+    border-radius: 10px;
+    width: 175px;
+    height: 100px;
+    position: absolute;
+    left: 30px;
+    top: 30px;
+}
+
+
+
+
+.desktop_map_label .message
+{
+    margin: 0px;
+}
+
+
+
+
+.desktop_map_control
+{
+    border: medium solid #000000;
+    background-color: #FFFFFF;
+    filter: alpha(opacity=90);
+    border-radius: 10px;
+    
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    right: 30px;
+    top: 30px;
+}
+
+.desktop_map_control .desktop_u
+{
+    background-position: center center;
+    position: absolute;
+    left: 2px;
+    top: 12px;
+    background-image: url('../Images/silver_images/navigate_plus.png');
+    background-repeat: no-repeat;
+}
+
+
+
+
+.desktop_map_control .desktop_d
+{
+    background-position: center center;
+    position: absolute;
+    left: 2px;
+    bottom: 10px;
+    background-image: url('../Images/silver_images/navigate_minus.png');
+    background-repeat: no-repeat;
+}
+
+.desktop_map_control .desktop_n
+{
+    background-position: center center;
+    position: absolute;
+    left: 45px;
+    top: 10px;
+    background-image: url('../Images/silver_images/nav_up_blue.png');
+    background-repeat: no-repeat;
+}
+
+.desktop_map_control .desktop_s
+{
+    background-position: center center;
+    position: absolute;
+    bottom: 10px;
+    left: 45px;
+    background-image: url('../Images/silver_images/nav_down_blue.png');
+    background-repeat: no-repeat;
+}
+
+.desktop_map_control .desktop_e
+{
+    background-position: center center;
+    position: absolute;
+    right: 2px;
+    top: 35px;
+    background-image: url('../Images/silver_images/nav_right_blue.png');
+    background-repeat: no-repeat;
+}
+
+.desktop_map_control .desktop_w
+{
+    background-position: center center;
+    position: absolute;
+    left: 25px;
+    top: 35px;
+    background-image: url('../Images/silver_images/nav_left_blue.png');
+    background-repeat: no-repeat;
+}
+
+.desktop_button_box
+{
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    margin:5px;
+}
+
+
+
+
+
+
+
+
+.mobile_map_control .mobile_u
+{    
+  
+    background-image: url('../Images/silver_images/navigate_plus.png');
+    background-repeat: no-repeat;
+
+}
+
+.mobile_map_control .mobile_d
+{
+   
+    background-image: url('../Images/silver_images/navigate_minus.png');
+    background-repeat: no-repeat;
+}
+
+
+.mobile_map_control .mobile_w
+{
+   
+    background-image: url('../Images/silver_images/nav_left_blue.png');
+    background-repeat: no-repeat;
+}
+.mobile_map_control .mobile_e
+{
+ 
+    background-image: url('../Images/silver_images/nav_right_blue.png');
+    background-repeat: no-repeat;
+}
+.mobile_map_control .mobile_n
+{
+    
+    
+  
+    background-image: url('../Images/silver_images/nav_up_blue.png');
+    background-repeat: no-repeat;
+}
+
+.mobile_map_control .mobile_s
+{
+    
+ 
+   
+    background-image: url('../Images/silver_images/nav_down_blue.png');
+    background-repeat: no-repeat;
+}
+
+.mobile_button_box
+{
+    position: relative;
+    display: inline;
+    float:right;
+    cursor: pointer;
+    width: 30px;
+    height: 25px;
+    margin-right:2px;
+    margin-top:2px;
+}
+
+
+.mobile_map_control
+{
+    border: medium solid #000000;
+    background-color: #000000;
+    filter: alpha(opacity=90);
+  /*  border-radius: 10px;*/
+    
+  /*  width: 250px;*/
+  
+   height: 30px;
+    position: absolute;
+    left:0px;
+    right: 0px;
+    bottom: 0px;
+}
+
+
+
+
+.mobile_map_label .message
+{
+    margin: 5px;
+}
+
+
+
+.mobile_map_label
+{
+    border: medium solid #000000;
+    background-color: #000000;
+    filter: alpha(opacity=90);
+   /* border-radius: 10px;*/
+  /*  width: 200px;*/
+    height: 30px;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    color: #FFFFFF;
+}

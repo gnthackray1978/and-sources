@@ -1,0 +1,28 @@
+J:\back\24oct\tanc-dba\Genealogy\TestBed\bin\Debug\TestBed.exe.config
+J:\back\24oct\tanc-dba\Genealogy\TestBed\bin\Debug\TestBed.exe
+J:\back\24oct\tanc-dba\Genealogy\TestBed\bin\Debug\TestBed.pdb
+J:\back\24oct\tanc-dba\Genealogy\TestBed\bin\Debug\TDBCore.dll
+J:\back\24oct\tanc-dba\Genealogy\TestBed\bin\Debug\UnitTests.dll
+J:\back\24oct\tanc-dba\Genealogy\TestBed\bin\Debug\nunit.framework.dll
+J:\back\24oct\tanc-dba\Genealogy\TestBed\bin\Debug\GedcomParser.dll
+J:\back\24oct\tanc-dba\Genealogy\TestBed\bin\Debug\Gedcom.dll
+J:\back\24oct\tanc-dba\Genealogy\TestBed\bin\Debug\UnitTests.pdb
+J:\back\24oct\tanc-dba\Genealogy\TestBed\bin\Debug\TDBCore.pdb
+J:\back\24oct\tanc-dba\Genealogy\TestBed\bin\Debug\nunit.framework.xml
+J:\back\24oct\tanc-dba\Genealogy\TestBed\obj\x86\Debug\ResolveAssemblyReference.cache
+J:\back\24oct\tanc-dba\Genealogy\TestBed\obj\x86\Debug\TestBed.exe
+J:\back\24oct\tanc-dba\Genealogy\TestBed\obj\x86\Debug\TestBed.pdb
+C:\Users\george\Documents\Visual Studio 2010\Projects\tanc-dba\Genealogy\TestBed\bin\Debug\TestBed.exe.config
+C:\Users\george\Documents\Visual Studio 2010\Projects\tanc-dba\Genealogy\TestBed\bin\Debug\TestBed.exe
+C:\Users\george\Documents\Visual Studio 2010\Projects\tanc-dba\Genealogy\TestBed\bin\Debug\TestBed.pdb
+C:\Users\george\Documents\Visual Studio 2010\Projects\tanc-dba\Genealogy\TestBed\bin\Debug\TDBCore.dll
+C:\Users\george\Documents\Visual Studio 2010\Projects\tanc-dba\Genealogy\TestBed\bin\Debug\UnitTests.dll
+C:\Users\george\Documents\Visual Studio 2010\Projects\tanc-dba\Genealogy\TestBed\bin\Debug\nunit.framework.dll
+C:\Users\george\Documents\Visual Studio 2010\Projects\tanc-dba\Genealogy\TestBed\bin\Debug\Gedcom.dll
+C:\Users\george\Documents\Visual Studio 2010\Projects\tanc-dba\Genealogy\TestBed\bin\Debug\GedcomParser.dll
+C:\Users\george\Documents\Visual Studio 2010\Projects\tanc-dba\Genealogy\TestBed\bin\Debug\UnitTests.pdb
+C:\Users\george\Documents\Visual Studio 2010\Projects\tanc-dba\Genealogy\TestBed\bin\Debug\TDBCore.pdb
+C:\Users\george\Documents\Visual Studio 2010\Projects\tanc-dba\Genealogy\TestBed\bin\Debug\nunit.framework.xml
+C:\Users\george\Documents\Visual Studio 2010\Projects\tanc-dba\Genealogy\TestBed\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\george\Documents\Visual Studio 2010\Projects\tanc-dba\Genealogy\TestBed\obj\x86\Debug\TestBed.exe
+C:\Users\george\Documents\Visual Studio 2010\Projects\tanc-dba\Genealogy\TestBed\obj\x86\Debug\TestBed.pdb
