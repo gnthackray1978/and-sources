@@ -1,0 +1,13 @@
+C:\Users\george\Documents\Visual Studio 2010\Projects\tanc-dba\Genealogy\ThackrayNetServices\bin\ThackrayNetServices.dll
+C:\Users\george\Documents\Visual Studio 2010\Projects\tanc-dba\Genealogy\ThackrayNetServices\bin\ThackrayNetServices.pdb
+C:\Users\george\Documents\Visual Studio 2010\Projects\tanc-dba\Genealogy\ThackrayNetServices\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\george\Documents\Visual Studio 2010\Projects\tanc-dba\Genealogy\ThackrayNetServices\obj\Debug\ThackrayNetServices.dll
+C:\Users\george\Documents\Visual Studio 2010\Projects\tanc-dba\Genealogy\ThackrayNetServices\obj\Debug\ThackrayNetServices.pdb
+C:\Users\george\Documents\Visual Studio 2010\Projects\tanc-dba\Genealogy\ThackrayNetServices\bin\TancWebApp.dll
+C:\Users\george\Documents\Visual Studio 2010\Projects\tanc-dba\Genealogy\ThackrayNetServices\bin\TDBCore.dll
+C:\Users\george\Documents\Visual Studio 2010\Projects\tanc-dba\Genealogy\ThackrayNetServices\bin\Facebook.dll
+C:\Users\george\Documents\Visual Studio 2010\Projects\tanc-dba\Genealogy\ThackrayNetServices\bin\Gedcom.dll
+C:\Users\george\Documents\Visual Studio 2010\Projects\tanc-dba\Genealogy\ThackrayNetServices\bin\GedcomParser.dll
+C:\Users\george\Documents\Visual Studio 2010\Projects\tanc-dba\Genealogy\ThackrayNetServices\bin\TancWebApp.pdb
+C:\Users\george\Documents\Visual Studio 2010\Projects\tanc-dba\Genealogy\ThackrayNetServices\bin\TDBCore.pdb
+C:\Users\george\Documents\Visual Studio 2010\Projects\tanc-dba\Genealogy\ThackrayNetServices\bin\Facebook.xml

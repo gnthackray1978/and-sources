@@ -1,0 +1,170 @@
+﻿
+.logincont
+{
+     position: relative;
+        height: 600px;
+    
+    }
+
+.surlogin
+{
+    position: absolute;
+    
+    width: 300px;
+    height: 600px;
+    
+    left: 700px;
+    
+ 
+    }
+    
+   .surlogin_left
+{
+    position: absolute;
+    width: 352px;
+    height: 528px;
+    left: 200px;
+    top: 0px;
+    background-image: url('../Images/camb_tall.jpg');
+} 
+    
+
+.usr_topbar
+{
+    height: 50px;
+ /*  background-color: #669900;*/
+    
+    font-size: x-large;
+	font-weight: bold;
+	line-height: 50px;
+	margin-top: 2px;
+}
+
+.usrhed_leflb
+{
+    float: left;
+    width: 350px;
+    text-indent: 20px;
+}
+.usrhed_riglb
+{
+    float: left;
+    text-indent: 20px;
+    /*color: #000000;*/
+}
+
+.fltcnt b
+{
+    font-size: large;
+    font-weight: lighter;
+    font-family: Arial, Helvetica, sans-serif;
+}
+    
+    
+    
+.usropt
+{
+    float: left;
+    
+    width: 350px;
+  
+    margin-left: 15px;
+    margin-top: 12px;
+}
+
+
+.usrext
+{
+    float: left;
+    margin-top: 12px;
+      
+    width: 800px;
+  /*  color: #000000;*/
+}
+
+.usrRow
+{
+   /* left:0px;*/
+    width:1200px;
+    float: left;
+    }
+
+/* datalist header*/
+.usr_dl_hed
+{
+    padding: 0px;
+    margin: 2px;
+    border: medium solid #F7F7DE;
+    background-color: #6B696B;
+    color: #FFFFFF;
+    height: 12px;
+  
+    font-size: 10pt;
+    font-family: Verdana;
+}
+
+/* datalist selected item*/
+.usr_dl_sel
+{
+
+    background-color: #0000FF;
+
+}
+
+/* datalist */
+.usr_dl
+{
+    background-color: #F7F7DE;
+}
+
+
+/* create user wizard*/
+
+.usr_cuwz
+{
+    background-color: #F7F7DE;
+    }
+    
+    
+.usr_cuwz_conbut
+{
+    border: thin solid #CCCCCC;
+    background-color: #F7F7DE;
+    font-size: 10pt;
+    font-family: Verdana;
+    color: #284775;
+}
+
+.usr_cuwz_tittext
+{
+    background-color: #6B696B;
+    color: #FFFFFF;
+    font-weight: bold;
+}
+
+.usr_cuwz_hed
+{
+    background-color: #6B696B;
+    color: #FFFFFF;
+    font-weight: bold;
+}
+
+ 
+.usr_cuwz_sidsty
+{
+    background-color: #FF00FF;
+    border-style: none;
+    vertical-align: top;
+}
+
+.usr_cuwz_sidbut
+{
+    border-style: none;
+    font-size: 0.9em;
+    font-family: Verdana;
+    color: #FFFFFF; 
+    background-color: #7C6F57;
+}
+
+
+
