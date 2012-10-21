@@ -25,20 +25,20 @@ function imready() {
 
     if (isActive == '1') {
 
-        $('#txtSourceRef').val(getParameterByName('sref'));
-        $('#txtSourceDescription').val(getParameterByName('sdesc'));
-        $('#txtOriginalLocation').val(getParameterByName('origLoc'));
+        $('#txtSourceRef').val(getParameterByName('sref', ''));
+        $('#txtSourceDescription').val(getParameterByName('sdesc', ''));
+        $('#txtOriginalLocation').val(getParameterByName('origLoc', ''));
 
-        $('#txtLowerDateRangeLower').val(getParameterByName('ldrl'));
-        $('#txtLowerDateRangeUpper').val(getParameterByName('ldru'));
-        $('#txtUpperDateRangeLower').val(getParameterByName('udrl'));
-        $('#txtUpperDateRangeUpper').val(getParameterByName('udru'));
+        $('#txtLowerDateRangeLower').val(getParameterByName('ldrl', ''));
+        $('#txtLowerDateRangeUpper').val(getParameterByName('ldru', ''));
+        $('#txtUpperDateRangeLower').val(getParameterByName('udrl', ''));
+        $('#txtUpperDateRangeUpper').val(getParameterByName('udru', ''));
 
-        $('#txtCountNo').val(getParameterByName('fcount'));
-        $('#chkIsThackrayFound').val(getParameterByName('ist'));
-        $('#chkIsCopyHeld').val(getParameterByName('isc'));
-        $('#chkIsViewed').val(getParameterByName('isv'));
-        $('#chkUseOptions').val(getParameterByName('isuo'));
+        $('#txtCountNo').val(getParameterByName('fcount', ''));
+        $('#chkIsThackrayFound').val(getParameterByName('ist', ''));
+        $('#chkIsCopyHeld').val(getParameterByName('isc', ''));
+        $('#chkIsViewed').val(getParameterByName('isv', ''));
+        $('#chkUseOptions').val(getParameterByName('isuo', ''));
 
 
         getSources();
@@ -47,7 +47,7 @@ function imready() {
     getSourceTypes();
 
 
-    var isPersonImpSelection = getParameterByName('scs');
+    var isPersonImpSelection = getParameterByName('scs', '');
 
     if (isPersonImpSelection != null) {
         $("#rLink").removeClass("hidePanel").addClass("displayPanel");
@@ -78,12 +78,12 @@ function returnselection() {
     updateQryPar('scs', parishLst);
 
 
-    
 
 
-    var sources = getParameterByName('scs');
+
+    var sources = getParameterByName('scs', '');
     //dont lose these if they are there.
-    var parishs = getParameterByName('parl');
+    var parishs = getParameterByName('parl', '');
 
 
     var _loc = '#?scs=' + sources + '&parl=' + parishs;
@@ -121,10 +121,9 @@ function getSources() {
     if (!sort_col )
         sort_col = 'date';
 
-    var source_types = getParameterByName('stids');
+    var source_types = getParameterByName('stids', '');
 
-    if (!source_types)
-        source_types = '';
+
 
     params[0] = source_types;  //$('#selected_types').val(); // sourcetypes
     params[1] = $('#txtSourceRef').val();

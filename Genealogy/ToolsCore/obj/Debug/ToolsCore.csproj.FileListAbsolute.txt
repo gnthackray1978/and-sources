@@ -1,0 +1,9 @@
+C:\Users\george\Documents\Visual Studio 2010\Projects\and-source\and-source\Genealogy\ToolsCore\bin\Debug\ToolsCore.dll
+C:\Users\george\Documents\Visual Studio 2010\Projects\and-source\and-source\Genealogy\ToolsCore\bin\Debug\ToolsCore.pdb
+C:\Users\george\Documents\Visual Studio 2010\Projects\and-source\and-source\Genealogy\ToolsCore\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\george\Documents\Visual Studio 2010\Projects\and-source\and-source\Genealogy\ToolsCore\obj\Debug\ToolsCore.dll
+C:\Users\george\Documents\Visual Studio 2010\Projects\and-source\and-source\Genealogy\ToolsCore\obj\Debug\ToolsCore.pdb
+C:\Users\george\Documents\Visual Studio 2010\Projects\and-source\and-source\Genealogy\ToolsCore\bin\Debug\TDBCore.dll
+C:\Users\george\Documents\Visual Studio 2010\Projects\and-source\and-source\Genealogy\ToolsCore\bin\Debug\Gedcom.dll
+C:\Users\george\Documents\Visual Studio 2010\Projects\and-source\and-source\Genealogy\ToolsCore\bin\Debug\GedcomParser.dll
+C:\Users\george\Documents\Visual Studio 2010\Projects\and-source\and-source\Genealogy\ToolsCore\bin\Debug\TDBCore.pdb

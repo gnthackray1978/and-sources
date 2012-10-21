@@ -104,6 +104,10 @@ namespace GedItter.BLL
             }
             else
             { 
+                name = name.Replace('%',' ').Trim();
+                deposited = deposited.Replace('%', ' ').Trim();
+                parentName = parentName.Replace('%', ' ').Trim();
+
                 parishDataTable = ModelContainer.Parishs.Where(o => o.ParishName.Contains(name) &&
                     o.ParishRegistersDeposited.Contains(deposited) && o.ParishCounty.Contains(parentName));            
             }

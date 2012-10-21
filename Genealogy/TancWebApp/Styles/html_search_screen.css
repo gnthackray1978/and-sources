@@ -394,14 +394,16 @@ table.pink thead
 /* header row link */
 .item tr.hed a
 {
-	/*color: #000000;*/
+
 
 	text-decoration: none;
+	vertical-align: top;
 }
 
 .item a:visited
 {
     font-weight: bold;
+    
 }
 
 .item tr a
@@ -498,8 +500,8 @@ table.pink thead
     
 .surname
 {
-    width: 5;
-    
+ 
+   
 }
 
 .sources
@@ -507,11 +509,14 @@ table.pink thead
     width: 20;
   
     }
-    table.pink td divtable.pink td div
     
     
     
-    /*source filters*/
+  /*  table.pink td divtable.pink td div
+    
+    
+    
+    source filters*/
 
     
 .sourcedate
@@ -534,7 +539,21 @@ table.pink thead
         width :15px;
     }
     
-    .source_d
+    
+    
+.source_d
 {
     width :500px;   
+}
+
+
+
+.parent
+{
+    color:Black;
+}
+    
+.spouse
+{
+    color:Red;
 }

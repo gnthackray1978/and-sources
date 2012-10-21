@@ -40,6 +40,7 @@ namespace GedItter.Interfaces
         int RecordCount { get; }
         int RecordPageSize { get; }
         int RecordStart { get; }
+        string SortColumn { get; }
 
         void SetIsSecurityEnabled(bool param);    
         void SetRecordCount(int param);
@@ -47,7 +48,7 @@ namespace GedItter.Interfaces
         void SetRecordPageSize(int param);
         void SetRecordStart(int param);
         void SetIsDataChanged(bool param);
-
+        void SetSortColumn(string param);
 
         void SetLinkInts(List<int> param);
         void SetSourceGuidList(List<Guid> param);
@@ -146,7 +147,7 @@ namespace GedItter.Interfaces
         void RequestSetASC(bool param);
         void RequestSetRecordPageSize(int param);
         void RequestSetRecordStart(int param);
-
+        void RequestSetSortColumn(string param);
         // Deletes marriage currently selected for editting
         void RequestDelete();
 

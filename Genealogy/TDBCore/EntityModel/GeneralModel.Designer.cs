@@ -407,6 +407,22 @@ namespace TDBCore.EntityModel
             }
         }
         private ObjectSet<ParishCounter> _ParishCounter;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<uvw_1841Census> uvw_1841Census
+        {
+            get
+            {
+                if ((_uvw_1841Census == null))
+                {
+                    _uvw_1841Census = base.CreateObjectSet<uvw_1841Census>("uvw_1841Census");
+                }
+                return _uvw_1841Census;
+            }
+        }
+        private ObjectSet<uvw_1841Census> _uvw_1841Census;
 
         #endregion
         #region AddTo Methods
@@ -569,6 +585,14 @@ namespace TDBCore.EntityModel
         public void AddToParishCounter(ParishCounter parishCounter)
         {
             base.AddObject("ParishCounter", parishCounter);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the uvw_1841Census EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddTouvw_1841Census(uvw_1841Census uvw_1841Census)
+        {
+            base.AddObject("uvw_1841Census", uvw_1841Census);
         }
 
         #endregion
@@ -1411,7 +1435,8 @@ namespace TDBCore.EntityModel
         /// <param name="lowerBound">No Metadata Documentation available.</param>
         /// <param name="upperBound">No Metadata Documentation available.</param>
         /// <param name="county">No Metadata Documentation available.</param>
-        public ObjectResult<Person> GetSimPersonWithSources(global::System.String cName, global::System.String sName, global::System.String fatherCName, global::System.String fatherSName, global::System.String motherCName, global::System.String motherSName, global::System.String source, global::System.String bLocation, Nullable<global::System.Int32> lowerBound, Nullable<global::System.Int32> upperBound, global::System.String county)
+        /// <param name="spouse">No Metadata Documentation available.</param>
+        public ObjectResult<Person> GetSimPersonWithSources(global::System.String cName, global::System.String sName, global::System.String fatherCName, global::System.String fatherSName, global::System.String motherCName, global::System.String motherSName, global::System.String source, global::System.String bLocation, Nullable<global::System.Int32> lowerBound, Nullable<global::System.Int32> upperBound, global::System.String county, global::System.String spouse)
         {
             ObjectParameter cNameParameter;
             if (cName != null)
@@ -1523,7 +1548,17 @@ namespace TDBCore.EntityModel
                 countyParameter = new ObjectParameter("county", typeof(global::System.String));
             }
     
-            return base.ExecuteFunction<Person>("GetSimPersonWithSources", cNameParameter, sNameParameter, fatherCNameParameter, fatherSNameParameter, motherCNameParameter, motherSNameParameter, sourceParameter, bLocationParameter, lowerBoundParameter, upperBoundParameter, countyParameter);
+            ObjectParameter spouseParameter;
+            if (spouse != null)
+            {
+                spouseParameter = new ObjectParameter("spouse", spouse);
+            }
+            else
+            {
+                spouseParameter = new ObjectParameter("spouse", typeof(global::System.String));
+            }
+    
+            return base.ExecuteFunction<Person>("GetSimPersonWithSources", cNameParameter, sNameParameter, fatherCNameParameter, fatherSNameParameter, motherCNameParameter, motherSNameParameter, sourceParameter, bLocationParameter, lowerBoundParameter, upperBoundParameter, countyParameter, spouseParameter);
         }
         /// <summary>
         /// No Metadata Documentation available.
@@ -1540,7 +1575,8 @@ namespace TDBCore.EntityModel
         /// <param name="lowerBound">No Metadata Documentation available.</param>
         /// <param name="upperBound">No Metadata Documentation available.</param>
         /// <param name="county">No Metadata Documentation available.</param>
-        public ObjectResult<Person> GetSimPersonWithSources(global::System.String cName, global::System.String sName, global::System.String fatherCName, global::System.String fatherSName, global::System.String motherCName, global::System.String motherSName, global::System.String source, global::System.String bLocation, Nullable<global::System.Int32> lowerBound, Nullable<global::System.Int32> upperBound, global::System.String county, MergeOption mergeOption)
+        /// <param name="spouse">No Metadata Documentation available.</param>
+        public ObjectResult<Person> GetSimPersonWithSources(global::System.String cName, global::System.String sName, global::System.String fatherCName, global::System.String fatherSName, global::System.String motherCName, global::System.String motherSName, global::System.String source, global::System.String bLocation, Nullable<global::System.Int32> lowerBound, Nullable<global::System.Int32> upperBound, global::System.String county, global::System.String spouse, MergeOption mergeOption)
         {
             ObjectParameter cNameParameter;
             if (cName != null)
@@ -1652,7 +1688,17 @@ namespace TDBCore.EntityModel
                 countyParameter = new ObjectParameter("county", typeof(global::System.String));
             }
     
-            return base.ExecuteFunction<Person>("GetSimPersonWithSources", mergeOption, cNameParameter, sNameParameter, fatherCNameParameter, fatherSNameParameter, motherCNameParameter, motherSNameParameter, sourceParameter, bLocationParameter, lowerBoundParameter, upperBoundParameter, countyParameter);
+            ObjectParameter spouseParameter;
+            if (spouse != null)
+            {
+                spouseParameter = new ObjectParameter("spouse", spouse);
+            }
+            else
+            {
+                spouseParameter = new ObjectParameter("spouse", typeof(global::System.String));
+            }
+    
+            return base.ExecuteFunction<Person>("GetSimPersonWithSources", mergeOption, cNameParameter, sNameParameter, fatherCNameParameter, fatherSNameParameter, motherCNameParameter, motherSNameParameter, sourceParameter, bLocationParameter, lowerBoundParameter, upperBoundParameter, countyParameter, spouseParameter);
         }
     
         /// <summary>
@@ -8569,6 +8615,207 @@ namespace TDBCore.EntityModel
         }
 
         #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="GeneralModel", Name="uvw_1841Census")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class uvw_1841Census : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new uvw_1841Census object.
+        /// </summary>
+        /// <param name="sourceId">Initial value of the SourceId property.</param>
+        /// <param name="parishId">Initial value of the ParishId property.</param>
+        public static uvw_1841Census Createuvw_1841Census(global::System.Guid sourceId, global::System.Guid parishId)
+        {
+            uvw_1841Census uvw_1841Census = new uvw_1841Census();
+            uvw_1841Census.SourceId = sourceId;
+            uvw_1841Census.ParishId = parishId;
+            return uvw_1841Census;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid SourceId
+        {
+            get
+            {
+                return _SourceId;
+            }
+            set
+            {
+                if (_SourceId != value)
+                {
+                    OnSourceIdChanging(value);
+                    ReportPropertyChanging("SourceId");
+                    _SourceId = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("SourceId");
+                    OnSourceIdChanged();
+                }
+            }
+        }
+        private global::System.Guid _SourceId;
+        partial void OnSourceIdChanging(global::System.Guid value);
+        partial void OnSourceIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String SourceRef
+        {
+            get
+            {
+                return _SourceRef;
+            }
+            set
+            {
+                OnSourceRefChanging(value);
+                ReportPropertyChanging("SourceRef");
+                _SourceRef = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("SourceRef");
+                OnSourceRefChanged();
+            }
+        }
+        private global::System.String _SourceRef;
+        partial void OnSourceRefChanging(global::System.String value);
+        partial void OnSourceRefChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ParishName
+        {
+            get
+            {
+                return _ParishName;
+            }
+            set
+            {
+                OnParishNameChanging(value);
+                ReportPropertyChanging("ParishName");
+                _ParishName = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ParishName");
+                OnParishNameChanged();
+            }
+        }
+        private global::System.String _ParishName;
+        partial void OnParishNameChanging(global::System.String value);
+        partial void OnParishNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Decimal> ParishX
+        {
+            get
+            {
+                return _ParishX;
+            }
+            set
+            {
+                OnParishXChanging(value);
+                ReportPropertyChanging("ParishX");
+                _ParishX = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ParishX");
+                OnParishXChanged();
+            }
+        }
+        private Nullable<global::System.Decimal> _ParishX;
+        partial void OnParishXChanging(Nullable<global::System.Decimal> value);
+        partial void OnParishXChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Decimal> ParishY
+        {
+            get
+            {
+                return _ParishY;
+            }
+            set
+            {
+                OnParishYChanging(value);
+                ReportPropertyChanging("ParishY");
+                _ParishY = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ParishY");
+                OnParishYChanged();
+            }
+        }
+        private Nullable<global::System.Decimal> _ParishY;
+        partial void OnParishYChanging(Nullable<global::System.Decimal> value);
+        partial void OnParishYChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String SourceDescription
+        {
+            get
+            {
+                return _SourceDescription;
+            }
+            set
+            {
+                OnSourceDescriptionChanging(value);
+                ReportPropertyChanging("SourceDescription");
+                _SourceDescription = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("SourceDescription");
+                OnSourceDescriptionChanged();
+            }
+        }
+        private global::System.String _SourceDescription;
+        partial void OnSourceDescriptionChanging(global::System.String value);
+        partial void OnSourceDescriptionChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid ParishId
+        {
+            get
+            {
+                return _ParishId;
+            }
+            set
+            {
+                OnParishIdChanging(value);
+                ReportPropertyChanging("ParishId");
+                _ParishId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ParishId");
+                OnParishIdChanged();
+            }
+        }
+        private global::System.Guid _ParishId;
+        partial void OnParishIdChanging(global::System.Guid value);
+        partial void OnParishIdChanged();
+
+        #endregion
+    
     }
     
     /// <summary>

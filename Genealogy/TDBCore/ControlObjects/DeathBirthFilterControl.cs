@@ -203,18 +203,7 @@ namespace GedItter.BirthDeathRecords
 
 
         }
-
-        //public void SetModel(IDeathBirthFilterModel paramModel)
-        //{
-        //    base.Model = (EditorBaseModel<Guid>)paramModel;
-        //    this.Model = paramModel;
-        //}
-
-        //public void SetView(iDeathBirthFilterView paramView)
-        //{
-        //    this.View = paramView;
-        //}
-
+ 
 
 
         #region requests
@@ -432,9 +421,19 @@ namespace GedItter.BirthDeathRecords
                 if (View != null) SetView();
             }
         }
-
-
+       
+         
         #endregion
 
+
+
+        public void RequestSetDefaultPersonForTree(Guid param)
+        {
+            if (Model != null)
+            {
+                Model.SetDefaultPersonForTree(param);
+                if (View != null) SetView();
+            }
+        }
     }
 }

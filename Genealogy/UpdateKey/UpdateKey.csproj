@@ -58,6 +58,10 @@
       <Project>{3DF715DA-4279-43AF-AF42-49C47083D62F}</Project>
       <Name>TDBCore</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ToolsCore\ToolsCore.csproj">
+      <Project>{9CB784FE-F9B3-4F4B-B356-7AABCB5CE5F6}</Project>
+      <Name>ToolsCore</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

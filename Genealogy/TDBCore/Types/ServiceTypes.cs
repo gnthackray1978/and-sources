@@ -29,7 +29,6 @@ namespace TDBCore.Types
         public int DisplayOrder { get; set; }
     }
 
-
     public class ServiceFullSource
     {
 
@@ -73,6 +72,48 @@ namespace TDBCore.Types
 
     }
 
+    public class CensusPlace
+    {
+
+        public Guid ParishId { get; set; }
+        public string PlaceName { get; set; }
+        public decimal LocX { get; set; }
+        public decimal LocY { get; set; }
+
+    }
+
+
+    public class CensusSource
+    {
+        public Guid SourceId { get; set; }
+        public List<CensusPerson> attachedPersons { get; set; }
+        public int CensusYear { get; set; }
+        public string CensusRef { get; set; }
+        public string CensusDesc { get; set; }
+
+        public string Address { get; set; }
+        public string Civil_Parish { get; set; }
+        public string County { get; set; }
+        public string Municipal_Borough { get; set; }
+        public string Registration_District { get; set; }
+        public string Page { get; set; }
+        public string Piece { get; set; }
+
+   
+
+
+    }
+
+    public class CensusPerson
+    {
+        public int BirthYear { get; set; }
+        public string BirthCounty { get; set; }
+        public string CName { get; set; }
+        public string SName { get; set; }
+
+    }
+
+
 
 
     public class ServiceSourceObject
@@ -82,6 +123,9 @@ namespace TDBCore.Types
         public int Total { get; set; }
         public int BatchLength { get; set; }
     }
+
+
+
 
 
     public class ServiceFileObject
@@ -119,6 +163,7 @@ namespace TDBCore.Types
         public string XREF { get; set; }
         public string Sources { get; set; }
         public string Events { get; set; }
+        public string Spouse { get; set; }
     }
 
     public class ServicePerson : ServicePersonLookUp

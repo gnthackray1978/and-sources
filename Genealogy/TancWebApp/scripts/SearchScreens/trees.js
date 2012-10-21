@@ -22,14 +22,14 @@ function getTreeSources(page) {
 // called from pager
 function getLink(toPage) {
     // replace the previous page in the query string with the new one we want
-    window.location.hash = window.location.hash.replace('page=' + getParameterByName('page'), 'page=' + toPage);
+    window.location.hash = window.location.hash.replace('page=' + getParameterByName('page', ''), 'page=' + toPage);
     refreshData();
 }
 
 
 function deleteTree() {
     //var deleteSourceUrl = getHost() + "/Trees/DeleteTree";
-    var selectedTree = getParameterByName('selectedTree');
+    var selectedTree = getParameterByName('selectedTree', '');
     var theData = {};
 
     if (selectedTree.length > 5) {
@@ -64,14 +64,14 @@ function deleteTree() {
 // refresh tree sources with data from the query string
 function refreshData(param) {
     //var url = getHost() + "/GetTreeSources/Select";
-    var isActive = getParameterByName('active');
+    var isActive = getParameterByName('active', '');
 
     if (isActive == '1') {
 
         var params = {};
 
-        params[0] = getParameterByName('desc');
-        params[1] = getParameterByName('page');
+        params[0] = getParameterByName('desc', '');
+        params[1] = getParameterByName('page', '0');
         params[2] = '25';
       //  $.getJSON(url, params, writeTreeSources);
 
@@ -86,7 +86,7 @@ function writeTreeSources(data) {
     
     var tableBody = '';
 
-    var selectedTree = getParameterByName('selectedTree');
+    var selectedTree = getParameterByName('selectedTree', '');
 
     $.each(data.serviceSources, function (source, sourceInfo) {
         //<a href='' class="button" ><span>Main</span></a>
@@ -150,7 +150,7 @@ function treeSelect(arg_selectedTree, arg_defaultPerson) {
     var found = false;
     $('#search_bdy .highLightRow').removeClass("highLightRow");
 
-    var selectedTree = getParameterByName('selectedTree');
+    var selectedTree = getParameterByName('selectedTree', '');
 
 
 
@@ -327,7 +327,7 @@ function saveTree() {
 function getTreePersons() {
 
     //var treePersonUrl = getHost() + "/GetTreePersons/Select";
-    var treeId = getParameterByName('selectedTree');
+    var treeId = getParameterByName('selectedTree', '');
     
 
     var tableBody = '';
@@ -346,8 +346,8 @@ function getTreePersons() {
             $.each(data, function (source, sourceInfo) {
                 count++;
                 var hidfield = '<input type="hidden" name="person_id" id="person_id" value ="' + sourceInfo.PersonId + '"/>';
-                
-                var selectedPerson = getParameterByName('selectedPerson');
+
+                var selectedPerson = getParameterByName('selectedPerson', '');
 
                 if (sourceInfo.PersonId == selectedPerson) {
                     tableBody += '<tr class = "highLightRow">' + hidfield + '<td><a href="" onClick ="processPersonSelect(\'' + sourceInfo.PersonId + '\');return false"><span>'
@@ -394,8 +394,8 @@ function processPersonSelect(evt) {
                     
             var theData = {};
 
-            theData.sourceId = getParameterByName('selectedTree');
-            theData.personId = getParameterByName('selectedPerson');
+            theData.sourceId = getParameterByName('selectedTree', '');
+            theData.personId = getParameterByName('selectedPerson', '');
 
             // $.post(setDefaultPersonUrl, JSON.stringify(theData));
 

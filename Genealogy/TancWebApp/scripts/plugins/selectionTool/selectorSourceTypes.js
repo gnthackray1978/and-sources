@@ -17,6 +17,7 @@ function getSourceTypes(selectorid) {
     var sourceRefId = 'txtSourceTypeRef';
     var url = "/SourceTypes/Select";
     var pagerfunction = 'getSourceTypeLink';
+    var getfunction = 'getSourceTypes';
     var search_hed = 'st_search_hed';
     var search_body = 'st_search_bdy';
     var pager = 'pager';
@@ -31,7 +32,7 @@ function getSourceTypes(selectorid) {
 
     if (selectorid != undefined) {
 
-        var body = createOutline(search_hed, search_body, sourceRefId, "SOURCE TYPES",pager);
+        var body = createOutline(getfunction,search_hed, search_body, sourceRefId, "SOURCE TYPES", pager);
 
         $(selectorid).html(body);
     }

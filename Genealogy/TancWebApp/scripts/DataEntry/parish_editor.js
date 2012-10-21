@@ -76,7 +76,7 @@ function getParish() {
 
   //  var url = getHost() + "/Parishs/GetParish";
 
-    var id = getParameterByName('id');
+    var id = getParameterByName('id', '');
 
     params[0] = id;
 
@@ -118,11 +118,8 @@ function processData(data) {
 getParishRecord = function (rowIdx) {
     var data = {};
 
-//    data.TypeId = getParameterByName('id');
-//    data.Description = $('#txtDescription').val();
-//    data.Order = $('#txtOrder').val();
 
-    data.ParishId = getParameterByName('id');
+    data.ParishId = getParameterByName('id', '');
     data.ParishName = $('#txtParishName').val();
     data.ParishCounty = $('#txtParishCounty').val();
     data.ParishDeposited = $('#txtParishDeposited').val();

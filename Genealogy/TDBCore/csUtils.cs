@@ -202,10 +202,6 @@ namespace GedItter
 
         }
 
-
-
-
-
         public static void UpdateDateEstimates()
         {
 
@@ -245,8 +241,6 @@ namespace GedItter
             }
 
         }
-
-
 
         public static void CalcEstDates(int birthInt, int bapInt, int deathInt, out int estBirth, out int estDeath, out bool isEstBirth, out bool isEstDeath, string fatName, string moName)
         {
@@ -299,8 +293,6 @@ namespace GedItter
 
 
         }
-
-
 
         public static string MakePercentage(int total, int current)
         {

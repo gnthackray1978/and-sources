@@ -11,58 +11,58 @@ $(document).ready(function () {
 
 function loaded() {
 
-    var isActive = getParameterByName('active');
+    var isActive = getParameterByName('active', '');
 
     if (isActive == '1') {
-        $('#txtCName').val(getParameterByName('cname'));
-        $('#txtSName').val(getParameterByName('sname'));
-        $('#txtLocation').val(getParameterByName('locat'));
-        $('#txtLowerDateRange').val(getParameterByName('lower_dat'));
-        $('#txtUpperDateRange').val(getParameterByName('upper_dat'));
+        $('#txtCName').val(getParameterByName('cname', ''));
+        $('#txtSName').val(getParameterByName('sname', ''));
+        $('#txtLocation').val(getParameterByName('locat', ''));
+        $('#txtLowerDateRange').val(getParameterByName('lower_dat', ''));
+        $('#txtUpperDateRange').val(getParameterByName('upper_dat', ''));
 
-        if (getParameterByName('inc_par') == 'false') {
+        if (getParameterByName('inc_par', '') == 'false') {
             $('#chkIncludeParents').prop('checked', false);
         }
         else {
             $('#chkIncludeParents').prop('checked', true);
         }
 
-        if (getParameterByName('incb') == 'false') {
+        if (getParameterByName('incb', '') == 'false') {
             $('#chkIncludeBirths').prop('checked', false);
         }
         else {
             $('#chkIncludeBirths').prop('checked', true);
         }
 
-        if (getParameterByName('incd') == 'false') {
+        if (getParameterByName('incd', '') == 'false') {
             $('#chkIncludeDeaths').prop('checked', false);
         }
         else {
             $('#chkIncludeDeaths').prop('checked', true);
         }
 
-        if (getParameterByName('incm') == 'false') {
+        if (getParameterByName('incm', '') == 'false') {
             $('#chkIncludeMarriages').prop('checked', false);
         }
         else {
             $('#chkIncludeMarriages').prop('checked', true);
         }
 
-        if (getParameterByName('incw') == 'false') {
+        if (getParameterByName('incw', '') == 'false') {
             $('#chkIncludeWitnesses').prop('checked', false);
         }
         else {
             $('#chkIncludeWitnesses').prop('checked', true);
         }
 
-        if (getParameterByName('incs') == 'false') {
+        if (getParameterByName('incs', '') == 'false') {
             $('#chkIncludeSpouses').prop('checked', false);
         }
         else {
             $('#chkIncludeSpouses').prop('checked', true);
         }
 
-        if (getParameterByName('inc_ps') == 'false') {
+        if (getParameterByName('inc_ps', '') == 'false') {
             $('#chkIncludePersonWithSpouses').prop('checked', false);
         }
         else {
@@ -108,8 +108,8 @@ function getEvents(showdupes) {
     //_parentId
     var params = {};
 
-    var page = getParameterByName('page');
-    var sort_col = getParameterByName('sort_col');
+    var page = getParameterByName('page', '');
+    var sort_col = getParameterByName('sort_col', '');
  
 
     var parentId = '';

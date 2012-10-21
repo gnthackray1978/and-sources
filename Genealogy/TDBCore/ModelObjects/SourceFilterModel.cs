@@ -10,12 +10,13 @@ using System.Collections.Specialized;
 using System.Web;
 
 
+
 namespace GedItter.ModelObjects
 {
     public class SourceFilterModel : EditorBaseModel<Guid>, ISourceFilterModel
     {
        // SourceEditorModel iSourceEditorModel = new SourceEditorModel();
-        IList<TDBCore.EntityModel.Source> sourcesDataTable = null;
+        ServiceSourceObject sourcesDataTable = null;
         ISourceEditorUI iSourceEditorUI = null;
 
         string filterSourceDescription = "";
@@ -41,6 +42,9 @@ namespace GedItter.ModelObjects
         ExportToHtml exportToHtml = null;
         string reportLocation = "";
 
+        bool isIncludeDefaultPerson = false;
+
+        SourceFilterTypes sourceFilterTypes = SourceFilterTypes.STANDARD;
 
         public override bool IsValidEntry
         {
@@ -67,14 +71,14 @@ namespace GedItter.ModelObjects
         bool isValidSourceRef = false;
         #endregion
 
-     
 
-        public IList<TDBCore.EntityModel.Source> SourcesDataTable
+
+        public ServiceSourceObject SourcesDataTable
         {
             get 
             {
                 if (this.sourcesDataTable == null)
-                    return new List<TDBCore.EntityModel.Source>();
+                    return new ServiceSourceObject();
                 else
                     return this.sourcesDataTable;
             
@@ -108,11 +112,11 @@ namespace GedItter.ModelObjects
 
 
 
-       #region properties
+        #region properties
 
-       #region validation props
+        #region validation props
 
-       public bool IsValidSourceRef
+        public bool IsValidSourceRef
         {
             get
             {
@@ -262,8 +266,58 @@ namespace GedItter.ModelObjects
             }
         }
 
-       #endregion
+        public bool IsIncludeDefaultPerson
+        {
+            get 
+            {
+                return this.isIncludeDefaultPerson; 
+            }
+        }
 
+        public SourceFilterTypes FilterSourceType
+        {
+            get 
+            {
+                return this.sourceFilterTypes;
+            }
+        }
+
+
+        #endregion
+
+
+
+        public void SetFilterMode(SourceFilterTypes param)
+        {
+            if (this.sourceFilterTypes != param)
+            {
+                this.sourceFilterTypes = param;
+            }
+        }
+
+
+
+
+        public void SetFilterIncludeDefaultPerson(string param)
+        {
+            if (this.isIncludeDefaultPerson != param.ToBool())
+            {
+                if (this.isIncludeDefaultPerson != param.ToBool())
+                {
+
+                    this.isIncludeDefaultPerson = param.ToBool();
+                }
+                else
+                {
+
+                    this.isIncludeDefaultPerson = param.ToBool();
+                }
+
+                this.isDataChanged = true;
+
+                SetModelStatusFields();
+            }
+        }
 
         public void SetFilterSourceRef(string param)
         {
@@ -487,6 +541,8 @@ namespace GedItter.ModelObjects
         }
 
 
+
+
         public override void Refresh()
         {
 
@@ -495,25 +551,90 @@ namespace GedItter.ModelObjects
            
             if (this.IsValidEntry && isDataChanged)
             {
-
-                this.sourcesDataTable = new List<TDBCore.EntityModel.Source>();
+                ServiceSourceObject ssobj = new ServiceSourceObject();
+                this.sourcesDataTable = new ServiceSourceObject();
                 BLL.SourceBLL sourceBLL = new GedItter.BLL.SourceBLL();
 
+                List<TDBCore.EntityModel.Source> temptTable = new List<TDBCore.EntityModel.Source>();
 
-                this.sourcesDataTable = sourceBLL.FillSourceTableByFilter2(this.filterSourceDescription,
-                    this.filterSourceOriginalLocation,
-                    this.filterIsCopyHeld,
-                    this.filterIsViewed,
-                    this.filterIsThackrayFound,
-                    this.intDateUpperBound,
-                    this.intDateLowerBound,
-                    this.intToDateUpperBound,
-                    this.intToDateLowerBound,
+                switch (this.sourceFilterTypes)
+                { 
+                    case SourceFilterTypes.STANDARD:
+                        temptTable = sourceBLL.FillSourceTableByFilter2(this.filterSourceDescription,
+                                                                        this.filterSourceOriginalLocation,
+                                                                        this.filterIsCopyHeld,
+                                                                        this.filterIsViewed,
+                                                                        this.filterIsThackrayFound,
+                                                                        this.intDateUpperBound,
+                                                                        this.intDateLowerBound,
+                                                                        this.intToDateUpperBound,
+                                                                        this.intToDateLowerBound,
 
-                    this.SelectedUserId, this.filterSourceTypeList, this.FilterDateAddedFrom, this.FilterDateAddedTo, filterSourceRef,
-                    this.sourceFileCount).ToList();
+                                                                        this.SelectedUserId, this.filterSourceTypeList, this.FilterDateAddedFrom, this.FilterDateAddedTo, filterSourceRef,
+                                                                        this.sourceFileCount).ToList();
+                        break;
+                    case SourceFilterTypes.TREESOURCES:
+                        temptTable = sourceBLL.FillTreeSources().Where(s => s.SourceDescription.Contains(this.filterSourceDescription)).ToList();
+
+                        break;
+                }
 
 
+
+
+
+
+
+                if (this.SortColumn == null) this.SetSortColumn("");
+
+                ssobj.serviceSources = temptTable.OrderBy(this.SortColumn).Select(s => new ServiceSource()
+                {
+                    SourceDesc = s.SourceDescription,
+                    SourceId = s.SourceId,
+                    SourceRef = s.SourceRef,
+                    SourceYear = s.SourceDate.Value,
+                    SourceYearTo = s.SourceDateTo.Value
+                }).ToList();
+
+
+                if (this.IsIncludeDefaultPerson)
+                {
+                    SourceMappingsBLL sourceMappingsBll = new SourceMappingsBLL();
+
+                    foreach (ServiceSource ss in ssobj.serviceSources)
+                    {
+                        var sourceMap = sourceMappingsBll.GetBySourceIdAndMapTypeId2(ss.SourceId, 39).FirstOrDefault();
+
+
+                        if (sourceMap != null)
+                        {
+                            if (sourceMap.Person != null && sourceMap.Person.Person_id != null)
+                                ss.DefaultPerson = sourceMap.Person.Person_id;
+                            else
+                                ss.DefaultPerson = Guid.Empty;
+                        }
+                        else
+                            ss.DefaultPerson = Guid.Empty;
+                    }
+              
+                }
+
+
+
+
+
+
+                ssobj.Total = ssobj.serviceSources.Count;
+
+                //if (ssobj.Batch > 0)
+                //{
+                    ssobj.Batch = this.RecordStart;
+                    ssobj.BatchLength = this.RecordPageSize;
+                    ssobj.serviceSources = ssobj.serviceSources.Skip(this.RecordStart * this.RecordPageSize).Take(this.RecordPageSize).ToList();
+                //}
+
+                this.sourcesDataTable = ssobj;
+              
                 this.isDataChanged = false;
             }
 
@@ -611,10 +732,10 @@ namespace GedItter.ModelObjects
             }
         }
 
-        public IList<TDBCore.EntityModel.Source> GetSources(string sort)
+        public ServiceSourceObject GetSources(string sort)
         {
             Refresh();
-            return sourcesDataTable;
+            return this.SourcesDataTable;
 
         }
 
@@ -633,7 +754,7 @@ namespace GedItter.ModelObjects
             get
             {
                 if (SourcesDataTable != null)
-                    return this.SourcesDataTable.Count();
+                    return this.SourcesDataTable.Total;
                 else
                     return 0;
             }
@@ -745,30 +866,31 @@ namespace GedItter.ModelObjects
               //  this.Refresh();
             }
         }
+
+
+        public static List<int> GetSourceTypeList(string sourcetypes)
+        {
+            List<int> _sourceTypes = (sourcetypes ?? "").Split(',').ToList<string>().ConvertAll<int>(delegate(string i) { int ret = 0; Int32.TryParse(i, out ret); return ret; }).ToList();
+
+            _sourceTypes.RemoveAll(i => i == 0);
+
+            return _sourceTypes;
+        }
+
+
+
+
+
+
+      
+    }
+
+
+    public enum SourceFilterTypes
+    {        
+        STANDARD = 0,
+        TREESOURCES = 1       
     }
 }
 
 
-
-
-//          var sref = $('[id*=txtSourceRef]').val()
-//var sdesc = $('[id*=txtSourceDescription]').val()
-
-//var origloc = $('[id*=txtOriginalLocation]').val()
-
-//var ldrl = $('[id*=txtLowerDateRangeLower]').val()
-//var ldru = $('[id*=txtLowerDateRangeUpper]').val()
-//var udrl = $('[id*=txtUpperDateRangeLower]').val()
-//var udru = $('[id*=txtUpperDateRangeUpper]').val()
-
-
-
-//var count = $('[id*=txtCountNo]').val()
-
-
-
-//var isthac = $('[id*=chkIsThackrayFound]').is(':checked')
-
-//var iscopy = $('[id*=chkIsCopyHeld]').is(':checked')
-//var isview = $('[id*=chkIsViewed]').is(':checked')
-//isCheck

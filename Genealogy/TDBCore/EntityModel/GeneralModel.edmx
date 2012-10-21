@@ -25,6 +25,18 @@
           <EntitySet Name="SourceMappings" EntityType="GeneralModel.Store.SourceMappings" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Sources" EntityType="GeneralModel.Store.Sources" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SourceTypes" EntityType="GeneralModel.Store.SourceTypes" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="uvw_1841Census" EntityType="GeneralModel.Store.uvw_1841Census" store:Type="Views" store:Schema="dbo" store:Name="uvw_1841Census">
+            <DefiningQuery>
+              SELECT
+              [uvw_1841Census].[SourceId] AS [SourceId],
+              [uvw_1841Census].[SourceRef] AS [SourceRef],
+              [uvw_1841Census].[ParishName] AS [ParishName],
+              [uvw_1841Census].[ParishX] AS [ParishX],
+              [uvw_1841Census].[ParishY] AS [ParishY],
+              [uvw_1841Census].[SourceDescription] AS [SourceDescription],
+              [uvw_1841Census].[ParishId] AS [ParishId]
+              FROM [dbo].[uvw_1841Census] AS [uvw_1841Census]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="uvw_ParentMapChildren" EntityType="GeneralModel.Store.uvw_ParentMapChildren" store:Type="Views" store:Schema="dbo" store:Name="uvw_ParentMapChildren">
             <DefiningQuery>SELECT 
       [uvw_ParentMapChildren].[Person_id] AS [Person_id], 
@@ -439,9 +451,24 @@
           </Key>
           <Property Name="SourceTypeId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="SourceTypeDesc" Type="nvarchar" MaxLength="50" />
-          <Property Name="SourceDateAdded" Type="nchar" MaxLength="10" />
+          <Property Name="SourceDateAdded" Type="nchar" MaxLength="12" />
           <Property Name="SourceUserAdded" Type="int" />
           <Property Name="SourceTypeOrder" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="uvw_1841Census">
+          <Key>
+            <PropertyRef Name="SourceId" />
+          </Key>
+          <Property Name="SourceId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="SourceRef" Type="nvarchar" MaxLength="500" />
+          <Property Name="ParishName" Type="nvarchar" MaxLength="500" />
+          <Property Name="ParishX" Type="decimal" Precision="12" Scale="6" />
+          <Property Name="ParishY" Type="decimal" Precision="12" Scale="6" />
+          <Property Name="SourceDescription" Type="varchar" MaxLength="1000" />
+          <Property Name="ParishId" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
       warning 6002: The table/view 'ThackrayDB.dbo.uvw_ParentMapChildren' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
@@ -830,6 +857,7 @@
           <Parameter Name="LowerBound" Type="int" Mode="In" />
           <Parameter Name="UpperBound" Type="int" Mode="In" />
           <Parameter Name="county" Type="nvarchar" Mode="In" />
+          <Parameter Name="spouse" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="USPGetTopPerson" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="topPersonId" Type="uniqueidentifier" Mode="In" />
@@ -989,6 +1017,7 @@
             <Parameter Name="LowerBound" Mode="In" Type="Int32" />
             <Parameter Name="UpperBound" Mode="In" Type="Int32" />
             <Parameter Name="county" Mode="In" Type="String" />
+            <Parameter Name="spouse" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="GetPersWithSources" EntitySet="Persons" ReturnType="Collection(GeneralModel.Person)">
             <Parameter Name="isMaleId" Mode="In" Type="Boolean" />
@@ -1068,8 +1097,9 @@
           </FunctionImport>
           <EntitySet Name="ParishCounter" EntityType="GeneralModel.ParishCounter" />
           <FunctionImport Name="DeleteTree">
-            <Parameter Name="sourceId" Mode="In" Type="Guid" />
+          <Parameter Name="sourceId" Mode="In" Type="Guid" />
           </FunctionImport>
+          <EntitySet Name="uvw_1841Census" EntityType="GeneralModel.uvw_1841Census" />
         </EntityContainer>
         <EntityType Name="Marriage">
           <Key>
@@ -1564,6 +1594,18 @@
           <Property Type="Decimal" Name="PX" Precision="12" Scale="6" />
           <Property Type="Decimal" Name="PY" Precision="12" Scale="6" />
           <Property Type="String" Name="ParishName" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="uvw_1841Census">
+          <Key>
+            <PropertyRef Name="SourceId" />
+          </Key>
+          <Property Type="Guid" Name="SourceId" Nullable="false" />
+          <Property Type="String" Name="SourceRef" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ParishName" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Type="Decimal" Name="ParishX" Precision="12" Scale="6" />
+          <Property Type="Decimal" Name="ParishY" Precision="12" Scale="6" />
+          <Property Type="String" Name="SourceDescription" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="Guid" Name="ParishId" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2176,6 +2218,19 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="DeleteTree" FunctionName="GeneralModel.Store.USP_DeleteTree" />
+          <EntitySetMapping Name="uvw_1841Census">
+            <EntityTypeMapping TypeName="GeneralModel.uvw_1841Census">
+              <MappingFragment StoreEntitySet="uvw_1841Census">
+                <ScalarProperty Name="SourceDescription" ColumnName="SourceDescription" />
+                <ScalarProperty Name="ParishY" ColumnName="ParishY" />
+                <ScalarProperty Name="ParishX" ColumnName="ParishX" />
+                <ScalarProperty Name="ParishName" ColumnName="ParishName" />
+                <ScalarProperty Name="SourceRef" ColumnName="SourceRef" />
+                <ScalarProperty Name="SourceId" ColumnName="SourceId" />
+                <ScalarProperty Name="ParishId" ColumnName="ParishId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -2264,8 +2319,8 @@
           <ConnectorPoint PointX="13.40625" PointY="8.047587890625" />
         </AssociationConnector>
         <AssociationConnector Association="GeneralModel.FK_Relations_Persons1" ManuallyRouted="true" >
-          <ConnectorPoint PointX="2.25" PointY="7.1201206793685143" />
-          <ConnectorPoint PointX="2.75" PointY="7.1201206793685143" />
+          <ConnectorPoint PointX="2.25" PointY="7.1637710592528432" />
+          <ConnectorPoint PointX="2.75" PointY="7.1637710592528432" />
           <ConnectorPoint PointX="2.75" PointY="8.375" />
           <ConnectorPoint PointX="12.697916666666666" PointY="8.375" />
           <ConnectorPoint PointX="12.864583333333334" PointY="8.375" />
@@ -2277,8 +2332,8 @@
           <ConnectorPoint PointX="14.500002" PointY="8.047587890625" />
         </AssociationConnector>
         <AssociationConnector Association="GeneralModel.FK_SourceMappings_Persons" >
-          <ConnectorPoint PointX="2.25" PointY="12.588742317080108" />
-          <ConnectorPoint PointX="12.78125" PointY="12.588742317080108" />
+          <ConnectorPoint PointX="2.25" PointY="12.881785830078133" />
+          <ConnectorPoint PointX="12.78125" PointY="12.881785830078133" />
           <ConnectorPoint PointX="12.78125" PointY="4.3071907552083326" />
         </AssociationConnector>
         <EntityTypeShape EntityType="GeneralModel.MarriageRelation" Width="3.125" PointX="17.5" PointY="6" Height="2.3648893229166674" />
@@ -2307,6 +2362,7 @@
           <ConnectorPoint PointX="26.5" PointY="8.845683593749996" />
         </AssociationConnector>
         <EntityTypeShape EntityType="GeneralModel.ParishCounter" Width="1.5" PointX="8.375" PointY="8.75" Height="2.5571907552083388" />
+        <EntityTypeShape EntityType="GeneralModel.uvw_1841Census" Width="1.5" PointX="3.375" PointY="9.75" Height="2.1725878906250031" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -9,10 +9,10 @@ $(document).ready(function () {
 
     createHeader('#1');
 
-    var isActive = getParameterByName('active');
+    var isActive = getParameterByName('active', '');
 
     if (isActive == '1') {
-        $('#txtDescription').val(getParameterByName('stdesc'));
+        $('#txtDescription').val(getParameterByName('stdesc', ''));
        
 
         getSourceTypes('1');

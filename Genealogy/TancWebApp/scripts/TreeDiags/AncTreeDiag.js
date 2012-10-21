@@ -106,7 +106,7 @@ function run() {
 
 
 
-    params[0] = getParameterByName('id'); //'4d800222-65fc-42f0-b568-972cde7ce38f';
+    params[0] = getParameterByName('id', ''); //'4d800222-65fc-42f0-b568-972cde7ce38f';
 
     twaGetJSON('/Trees/GetAncTreeDiag', params, processData);
 }
@@ -114,17 +114,17 @@ function run() {
 
 function processData(data) {
 
-    
 
-    var _zoomLevel = getParameterByName('zoom');
+
+    var _zoomLevel = getParameterByName('zoom', '');
     _ancTree = new AncTree();
     _ancTree.SetInitialValues(Number(_zoomLevel), 10.0, 125.0, 100.0, 90.0, 100.0, 5.0, 40.0, 20.0, screen.width, screen.height);
 
 
-    var _personId = getParameterByName('id');
+    var _personId = getParameterByName('id', '');
 
-    var _xpos = getParameterByName('xpos');
-    var _ypos = getParameterByName('ypos');
+    var _xpos = getParameterByName('xpos', '');
+    var _ypos = getParameterByName('ypos', '');
 
     _ancTree.generations = data.Generations;
 

@@ -82,6 +82,7 @@
     <Content Include="HtmlPages\DescendantsTree.html" />
     <Content Include="HtmlPages\Events.html" />
     <Content Include="HtmlPages\MapView.html" />
+    <Content Include="HtmlPages\MapViewCensus.html" />
     <Content Include="HtmlPages\MarriageEditor.html" />
     <Content Include="HtmlPages\MarriageSearch.html" />
     <Content Include="HtmlPages\MobileTestPage.html" />
@@ -114,6 +115,7 @@
     <Content Include="Images\silver_images\nav_left_blue.png" />
     <Content Include="Images\silver_images\nav_right_blue.png" />
     <Content Include="Images\silver_images\nav_up_blue.png" />
+    <Content Include="Scripts\census\map_1841census.js" />
     <Content Include="Scripts\DataEntry\BatchEntry\batch_core.js" />
     <Content Include="Scripts\DataEntry\BatchEntry\batch_parishs.js" />
     <Content Include="Scripts\DataEntry\marriage_editor.js" />
@@ -267,6 +269,7 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
+    <None Include="file_changes.ps1" />
     <None Include="Images\fonts\arded.eot" />
     <None Include="Images\fonts\IMFeENit29P.eot" />
     <None Include="Images\fonts\IMFeENit29P.ttf" />

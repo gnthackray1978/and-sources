@@ -16,6 +16,7 @@ function getSources(selectorid) {
     var sourceRefId = 'txtSourceRef';
     var url ="/GetSources/Select";// getHost() + 
     var pagerfunction = 'getLink';
+    var getfunction = 'getSources';
     var search_hed = 'search_hed';
     var search_body = 'search_bdy';
     var pager = 's_pager';
@@ -31,7 +32,7 @@ function getSources(selectorid) {
 
     if (selectorid != undefined) {
 
-        var body = createOutline(search_hed, search_body, sourceRefId, "SOURCES",pager);
+        var body = createOutline(getfunction,search_hed, search_body, sourceRefId, "SOURCES", pager);
 
         $(selectorid).html(body);
     }

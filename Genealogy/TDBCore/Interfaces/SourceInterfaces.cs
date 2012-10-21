@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TDBCore.Types;
+using GedItter.ModelObjects;
 ////using TDBCore.Datasets;
 
 namespace GedItter.Interfaces
@@ -112,7 +114,8 @@ namespace GedItter.Interfaces
     {
 
         ///DsFileClass.FilesDataTable FilesDataTable { get; }
-        IList<TDBCore.EntityModel.Source> SourcesDataTable { get; }
+        //IList<TDBCore.EntityModel.Source> SourcesDataTable { get; }
+        ServiceSourceObject SourcesDataTable { get; }
         ISourceEditorModel ISourceEditorModel { get; }
         ISourceEditorUI ISourceEditorUI { get; }
         
@@ -122,6 +125,8 @@ namespace GedItter.Interfaces
         bool IsValidSourceToDateLowerBound { get; }
         bool IsValidSourceDescription { get; }
         bool IsValidSourceRef { get; }
+        bool IsIncludeDefaultPerson { get; }
+
 
         string FilterSourceDateUpperBound { get; }
         string FilterSourceDateLowerBound { get; }
@@ -131,6 +136,7 @@ namespace GedItter.Interfaces
         string FilterSourceRef { get; }
         string FilterSourceDescription { get; }
         string FilterSourceOriginalLocation { get; }
+        SourceFilterTypes FilterSourceType { get; }
 
 
         bool? FilterIsCopyHeld { get; }
@@ -149,6 +155,7 @@ namespace GedItter.Interfaces
         List<string> SourceRefs { get; }
         string FilteredPrintableResults { get; }
 
+        void SetFilterMode(SourceFilterTypes param);//  
 
         void SetFilteredPrintableResults(string param, bool isTabular);
         void SetFilterSourceFileCount(string param, bool useParam);
@@ -163,6 +170,9 @@ namespace GedItter.Interfaces
         void SetFilterSourceDateLowerBound(string param);
         void SetFilterSourceToDateUpperBound(string param);
         void SetFilterSourceToDateLowerBound(string param);
+        void SetFilterIncludeDefaultPerson(string param);
+
+
         void SetEditorUI(ISourceEditorUI paramISourceEditorUI);
     }
 
@@ -171,30 +181,19 @@ namespace GedItter.Interfaces
         void RequestSetFilterSourceRef(string param);
         void RequestSetFilterSourceDescription(string param);
         void RequestSetFilterSourceOriginalLocation(string param);
-
         void RequestSetFilterIsCopyHeld(bool? param, bool? useParam);
-
         void RequestSetFilterIsViewed(bool? param, bool? useParam);
-
         void RequestSetFilterIsThackrayFound(bool? param, bool? useParam);
-
-
-
         void RequestSetFilterSourceTypeList(List<int> param);
         void RequestSetFilteredPrintableResults(string param, bool isTabular);
         void RequestSetFilterSourceDateUpperBound(string param);
         void RequestSetFilterSourceDateLowerBound(string param);
         void RequestSetFilterSourceToDateUpperBound(string param);
         void RequestSetFilterSourceToDateLowerBound(string param);
-
         void RequestSetFilterSourceFileCount(string param, bool useParam);
+        void RequestSetFilterIncludeDefaultPerson(string param);
+        void RequestSetFilterMode(SourceFilterTypes param);//  
 
-
-
-
-        //void SetModel(ISourceFilterModel paramModel);
-        //void SetView(ISourceFilterView paramView);
-        //void SetView();
     }
 
     public interface ISourceFilterView : IDBRecordView

@@ -22,7 +22,7 @@ isValidSources = function () {
  getSourceLst = function() {
 
     var params = {};
-    var scs = getParameterByName('scs');     
+    var scs = getParameterByName('scs', '');     
     params[0] = scs;
  
   //  $.ajaxSetup({ cache: false });
