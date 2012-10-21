@@ -606,5 +606,18 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <FunctionImportMapping FunctionImportName="DeleteTree" FunctionName="GeneralModel.Store.USP_DeleteTree" />
+    <EntitySetMapping Name="uvw_1841Census">
+      <EntityTypeMapping TypeName="GeneralModel.uvw_1841Census">
+        <MappingFragment StoreEntitySet="uvw_1841Census">
+          <ScalarProperty Name="SourceDescription" ColumnName="SourceDescription" />
+          <ScalarProperty Name="ParishY" ColumnName="ParishY" />
+          <ScalarProperty Name="ParishX" ColumnName="ParishX" />
+          <ScalarProperty Name="ParishName" ColumnName="ParishName" />
+          <ScalarProperty Name="SourceRef" ColumnName="SourceRef" />
+          <ScalarProperty Name="SourceId" ColumnName="SourceId" />
+          <ScalarProperty Name="ParishId" ColumnName="ParishId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

@@ -129,6 +129,7 @@
       <Parameter Name="LowerBound" Mode="In" Type="Int32" />
       <Parameter Name="UpperBound" Mode="In" Type="Int32" />
       <Parameter Name="county" Mode="In" Type="String" />
+      <Parameter Name="spouse" Mode="In" Type="String" />
     </FunctionImport>
     <FunctionImport Name="GetPersWithSources" EntitySet="Persons" ReturnType="Collection(GeneralModel.Person)">
       <Parameter Name="isMaleId" Mode="In" Type="Boolean" />
@@ -210,6 +211,7 @@
     <FunctionImport Name="DeleteTree">
       <Parameter Name="sourceId" Mode="In" Type="Guid" />
     </FunctionImport>
+    <EntitySet Name="uvw_1841Census" EntityType="GeneralModel.uvw_1841Census" />
   </EntityContainer>
   <EntityType Name="Marriage">
     <Key>
@@ -704,5 +706,17 @@
     <Property Type="Decimal" Name="PX" Precision="12" Scale="6" />
     <Property Type="Decimal" Name="PY" Precision="12" Scale="6" />
     <Property Type="String" Name="ParishName" MaxLength="Max" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="uvw_1841Census">
+    <Key>
+      <PropertyRef Name="SourceId" />
+    </Key>
+    <Property Type="Guid" Name="SourceId" Nullable="false" />
+    <Property Type="String" Name="SourceRef" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="ParishName" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Type="Decimal" Name="ParishX" Precision="12" Scale="6" />
+    <Property Type="Decimal" Name="ParishY" Precision="12" Scale="6" />
+    <Property Type="String" Name="SourceDescription" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Type="Guid" Name="ParishId" Nullable="false" />
   </EntityType>
 </Schema>

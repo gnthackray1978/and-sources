@@ -67,7 +67,7 @@ namespace GedItter.ModelObjects
         private string name = "";
 
 
-
+        private string sortColumn = "";
 
         #region validation properties
 
@@ -628,6 +628,25 @@ namespace GedItter.ModelObjects
 
         #endregion
 
+
+        public string SortColumn
+        {
+            get 
+            {
+                return this.sortColumn;
+            }
+        }
+
+        public void SetSortColumn(string param)
+        {
+            if (this.sortColumn != param)
+            {
+                this.sortColumn = param;
+
+                
+            }
+        }
+
         #region setters
 
 
@@ -1042,6 +1061,9 @@ namespace GedItter.ModelObjects
 
 
 
+
+
+        
     }
 
 
@@ -1293,6 +1315,17 @@ namespace GedItter.ModelObjects
             Debug.WriteLine("shouldnt get here");
             // shouldnt get here
         //    Debug.Assert(false);
+        }
+
+
+        public void RequestSetSortColumn(string param)
+        {
+            if (Model != null)
+            {
+                Model.SetSortColumn(param);
+
+                if (View != null) SetView();
+            }
         }
     }
 

@@ -11,25 +11,191 @@ using TDBCore.BLL;
 using TDBCore.EntityModel;
 using System.Diagnostics;
 using TDBCore.Types;
+using System.Text.RegularExpressions;
 
 namespace GedItter.BLL
 {
     public class SourceBLL : BaseBLL
     {
 
+
+        public List<CensusPlace> Get1841Census()
+        {
+            List<CensusPlace> censuses = new List<CensusPlace>();
+
+            foreach (var entry in ModelContainer.uvw_1841Census)
+            {
+                CensusPlace cs = new CensusPlace()
+                {
+                    //CensusDesc = entry.SourceDescription, 
+                    //CensusRef = entry.SourceRef, CensusYear = 1841, 
+                    //SourceId = entry.SourceId,
+                    ParishId =entry.ParishId,
+                    PlaceName = entry.ParishName,
+                    LocX = entry.ParishX.GetValueOrDefault(), 
+                    LocY = entry.ParishY.GetValueOrDefault() };
+                
+                censuses.Add(cs);
+            }
+
+
+            return censuses;
+        }
+
+
+
+        public List<CensusSource> Get1841CensuSources(Guid sourceId)
+        {
+            GedItter.BirthDeathRecords.BLL.DeathsBirthsBLL deathsBirthsBLL = new BirthDeathRecords.BLL.DeathsBirthsBLL();
+           
+
+            List<CensusSource> censuses = new List<CensusSource>();
+
+            //var sourcegroups = ModelContainer.uvw_1841Census.Where(c => c.ParishId == sourceId).GroupBy(c => c.SourceId);
+
+            //foreach (var group in sourcegroups)
+            //{
+            //    foreach (var source in group)
+            //    {
+            //        List<CensusPerson> censusPersons = new List<CensusPerson>();
+
+            //        var personResults = deathsBirthsBLL.GetBySourceId2(source.SourceId).ToList();
+
+            //        personResults.ForEach(o =>
+            //        {
+            //            censusPersons.Add(new CensusPerson()
+            //            {
+            //                BirthCounty = o.BirthCounty,
+            //                BirthYear = o.BirthInt,
+            //                CName = o.ChristianName,
+            //                SName = o.Surname
+            //            });
+            //        });
+
+
+            //        CensusSource cs = new CensusSource()
+            //        {
+            //            CensusDesc = source.SourceDescription,
+            //            CensusRef = source.SourceRef,
+            //            CensusYear = 1841,
+            //            SourceId = source.SourceId,
+            //            attachedPersons = censusPersons
+
+            //        };
+
+            //        //    censuses.Add(cs);
+
+            //    }
+            //}
+
+
+            foreach (var entry in ModelContainer.uvw_1841Census.Where(c => c.ParishId == sourceId))
+            {
+                List<CensusPerson> censusPersons = new List<CensusPerson>();
+
+                var personResults = deathsBirthsBLL.GetBySourceId2(entry.SourceId).OrderBy(p=>p.BirthDateStr).ToList();
+
+                personResults.ForEach(o =>
+                {
+                    censusPersons.Add(new CensusPerson()
+                    {
+                        BirthCounty = o.BirthCounty,
+                        BirthYear = o.BirthDateStr.ToInt32(),
+                        CName = o.ChristianName,
+                        SName = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(o.Surname.ToLower())  
+                    });
+                });
+
+
+                CensusSource cs = new CensusSource()
+                {
+                    CensusDesc = entry.SourceDescription,
+                    CensusRef = entry.SourceRef,
+                    CensusYear = 1841,
+                    SourceId = entry.SourceId,
+                    attachedPersons = censusPersons
+                };
+
+
+                //parse address
+                string names_pattern = @"(?<=Address).*(?=Civil Parish)";
+                Regex regex = new Regex(names_pattern, RegexOptions.Singleline);
+
+                Match result = regex.Match(entry.SourceDescription);
+
+                if (result.Success)
+                    cs.Address = result.Value.Trim();
+
+                //parse civil address
+                names_pattern = @"(?<=Civil Parish).*(?=County)";
+                regex = new Regex(names_pattern, RegexOptions.Singleline);
+
+                result = regex.Match(entry.SourceDescription);
+
+                if (result.Success)
+                    cs.Civil_Parish = result.Value;
+
+                //parse county
+                names_pattern = @"(?<=County).*(?=Municipal Borough)";
+                regex = new Regex(names_pattern, RegexOptions.Singleline);
+                result = regex.Match(entry.SourceDescription);
+
+                if (result.Success)
+                    cs.County = result.Value.Trim();
+
+
+                  //parse municipal borough
+                names_pattern = @"(?<=Municipal Borough).*(?=Registration District)";
+                regex = new Regex(names_pattern, RegexOptions.Singleline);
+                result = regex.Match(entry.SourceDescription);
+
+                if (result.Success)
+                    cs.Municipal_Borough = result.Value.Trim();
+
+                //parse Registration_District
+                names_pattern = @"(?<=Registration District).*(?=Page)";
+                regex = new Regex(names_pattern, RegexOptions.Singleline);
+                result = regex.Match(entry.SourceDescription);
+
+                if (result.Success)
+                    cs.Registration_District = result.Value.Trim();
+
+
+                //parse page
+                names_pattern = @"(?<=Page).*(?=Piece)";
+                regex = new Regex(names_pattern, RegexOptions.Singleline);
+                result = regex.Match(entry.SourceDescription);
+
+                if (result.Success)
+                    cs.Page = result.Value.Trim();
+
+
+
+                //parse piece
+                names_pattern = @"(?<=Piece).*";
+                regex = new Regex(names_pattern, RegexOptions.Singleline);
+                result = regex.Match(entry.SourceDescription);
+
+                if (result.Success)
+                    cs.Piece = result.Value.Trim();
+
+
+
+
+                censuses.Add(cs);
+            }
+
+          
+            return censuses;
+        }
+
+
+
         public ServiceSourceObject GetTreeSources(string description, string page_number, string page_size)
         {
             ServiceSourceObject ssobj = new ServiceSourceObject();
 
             ssobj.serviceSources = new List<ServiceSource>();
-
-
-
-           // SourceBLL _sources = new SourceBLL();
-
-            SourceMappingsBLL sourceMappingsBll = new SourceMappingsBLL();
-
-
 
             ssobj.serviceSources = this.FillTreeSources().Where(s => s.SourceDescription.Contains(description)).Select(s => new ServiceSource()
             {
@@ -41,6 +207,7 @@ namespace GedItter.BLL
                 //  DefaultPerson = sourceMappingsBll.GetBySourceIdAndMapTypeId2(s.SourceId,39).Select(o=>o.Person.Person_id).FirstOrDefault()
             }).ToList();
 
+            SourceMappingsBLL sourceMappingsBll = new SourceMappingsBLL();
             foreach (ServiceSource ss in ssobj.serviceSources)
             {
                 var sourceMap = sourceMappingsBll.GetBySourceIdAndMapTypeId2(ss.SourceId, 39).FirstOrDefault();
@@ -66,10 +233,9 @@ namespace GedItter.BLL
             return ssobj;
         }
 
-
         public List<Person> GetPersonsForSource(Guid sourceId)
         {
-            return ModelContainer.SourceMappings.Where(sm => sm.Source.SourceId == sourceId).Select(p => p.Person).ToList();
+            return ModelContainer.SourceMappings.Where(sm => sm.Source.SourceId == sourceId && sm.Person != null).Select(p => p.Person).ToList();
         }
 
         public Source CreateBasicSource(Guid sourceId, string sourceRef, int sourceDateInt, int sourceDateToInt, string sourceDesc)
@@ -118,7 +284,6 @@ namespace GedItter.BLL
 
             return newSource;
         }
-
 
         public Guid InsertSource2(string sourceDesc, string sourceOrigLoc, bool isCopyHeld, bool isViewed, bool isThackrayFound, int userId,
                                     string sourceDateStr, string sourceDateStrTo, int sourceDateInt, int sourceDateIntTo , string sourceRef, int sourceFileCount, string sourceNotes)
@@ -170,7 +335,6 @@ namespace GedItter.BLL
             return _source.SourceId;
         }
 
-
         public Source GetNewSource(string sourceDesc, string sourceOrigLoc, bool isCopyHeld, bool isViewed, bool isThackrayFound, int userId,
                             string sourceDateStr, string sourceDateStrTo, int sourceDateInt, int sourceDateIntTo, string sourceRef, int sourceFileCount, string sourceNotes)
         {
@@ -205,7 +369,6 @@ namespace GedItter.BLL
             return _source;
         }
  
-
         public void UpdateSource2(Guid sourceId, string sourceDesc, string sourceOrigLoc,
          bool isCopyHeld, bool isViewed, bool isThackrayFound, int userId,
          string sourceDateStr, string sourceDateStrTo, int sourceDateInt, int sourceDateIntTo,
@@ -240,7 +403,6 @@ namespace GedItter.BLL
       
         }
 
-
         public void UpdateBasic(Guid sourceId, string sourceRef, string sourceDesc, int sourceYear, int sourceYearTo)
         {
             Source _source = ModelContainer.Sources.FirstOrDefault(o => o.SourceId == sourceId);
@@ -266,7 +428,6 @@ namespace GedItter.BLL
             }
         }
 
-
         public void UpdateNotes(Guid sourceId, string sourceNotes)
         {
             Source _source = ModelContainer.Sources.FirstOrDefault(o => o.SourceId == sourceId);
@@ -277,7 +438,6 @@ namespace GedItter.BLL
             }
         }
  
-
         public void DeleteSource2(Guid sourceId)
         {
           
@@ -291,7 +451,6 @@ namespace GedItter.BLL
                 ModelContainer.SaveChanges();
             }
         }
-
 
         public string GetPersonSources(Guid _personId, List<Guid> sources)
         {
@@ -328,10 +487,6 @@ namespace GedItter.BLL
 
             return retVal;
         }
-
-
-
-
 
         public IQueryable<Source> FillSourceTableByFilter2(string sourceDesc, string sourceOrigLoc,
             bool? isCopyHeld, bool? isViewed, bool? isThackrayFound,
@@ -448,30 +603,20 @@ namespace GedItter.BLL
 
         }
 
-
-
         public List<uspGetParishSources_Result> GetSourceByParishString(string parishs, int startYear, int endYear)
         {
             return ModelContainer.uspGetParishSources(parishs, startYear, endYear).ToList();
         }
-
 
         public List<string> GetsourceRefs2(List<Guid> sourceId)
         {
              return ModelContainer.Sources.Where(o => sourceId.Contains(o.SourceId)).Select(o => o.SourceRef).ToList();
         }
 
-
-
-   
-
         public IQueryable<Source> FillSourceTableByParishId2(Guid parishId)
         {
             return ModelContainer.Sources.Where(o => o.SourceMappingParishs.Any(a => a.Parish.ParishId == parishId)); 
         }
-
-
-    
 
         public Source FillSourceTableById2(Guid sourceId)
         {
@@ -483,18 +628,15 @@ namespace GedItter.BLL
             return ModelContainer.Sources; 
         }
 
-
         public IQueryable<Source> FillSourceTableByPersonOrMarriageId2(Guid recordId)
         {
             return ModelContainer.Sources.Where(o => o.SourceMappings.Any(p => p.Marriage.Marriage_Id == recordId || p.Person.Person_id == recordId)); 
         }
 
-
         public IQueryable<Source> FillTreeSources()
         {
             return ModelContainer.Sources.Where(o => o.SourceMappings.Any(p => p.SourceType.SourceTypeId == 39));
         }
-
 
         public bool DeleteTree(Guid sourceId)
         {
@@ -543,5 +685,8 @@ namespace GedItter.BLL
         {
             return ModelContainer.Sources.Where(o => o.SourceRef.Contains(sourceRef));
         }
+    
+    
+    
     }
 }

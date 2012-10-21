@@ -36,29 +36,29 @@ $(document).ready(function () {
 
 function imready() {
 
-    var isActive = getParameterByName('active');
+    var isActive = getParameterByName('active', '');
 
     if (isActive == '1') {
-        $('#txtCName').val(getParameterByName('cname'));
-        $('#txtSName').val(getParameterByName('sname'));
-        $('#txtFCName').val(getParameterByName('fcname'));
-        $('#txtFSName').val(getParameterByName('fsname'));
-        $('#txtMCName').val(getParameterByName('mcname'));
-        $('#txtMSName').val(getParameterByName('msname'));
-        $('#txtLocation').val(getParameterByName('locat'));
-        $('#txtCounty').val(getParameterByName('count'));
-        $('#txtLowerDateRangeLower').val(getParameterByName('ldrl'));
-        $('#txtLowerDateRangeUpper').val(getParameterByName('ldru'));
+        $('#txtCName').val(getParameterByName('cname', ''));
+        $('#txtSName').val(getParameterByName('sname', ''));
+        $('#txtFCName').val(getParameterByName('fcname', ''));
+        $('#txtFSName').val(getParameterByName('fsname', ''));
+        $('#txtMCName').val(getParameterByName('mcname', ''));
+        $('#txtMSName').val(getParameterByName('msname', ''));
+        $('#txtLocation').val(getParameterByName('locat', ''));
+        $('#txtCounty').val(getParameterByName('count', ''));
+        $('#txtLowerDateRangeLower').val(getParameterByName('ldrl', ''));
+        $('#txtLowerDateRangeUpper').val(getParameterByName('ldru', ''));
 
-        if (getParameterByName('inct') == 'false') {
+        if (getParameterByName('inct', '') == 'false') {
             $('#chkIncludeTree').prop('checked', false);
         }
         else {
             $('#chkIncludeTree').prop('checked', true);
         }
 
-  
-        if (getParameterByName('incb') == 'false') {
+
+        if (getParameterByName('incb', '') == 'false') {
             $('#chkIncludeBirths').prop('checked', false);
         }
         else {
@@ -66,14 +66,14 @@ function imready() {
         }
 
 
-        if (getParameterByName('incd') == 'false') {
+        if (getParameterByName('incd', '') == 'false') {
             $('#chkIncludeDeaths').prop('checked', false);
         }
         else {
             $('#chkIncludeDeaths').prop('checked', true);
         }
 
-        parishId = getParameterByName('parid');
+        parishId = getParameterByName('parid', '');
 
         getPersons('1');
     }
@@ -187,10 +187,11 @@ function getPersons(showdupes) {
     params[12] = String($('#chkIncludeBirths').prop('checked'));
     params[13] = String($('#chkIncludeDeaths').prop('checked'));
     params[14] = '';
-    params[15] = parishId;
-    params[16] = String(page);
-    params[17] = '30';
-    params[18] = sort_col;
+    params[15] = String($('#txtSpouse').val());
+    params[16] = parishId;
+    params[17] = String(page);
+    params[18] = '30';
+    params[19] = sort_col;
 
   //  $.ajaxSetup({ cache: false });
   //  $.getJSON(url, params, processData);
@@ -248,8 +249,15 @@ function processData(data) {
         tableBody += '<td><div>' + sourceInfo.BirthLocation + '</div></td>';
 
         tableBody += '<td><a href="" onClick ="processSelect(\'' + sourceInfo.PersonId + '\');return false"><div>' + sourceInfo.ChristianName + '</div></a></td>';
+
         tableBody += '<td><div>' + sourceInfo.Surname + '</div></td>';
-        tableBody += '<td><div>' + sourceInfo.FatherChristianName + '</div></td>';
+
+        if(sourceInfo.Spouse == '')
+            tableBody += '<td><div class = "parent">' + sourceInfo.FatherChristianName + '</div></td>';
+        else
+            tableBody += '<td><div class = "spouse">' + sourceInfo.Spouse + '</div></td>';
+        
+
         tableBody += '<td><div>' + sourceInfo.MotherChristianName + '</div></td>';
         tableBody += '<td><div>' + sourceInfo.MotherSurname + '</div></td>';
         tableBody += '<td><div>' + sourceInfo.DeathLocation + '</div></td>';

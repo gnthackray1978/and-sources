@@ -4,6 +4,9 @@ var markersArray = [];
 var parishTypes = null;
 var downloadedArea = new Array();
 var displayedMarker = new Array();
+var infoWindows = new Array();
+
+
 var zoomLevel = 0;
 var map = null;
 
@@ -12,6 +15,7 @@ $(document).ready(function () {
     localCreate('#1', initMap);
 });
 
+ 
 
 function localCreate(selectorid, readyfunction) {
 
@@ -32,85 +36,6 @@ function donothing() {
 }
 
 
-function createInfoWindowContent(parishId, parishName, marker) {
-
-    var params = {};
-    params[0] = parishId;
-    // $.ajaxSetup({ cache: false });
-
-    //$.getJSON(getHost() + "/Parishs/GetParishDetails", params, function (result) {
-
-
-    twaGetJSON('/Parishs/GetParishDetails', params, function (result) {
-
-        //window.location.hash = sourceInfo.ParishId;
-
-        //updateQryPar('pid', parishId);
-
-        var bounds = map.getBounds();
-
-        var centre = bounds.getCenter();
-        //lat(), bounds.lng()
-
-
-        updateQryPar('cx', centre.lat());
-        updateQryPar('cy', centre.lng());
-        updateQryPar('pid', parishId);
-
-        var headersection = '';
-
-        headersection += '<div class = "info_cont">';
-
-        headersection += '<div class = "title">' + parishName + ' </div>';
-        headersection += '<div class = "tabhed">';
-        headersection += '<a href=\'\' onclick="masterShowTab(\'1\');return false" ><span>Transcripts</span></a>';
-        headersection += '<a href=\'\' onclick="masterShowTab(\'2\');return false" ><span>Registers</span></a>';
-        headersection += '<a href=\'\' onclick="masterShowTab(\'3\');return false" ><span>Sources</span></a>';
-        headersection += '</div>';
-
-        headersection += '<div id="panelA" class = "displayPanel">';
-        headersection += '<div class = "mtrlnk">';
-        headersection += generateTranscripts(result.serviceParishTranscripts);
-        headersection += '</div>';
-        headersection += '</div>';
-
-        headersection += '<div id="panelB" class = "hidePanel">';
-        headersection += '<div class = "mtrlnk">';
-        headersection += generateRegisters(result.serviceParishRecords);
-        headersection += '</div>';
-        headersection += '</div>';
-
-        headersection += '<div id="panelC" class = "hidePanel">';
-        headersection += '<div class = "mtrlnk">';
-        headersection += generateSources(result.serviceServiceMapDisplaySource, parishId, parishName, result.MarriageCount, result.PersonCount);
-        headersection += '</div>';
-        headersection += '</div>';
-        headersection += '</div>'; //end container
-
-
-
-
-
-        var infowindow = new google.maps.InfoWindow({
-            content: headersection
-        });
-
-        infowindow.open(map, marker);
-
-        google.maps.event.addListener(infowindow, 'closeclick', function () {
-            updateQryPar('pid', '');
-
-        });
-
-        masterShowTab(1);
-
-
-    }); //end     $.getJSON(url, params, function () {
-
-
-
-
-}
 
 
 
@@ -164,7 +89,7 @@ function initMap() {
         }
     });
 
-    setDetail();
+    setMapDetail();
 
     //  var url = getHost() + "/Parishs/GetParishsFromLocations";
 
@@ -172,13 +97,12 @@ function initMap() {
 
 
     //        $.ajaxSetup({ cache: false });
-    //        $.getJSON(getHost() + "/Parishs/GetParishsTypes", params, loadTypes);
+    //        $.getJSON(getHost() + "/Parishs/GetParishsTypes", params, loadParishTypes);
 
-    twaGetJSON('/Parishs/GetParishsTypes', params, loadTypes);
+    twaGetJSON('/Parishs/GetParishsTypes', params, loadParishTypes);
 
     google.maps.event.addListener(map, 'dragend', function () {
         DrawMap();
-
     });
 
     google.maps.event.addListener(map, 'zoom_changed', function () {
@@ -218,6 +142,134 @@ function DrawMap() {
 }
 
 
+function createInfoWindowContent(parishId, parishName, marker) {
+
+    var params = {};
+    params[0] = parishId;
+    // $.ajaxSetup({ cache: false });
+
+    //$.getJSON(getHost() + "/Parishs/GetParishDetails", params, function (result) {
+
+    var infowindowloaded = 0;
+
+    //basically cache what we've already downloaded
+    // we have a array of downloaded info window content
+
+
+    $.each(infoWindows, function (key, value) {
+
+        // we have downloaded this one before
+        if (value.pid == parishId) {
+            if (value.isopen == 0) {
+                infoWindows[key].isopen = 1;
+                var infowindow = new google.maps.InfoWindow({
+                    content: value.infowindow
+                });
+
+                infowindow.open(map, marker);
+                
+                var idx = key;
+
+                google.maps.event.addListener(infowindow, 'closeclick', function () {
+                    updateQryPar('pid', '');
+                    infoWindows[idx].isopen = 0;
+
+                });
+            }
+            infowindowloaded = 1;
+        }
+
+    });
+
+    
+
+    if (infowindowloaded ==0) {
+
+        twaGetJSON('/Parishs/GetParishDetails', params, function (result) {
+
+            //window.location.hash = sourceInfo.ParishId;
+
+            //updateQryPar('pid', parishId);
+
+            var bounds = map.getBounds();
+
+            var centre = bounds.getCenter();
+            //lat(), bounds.lng()
+
+
+            updateQryPar('cx', centre.lat());
+            updateQryPar('cy', centre.lng());
+            updateQryPar('pid', parishId);
+
+            var headersection = '';
+
+            headersection += '<div id="' + parishId + '" class = "info_cont">';
+
+            headersection += '<div class = "title">' + parishName + ' </div>';
+            headersection += '<div class = "tabhed">';
+            headersection += '<a href=\'\' onclick="masterShowTab(\'1\');return false" ><span>Transcripts</span></a>';
+            headersection += '<a href=\'\' onclick="masterShowTab(\'2\');return false" ><span>Registers</span></a>';
+            headersection += '<a href=\'\' onclick="masterShowTab(\'3\');return false" ><span>Sources</span></a>';
+            headersection += '</div>';
+
+            headersection += '<div id="panelA" class = "displayPanel">';
+            headersection += '<div class = "mtrlnk">';
+            headersection += generateTranscripts(result.serviceParishTranscripts);
+            headersection += '</div>';
+            headersection += '</div>';
+
+            headersection += '<div id="panelB" class = "hidePanel">';
+            headersection += '<div class = "mtrlnk">';
+            headersection += generateRegisters(result.serviceParishRecords);
+            headersection += '</div>';
+            headersection += '</div>';
+
+            headersection += '<div id="panelC" class = "hidePanel">';
+            headersection += '<div class = "mtrlnk">';
+            headersection += generateSources(result.serviceServiceMapDisplaySource, parishId, parishName, result.MarriageCount, result.PersonCount);
+            headersection += '</div>';
+            headersection += '</div>';
+            headersection += '</div>'; //end container
+
+
+
+
+
+            var infowindow = new google.maps.InfoWindow({
+                content: headersection
+            });
+
+            //infowindow.
+            infowindow.open(map, marker);
+
+            var infowindowentry = {};
+
+            infowindowentry.pid = parishId;
+            infowindowentry.isopen = 1;
+            infowindowentry.infowindow = headersection;
+
+
+            var idx = infoWindows.push(infowindowentry);
+
+            google.maps.event.addListener(infowindow, 'closeclick', function () {
+                updateQryPar('pid', '');
+                infoWindows[idx - 1].isopen = 0;
+            });
+
+
+
+
+
+            masterShowTab(1);
+
+
+        });      //end     $.getJSON(url, params, function () {
+
+}
+
+
+
+}
 
 
 
@@ -441,7 +493,7 @@ function deleteOverlays() {
 }
 
 
-function setDetail() {
+function setMapDetail() {
 
     var styleOff = [{ visibility: 'off'}];
     var styleOn = [{ visibility: 'on'}];

@@ -76,7 +76,7 @@ function getSource() {
 
    // var url = getHost() + "/Sources/GetSource";
 
-    var id = getParameterByName('id');
+    var id = getParameterByName('id', '');
 
     params[0] = id;
 
@@ -157,11 +157,11 @@ GetSourceRecord = function (rowIdx) {
     data.isViewed = $('#chkIsViewed').prop('checked');
     data.isThackrayFound = $('#chkIsThackrayFound').prop('checked');
 
-    
 
-    data.parishs = getParameterByName('pids');
-    data.sourceTypes = getParameterByName('stypes');
-    data.fileIds = getParameterByName('fids');
+
+    data.parishs = getParameterByName('pids', '');
+    data.sourceTypes = getParameterByName('stypes', '');
+    data.fileIds = getParameterByName('fids', '');
 
     return data;
 

@@ -42,7 +42,7 @@ function getPerson() {
 
     var params = {};
 
-    var id = getParameterByName('id');
+    var id = getParameterByName('id', '');
 
     params[0] = id;
 
@@ -96,14 +96,20 @@ function processData(data) {
 
 
     getSources('#sourceselector');
+
+
+    showError(data.ErrorStatus);
+    
+
+
 }
 
 
 
 GetPersonRecord = function (rowIdx) {
     var data = {};
-    data.personId = getParameterByName('id');
-    data.sources = getParameterByName('source_ids');
+    data.personId = getParameterByName('id', '');
+    data.sources = getParameterByName('source_ids', '');
     data.christianName =$('#txtNam').val();
     data.surname= $('#txtSur').val();
     data.fatherchristianname =$('#txtFatNam').val();

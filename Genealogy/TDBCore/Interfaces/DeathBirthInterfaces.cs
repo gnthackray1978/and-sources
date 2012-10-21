@@ -6,6 +6,7 @@ using GedItter.MarriageRecords;
 
 //using TDBCore.Datasets;
 using GedItter.Interfaces;
+using TDBCore.Types;
 
 namespace GedItter.BirthDeathRecords
 {
@@ -20,9 +21,9 @@ namespace GedItter.BirthDeathRecords
 
     public interface IDeathBirthFilterModel : IDBRecordsModel<Guid>
     {
-       // DsDeathsBirths.PersonsDataTable PersonsDataTable{get;}
-        IList<TDBCore.EntityModel.Person> PersonsDataTable { get; }
-     //   DsRelationTypes.RelationTypesDataTable RelationTypesDataTable { get; }
+        
+        ServicePersonObject PersonsDataTable { get; }
+    
 
 
         bool IsValidBirthUpperBound { get; }
@@ -140,6 +141,9 @@ namespace GedItter.BirthDeathRecords
         void SetFilterDeathCountyLocation(string param);
         void SetFilterCountyLocation(string param);
 
+
+        string SetDefaultPersonForTree(Guid param);
+
         #endregion
 
         
@@ -213,7 +217,7 @@ namespace GedItter.BirthDeathRecords
         void RequestSetFilterIsIncludeDeaths(bool param);
         void RequestSetFilterIsIncludeBirths(bool param);
 
-
+        void RequestSetDefaultPersonForTree(Guid param);
         //void SetModel(IDeathBirthFilterModel paramModel);
         //void SetView(iDeathBirthFilterView paramView);
         //void SetView();
@@ -277,6 +281,7 @@ namespace GedItter.BirthDeathRecords
         bool IsValidReferenceDate { get; }
         string EditorReferenceLocation { get; }
         bool IsValidReferenceLocation { get; }
+
 
 
         string EditorOccupation { get; }
@@ -365,7 +370,8 @@ namespace GedItter.BirthDeathRecords
 
 
 
-
+        int EstBirthInt { get; }
+        int EstDeathInt { get; }
 
 
         void SetFilterOriginalName(string param);

@@ -20,6 +20,8 @@ namespace ANDServices
         //diags
 
 
+
+
         [OperationContract]
         [WebGet(ResponseFormat = WebMessageFormat.Json, UriTemplate = URIMappingsDiag.GetJSONTreePersons)]
         List<ServicePersonLookUp> GetJSONTreePeople(string sourceId, string start, string end);
@@ -30,7 +32,7 @@ namespace ANDServices
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = URIMappingsDiag.SetJSONTreeDefaultPerson, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
-        bool SetDefaultTreePerson(Guid sourceId, Guid personId);
+        string SetDefaultTreePerson(Guid sourceId, Guid personId);
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = URIMappingsDiag.SaveTree, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
@@ -134,6 +136,17 @@ namespace ANDServices
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = URIMappingsAND.DeleteSource, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
         bool DeleteSource(string sourceId);
 
+
+
+        [OperationContract]
+        [WebGet(ResponseFormat = WebMessageFormat.Json, UriTemplate = URIMappingsAND.Get1841CensusPlaces)]
+        List<CensusPlace> Get1841CensusPlaces();
+
+        [OperationContract]
+        [WebGet(ResponseFormat = WebMessageFormat.Json, UriTemplate = URIMappingsAND.Get1841CensusSources)]
+        List<CensusSource> Get1841CensusSources(Guid sourceId);
+
+
         // persons
         [OperationContract]
         [WebGet(ResponseFormat = WebMessageFormat.Json, UriTemplate = URIMappingsAND.GetPerson)]
@@ -158,6 +171,7 @@ namespace ANDServices
                                                 string filterIncludeBirths,
                                                 string filterIncludeDeaths,
                                                 string filterSource,
+                                                string spouse,
                                                 string parishFilter,
                                                 string page_number,
                                                 string page_size,
@@ -176,6 +190,7 @@ namespace ANDServices
                         string county,
                         string lowerDate,
                         string upperDate,
+
                         string filterTreeResults,
                         string filterIncludeBirths,
                         string filterIncludeDeaths,

@@ -913,12 +913,12 @@ namespace GedItter.BirthDeathRecords.BLL
         }
 
         public IQueryable<Person> GetFilterSimple2(string cName, string sName, string bLocation,
-                                        int bLower, int bUpper, string fCName, string fSName, string mCName, string mSName, string source, string county)
+                                        int bLower, int bUpper, string fCName, string fSName, string mCName, string mSName, string source, string county,string spouse)
         {
  
             if (source.Trim() == "") source = "x";
- 
-            IQueryable<Person> dsdb = ModelContainer.GetSimPersonWithSources(cName, sName, fCName, fSName, mCName, mSName, source, bLocation, bLower, bUpper, county).AsQueryable();
+
+            IQueryable<Person> dsdb = ModelContainer.GetSimPersonWithSources(cName, sName, fCName, fSName, mCName, mSName, source, bLocation, bLower, bUpper, county, spouse).AsQueryable();
 
             return dsdb;
 

@@ -17,6 +17,9 @@ using Facebook;
 using System.Net;
 using System.IO;
 using System.ServiceModel.Web;
+using TDBCore.EntityModel;
+using TDBCore.Types;
+using GedItter.BLL;
 
 
 namespace ANDServices
@@ -43,6 +46,8 @@ namespace ANDServices
 
 
 
+
+
     }
 
     public class WebHelper
@@ -60,29 +65,34 @@ namespace ANDServices
 
 
                 string token = WebOperationContext.Current.IncomingRequest.Headers["fb"];
-                Facebook.FacebookClient fbc = new FacebookClient(token);
 
-                var me2 = (IDictionary<string, object>)fbc.Get("/me");
-
-
-                if (me2.ContainsKey("name"))
+                if (token != null)
                 {
-                    retVal = (string)me2["name"];
 
+                    Facebook.FacebookClient fbc = new FacebookClient(token);
+
+                    var me2 = (IDictionary<string, object>)fbc.Get("/me");
+
+
+                    if (me2.ContainsKey("name"))
+                    {
+                        retVal = (string)me2["name"];
+
+                    }
+
+                    if (me2.ContainsKey("id"))
+                    {
+                        idVal = (string)me2["id"];
+
+                    }
+
+
+                    retVal = idVal;// userGuid.ToString();
                 }
-
-                if (me2.ContainsKey("id"))
+                else
                 {
-                    idVal = (string)me2["id"];
-
+                    retVal = "invalid token";
                 }
-
-
-                //   long.TryParse(idVal, out facebookId);
-
-                // Guid userGuid = facebookId.ToGuid();
-
-                retVal = idVal;// userGuid.ToString();
             }
             catch (Exception ex1)
             {

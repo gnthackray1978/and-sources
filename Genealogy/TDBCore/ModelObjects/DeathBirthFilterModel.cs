@@ -28,7 +28,8 @@ namespace GedItter.BirthDeathRecords
         public EventHandler ShowDialogRelationsEvent;
 
         DeathBirthEditorModel deathBirthEditorModel = new DeathBirthEditorModel();
-        IList<TDBCore.EntityModel.Person> personsDataTable = null;
+        ServicePersonObject personsDataTable = null;
+
        // private ArrayList aList = new ArrayList();
         string location = "";
         string source = "";
@@ -140,7 +141,8 @@ namespace GedItter.BirthDeathRecords
             {
                 if (location == "" && source == "" && cName == "" && sName == "" &&
                 moCName == "" && moSName == "" && faCName == "" && faSName == "" 
-                && this.ParentRecordIds.FirstOrDefault() == Guid.Empty)
+                && this.ParentRecordIds.FirstOrDefault() == Guid.Empty &&
+                    this.deathBirthFilterTypes != DeathBirthFilterTypes.TREE)
                 {
                     return false;
                 }
@@ -185,12 +187,12 @@ namespace GedItter.BirthDeathRecords
 
         #endregion
 
-        public IList<TDBCore.EntityModel.Person> PersonsDataTable
+        public ServicePersonObject PersonsDataTable
         {
             get
             {
                 if (this.personsDataTable == null)
-                    return new List<TDBCore.EntityModel.Person>();
+                    return new ServicePersonObject();
                 else
                     return this.personsDataTable;
             }
@@ -752,37 +754,67 @@ namespace GedItter.BirthDeathRecords
                 if (!IsvalidSelect()) return;
 
 
-                personsDataTable = new List<TDBCore.EntityModel.Person>();         
+                IList<Person> tempTable = new List<Person>();        
 
                 BLL.DeathsBirthsBLL deathsBirthsBLL = new GedItter.BirthDeathRecords.BLL.DeathsBirthsBLL();
 
                 switch (this.deathBirthFilterTypes)
                 {
+
+                    case DeathBirthFilterTypes.TREE:
+
+                         List<ServicePersonLookUp> personsInTree = new List<ServicePersonLookUp>();
+
+                           
+                      
+ 
+                        int startInt = this.birthLowerInt;
+                        int endInt = this.birthUpperInt;
+
+                        tempTable = deathsBirthsBLL.GetBySourceId2(this.SelectedRecordIds[0]).Where(ss => ss.BirthInt >= startInt
+                            && ss.BirthInt <= endInt).OrderBy(o => o.Surname).ThenBy(t => t.BirthInt).ToList();
+
+
+                            //.Select(s => new ServicePersonLookUp()
+                            //{
+                            //    PersonId = s.Person_id,
+                            //    ChristianName = s.ChristianName,
+                            //    Surname = s.Surname,
+                            //    BirthYear = s.BirthInt,
+                            //    BirthLocation = s.BirthLocation,
+                            //    XREF = s.OrigSurname
+
+                            //}).ToList();
+
+
+                        break;
+
+
                     case DeathBirthFilterTypes.RELATIONS:
 
                         if (this.ParentRecordIds.Count > 0)
                         {
-                            personsDataTable = deathsBirthsBLL.GetRelationDeathBirthRecord2(this.ParentRecordIds[0]).ToList();
+                            tempTable = deathsBirthsBLL.GetRelationDeathBirthRecord2(this.ParentRecordIds[0]).ToList();
                         }
                         else
                         {
-                            personsDataTable = new List<TDBCore.EntityModel.Person>();
+                            personsDataTable = new ServicePersonObject();
                         }
                         break;
                     case DeathBirthFilterTypes.DUPLICATES:
 
                         if (this.ParentRecordIds.Count > 0 && this.ParentRecordIds[0] != Guid.Empty)
                         {
-                            personsDataTable = deathsBirthsBLL.GetDataByDupeRef2(this.ParentRecordIds[0]).ToList();
+                            tempTable = deathsBirthsBLL.GetDataByDupeRef2(this.ParentRecordIds[0]).ToList();
                         }
                         else
                         {
-                            personsDataTable = new List<TDBCore.EntityModel.Person>();
+                            personsDataTable = new ServicePersonObject();
                         }
 
                         break;
                     case DeathBirthFilterTypes.STANDARD:
-                        personsDataTable = deathsBirthsBLL.GetFilterDeathBirthRecord2(this.cName,
+                        tempTable = deathsBirthsBLL.GetFilterDeathBirthRecord2(this.cName,
                             this.sName,
                             this.location,
                             this.birthLowerInt,
@@ -831,7 +863,9 @@ namespace GedItter.BirthDeathRecords
                             this.combinedlocation = this.location;
 
 
-                        personsDataTable = deathsBirthsBLL.GetFilterSimple2(this.cName, this.sName, this.combinedlocation, this.lowerDate, this.upperDate, this.faCName, this.faSName, this.moCName, this.moSName, this.SourceGuidListAsString, this.county).OrderBy(o => o.EstBirthYearInt).ToList();
+                        tempTable = deathsBirthsBLL.GetFilterSimple2(this.cName, this.sName, this.combinedlocation, this.lowerDate, this.upperDate, this.faCName, this.faSName, this.moCName, this.moSName, this.SourceGuidListAsString, this.county, this.spouseCName).OrderBy(o => o.EstBirthYearInt).ToList();
+
+
 
                         if (SourceGuidList.Count == 0)
                         {
@@ -839,7 +873,7 @@ namespace GedItter.BirthDeathRecords
                             {
                               //  int rowIdx = 0;
 
-                                personsDataTable = personsDataTable.Where(p => !p.OrigSurname.ToLower().Contains("xref")).ToList();
+                                tempTable = tempTable.Where(p => !p.OrigSurname.ToLower().Contains("xref")).ToList();
 
                                 //while (rowIdx < personsDataTable.Count)
                                 //{
@@ -855,7 +889,7 @@ namespace GedItter.BirthDeathRecords
 
                         if (isIncludeDeaths)
                         {
-                            personsDataTable = personsDataTable.Where(p => p.IsEstDeath == false).ToList();
+                            tempTable = tempTable.Where(p => p.IsEstDeath == false).ToList();
 
                             //foreach (var _row in personsDataTable.Where(o => o.IsEstDeath.Value))
                             //{
@@ -865,7 +899,7 @@ namespace GedItter.BirthDeathRecords
 
                         if (isIncludeBirths)
                         {
-                            personsDataTable = personsDataTable.Where(p => p.IsEstBirth == false).ToList();
+                            tempTable = tempTable.Where(p => p.IsEstBirth == false).ToList();
 
                             //foreach (var _row in personsDataTable.Where(o => o.IsEstBirth.Value))
                             //{
@@ -879,6 +913,8 @@ namespace GedItter.BirthDeathRecords
 
                 }
 
+
+                this.personsDataTable = tempTable.ToServicePersonObject(this.SortColumn, this.RecordPageSize, this.RecordStart);
 
                 this.isDataChanged = false;
 
@@ -1021,6 +1057,38 @@ namespace GedItter.BirthDeathRecords
             base.SetSelectedRecordIds(new List<Guid>());
             this.Refresh();          
         }
+
+
+
+
+        public string SetDefaultPersonForTree(Guid param)
+        {
+            if (!IsValidEdit()) return "false";
+
+            SourceMappingsBLL sourceMappingsBll = new SourceMappingsBLL();
+
+            if (this.SelectedRecordIds.Count > 1)
+            {
+                sourceMappingsBll.SetDefaultTreePerson(param, this.SelectedRecordIds[0]);
+
+                this.isDataChanged = true;
+                return "true";
+            }
+            else
+            {
+                return "false";
+            } 
+        }
+
+        //public List<ServicePersonLookUp> GetJSONTreePeople(string sourceId, string start, string end)
+        //{
+        //    DeathsBirthsBLL deathsBirthsBLL = new DeathsBirthsBLL();
+
+        //    return deathsBirthsBLL.GetPersonsForTree(sourceId, start, end);
+        //}
+
+
+
 
         public void RemoveAllRelationType()
         { 
@@ -1666,6 +1734,8 @@ namespace GedItter.BirthDeathRecords
         RELATIONS =0,
         DUPLICATES =1,
         STANDARD =2,
-        SIMPLE =3
+        SIMPLE =3,
+        TREE =4
+
     }
 }

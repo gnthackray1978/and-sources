@@ -79,12 +79,14 @@ function setHeader(xhr) {
 
     var access_token = '';
 
-    if(FB != undefined)
-        access_token = FB.getAuthResponse()['accessToken'];
+    if (FB != undefined) {
+        if(FB.getAuthResponse() != null)
+            access_token = FB.getAuthResponse()['accessToken'];
+    }
 
 
     xhr.setRequestHeader('fb', access_token);
-    //xhr.setRequestHeader('passkey', 'Bar');
+
 }
 
 
@@ -140,10 +142,13 @@ function handleReturnCode(message, idParam) {
 
 
 function showError(error) {
-    
-    $('#errorDialog').html(error);
 
-    $("#errorDialog").dialog();
+    if (error != '' && error != null) {
+        $('#errorDialog').html(error);
+        $("#errorDialog").dialog();       
+    }
+
+
 }
 
 function encodeToHex(str) {
@@ -240,6 +245,21 @@ function makeIdQryString(paramName,path) {
     var _loc = window.location.hash;
 
 
+    // this will return an empty string even if 
+    // the key was missing
+    // i want something that returns null if the key is missing.
+
+    //getParameterByName(paramName);
+
+
+
+    //    var match = RegExp('[?&]' + name + '=([^&]*)')
+    //                    .exec(window.location.hash);
+
+    //    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+
+
+
     var idParam = getParameterByName(paramName);
 
     if (idParam == null) {
@@ -291,9 +311,9 @@ function updateQryPar(parname, parval) {
 
     }
     else {
-        var oldVal = getParameterByName(parname);
+        var oldVal = getParameterByName(parname, '');
 
-        if (!oldVal) oldVal = '';
+
 
         var pageQry = parname + '=' + oldVal;
         var replaceQry = parname + '=' + parval;
@@ -365,13 +385,20 @@ function getParameterByNameFromString(qry, name) {
 
 }
 
-function getParameterByName(name) {
+function getParameterByName(name, defvalue) {
 
     var match = RegExp('[?&]' + name + '=([^&]*)')
                     .exec(window.location.href);
 
-    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
-
+    if (defvalue != undefined && defvalue != null) {
+        if (match != null)
+            return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+        else
+            return defvalue;
+    } else {
+        return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+    }
+      
 }
 
 //function getParameterByName(name) {

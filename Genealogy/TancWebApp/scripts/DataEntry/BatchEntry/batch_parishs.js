@@ -6,7 +6,7 @@
 getParishLst = function () {
 
     var params = {};
-    var scs = getParameterByName('parl');
+    var scs = getParameterByName('parl','');
     params[0] = scs;
 
     //   $.ajaxSetup({ cache: false });

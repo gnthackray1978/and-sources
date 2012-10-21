@@ -34,19 +34,19 @@ $(document).ready(function () {
 
 function imready() {
 
-    var isActive = getParameterByName('active');
+    var isActive = getParameterByName('active', '');
 
     if (isActive == '1') {
-        $('#txtMaleCName').val(getParameterByName('mcname'));
-        $('#txtMaleSName').val(getParameterByName('msname'));
-        $('#txtFemaleCName').val(getParameterByName('fcname'));
-        $('#txtFemaleSName').val(getParameterByName('fsname'));
-        $('#txtLocation').val(getParameterByName('locat'));
+        $('#txtMaleCName').val(getParameterByName('mcname', ''));
+        $('#txtMaleSName').val(getParameterByName('msname', ''));
+        $('#txtFemaleCName').val(getParameterByName('fcname', ''));
+        $('#txtFemaleSName').val(getParameterByName('fsname', ''));
+        $('#txtLocation').val(getParameterByName('locat', ''));
 
-        $('#txtLowerDateRangeLower').val(getParameterByName('ldrl'));
-        $('#txtLowerDateRangeUpper').val(getParameterByName('ldru'));
+        $('#txtLowerDateRangeLower').val(getParameterByName('ldrl', ''));
+        $('#txtLowerDateRangeUpper').val(getParameterByName('ldru', ''));
 
-        parishId = getParameterByName('parid');
+        parishId = getParameterByName('parid', '');
 
         getMarriages('1');
     }
@@ -116,10 +116,10 @@ function getMarriages(showdupes) {
         updateQryPar('_parentId', parentId);
     }
     else {
-        parentId = getParameterByName('_parentId');
+        parentId = getParameterByName('_parentId', '');
     }
 
-    var parishId = getParameterByName('parid');
+    var parishId = getParameterByName('parid', '');
 
     params[0] = parentId;
     params[1] = String($('#txtMaleCName').val());

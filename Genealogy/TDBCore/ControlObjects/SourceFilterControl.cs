@@ -205,5 +205,27 @@ namespace GedItter.ControlObjects
                 if (View != null) SetView();
             }
         }
+
+
+        public void RequestSetFilterIncludeDefaultPerson(string param)
+        {
+            if (Model != null)
+            {
+                Model.SetFilterIncludeDefaultPerson(param);
+
+                if (View != null) SetView();
+            }
+        }
+
+
+        public void RequestSetFilterMode(SourceFilterTypes param)
+        {
+            if (Model != null)
+            {
+                Model.SetFilterMode(param);
+
+                if (View != null) SetView();
+            }
+        }
     }
 }

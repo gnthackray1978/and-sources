@@ -19,15 +19,6 @@ function generateSources(serviceServiceMapDisplaySource, parishId, parishName, m
 
     var transTable = '';
 
-    //        $('#txtMaleCName').val(getParameterByName('mcname'));
-    //        $('#txtMaleSName').val(getParameterByName('msname'));
-    //        $('#txtFemaleCName').val(getParameterByName('fcname'));
-    //        $('#txtFemaleSName').val(getParameterByName('fsname'));
-    //        $('#txtLocation').val(getParameterByName('locat'));
-
-    //        $('#txtLowerDateRangeLower').val(getParameterByName('ldrl'));
-    //        $('#txtLowerDateRangeUpper').val(getParameterByName('ldru'));
-
     var qry = '../HtmlPages/PersonSearch.html#?active=1&cname=&sname=thack&fcname=&fsname=&mcname=&msname=&locat=&count=&ldrl=1500&ldru=1900&inct=true&incb=false&incd=false&parid=' + parishId;
     var mqry = '../HtmlPages/MarriageSearch.html#?active=1&mcname=&msname=&fcname=&fsname=&locat=&ldrl=1400&ldru=1900&parid=' + parishId;
 

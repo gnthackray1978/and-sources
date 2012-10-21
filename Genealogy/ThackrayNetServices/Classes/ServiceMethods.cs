@@ -27,6 +27,7 @@ using System.Reflection;
 using System.Web;
 using Facebook;
 using System.Xml.Linq;
+using GedItter.Interfaces;
  
 
 namespace ANDServices
@@ -46,20 +47,26 @@ namespace ANDServices
     
         public string TestLogin(string testParam)
         {
-            string retVal = "x x x ";
+            string retVal = "could not get login ";
             string token = WebOperationContext.Current.IncomingRequest.Headers["fb"];
-            Facebook.FacebookClient fbc = new FacebookClient(token);
 
-            var me2 = (IDictionary<string, object>)fbc.Get("/me");
-
-
-            if (me2.ContainsKey("name"))
+            if (token != null)
             {
-                retVal = (string)me2["name"];
 
+                Facebook.FacebookClient fbc = new FacebookClient(token);
+
+                var me2 = (IDictionary<string, object>)fbc.Get("/me");
+
+
+                if (me2.ContainsKey("name"))
+                {
+                    retVal = (string)me2["name"];
+
+                }
+
+                Debug.WriteLine("user id" + WebHelper.GetUser());
             }
 
-            Debug.WriteLine("user id" + WebHelper.GetUser());
 
             return retVal;
         }
@@ -68,29 +75,115 @@ namespace ANDServices
 
         public ServiceSourceObject GetJSONTreeSources(string description, string page_number, string page_size)
         {
+            ISourceFilterModel iModel = new SourceFilterModel();
+            ISourceFilterControl iControl = new SourceFilterControl();
 
-            SourceBLL _sources = new SourceBLL();
+            iControl.SetModel(iModel);
 
+            iControl.RequestSetUser(WebHelper.GetUser());
 
-            return _sources.GetTreeSources(description, page_number, page_size);
+            iControl.RequestSetFilterSourceDescription(description ?? "");
+
+            iControl.RequestSetRecordStart(page_number.ToInt32());
+
+            iControl.RequestSetRecordPageSize(page_size.ToInt32());
+
+            iControl.RequestSetFilterIncludeDefaultPerson("true");
+
+            iControl.RequestSetFilterMode(SourceFilterTypes.TREESOURCES);
+
+            iControl.RequestRefresh();
+
+            return iModel.SourcesDataTable;//.ToServiceSourceObject("", page_number.ToInt32(), page_size.ToInt32(),true); 
         }
 
-        public bool SetDefaultTreePerson(Guid sourceId, Guid personId)
+        public string SetDefaultTreePerson(Guid sourceId, Guid personId)
         {
-            SourceMappingsBLL sourceMappingsBll = new SourceMappingsBLL();
 
-            sourceMappingsBll.SetDefaultTreePerson(sourceId, personId);
+            string retVal = "";
 
+            IDeathBirthFilterModel iModel = new DeathBirthFilterModel();
+            IDeathBirthFilterControl iControl = new DeathBirthFilterControl();
+            List<Guid> selection = new List<Guid>();
 
-            return true;
+            try
+            {
+               
+                selection.Add(personId);
+
+                iControl.SetModel(iModel);
+
+                iControl.RequestSetUser(WebHelper.GetUser());
+
+                iControl.RequestSetSelectedIds(selection);
+
+                iControl.RequestSetDefaultPersonForTree(sourceId);
+            }
+            catch (Exception ex1)
+            {
+                retVal = ex1.Message;
+            }
+            finally
+            {
+                if (retVal != "") retVal += Environment.NewLine;
+                retVal += iModel.StatusMessage;
+            }
+
+            return retVal;
         }
+
+
 
         public List<ServicePersonLookUp> GetJSONTreePeople(string sourceId, string start, string end)
         {
-            DeathsBirthsBLL deathsBirthsBLL = new DeathsBirthsBLL();
 
-            return deathsBirthsBLL.GetPersonsForTree(sourceId, start, end);
+            string retVal = "";
+
+            ServicePersonObject spo = new ServicePersonObject();
+
+
+            DeathBirthFilterModel iModel = new DeathBirthFilterModel();
+            DeathBirthFilterControl iControl = new DeathBirthFilterControl();
+
+            try
+            {
+                iControl.SetModel(iModel);
+
+                iControl.RequestSetFilterMode(DeathBirthFilterTypes.TREE);
+
+
+                iControl.RequestSetSelectedIds(new List<Guid>() { sourceId.ToGuid()});
+
+
+                iControl.RequestSetUser(WebHelper.GetUser());
+
+
+                iControl.RequestSetFilterLowerBirth(start ?? "");
+                iControl.RequestSetFilterUpperBirth(end ?? "");
+
+                iControl.RequestRefresh();
+
+
+                spo = iModel.PersonsDataTable;
+            }
+            catch (Exception ex1)
+            {
+                retVal = ex1.Message;
+            }
+            finally
+            {
+                if (retVal != "") retVal += Environment.NewLine;
+                retVal += iModel.StatusMessage;
+
+                spo.ErrorStatus = retVal;
+            }
+
+            return spo.servicePersons;
         }
+
+
+
+
 
         public string SaveNewTree(string sourceId, string fileName, string sourceRef, string sourceDesc, string sourceYear, string sourceYearTo)
         {
@@ -175,7 +268,23 @@ namespace ANDServices
         }
 
 
+
+
+
         // sources methods
+
+        public List<CensusPlace> Get1841CensusPlaces()
+        {
+            SourceBLL sourceBll = new SourceBLL();
+            return sourceBll.Get1841Census();
+        }
+
+        public List<CensusSource> Get1841CensusSources(Guid sourceId)
+        {
+            SourceBLL sourceBll = new SourceBLL();
+            return sourceBll.Get1841CensuSources(sourceId);
+        }
+
 
         public ServiceFullSource GetSource(string sourceId)
         {
@@ -247,21 +356,14 @@ namespace ANDServices
             string dateLB, string toDateLB, string dateUB, string toDateUB, string fileCount, string isThackrayFound,
             string isCopyHeld, string isViewed, string isChecked, string page_number, string page_size, string sortColumn)
         {
-            SourceFilterModel iModel = new SourceFilterModel();
-            ServiceSourceObject ssobj = new ServiceSourceObject();
-
-            SourceFilterControl iControl = new SourceFilterControl();
+            ISourceFilterModel iModel = new SourceFilterModel();
+            ISourceFilterControl iControl = new SourceFilterControl();
 
             iControl.SetModel(iModel);
 
             iControl.RequestSetUser(WebHelper.GetUser());
 
-            List<int> _sourceTypes = (sourceTypes ?? "").Split(',').ToList<string>().ConvertAll<int>(delegate(string i) { int ret = 0; Int32.TryParse(i, out ret); return ret; }).ToList();
-
-
-            _sourceTypes.RemoveAll(i => i == 0);
-
-            iControl.RequestSetFilterSourceTypeList(_sourceTypes);
+            iControl.RequestSetFilterSourceTypeList(SourceFilterModel.GetSourceTypeList(sourceTypes));
             iControl.RequestSetFilterSourceRef(sourceRef);
             iControl.RequestSetFilterSourceDescription(sourceDesc ?? "");
             iControl.RequestSetFilterSourceOriginalLocation(origLoc ?? "");
@@ -274,45 +376,14 @@ namespace ANDServices
             iControl.RequestSetFilterIsCopyHeld(isCopyHeld.ToBool(), isChecked.ToBool());
             iControl.RequestSetFilterIsViewed(isViewed.ToBool(), isChecked.ToBool());
 
+         
+            iControl.RequestSetRecordStart(page_number.ToInt32());
+            iControl.RequestSetRecordPageSize(page_size.ToInt32());
+
+
             iControl.RequestRefresh();
-
-
-
-            //if (sortColumn.Contains("date DESC"))
-            //{
-            //    sortColumn = "MarriageYear DESC";
-            //}
-            //else if (sortColumn.Contains("ref"))
-            //{
-            //    sortColumn = "MarriageYear";
-            //}
-
-
-
-            //else if (sortColumn.Contains("description"))
-            //{
-            //    sortColumn = "MarriageYear";
-            //}
-
-            //serviceMarriageObject.serviceMarriages = iModel.MarriagesTable.OrderBy(sort_col).Select(p => new ServiceMarriageLookup()
-            //{
-
-            ssobj.serviceSources = iModel.SourcesDataTable.OrderBy(sortColumn).Select(s => new ServiceSource()
-            {
-                SourceDesc = s.SourceDescription,
-                SourceId = s.SourceId,
-                SourceRef = s.SourceRef,
-                SourceYear = s.SourceDate.Value,
-                SourceYearTo = s.SourceDateTo.Value
-            }).ToList();
-
-            ssobj.Batch = page_number.ToInt32();
-            ssobj.BatchLength = page_size.ToInt32();
-            ssobj.Total = ssobj.serviceSources.Count;
-
-            ssobj.serviceSources = ssobj.serviceSources.Skip(page_number.ToInt32() * page_size.ToInt32()).Take(page_size.ToInt32()).ToList();
-
-            return ssobj;
+           
+            return iModel.SourcesDataTable;//.ToServiceSourceObject(sortColumn, page_number.ToInt32(), page_size.ToInt32()); 
         }
 
         public bool DeleteSource(string sourceId)
@@ -434,7 +505,6 @@ namespace ANDServices
             return sourceTypesBll.GetSourceTypesFromIdList(typeIdLst);
         }
 
-
         public ServiceSourceType GetSourceType(string TypeId)
         {
             SourceTypeEditorModel iModel = new SourceTypeEditorModel();
@@ -456,7 +526,6 @@ namespace ANDServices
 
             return ssTO;
         }
-
 
         public ServiceSourceTypeObject GetSourceTypes(string description, string page_number, string page_size, string sort_col)
         {
@@ -1390,6 +1459,9 @@ namespace ANDServices
                 iControl.RequestSetFilterIsIncludeBirths(filterIncludeBirths.ToBool());
                 iControl.RequestSetFilterIsIncludeDeaths(filterIncludeDeaths.ToBool());
 
+
+
+
                 if (filterSource != "")
                 {
                     iControl.RequestSetFilterSource(filterSource);
@@ -1421,7 +1493,7 @@ namespace ANDServices
 
 
 
-            return iModel.PersonsDataTable.Count;
+            return iModel.PersonsDataTable.Total;
 
         }
 
@@ -1430,8 +1502,8 @@ namespace ANDServices
         {
             string retVal = "";
 
-            DeathBirthEditorModel iModel = new DeathBirthEditorModel();
-            DeathBirthEditorControl iControl = new DeathBirthEditorControl();
+            IDeathBirthEditorModel iModel = new DeathBirthEditorModel();
+            IDeathBirthEditorControl iControl = new DeathBirthEditorControl();
 
             ServicePerson sp = new ServicePerson();
 
@@ -1510,7 +1582,9 @@ namespace ANDServices
             string filterIncludeBirths,
             string filterIncludeDeaths,
             string filterSource,
+            string spouse,
             string parishFilter,
+
             string page_number,
             string page_size,
             string sort_col)
@@ -1560,6 +1634,11 @@ namespace ANDServices
                     iControl.RequestSetFilterTreeResults(filterTreeResults.ToBool());
                     iControl.RequestSetFilterIsIncludeBirths(filterIncludeBirths.ToBool());
                     iControl.RequestSetFilterIsIncludeDeaths(filterIncludeDeaths.ToBool());
+                    iControl.RequestSetFilterSpouseCName(spouse);
+
+                    iControl.RequestSetRecordStart(page_number.ToInt32());
+
+                    iControl.RequestSetRecordPageSize(page_size.ToInt32());
 
                     if (filterSource != "")
                     {
@@ -1591,31 +1670,33 @@ namespace ANDServices
                 iControl.RequestRefresh();
 
 
-                spo.servicePersons = iModel.PersonsDataTable.OrderBy(sort_col).Select(p => new ServicePersonLookUp()
-                {
-                    BirthLocation = p.BirthLocation,
-                    BirthYear = p.BirthInt,
-                    ChristianName = p.ChristianName,
-                    DeathLocation = p.DeathLocation,
-                    DeathYear = p.DeathInt,
-                    FatherChristianName = p.FatherChristianName,
-                    FatherSurname = p.Surname,
-                    MotherChristianName = p.MotherChristianName,
-                    MotherSurname = p.MotherSurname,
-                    PersonId = p.Person_id,
-                    Sources = p.Source,
-                    Surname = p.Surname,
-                    XREF = p.UniqueRef.ToString(),
-                    Events = p.TotalEvents.ToString()
-                }).ToList();
+                //spo.servicePersons = iModel.PersonsDataTable.OrderBy(sort_col).Select(p => new ServicePersonLookUp()
+                //{
+                //    BirthLocation = p.BirthLocation,
+                //    BirthYear = p.BirthInt,
+                //    ChristianName = p.ChristianName,
+                //    DeathLocation = p.DeathLocation,
+                //    DeathYear = p.DeathInt,
+                //    FatherChristianName = p.FatherChristianName,
+                //    FatherSurname = p.Surname,
+                //    MotherChristianName = p.MotherChristianName,
+                //    MotherSurname = p.MotherSurname,
+                //    PersonId = p.Person_id,
+                //    Sources = p.Source,
+                //    Surname = p.Surname,
+                //    XREF = p.UniqueRef.ToString(),
+                //    Events = p.TotalEvents.ToString()
+                //}).ToList();
 
 
-                spo.Batch = page_number.ToInt32();
-                spo.BatchLength = page_size.ToInt32();
-                spo.Total = spo.servicePersons.Count;
+                //spo.Batch = page_number.ToInt32();
+                //spo.BatchLength = page_size.ToInt32();
+                //spo.Total = spo.servicePersons.Count;
 
-                spo.servicePersons = spo.servicePersons.Skip(page_number.ToInt32() * page_size.ToInt32()).Take(page_size.ToInt32()).ToList();
+                //spo.servicePersons = spo.servicePersons.Skip(page_number.ToInt32() * page_size.ToInt32()).Take(page_size.ToInt32()).ToList();
 
+
+                spo = iModel.PersonsDataTable;
             }
             catch (Exception ex1)
             {
@@ -2116,6 +2197,9 @@ namespace ANDServices
         }
 
 
+
+
+       
     }
 
 

@@ -100,7 +100,7 @@ function getSourceType() {
 
  //   var url = getHost() + "/SourceTypes/Id";
 
-    var id = getParameterByName('id');
+    var id = getParameterByName('id', '');
 
     params[0] = id;
 
@@ -128,7 +128,7 @@ function processData(data) {
 GetSourceTypeRecord = function (rowIdx) {
     var data = {};
 
-    data.TypeId = getParameterByName('id');
+    data.TypeId = getParameterByName('id', '');
     data.Description = $('#txtDescription').val();
     data.Order = $('#txtOrder').val();
 

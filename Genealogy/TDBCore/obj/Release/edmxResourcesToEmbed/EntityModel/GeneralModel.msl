@@ -1,0 +1,610 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <Alias Key="Model" Value="GeneralModel" />
+  <Alias Key="Target" Value="GeneralModel.Store" />
+  <EntityContainerMapping CdmEntityContainer="GeneralModelContainer" StorageEntityContainer="GeneralModelStoreContainer">
+    <EntitySetMapping Name="Marriages">
+      <EntityTypeMapping TypeName="GeneralModel.Marriage">
+        <MappingFragment StoreEntitySet="Marriages">
+          <ScalarProperty Name="IsComposite" ColumnName="IsComposite" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="FemaleId" ColumnName="FemaleId" />
+          <ScalarProperty Name="MaleId" ColumnName="MaleId" />
+          <ScalarProperty Name="EventPriority" ColumnName="EventPriority" />
+          <ScalarProperty Name="TotalEvents" ColumnName="TotalEvents" />
+          <ScalarProperty Name="UniqueRef" ColumnName="UniqueRef" />
+          <ScalarProperty Name="FemaleBirthYear" ColumnName="FemaleBirthYear" />
+          <ScalarProperty Name="MaleBirthYear" ColumnName="MaleBirthYear" />
+          <ScalarProperty Name="FemaleLocationId" ColumnName="FemaleLocationId" />
+          <ScalarProperty Name="MaleLocationId" ColumnName="MaleLocationId" />
+          <ScalarProperty Name="MarriageLocationId" ColumnName="MarriageLocationId" />
+          <ScalarProperty Name="IsLicence" ColumnName="IsLicence" />
+          <ScalarProperty Name="IsBanns" ColumnName="IsBanns" />
+          <ScalarProperty Name="MaleIsKnownWidower" ColumnName="MaleIsKnownWidower" />
+          <ScalarProperty Name="FemaleIsKnownWidow" ColumnName="FemaleIsKnownWidow" />
+          <ScalarProperty Name="FemaleOccupation" ColumnName="FemaleOccupation" />
+          <ScalarProperty Name="MaleOccupation" ColumnName="MaleOccupation" />
+          <ScalarProperty Name="OrigFemaleSurname" ColumnName="OrigFemaleSurname" />
+          <ScalarProperty Name="OrigMaleSurname" ColumnName="OrigMaleSurname" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="DateLastEdit" ColumnName="DateLastEdit" />
+          <ScalarProperty Name="DateAdded" ColumnName="DateAdded" />
+          <ScalarProperty Name="Witness4" ColumnName="Witness4" />
+          <ScalarProperty Name="Witness3" ColumnName="Witness3" />
+          <ScalarProperty Name="Witness2" ColumnName="Witness2" />
+          <ScalarProperty Name="Witness1" ColumnName="Witness1" />
+          <ScalarProperty Name="Source" ColumnName="Source" />
+          <ScalarProperty Name="MarriageCounty" ColumnName="MarriageCounty" />
+          <ScalarProperty Name="YearIntVal" ColumnName="YearIntVal" />
+          <ScalarProperty Name="MarriageLocation" ColumnName="MarriageLocation" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="FemaleInfo" ColumnName="FemaleInfo" />
+          <ScalarProperty Name="FemaleLocation" ColumnName="FemaleLocation" />
+          <ScalarProperty Name="FemaleSName" ColumnName="FemaleSName" />
+          <ScalarProperty Name="FemaleCName" ColumnName="FemaleCName" />
+          <ScalarProperty Name="MaleInfo" ColumnName="MaleInfo" />
+          <ScalarProperty Name="MaleLocation" ColumnName="MaleLocation" />
+          <ScalarProperty Name="MaleSName" ColumnName="MaleSName" />
+          <ScalarProperty Name="MaleCName" ColumnName="MaleCName" />
+          <ScalarProperty Name="Marriage_Id" ColumnName="Marriage_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Parishs">
+      <EntityTypeMapping TypeName="GeneralModel.Parish">
+        <MappingFragment StoreEntitySet="Parishs">
+          <ScalarProperty Name="Distance" ColumnName="Distance" />
+          <ScalarProperty Name="ParishY" ColumnName="ParishY" />
+          <ScalarProperty Name="ParishX" ColumnName="ParishX" />
+          <ScalarProperty Name="ParishCounty" ColumnName="ParishCounty" />
+          <ScalarProperty Name="ParishEndYear" ColumnName="ParishEndYear" />
+          <ScalarProperty Name="ParishStartYear" ColumnName="ParishStartYear" />
+          <ScalarProperty Name="ParentParish" ColumnName="ParentParish" />
+          <ScalarProperty Name="ParishNotes" ColumnName="ParishNotes" />
+          <ScalarProperty Name="ParishRegistersDeposited" ColumnName="ParishRegistersDeposited" />
+          <ScalarProperty Name="ParishName" ColumnName="ParishName" />
+          <ScalarProperty Name="ParishId" ColumnName="ParishId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SourceMappingParishs">
+      <EntityTypeMapping TypeName="GeneralModel.SourceMappingParish">
+        <MappingFragment StoreEntitySet="SourceMappingParishs">
+          <ScalarProperty Name="SourceMappingUser" ColumnName="SourceMappingUser" />
+          <ScalarProperty Name="SourceMappingDateAdded" ColumnName="SourceMappingDateAdded" />
+          <ScalarProperty Name="SourceMappingParishsRowId" ColumnName="SourceMappingParishsRowId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SourceMappings">
+      <EntityTypeMapping TypeName="GeneralModel.SourceMapping">
+        <MappingFragment StoreEntitySet="SourceMappings">
+          <ScalarProperty Name="DateAdded" ColumnName="DateAdded" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="MappingId" ColumnName="MappingId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sources">
+      <EntityTypeMapping TypeName="GeneralModel.Source">
+        <MappingFragment StoreEntitySet="Sources">
+          <ScalarProperty Name="SourceFileCount" ColumnName="SourceFileCount" />
+          <ScalarProperty Name="SourceNotes" ColumnName="SourceNotes" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="DateAdded" ColumnName="DateAdded" />
+          <ScalarProperty Name="IsThackrayFound" ColumnName="IsThackrayFound" />
+          <ScalarProperty Name="IsViewed" ColumnName="IsViewed" />
+          <ScalarProperty Name="IsCopyHeld" ColumnName="IsCopyHeld" />
+          <ScalarProperty Name="OriginalLocation" ColumnName="OriginalLocation" />
+          <ScalarProperty Name="SourceDescription" ColumnName="SourceDescription" />
+          <ScalarProperty Name="SourceDateStrTo" ColumnName="SourceDateStrTo" />
+          <ScalarProperty Name="SourceDateStr" ColumnName="SourceDateStr" />
+          <ScalarProperty Name="SourceDateTo" ColumnName="SourceDateTo" />
+          <ScalarProperty Name="SourceDate" ColumnName="SourceDate" />
+          <ScalarProperty Name="SourceRef" ColumnName="SourceRef" />
+          <ScalarProperty Name="SourceId" ColumnName="SourceId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SourceTypes">
+      <EntityTypeMapping TypeName="GeneralModel.SourceType">
+        <MappingFragment StoreEntitySet="SourceTypes">
+          <ScalarProperty Name="SourceTypeOrder" ColumnName="SourceTypeOrder" />
+          <ScalarProperty Name="SourceUserAdded" ColumnName="SourceUserAdded" />
+          <ScalarProperty Name="SourceDateAdded" ColumnName="SourceDateAdded" />
+          <ScalarProperty Name="SourceTypeDesc" ColumnName="SourceTypeDesc" />
+          <ScalarProperty Name="SourceTypeId" ColumnName="SourceTypeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="FK_SourceMappings_Marriages" TypeName="GeneralModel.FK_SourceMappings_Marriages" StoreEntitySet="SourceMappings">
+      <EndProperty Name="SourceMapping">
+        <ScalarProperty Name="MappingId" ColumnName="MappingId" />
+      </EndProperty>
+      <EndProperty Name="Marriage">
+        <ScalarProperty Name="Marriage_Id" ColumnName="MarriageRecordId" />
+      </EndProperty>
+      <Condition ColumnName="MarriageRecordId" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_SourceMappingParishs_Parishs" TypeName="GeneralModel.FK_SourceMappingParishs_Parishs" StoreEntitySet="SourceMappingParishs">
+      <EndProperty Name="SourceMappingParish">
+        <ScalarProperty Name="SourceMappingParishsRowId" ColumnName="SourceMappingParishsRowId" />
+      </EndProperty>
+      <EndProperty Name="Parish">
+        <ScalarProperty Name="ParishId" ColumnName="SourceMappingParishId" />
+      </EndProperty>
+      <Condition ColumnName="SourceMappingParishId" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_SourceMappingParishs_Sources" TypeName="GeneralModel.FK_SourceMappingParishs_Sources" StoreEntitySet="SourceMappingParishs">
+      <EndProperty Name="SourceMappingParish">
+        <ScalarProperty Name="SourceMappingParishsRowId" ColumnName="SourceMappingParishsRowId" />
+      </EndProperty>
+      <EndProperty Name="Source">
+        <ScalarProperty Name="SourceId" ColumnName="SourceMappingSourceId" />
+      </EndProperty>
+      <Condition ColumnName="SourceMappingSourceId" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_SourceMappings_Sources" TypeName="GeneralModel.FK_SourceMappings_Sources" StoreEntitySet="SourceMappings">
+      <EndProperty Name="SourceMapping">
+        <ScalarProperty Name="MappingId" ColumnName="MappingId" />
+      </EndProperty>
+      <EndProperty Name="Source">
+        <ScalarProperty Name="SourceId" ColumnName="SourceId" />
+      </EndProperty>
+      <Condition ColumnName="SourceId" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_SourceMappings_SourceTypes" TypeName="GeneralModel.FK_SourceMappings_SourceTypes" StoreEntitySet="SourceMappings">
+      <EndProperty Name="SourceMapping">
+        <ScalarProperty Name="MappingId" ColumnName="MappingId" />
+      </EndProperty>
+      <EndProperty Name="SourceType">
+        <ScalarProperty Name="SourceTypeId" ColumnName="MapTypeId" />
+      </EndProperty>
+      <Condition ColumnName="MapTypeId" IsNull="false" />
+    </AssociationSetMapping>
+    <EntitySetMapping Name="Relations">
+      <EntityTypeMapping TypeName="GeneralModel.Relation">
+        <MappingFragment StoreEntitySet="Relations">
+          <ScalarProperty Name="DateAdded" ColumnName="DateAdded" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="RelationId" ColumnName="RelationId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RelationTypes">
+      <EntityTypeMapping TypeName="GeneralModel.RelationType">
+        <MappingFragment StoreEntitySet="RelationTypes">
+          <ScalarProperty Name="DateAdded" ColumnName="DateAdded" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="RelationName" ColumnName="RelationName" />
+          <ScalarProperty Name="RelationTypeId" ColumnName="RelationTypeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="FK_Relations_RelationTypes" TypeName="GeneralModel.FK_Relations_RelationTypes" StoreEntitySet="Relations">
+      <EndProperty Name="Relation">
+        <ScalarProperty Name="RelationId" ColumnName="RelationId" />
+      </EndProperty>
+      <EndProperty Name="RelationType">
+        <ScalarProperty Name="RelationTypeId" ColumnName="RelationType" />
+      </EndProperty>
+      <Condition ColumnName="RelationType" IsNull="false" />
+    </AssociationSetMapping>
+    <EntitySetMapping Name="Files">
+      <EntityTypeMapping TypeName="GeneralModel.File">
+        <MappingFragment StoreEntitySet="Files">
+          <ScalarProperty Name="FileThumbLocation" ColumnName="FileThumbLocation" />
+          <ScalarProperty Name="FilerUserAdded" ColumnName="FilerUserAdded" />
+          <ScalarProperty Name="FileDate" ColumnName="FileDate" />
+          <ScalarProperty Name="FileEntryAdded" ColumnName="FileEntryAdded" />
+          <ScalarProperty Name="FileContent" ColumnName="FileContent" />
+          <ScalarProperty Name="FileLocation" ColumnName="FileLocation" />
+          <ScalarProperty Name="FileDescription" ColumnName="FileDescription" />
+          <ScalarProperty Name="FiletId" ColumnName="FiletId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="FK_SourceMappings_Files" TypeName="GeneralModel.FK_SourceMappings_Files" StoreEntitySet="SourceMappings">
+      <EndProperty Name="SourceMapping">
+        <ScalarProperty Name="MappingId" ColumnName="MappingId" />
+      </EndProperty>
+      <EndProperty Name="File">
+        <ScalarProperty Name="FiletId" ColumnName="FileRecordId" />
+      </EndProperty>
+      <Condition ColumnName="FileRecordId" IsNull="false" />
+    </AssociationSetMapping>
+    <EntitySetMapping Name="ParishTranscriptionDetails">
+      <EntityTypeMapping TypeName="GeneralModel.ParishTranscriptionDetail">
+        <MappingFragment StoreEntitySet="ParishTranscriptionDetails">
+          <ScalarProperty Name="ParishDataString" ColumnName="ParishDataString" />
+          <ScalarProperty Name="ParishTranscriptionId" ColumnName="ParishTranscriptionId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="FK_ParishTranscriptionDetails_Parishs" TypeName="GeneralModel.FK_ParishTranscriptionDetails_Parishs" StoreEntitySet="ParishTranscriptionDetails">
+      <EndProperty Name="ParishTranscriptionDetail">
+        <ScalarProperty Name="ParishTranscriptionId" ColumnName="ParishTranscriptionId" />
+      </EndProperty>
+      <EndProperty Name="Parish">
+        <ScalarProperty Name="ParishId" ColumnName="ParishId" />
+      </EndProperty>
+      <Condition ColumnName="ParishId" IsNull="false" />
+    </AssociationSetMapping>
+    <FunctionImportMapping FunctionImportName="GetSourcesBySourceTypes" FunctionName="GeneralModel.Store.USPSourcesWithSourceTypes" />
+    <EntitySetMapping Name="ParishRecords">
+      <EntityTypeMapping TypeName="GeneralModel.ParishRecord">
+        <MappingFragment StoreEntitySet="ParishRecords">
+          <ScalarProperty Name="YearEnd" ColumnName="YearEnd" />
+          <ScalarProperty Name="OriginalRegister" ColumnName="OriginalRegister" />
+          <ScalarProperty Name="RecordType" ColumnName="RecordType" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="ParishRecordsId" ColumnName="ParishRecordsId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ParishRecordSources">
+      <EntityTypeMapping TypeName="GeneralModel.ParishRecordSource">
+        <MappingFragment StoreEntitySet="ParishRecordSource">
+          <ScalarProperty Name="RecordTypeDescription" ColumnName="RecordTypeDescription" />
+          <ScalarProperty Name="RecordTypeName" ColumnName="RecordTypeName" />
+          <ScalarProperty Name="RecordTypeId" ColumnName="RecordTypeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="FK_ParishRecords_ParishRecordSource" TypeName="GeneralModel.FK_ParishRecords_ParishRecordSource" StoreEntitySet="ParishRecords">
+      <EndProperty Name="ParishRecord">
+        <ScalarProperty Name="ParishRecordsId" ColumnName="ParishRecordsId" />
+      </EndProperty>
+      <EndProperty Name="ParishRecordSource">
+        <ScalarProperty Name="RecordTypeId" ColumnName="DataTypeId" />
+      </EndProperty>
+      <Condition ColumnName="DataTypeId" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_ParishRecords_Parishs" TypeName="GeneralModel.FK_ParishRecords_Parishs" StoreEntitySet="ParishRecords">
+      <EndProperty Name="ParishRecord">
+        <ScalarProperty Name="ParishRecordsId" ColumnName="ParishRecordsId" />
+      </EndProperty>
+      <EndProperty Name="Parish">
+        <ScalarProperty Name="ParishId" ColumnName="ParishId" />
+      </EndProperty>
+      <Condition ColumnName="ParishId" IsNull="false" />
+    </AssociationSetMapping>
+    <EntitySetMapping Name="LocationDictionaries">
+      <EntityTypeMapping TypeName="GeneralModel.LocationDictionary">
+        <MappingFragment StoreEntitySet="LocationDictionary">
+          <ScalarProperty Name="ParishId" ColumnName="ParishId" />
+          <ScalarProperty Name="LocationCounty" ColumnName="LocationCounty" />
+          <ScalarProperty Name="LocationName" ColumnName="LocationName" />
+          <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="GetMarriagesBySourceList" FunctionName="GeneralModel.Store.USPMarriagesByMarriageList" />
+    <FunctionImportMapping FunctionImportName="DeleteRelationOrphans" FunctionName="GeneralModel.Store.USP_DeleteOrphanRelations" />
+    <FunctionImportMapping FunctionImportName="DeletePersonsForSource" FunctionName="GeneralModel.Store.USP_DeletePersonsForSource" />
+    <EntitySetMapping Name="CountyDictionaries">
+      <EntityTypeMapping TypeName="GeneralModel.CountyDictionary">
+        <MappingFragment StoreEntitySet="CountyDictionary">
+          <ScalarProperty Name="dictCounty" ColumnName="dictCounty" />
+          <ScalarProperty Name="dictPlace" ColumnName="dictPlace" />
+          <ScalarProperty Name="dictId" ColumnName="dictId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MissingRecords">
+      <EntityTypeMapping TypeName="GeneralModel.MissingRecord">
+        <MappingFragment StoreEntitySet="MissingRecords">
+          <ScalarProperty Name="YearEnd" ColumnName="YearEnd" />
+          <ScalarProperty Name="OriginalRegister" ColumnName="OriginalRegister" />
+          <ScalarProperty Name="RecordType" ColumnName="RecordType" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="DataTypeId" ColumnName="DataTypeId" />
+          <ScalarProperty Name="MissingRecordId" ColumnName="MissingRecordId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="FK_MissingRecords_Parishs" TypeName="GeneralModel.FK_MissingRecords_Parishs" StoreEntitySet="MissingRecords">
+      <EndProperty Name="MissingRecord">
+        <ScalarProperty Name="MissingRecordId" ColumnName="MissingRecordId" />
+      </EndProperty>
+      <EndProperty Name="Parish">
+        <ScalarProperty Name="ParishId" ColumnName="ParishId" />
+      </EndProperty>
+      <Condition ColumnName="ParishId" IsNull="false" />
+    </AssociationSetMapping>
+    <FunctionImportMapping FunctionImportName="USPFilteredMarriagesWithSources" FunctionName="GeneralModel.Store.USPFilterWithSource" />
+    <EntitySetMapping Name="Persons">
+      <EntityTypeMapping TypeName="GeneralModel.Person">
+        <MappingFragment StoreEntitySet="Persons">
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="IsEstDeath" ColumnName="IsEstDeath" />
+          <ScalarProperty Name="IsEstBirth" ColumnName="IsEstBirth" />
+          <ScalarProperty Name="EstDeathYearInt" ColumnName="EstDeathYearInt" />
+          <ScalarProperty Name="EstBirthYearInt" ColumnName="EstBirthYearInt" />
+          <ScalarProperty Name="EventPriority" ColumnName="EventPriority" />
+          <ScalarProperty Name="TotalEvents" ColumnName="TotalEvents" />
+          <ScalarProperty Name="UniqueRef" ColumnName="UniqueRef" />
+          <ScalarProperty Name="ReferenceLocationId" ColumnName="ReferenceLocationId" />
+          <ScalarProperty Name="DeathLocationId" ColumnName="DeathLocationId" />
+          <ScalarProperty Name="BirthLocationId" ColumnName="BirthLocationId" />
+          <ScalarProperty Name="FatherOccupation" ColumnName="FatherOccupation" />
+          <ScalarProperty Name="SpouseSurname" ColumnName="SpouseSurname" />
+          <ScalarProperty Name="SpouseName" ColumnName="SpouseName" />
+          <ScalarProperty Name="ReferenceDateInt" ColumnName="ReferenceDateInt" />
+          <ScalarProperty Name="ReferenceDateStr" ColumnName="ReferenceDateStr" />
+          <ScalarProperty Name="ReferenceLocation" ColumnName="ReferenceLocation" />
+          <ScalarProperty Name="Occupation" ColumnName="Occupation" />
+          <ScalarProperty Name="OrigMotherSurname" ColumnName="OrigMotherSurname" />
+          <ScalarProperty Name="OrigFatherSurname" ColumnName="OrigFatherSurname" />
+          <ScalarProperty Name="OrigSurname" ColumnName="OrigSurname" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="DateLastEdit" ColumnName="DateLastEdit" />
+          <ScalarProperty Name="DateAdded" ColumnName="DateAdded" />
+          <ScalarProperty Name="BirthCounty" ColumnName="BirthCounty" />
+          <ScalarProperty Name="DeathCounty" ColumnName="DeathCounty" />
+          <ScalarProperty Name="DeathInt" ColumnName="DeathInt" />
+          <ScalarProperty Name="BapInt" ColumnName="BapInt" />
+          <ScalarProperty Name="BirthInt" ColumnName="BirthInt" />
+          <ScalarProperty Name="Source" ColumnName="Source" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+          <ScalarProperty Name="MotherSurname" ColumnName="MotherSurname" />
+          <ScalarProperty Name="MotherChristianName" ColumnName="MotherChristianName" />
+          <ScalarProperty Name="FatherSurname" ColumnName="FatherSurname" />
+          <ScalarProperty Name="FatherChristianName" ColumnName="FatherChristianName" />
+          <ScalarProperty Name="DeathLocation" ColumnName="DeathLocation" />
+          <ScalarProperty Name="DeathDateStr" ColumnName="DeathDateStr" />
+          <ScalarProperty Name="BaptismDateStr" ColumnName="BaptismDateStr" />
+          <ScalarProperty Name="BirthDateStr" ColumnName="BirthDateStr" />
+          <ScalarProperty Name="BirthLocation" ColumnName="BirthLocation" />
+          <ScalarProperty Name="Surname" ColumnName="Surname" />
+          <ScalarProperty Name="ChristianName" ColumnName="ChristianName" />
+          <ScalarProperty Name="IsMale" ColumnName="IsMale" />
+          <ScalarProperty Name="FatherId" ColumnName="FatherId" />
+          <ScalarProperty Name="MotherId" ColumnName="MotherId" />
+          <ScalarProperty Name="Person_id" ColumnName="Person_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="FK_Relations_Persons" TypeName="GeneralModel.FK_Relations_Persons" StoreEntitySet="Relations">
+      <EndProperty Name="Relation">
+        <ScalarProperty Name="RelationId" ColumnName="RelationId" />
+      </EndProperty>
+      <EndProperty Name="Person">
+        <ScalarProperty Name="Person_id" ColumnName="PersonA" />
+      </EndProperty>
+      <Condition ColumnName="PersonA" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_Relations_Persons1" TypeName="GeneralModel.FK_Relations_Persons1" StoreEntitySet="Relations">
+      <EndProperty Name="Relation">
+        <ScalarProperty Name="RelationId" ColumnName="RelationId" />
+      </EndProperty>
+      <EndProperty Name="Person">
+        <ScalarProperty Name="Person_id" ColumnName="PersonB" />
+      </EndProperty>
+      <Condition ColumnName="PersonB" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_SourceMappings_Persons" TypeName="GeneralModel.FK_SourceMappings_Persons" StoreEntitySet="SourceMappings">
+      <EndProperty Name="SourceMapping">
+        <ScalarProperty Name="MappingId" ColumnName="MappingId" />
+      </EndProperty>
+      <EndProperty Name="Person">
+        <ScalarProperty Name="Person_id" ColumnName="PersonRecordId" />
+      </EndProperty>
+      <Condition ColumnName="PersonRecordId" IsNull="false" />
+    </AssociationSetMapping>
+    <FunctionImportMapping FunctionImportName="GetSimPersonWithSources" FunctionName="GeneralModel.Store.USPGetSimPersonByFilterWithSources" />
+    <FunctionImportMapping FunctionImportName="GetPersWithSources" FunctionName="GeneralModel.Store.USPGetBirthDeathByFilterWithSources" />
+    <EntitySetMapping Name="MarriageRelations">
+      <EntityTypeMapping TypeName="GeneralModel.MarriageRelation">
+        <MappingFragment StoreEntitySet="MarriageRelations">
+          <ScalarProperty Name="MarriageRelationNotes" ColumnName="MarriageRelationNotes" />
+          <ScalarProperty Name="DateAdded" ColumnName="DateAdded" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="MarriageRelationId" ColumnName="MarriageRelationId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="FK_MarriageRelations_Marriages" TypeName="GeneralModel.FK_MarriageRelations_Marriages" StoreEntitySet="MarriageRelations">
+      <EndProperty Name="MarriageRelation">
+        <ScalarProperty Name="MarriageRelationId" ColumnName="MarriageRelationId" />
+      </EndProperty>
+      <EndProperty Name="Marriage">
+        <ScalarProperty Name="Marriage_Id" ColumnName="MarriageA" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_MarriageRelations_Marriages1" TypeName="GeneralModel.FK_MarriageRelations_Marriages1" StoreEntitySet="MarriageRelations">
+      <EndProperty Name="MarriageRelation">
+        <ScalarProperty Name="MarriageRelationId" ColumnName="MarriageRelationId" />
+      </EndProperty>
+      <EndProperty Name="Marriage">
+        <ScalarProperty Name="Marriage_Id" ColumnName="MarriageB" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_MarriageRelations_RelationTypes" TypeName="GeneralModel.FK_MarriageRelations_RelationTypes" StoreEntitySet="MarriageRelations">
+      <EndProperty Name="MarriageRelation">
+        <ScalarProperty Name="MarriageRelationId" ColumnName="MarriageRelationId" />
+      </EndProperty>
+      <EndProperty Name="RelationType">
+        <ScalarProperty Name="RelationTypeId" ColumnName="RelationType" />
+      </EndProperty>
+      <Condition ColumnName="RelationType" IsNull="false" />
+    </AssociationSetMapping>
+    <EntitySetMapping Name="uvw_ParentMapChildren">
+      <EntityTypeMapping TypeName="GeneralModel.uvw_ParentMapChildren">
+        <MappingFragment StoreEntitySet="uvw_ParentMapChildren">
+          <ScalarProperty Name="RelationType" ColumnName="RelationType" />
+          <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+          <ScalarProperty Name="PersonA" ColumnName="PersonA" />
+          <ScalarProperty Name="IsEstDeath" ColumnName="IsEstDeath" />
+          <ScalarProperty Name="IsEstBirth" ColumnName="IsEstBirth" />
+          <ScalarProperty Name="EstDeathYearInt" ColumnName="EstDeathYearInt" />
+          <ScalarProperty Name="EstBirthYearInt" ColumnName="EstBirthYearInt" />
+          <ScalarProperty Name="EventPriority" ColumnName="EventPriority" />
+          <ScalarProperty Name="TotalEvents" ColumnName="TotalEvents" />
+          <ScalarProperty Name="UniqueRef" ColumnName="UniqueRef" />
+          <ScalarProperty Name="ReferenceLocationId" ColumnName="ReferenceLocationId" />
+          <ScalarProperty Name="DeathLocationId" ColumnName="DeathLocationId" />
+          <ScalarProperty Name="BirthLocationId" ColumnName="BirthLocationId" />
+          <ScalarProperty Name="FatherOccupation" ColumnName="FatherOccupation" />
+          <ScalarProperty Name="SpouseSurname" ColumnName="SpouseSurname" />
+          <ScalarProperty Name="SpouseName" ColumnName="SpouseName" />
+          <ScalarProperty Name="ReferenceDateInt" ColumnName="ReferenceDateInt" />
+          <ScalarProperty Name="ReferenceDateStr" ColumnName="ReferenceDateStr" />
+          <ScalarProperty Name="ReferenceLocation" ColumnName="ReferenceLocation" />
+          <ScalarProperty Name="Occupation" ColumnName="Occupation" />
+          <ScalarProperty Name="OrigMotherSurname" ColumnName="OrigMotherSurname" />
+          <ScalarProperty Name="OrigFatherSurname" ColumnName="OrigFatherSurname" />
+          <ScalarProperty Name="OrigSurname" ColumnName="OrigSurname" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="DateLastEdit" ColumnName="DateLastEdit" />
+          <ScalarProperty Name="DateAdded" ColumnName="DateAdded" />
+          <ScalarProperty Name="BirthCounty" ColumnName="BirthCounty" />
+          <ScalarProperty Name="DeathCounty" ColumnName="DeathCounty" />
+          <ScalarProperty Name="DeathInt" ColumnName="DeathInt" />
+          <ScalarProperty Name="BapInt" ColumnName="BapInt" />
+          <ScalarProperty Name="BirthInt" ColumnName="BirthInt" />
+          <ScalarProperty Name="Source" ColumnName="Source" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+          <ScalarProperty Name="MotherSurname" ColumnName="MotherSurname" />
+          <ScalarProperty Name="MotherChristianName" ColumnName="MotherChristianName" />
+          <ScalarProperty Name="FatherSurname" ColumnName="FatherSurname" />
+          <ScalarProperty Name="FatherChristianName" ColumnName="FatherChristianName" />
+          <ScalarProperty Name="DeathLocation" ColumnName="DeathLocation" />
+          <ScalarProperty Name="DeathDateStr" ColumnName="DeathDateStr" />
+          <ScalarProperty Name="BaptismDateStr" ColumnName="BaptismDateStr" />
+          <ScalarProperty Name="BirthDateStr" ColumnName="BirthDateStr" />
+          <ScalarProperty Name="BirthLocation" ColumnName="BirthLocation" />
+          <ScalarProperty Name="Surname" ColumnName="Surname" />
+          <ScalarProperty Name="ChristianName" ColumnName="ChristianName" />
+          <ScalarProperty Name="IsMale" ColumnName="IsMale" />
+          <ScalarProperty Name="FatherId" ColumnName="FatherId" />
+          <ScalarProperty Name="MotherId" ColumnName="MotherId" />
+          <ScalarProperty Name="Person_id" ColumnName="Person_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MarriageMapWitnesses">
+      <EntityTypeMapping TypeName="GeneralModel.MarriageMapWitness">
+        <MappingFragment StoreEntitySet="MarriageMapWitness">
+          <ScalarProperty Name="MarriageMapWitnessIndex" ColumnName="MarriageMapWitnessIndex" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="FK_MarriageMapWitness_Marriages" TypeName="GeneralModel.FK_MarriageMapWitness_Marriages" StoreEntitySet="MarriageMapWitness">
+      <EndProperty Name="MarriageMapWitness">
+        <ScalarProperty Name="MarriageMapWitnessIndex" ColumnName="MarriageMapWitnessIndex" />
+      </EndProperty>
+      <EndProperty Name="Marriage">
+        <ScalarProperty Name="Marriage_Id" ColumnName="MarriageId" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_MarriageMapWitness_Persons" TypeName="GeneralModel.FK_MarriageMapWitness_Persons" StoreEntitySet="MarriageMapWitness">
+      <EndProperty Name="MarriageMapWitness">
+        <ScalarProperty Name="MarriageMapWitnessIndex" ColumnName="MarriageMapWitnessIndex" />
+      </EndProperty>
+      <EndProperty Name="Person">
+        <ScalarProperty Name="Person_id" ColumnName="WitnessId" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <FunctionImportMapping FunctionImportName="GetPersonSources" FunctionName="GeneralModel.Store.USPGetPersonSources">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="GeneralModel.PersonSources_Result">
+          <ScalarProperty Name="PersonRecordId" ColumnName="PersonRecordId" />
+          <ScalarProperty Name="SourceId" ColumnName="SourceId" />
+          <ScalarProperty Name="SourceRef" ColumnName="SourceRef" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetMarriageSources" FunctionName="GeneralModel.Store.USPGetMarriageSources">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="GeneralModel.MarriageSources_Result">
+          <ScalarProperty Name="MarriageRecordId" ColumnName="MarriageRecordId" />
+          <ScalarProperty Name="SourceId" ColumnName="SourceId" />
+          <ScalarProperty Name="SourceRef" ColumnName="SourceRef" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetMarriageByLocation" FunctionName="GeneralModel.Store.MarriageForLocation">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="GeneralModel.GetMarriageByLocation_Result">
+          <ScalarProperty Name="marriage_id" ColumnName="marriage_id" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="YearIntVal" ColumnName="YearIntVal" />
+          <ScalarProperty Name="MarriageLocation" ColumnName="MarriageLocation" />
+          <ScalarProperty Name="MaleCName" ColumnName="MaleCName" />
+          <ScalarProperty Name="MaleSName" ColumnName="MaleSName" />
+          <ScalarProperty Name="FemaleCName" ColumnName="FemaleCName" />
+          <ScalarProperty Name="FemaleSName" ColumnName="FemaleSName" />
+          <ScalarProperty Name="Witness1" ColumnName="Witness1" />
+          <ScalarProperty Name="witness2" ColumnName="witness2" />
+          <ScalarProperty Name="EventPriority" ColumnName="EventPriority" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetDescendants" FunctionName="GeneralModel.Store.USPGetDescendants">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="GeneralModel.GetDescendants_Result">
+          <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+          <ScalarProperty Name="motherId" ColumnName="motherId" />
+          <ScalarProperty Name="ChildId" ColumnName="ChildId" />
+          <ScalarProperty Name="BirthInt" ColumnName="BirthInt" />
+          <ScalarProperty Name="RelationType" ColumnName="RelationType" />
+          <ScalarProperty Name="level" ColumnName="level" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetDescendantSpouses" FunctionName="GeneralModel.Store.USPGetDescendantsSpouses">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="GeneralModel.GetDescendantSpouses_Result">
+          <ScalarProperty Name="PersonA" ColumnName="PersonA" />
+          <ScalarProperty Name="PersonB" ColumnName="PersonB" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetAncestors" FunctionName="GeneralModel.Store.USPGetAncestors">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="GeneralModel.GetAncestors_Result">
+          <ScalarProperty Name="ChristianName" ColumnName="ChristianName" />
+          <ScalarProperty Name="Surname" ColumnName="Surname" />
+          <ScalarProperty Name="BapInt" ColumnName="BapInt" />
+          <ScalarProperty Name="BirthInt" ColumnName="BirthInt" />
+          <ScalarProperty Name="BirthLocation" ColumnName="BirthLocation" />
+          <ScalarProperty Name="BirthCounty" ColumnName="BirthCounty" />
+          <ScalarProperty Name="DeathInt" ColumnName="DeathInt" />
+          <ScalarProperty Name="DeathLocation" ColumnName="DeathLocation" />
+          <ScalarProperty Name="DeathCounty" ColumnName="DeathCounty" />
+          <ScalarProperty Name="Occupation" ColumnName="Occupation" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+          <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+          <ScalarProperty Name="ChildId" ColumnName="ChildId" />
+          <ScalarProperty Name="RelationType" ColumnName="RelationType" />
+          <ScalarProperty Name="level" ColumnName="level" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="uspGetParishSources" FunctionName="GeneralModel.Store.USPGetParishSources">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="GeneralModel.uspGetParishSources_Result">
+          <ScalarProperty Name="SourceMappingParishId" ColumnName="SourceMappingParishId" />
+          <ScalarProperty Name="MapTypeId" ColumnName="MapTypeId" />
+          <ScalarProperty Name="SourceId" ColumnName="SourceId" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="ParishCounter">
+      <EntityTypeMapping TypeName="GeneralModel.ParishCounter">
+        <MappingFragment StoreEntitySet="ParishCounter">
+          <ScalarProperty Name="ParishName" ColumnName="ParishName" />
+          <ScalarProperty Name="PY" ColumnName="PY" />
+          <ScalarProperty Name="PX" ColumnName="PX" />
+          <ScalarProperty Name="Count" ColumnName="Count" />
+          <ScalarProperty Name="ParishId" ColumnName="ParishId" />
+          <ScalarProperty Name="YearEnd" ColumnName="YearEnd" />
+          <ScalarProperty Name="YearStart" ColumnName="YearStart" />
+          <ScalarProperty Name="RangeId" ColumnName="RangeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="DeleteTree" FunctionName="GeneralModel.Store.USP_DeleteTree" />
+  </EntityContainerMapping>
+</Mapping>

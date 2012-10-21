@@ -159,9 +159,30 @@ th
 
 
 
+.census_inner
+{
+    border: thin solid #000000;
+    left: 0px;
+    top: 0px;
+    position: absolute;
+    border-radius: 4px;
+}
 
+.census_innerb 
+{
+    height:10em; 
+    /*overflow:auto;*/
+    
+    overflow-y: scroll;
+    -ms-overflow-y:scroll;
+    -ms-overflow-x:hidden;
+    }
 
-
+.census_entry
+{
+    width: 110px;
+    font-weight: bold;
+}
 
 
 

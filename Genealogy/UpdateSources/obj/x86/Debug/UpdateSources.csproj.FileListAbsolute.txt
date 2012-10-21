@@ -1,0 +1,12 @@
+C:\Users\george\Documents\Visual Studio 2010\Projects\and-source\and-source\Genealogy\UpdateSources\bin\Debug\UpdateSources.exe
+C:\Users\george\Documents\Visual Studio 2010\Projects\and-source\and-source\Genealogy\UpdateSources\bin\Debug\UpdateSources.pdb
+C:\Users\george\Documents\Visual Studio 2010\Projects\and-source\and-source\Genealogy\UpdateSources\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\george\Documents\Visual Studio 2010\Projects\and-source\and-source\Genealogy\UpdateSources\obj\x86\Debug\UpdateSources.exe
+C:\Users\george\Documents\Visual Studio 2010\Projects\and-source\and-source\Genealogy\UpdateSources\obj\x86\Debug\UpdateSources.pdb
+C:\Users\george\Documents\Visual Studio 2010\Projects\and-source\and-source\Genealogy\UpdateSources\bin\Debug\UpdateSources.exe.config
+C:\Users\george\Documents\Visual Studio 2010\Projects\and-source\and-source\Genealogy\UpdateSources\bin\Debug\TDBCore.dll
+C:\Users\george\Documents\Visual Studio 2010\Projects\and-source\and-source\Genealogy\UpdateSources\bin\Debug\ToolsCore.dll
+C:\Users\george\Documents\Visual Studio 2010\Projects\and-source\and-source\Genealogy\UpdateSources\bin\Debug\Gedcom.dll
+C:\Users\george\Documents\Visual Studio 2010\Projects\and-source\and-source\Genealogy\UpdateSources\bin\Debug\GedcomParser.dll
+C:\Users\george\Documents\Visual Studio 2010\Projects\and-source\and-source\Genealogy\UpdateSources\bin\Debug\TDBCore.pdb
+C:\Users\george\Documents\Visual Studio 2010\Projects\and-source\and-source\Genealogy\UpdateSources\bin\Debug\ToolsCore.pdb

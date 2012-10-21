@@ -19,6 +19,10 @@ namespace ANDServices
 
         //sources
 
+        public const string Get1841CensusSources = "/Sources/Get1841CensusSources?0={sourceId}";
+
+        public const string Get1841CensusPlaces = "/Sources/Get1841CensusPlaces";
+
         public const string GetSourceNames = "/Sources/GetSourceNames?0={sourceIds}";
 
         public const string DeleteSource = "/Source/Delete";
@@ -62,8 +66,8 @@ namespace ANDServices
 
         public const string GetPersons = "/GetPersons/Select?0={_parentId}&1={christianName}&2={surname}&3={fatherChristianName}" +
                                             "&4={fatherSurname}&5={motherChristianName}&6={motherSurname}&7={location}&8={county}&9={lowerDate}&10={upperDate}" +
-                                            "&11={filterTreeResults}&12={filterIncludeBirths}&13={filterIncludeDeaths}&14={filterSource}" +
-                                            "&15={parishFilter}&16={page_number}&17={page_size}&18={sort_col}";
+                                            "&11={filterTreeResults}&12={filterIncludeBirths}&13={filterIncludeDeaths}&14={filterSource}&15={spouse}" +
+                                            "&16={parishFilter}&17={page_number}&18={page_size}&19={sort_col}";
 
         public const string GetPersonsCount = "/GetPersonsCount/Select?0={_parentId}&1={christianName}&2={surname}&3={fatherChristianName}" +
                                             "&4={fatherSurname}&5={motherChristianName}&6={motherSurname}&7={location}&8={county}&9={lowerDate}&10={upperDate}" +

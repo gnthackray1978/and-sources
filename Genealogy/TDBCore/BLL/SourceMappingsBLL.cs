@@ -468,7 +468,7 @@ namespace GedItter.BLL
         {
             IQueryable<SourceMapping> retTab = null;
 
-            retTab = ModelContainer.SourceMappings.Where(o => o.Marriage.Marriage_Id == recordId && o.Source.SourceId == sourceId);
+            retTab = ModelContainer.SourceMappings.Where(o => (o.Marriage.Marriage_Id == recordId || o.Person.Person_id == recordId) && o.Source.SourceId == sourceId);
 
            // retTab = Adapter.GetDataByMarriageIdOrRecordId(sourceId, recordId);
 

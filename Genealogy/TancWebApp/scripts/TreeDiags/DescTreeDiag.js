@@ -34,8 +34,8 @@ $(document).ready(function () {
 
 function run() {
     var params = {};
-    var _sourceId = getParameterByName('sid');
-    var _personId = getParameterByName('id');
+    var _sourceId = getParameterByName('sid', '');
+    var _personId = getParameterByName('id', '');
 
 
     //switch css here!!!
@@ -204,7 +204,7 @@ function processData(data) {
 
 
     _tree = new Tree();
-    var _zoomLevel = getParameterByName('zoom');
+    var _zoomLevel = getParameterByName('zoom', '');
 
     _tree.SetInitialValues(Number(_zoomLevel), 30.0, 120.0, 70.0, 70.0, 100.0, 20.0, 40.0, 20.0, screen.width, screen.height);
 //    var _personId = '913501a6-1216-4764-be8c-ae11fd3a0a8b';
@@ -217,12 +217,12 @@ function processData(data) {
     _tree.familiesPerGeneration = data.FamiliesPerGeneration;
     _tree.familySpanLines = data.FamilySpanLines;
     _tree.childlessMarriages = data.ChildlessMarriages;
-    _tree.sourceId = getParameterByName('sid');
+    _tree.sourceId = getParameterByName('sid', '');
 
-    var _personId = getParameterByName('id');
+    var _personId = getParameterByName('id', '');
 
-    var _xpos = getParameterByName('xpos');
-    var _ypos = getParameterByName('ypos');
+    var _xpos = getParameterByName('xpos', '');
+    var _ypos = getParameterByName('ypos', '');
 
 
   

@@ -11,19 +11,19 @@ $(document).ready(function () {
 
     createHeader('#1');
 
-    var isActive = getParameterByName('active');
+    var isActive = getParameterByName('active', '');
 
     if (isActive == '1') {
-        $('#txtDeposited').val(getParameterByName('dep'));
-        $('#txtName').val(getParameterByName('name'));
-        $('#txtCounty').val(getParameterByName('count'));
+        $('#txtDeposited').val(getParameterByName('dep', ''));
+        $('#txtName').val(getParameterByName('name', ''));
+        $('#txtCounty').val(getParameterByName('count', ''));
 
 
         getParishs('1');
     }
 
-   
-    var isPersonImpSelection = getParameterByName('parl');
+
+    var isPersonImpSelection = getParameterByName('parl', '');
 
     if (isPersonImpSelection != null) {
         $("#rLink").removeClass("hidePanel").addClass("displayPanel");
@@ -37,7 +37,7 @@ $(document).ready(function () {
 
 function returnselection() {
 
-    var parl = getParameterByName('parl');
+    var parl = getParameterByName('parl', '');
     var parishLst = '';
 
     $.each(selection, function (idx, val) {
@@ -53,9 +53,9 @@ function returnselection() {
 
 
 
-    var sources = getParameterByName('scs');
+    var sources = getParameterByName('scs', '');
     //dont lose these if they are there.
-    var parishs = getParameterByName('parl');
+    var parishs = getParameterByName('parl', '');
 
 
     var _loc = '#?scs=' + sources + '&parl=' + parishs;

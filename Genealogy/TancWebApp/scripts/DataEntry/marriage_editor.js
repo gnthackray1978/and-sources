@@ -39,7 +39,7 @@ function getMarriage() {
 
     var params = {};
 
-    var id = getParameterByName('id');
+    var id = getParameterByName('id', '');
 
     params[0] = id;
 
@@ -137,8 +137,8 @@ GetMarriageRecord = function (rowIdx) {
     record.LocationId = '';
     record.MaleLocationId = '';
     record.SourceDescription = $('#txtSource').val();
-    record.Sources = getParameterByName('source_ids');
-    record.MarriageId = getParameterByName('id');
+    record.Sources = getParameterByName('source_ids', '');
+    record.MarriageId = getParameterByName('id', '');
     record.IsBanns = $('#chkIsBann').prop('checked');
     record.IsLicense = $('#chkIsLic').prop('checked');
     record.IsWidow = $('#chkIsWid').prop('checked');

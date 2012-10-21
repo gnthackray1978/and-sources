@@ -1328,7 +1328,12 @@ namespace GedItter.BirthDeathRecords
             if (this.SelectedRecordId != Guid.Empty)
             {
                 SourceMappingsBLL _SourceMappingsBLL = new GedItter.BLL.SourceMappingsBLL();
-                this.SetSourceGuidList(_SourceMappingsBLL.GetByMarriageIdOrPersonId2(this.SelectedRecordId).Select(o => o.Source.SourceId).ToList());
+
+                var idlist = _SourceMappingsBLL.GetByMarriageIdOrPersonId2(this.SelectedRecordId);
+
+                var selection = idlist.Where(s=>s.Source != null).Select(o => o.Source.SourceId).ToList();
+
+                this.SetSourceGuidList(selection);
             }
 
 

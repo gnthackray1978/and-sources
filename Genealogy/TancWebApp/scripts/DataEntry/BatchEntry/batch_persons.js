@@ -1,4 +1,15 @@
-﻿displayBirths = function (displayData) {
+﻿
+
+
+var BatchBirths = function (grid) {
+    this.editableGrid = grid;
+
+}
+
+
+
+
+BatchBirths.prototype.displayBirths = function (displayData) {
 
     // this approach is interesting if you need to dynamically create data in Javascript 
     var total = Number($('#txtRows').val());
@@ -44,6 +55,8 @@
         });
         idx++;
     }
+
+    return displayData;
 }
 
 
@@ -51,7 +64,7 @@
 
 
 
-displayDeaths = function (displayData) {
+BatchBirths.prototype.displayDeaths = function (displayData) {
 
 
     // this approach is interesting if you need to dynamically create data in Javascript 
@@ -118,34 +131,35 @@ displayDeaths = function (displayData) {
         idx++;
     }
 
+    return displayData;
 }
 
 
 
-GetBirthRecord = function (rowIdx) {
+BatchBirths.prototype.GetBirthRecord = function (rowIdx) {
 
     var theData = {};
     theData.personId = '';
-    theData.birthparishId = getParameterByName('parl');
+    theData.birthparishId = getParameterByName('parl', '');
 
 
-    theData.sources = getParameterByName('scs');
-    theData.christianName = editableGrid.getValueAt(rowIdx, 2); //name
+    theData.sources = getParameterByName('scs', '');
+    theData.christianName = this.editableGrid.getValueAt(rowIdx, 2); //name
     theData.surname = $('#txtSurname').val();
-    theData.fatherchristianname = editableGrid.getValueAt(rowIdx, 4); //father name
+    theData.fatherchristianname = this.editableGrid.getValueAt(rowIdx, 4); //father name
     theData.fathersurname = $('#txtFatherSurname').val();
-    theData.motherchristianname = editableGrid.getValueAt(rowIdx, 5); //mother name
-    theData.mothersurname = editableGrid.getValueAt(rowIdx, 6); //mother surname
+    theData.motherchristianname = this.editableGrid.getValueAt(rowIdx, 5); //mother name
+    theData.mothersurname = this.editableGrid.getValueAt(rowIdx, 6); //mother surname
     theData.source = $('#txtSource').val();
-    theData.ismale = editableGrid.getValueAt(rowIdx, 1); ;
-    theData.occupation = editableGrid.getValueAt(rowIdx, 8);
-    theData.fatheroccupation = editableGrid.getValueAt(rowIdx, 9);
-    theData.birthDate = editableGrid.getValueAt(rowIdx, 10);
-    theData.baptismDate = editableGrid.getValueAt(rowIdx, 11);
+    theData.ismale = this.editableGrid.getValueAt(rowIdx, 1); ;
+    theData.occupation = this.editableGrid.getValueAt(rowIdx, 8);
+    theData.fatheroccupation = this.editableGrid.getValueAt(rowIdx, 9);
+    theData.birthDate = this.editableGrid.getValueAt(rowIdx, 10);
+    theData.baptismDate = this.editableGrid.getValueAt(rowIdx, 11);
 
-    theData.birthloc = editableGrid.getValueAt(rowIdx, 3); //location
+    theData.birthloc = this.editableGrid.getValueAt(rowIdx, 3); //location
     theData.birthcounty = $('#txtBirthCounty').val();
-    theData.notes = editableGrid.getValueAt(rowIdx, 7); //notes
+    theData.notes = this.editableGrid.getValueAt(rowIdx, 7); //notes
 
     theData.datedeath = '';
     theData.deathloc = '';
@@ -168,41 +182,41 @@ GetBirthRecord = function (rowIdx) {
 
 
 
-GetDeathRecord = function (rowIdx) {
+BatchBirths.prototype.GetDeathRecord = function (rowIdx) {
     var theData = {};
 
     theData.personId = '';
-    theData.birthparishId = getParameterByName('parl');
+    theData.birthparishId = getParameterByName('parl', '');
 
 
-    theData.sources = getParameterByName('scs');
+    theData.sources = getParameterByName('scs', '');
 
-    theData.ismale = editableGrid.getValueAt(rowIdx, 1); //sex 
-    theData.christianName = editableGrid.getValueAt(rowIdx, 2); //name
-    theData.deathLoc = editableGrid.getValueAt(rowIdx, 3); //location
-    theData.fatherchristianname = editableGrid.getValueAt(rowIdx, 4); //father name
-    theData.motherchristianname = editableGrid.getValueAt(rowIdx, 5); //mother name
-    theData.mothersurname = editableGrid.getValueAt(rowIdx, 6); //mother surname
-    theData.notes = editableGrid.getValueAt(rowIdx, 7); //notes
-    theData.occupation = editableGrid.getValueAt(rowIdx, 8); //occupation
-    theData.fatheroccupation = editableGrid.getValueAt(rowIdx, 9); //father occupation
+    theData.ismale = this.editableGrid.getValueAt(rowIdx, 1); //sex 
+    theData.christianName = this.editableGrid.getValueAt(rowIdx, 2); //name
+    theData.deathLoc = this.editableGrid.getValueAt(rowIdx, 3); //location
+    theData.fatherchristianname = this.editableGrid.getValueAt(rowIdx, 4); //father name
+    theData.motherchristianname = this.editableGrid.getValueAt(rowIdx, 5); //mother name
+    theData.mothersurname = this.editableGrid.getValueAt(rowIdx, 6); //mother surname
+    theData.notes = this.editableGrid.getValueAt(rowIdx, 7); //notes
+    theData.occupation = this.editableGrid.getValueAt(rowIdx, 8); //occupation
+    theData.fatheroccupation = this.editableGrid.getValueAt(rowIdx, 9); //father occupation
 
-    theData.deathDate = editableGrid.getValueAt(rowIdx, 10); //birth or death date
+    theData.deathDate = this.editableGrid.getValueAt(rowIdx, 10); //birth or death date
 
-    theData.spouseCName = editableGrid.getValueAt(rowIdx, 11); //baptism date or spousename
-    theData.spouseSName = editableGrid.getValueAt(rowIdx, 12); //baptism date or spousename
+    theData.spouseCName = this.editableGrid.getValueAt(rowIdx, 11); //baptism date or spousename
+    theData.spouseSName = this.editableGrid.getValueAt(rowIdx, 12); //baptism date or spousename
 
-    theData.AgeYear = editableGrid.getValueAt(rowIdx, 13); // - age year
-    theData.AgeMonth = editableGrid.getValueAt(rowIdx, 14); // - age month
-    theData.AgeDays = editableGrid.getValueAt(rowIdx, 15); //- age days
-    theData.AgeWeeks = editableGrid.getValueAt(rowIdx, 16); //- age weeks
+    theData.AgeYear = this.editableGrid.getValueAt(rowIdx, 13); // - age year
+    theData.AgeMonth = this.editableGrid.getValueAt(rowIdx, 14); // - age month
+    theData.AgeDays = this.editableGrid.getValueAt(rowIdx, 15); //- age days
+    theData.AgeWeeks = this.editableGrid.getValueAt(rowIdx, 16); //- age weeks
 
     return theData;
 }
 
 
 
-ValidateBirths = function (rowIdx) {
+BatchBirths.prototype.ValidateBirths = function (rowIdx) {
 
     var isValidRow = true;
 
@@ -232,15 +246,15 @@ ValidateBirths = function (rowIdx) {
 }
 
 
-ValidateDeaths = function () {
+BatchBirths.prototype.ValidateDeaths = function () {
 
     var rowIdx = 0;
     var isValidRow = true;
 
-    var colCount = editableGrid.getColumnCount();
+    var colCount = this.editableGrid.getColumnCount();
     //  alert(colCount);
 
-    while (rowIdx < editableGrid.getRowCount()) {
+    while (rowIdx < this.editableGrid.getRowCount()) {
 
         if (personRecord.christianName == '')
             isValidRow = false;
@@ -255,7 +269,7 @@ ValidateDeaths = function () {
 }
 
 
-savePerson = function (theData) {
+BatchBirths.prototype.savePerson = function (theData) {
 
     //    var localurl = getHost() + '/Person/Add';
 

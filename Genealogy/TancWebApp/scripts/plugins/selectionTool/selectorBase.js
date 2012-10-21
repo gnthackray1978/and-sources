@@ -1,7 +1,7 @@
 ﻿
 
 
-function createOutline(selectionbodyid, resultsbodyid, searchInputId, title, pager) {
+function createOutline(refresh_function,selectionbodyid, resultsbodyid, searchInputId, title, pager) {
     var body = '';
 
     body += '<div class = "sf_shad sf_cont">';
@@ -32,7 +32,7 @@ function createOutline(selectionbodyid, resultsbodyid, searchInputId, title, pag
 
 
     body += '<div class="sf_mlab-drig">';
-    body += '<a href="" onclick = "getSources();return false" class="button" ><span>R</span></a>';
+    body += '<a href="" onclick = "' + refresh_function + '();return false" class="button" ><span>R</span></a>';
     body += '</div>';
     body += '</div>';
 

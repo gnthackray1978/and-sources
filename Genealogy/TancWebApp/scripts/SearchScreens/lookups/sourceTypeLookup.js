@@ -2,7 +2,7 @@
 // this is called from parent controls
 function getSourceTypes() {
 
-    var pageName = getParameterByName('stpage');
+    var pageName = getParameterByName('stpage', '');
 
     if (!pageName) {
         pageName = 0;         
@@ -47,7 +47,7 @@ function selectTypes(stypeIds) {
 
  
     // get whatever is in the query string to start with
-    var selectedIds = getParameterByName('stids');
+    var selectedIds = getParameterByName('stids', '');
 
     if(selectedIds != null)
         stypeSelection = selectedIds.split(',');

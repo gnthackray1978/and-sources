@@ -19,6 +19,7 @@ using TDBCore.EntityModel;
 using TDBCore.BLL;
 using System.Collections.Specialized;
 using GedItter.Interfaces;
+using GedItter.BLL;
 #endif
 
 namespace TDBCore.Types
@@ -404,6 +405,43 @@ namespace TDBCore.Types
         }
 
 
+        public static ServicePersonObject ToServicePersonObject(this IList<Person> persons, string sortColumn, int pageSize, int pageNumber)
+        {
+            ServicePersonObject spo = new ServicePersonObject();
+
+
+            spo.servicePersons = persons.ToList().OrderBy(sortColumn).Select(p => new ServicePersonLookUp()
+            {
+                BirthLocation = p.BirthLocation,
+                BirthYear = p.BirthInt,
+                ChristianName = p.ChristianName,
+                DeathLocation = p.DeathLocation,
+                DeathYear = p.DeathInt,
+                FatherChristianName = p.FatherChristianName,
+                FatherSurname = p.Surname,
+                MotherChristianName = p.MotherChristianName,
+                MotherSurname = p.MotherSurname,
+                PersonId = p.Person_id,
+                Sources = p.Source,
+                Surname = p.Surname,
+                XREF = p.UniqueRef.ToString(),
+                Events = p.TotalEvents.ToString(),
+                Spouse = p.SpouseName
+            }).ToList();
+
+
+           spo.Total = spo.servicePersons.Count;
+
+
+           if (pageSize != 0 )
+           {
+               spo.Batch = pageNumber;
+               spo.BatchLength = pageSize;
+               spo.servicePersons = spo.servicePersons.Skip(pageNumber * pageSize).Take(pageSize).ToList();
+           }
+
+            return spo;
+        }
 
     }
 

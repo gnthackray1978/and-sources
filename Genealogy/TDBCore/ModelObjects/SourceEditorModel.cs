@@ -699,9 +699,6 @@ namespace GedItter.ModelObjects
             }
         }
 
-
-
-
         public void SetSourceParishs(List<Guid> param)
         {
             this.sourceParishs = param;
@@ -730,9 +727,6 @@ namespace GedItter.ModelObjects
        //     this.Refresh();
 
         }
-        
-
-
-
+ 
     }
 }

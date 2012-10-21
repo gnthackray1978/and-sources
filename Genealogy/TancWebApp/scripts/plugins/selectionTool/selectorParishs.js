@@ -15,11 +15,15 @@ function getParishs(selectorid) {
     var editorUrl = '../HtmlPages/ParishEditor.html';
     var sourceRefId = 'txtParishRef';
     var url = "/Parishs/GetParishs/Select";
+    
     var pagerfunction = 'getParishLink';
+    var getfunction = 'getParishs';
 
     var search_hed = 'p_search_hed';
     var search_body = 'p_search_bdy';
+
     var pager = 'p_pager';
+
 
 
     var params = {};
@@ -31,7 +35,7 @@ function getParishs(selectorid) {
 
     if (selectorid != undefined) {
 
-        var body = createOutline(search_hed, search_body, sourceRefId, "PARISHS", pager);
+        var body = createOutline(getfunction,search_hed, search_body, sourceRefId, "PARISHS", pager);
 
         $(selectorid).html(body);
     }

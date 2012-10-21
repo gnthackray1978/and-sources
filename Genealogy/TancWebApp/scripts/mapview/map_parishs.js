@@ -25,8 +25,8 @@ function parishResults(data) {
     var visibleRecords = new Array();
 
 
-    var parishId = getParameterByName('pid');
-    var parishName = getParameterByName('pname');
+    var parishId = getParameterByName('pid', '');
+    var parishName = getParameterByName('pname', '');
     var parishMarker = null;
 
     $.each(data, function (source, sourceInfo) {
@@ -164,7 +164,7 @@ function initialize() {
 
 
 
-function loadTypes(data) {
+function loadParishTypes(data) {
 
 
     parishTypes = data;
