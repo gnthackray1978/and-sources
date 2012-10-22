@@ -3,9 +3,24 @@
 
 var BatchBirths = function (grid) {
     this.editableGrid = grid;
+    this.elementsurname = $('#txtSurname');
+    this.elementfathersurname = $('#txtFatherSurname');
+    this.elementsource = $('#txtSource');
+    this.elementbirthcounty = $('#txtBirthCounty');
+    
 
 }
 
+
+BatchBirths.prototype.numberofrows = 5;
+
+BatchBirths.prototype.setcommondata = function (surname, fathersurname, source, birthcounty) {
+
+    this.elementsurname = surname;
+    this.elementfathersurname = fathersurname;
+    this.elementsource = source;
+    this.elementbirthcounty = birthcounty;
+}
 
 
 
