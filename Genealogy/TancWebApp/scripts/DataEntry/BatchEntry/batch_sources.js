@@ -30,7 +30,7 @@ BatchSources.prototype = {
     }
 
 
-     processsourcetypes = function(data) {
+     ,processsourcetypes:function(data) {
         var tableBody = '';
         var count = 0;
         tableBody += '<table class = "data_list">';
@@ -48,7 +48,7 @@ BatchSources.prototype = {
     }
 
 
-     getSourcesNamesFromForm = function() {
+     ,getSourcesNamesFromForm:function() {
 
         var result = '';
     
