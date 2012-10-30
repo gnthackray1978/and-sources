@@ -1,0 +1,239 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Person Search</title>
+    <link href="../Styles/Gothic/colourSchemes.css" rel="stylesheet" type="text/css" id = "lnk_colourScheme"/>
+
+    <link href="../Styles/pager.css" rel="stylesheet" type="text/css" />
+    <link href="../Styles/fonts.css" rel="stylesheet" type="text/css" />
+    <link href="../Styles/buttons.css" rel="stylesheet" type="text/css" />
+    <link href="../Styles/common.css" rel="stylesheet" type="text/css" id = "lnk_common"/>
+    <link href="../Styles/html_search_screen.css" rel="stylesheet" type="text/css" />
+
+    <link href="../Styles/jquery.jgrowl.css" rel="stylesheet" type="text/css" />
+ 
+
+    <script src="../scripts/jquery/jquery.js" type="text/javascript"></script>     
+    <script src="http://connect.facebook.net/en_US/all.js" type="text/javascript"></script> 
+        
+    <script src="../Scripts/visiblePanels.js" type="text/javascript"></script>
+
+    <script src="../scripts/util_func.js" type="text/javascript"></script>
+    <script src="../scripts/masters.js" type="text/javascript"></script>
+ 
+    <script src="../Scripts/pager.js" type="text/javascript"></script>
+
+    <script src="../Scripts/SearchScreens/persons.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-32735680-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+</script>
+</head>
+<body>
+    <div class="mainbackground">
+</div>
+    <div id = "PageWrapper" class = "middle">
+
+            <div id = "1"></div>
+
+            <div class = "maincontent">
+                <div class = "fltcnt">
+    
+                <div class = "fltbar">
+        
+                <div class="filterheadingrow">
+              
+                    <div class = "mar_txt">PERSONS</div>                 
+                </div>
+            
+                <div class="fltopt">               
+                    <div class="fltoptrow">
+                        <a href='' onclick = 'getPersons("0");return false' class="button" ><span>Refresh</span></a>   
+                        
+                    </div>
+                    <div class="fltoptrow">
+                        <a href='' onclick="sourcesShowPanel('1');return false" class="button" ><span>Main</span></a>
+                        <a href='' onclick="sourcesShowPanel('2');return false" class="button" ><span>More</span></a>
+            
+
+                    </div>                 
+                </div>
+                            
+                <div class = "flt_mv">
+                    <div id="filterbar">
+
+
+
+                    <div id="pMain" class = "displayPanel flt_gen" >
+
+                    <span >Name</span>
+                    <input id="txtCName" type="text"/>
+                    <br />
+                    <input id="txtSName" type="text"/>                   
+                    <br />
+                    <span >Father Name</span>
+                    <input id="txtFCName" type="text"/>
+                    <br />
+                    <input id="txtFSName" type="text"/>
+                    <br />
+                    <span >Mother Name</span>
+                    <input id="txtMCName" type="text"/>
+                    <br />
+                    <input id="txtMSName" type="text"/>
+                    <br />
+                    <span >Spouse</span>
+                    <input id="txtSpouse" type="text"/>
+                    <br />             
+                    <span >Location</span>
+                    <input id="txtLocation" type="text"/>
+                    <br />
+                    <span >County</span>
+                    <input id="txtCounty" type="text"/>
+                    <br />
+                    <span>Date Range</span>                
+                    <div class ="filterbardatetext">
+                        <input id="txtLowerDateRangeLower" type="text" value = "1700" />
+                        <input id="txtLowerDateRangeUpper" type="text" value = "1720" />                    
+                    </div>
+                    <br />
+                       
+                    <div class ="filterbarcheck">
+                        <input id="chkIncludeTree" type="checkbox"/>Filter Tree Entries<br />
+                        <input id="chkIncludeBirths" type="checkbox"/>Filter Only Births<br />
+                        <input id="chkIncludeDeaths" type="checkbox"/>Filter Only Deaths<br />                 
+                    </div>  
+                    <br />                 
+                    <span id="reccount">0 Persons</span>   
+                    <br />
+                    <br />
+                    <br />
+                                            
+                          
+                    </div>
+               
+                   <div id="pMore" class = "hidePanel">
+                   
+                    <div class = "flt_gen">
+                    <span >Join Options</span>    
+                    <br />
+                    <a href='../Default.aspx' onclick="addPerson('00000000-0000-0000-0000-000000000000');return false" >Add Record</a>
+                    <br />
+                    <a href='../Default.aspx' onclick="DeleteRecord();return false">Delete Record</a>
+                    <br />
+                    <a href='../Default.aspx' onclick="PrintableResults();return false">Printable Results</a>
+                    <br />
+                    <a href='../Default.aspx' onclick="AssignLocations();return false" >Assign Locations</a>
+                    <br />
+                    </div>   
+            
+                    <div>
+                        <div class="fpan flt_gen">
+                        <a href='../Default.aspx' onclick="SetDuplicates();return false">Set Duplicates</a>
+                        <br />
+                        <a href='../Default.aspx' onclick="UpdateEstimates();return false">Update Estimates</a>
+                        <br />
+                        <a href='../Default.aspx' onclick="SetRelation('2');return false">Set Father</a>
+                        <br />
+                        <a href='../Default.aspx' onclick="SetRelation('4');return false">Set Mother</a>
+                        <br />
+                        <a href='../Default.aspx' onclick="SetRelation('3');return false">Set Son</a>
+                        <br />
+                    </div>
+                        <div class="fpan flt_gen">
+                        <a href='../Default.aspx' onclick="SetRemoveLink();return false">Remove Link</a>
+                        <br />
+                        <a href='../Default.aspx' onclick="SetMergeSources();return false">Merge Sources</a>
+                        <br />
+                        <a href='../Default.aspx' onclick="SetRelation('5');return false">Set Daughter</a>
+                        <br />
+                        <a href='../Default.aspx' onclick="SetRelation('6');return false">Set Brother</a>
+                        <br />
+                        <a href='../Default.aspx' onclick="SetRelation('7');return false">Set Sister</a>
+                    </div>
+                    </div>
+
+                    </div>
+                    </div>
+                </div>
+                
+                </div>
+
+
+
+                <div class = "fltbdy">
+                <div class = "line"></div>
+                <div class = "squiggle"></div>
+
+                <div class ="item" >
+                <table class="pink">
+                        <thead>
+                            <tr id="Tr2" runat="server" class="hed">
+
+                            <td class="sources">
+                                <a href='../Default.aspx' onclick = 'return false'  ><span>Src</span></a>   
+                            </td>
+
+                            <td class = "lnkedit">
+                             
+                                            
+                            </td>
+                            <td class = "twodates">
+                                <a href='../Default.aspx' onclick = "sort('BirthInt');return false"  ><span>B</span></a> 
+                                <a href='../Default.aspx' onclick = "sort('DeathInt');return false"  ><span>D</span></a> 
+                            </td>
+                            <td class = "locat">
+                                <a href='../Default.aspx' onclick = "sort('BirthLocation');return false"  ><span>Locat.</span></a>
+                            </td>
+                            <td class = "surname">
+                                <a href='../Default.aspx' onclick = "sort('ChristianName');return false"  ><span>Name</span></a>
+                            </td>
+                            <td class = "surname">
+                                <a href='../Default.aspx' onclick = "sort('Surname');return false"  ><span>Surname</span></a> 
+                            </td>
+                            <td class = "surname">
+                                <a href='../Default.aspx' onclick = "sort('FatherChristianName');return false"  ><span>Father/ <br /> Spouse</span></a> 
+                            </td>
+                            <td class = "surname">
+                                <a href='../Default.aspx' onclick = "sort('MotherChristianName');return false"  ><span>Mother</span></a>
+                            </td>
+                            <td class = "surname">
+                           
+                            </td>                                                                  
+                            <td class = "locat">
+                                <a href='../Default.aspx' onclick = "sort('DeathLocation');return false"  ><span>Locat.</span></a>
+                            </td>          
+                            </tr>
+                        </thead>
+                        <tbody id = "search_bdy">
+                        </tbody>
+                </table>
+
+              
+                <br />
+                </div>
+                
+                <div class="fltbrow">    
+                <div id="pager" class = "pager"></div>
+                </div>                             
+                </div>
+
+                </div>
+
+                <br />
+
+            </div>        
+
+    </div>  
+
+</body>
+</html>

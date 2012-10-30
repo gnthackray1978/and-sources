@@ -1,0 +1,161 @@
+﻿/***************************************************************/
+/****************2 table Selection control*************************/
+/***************************************************************/
+
+.fc_hed
+{
+	
+	position:relative;
+
+}
+
+.fc_hlab
+{
+		 
+	float:left;
+	width: 49%;
+}
+
+.fc_colhed
+{
+	/*border-style: solid;
+	border-color: #800000;
+	background-color: #800000;
+	background-position: #5C443A;
+
+	text-align: left;
+	text-transform: uppercase;
+	height: 40px;
+	font-size: x-large; clear: left;
+	vertical-align: middle;
+	text-indent: 25px;	color: #FFFFFF;	
+	line-height: 40px;*/
+
+}
+
+
+.fc_cont
+{
+	margin: 3px;
+	border: thin solid #800000;
+	width: 800px;
+	overflow: auto;
+    height: 550px;
+}
+
+.fc_test
+{
+    width: 770px;
+}
+
+.fc_hed
+{
+
+	text-align: center;
+	text-transform: uppercase;
+	font-size: 12px;
+	font-weight: bold;
+	height: 20px; 
+	
+/*	color: #FFFFFF;
+	background-color: #800000;
+	
+	*/
+}
+
+.fc_hed div {
+ 
+	height: 20px;	
+}
+
+/*filter box label*/
+.fc_bot
+{
+	position: relative;	
+	left: 7px;
+}
+.fc_bot div {}
+
+
+
+/* labels in middle of control*/
+.fc_mid-lab
+{
+   position: relative;
+	clear: both;
+   height: 15px;
+    
+}
+.fc_mlab-dlef
+{
+    margin-left: 7px;
+    float: left;
+    width: 250px;
+      height: 15px;
+}
+.fc_mlab-drig
+{
+	margin-left: 15px;
+	float: left;
+	  height: 15px;
+	 
+}
+
+
+/*filter text box*/
+.fc_txt
+{
+	/*position: relative;	*/
+	left: 7px;
+	
+	width: 150px;
+	margin-top:1px;
+	margin-bottom: 0px;
+
+}
+
+.fc_pad-cont
+{
+	padding: 5px;	
+ 
+}
+
+
+
+tr a
+{
+	color: #FFCC00;
+	text-decoration:none;
+}
+
+
+tr.tophed a
+{
+	font-family: 'Arial Narrow';
+	/*color: #FFFFFF;*/
+}
+
+tr.bothed a
+{
+	font-family: 'Arial Narrow';
+	/*color: #FFFFFF;*/
+}
+
+
+
+.imglst li
+{
+    
+    display: inline;
+    float: left;
+    margin-left: 25px;
+    margin-bottom: 25px;
+}
+
+.pager
+{
+         position: relative;
+	clear: both;
+	left:75px;
+	width: 300px;
+    }
