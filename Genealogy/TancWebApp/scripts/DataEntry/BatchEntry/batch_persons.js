@@ -1,33 +1,43 @@
 ﻿
+    //    this.elementsurname = $('#txtSurname');
+    //    this.elementfathersurname = $('#txtFatherSurname');
+    //    this.elementsource = $('#txtSource');
+    //    this.elementbirthcounty = $('#txtBirthCounty');
+    //Number($('#txtRows').val());
 
 
 var BatchBirths = function (grid) {
     this.editableGrid = grid;
-    this.elementsurname = $('#txtSurname');
-    this.elementfathersurname = $('#txtFatherSurname');
-    this.elementsource = $('#txtSource');
-    this.elementbirthcounty = $('#txtBirthCounty');
-    
-
+    this.rowcount = 0;
+    this.surname = '';
+    this.fathersurname = '';
+    this.source = '';
+    this.birthcounty = '';
+    this.sourceparam = 'scs';
+    this.parishparam = 'parl';
 }
 
 
-BatchBirths.prototype.numberofrows = 5;
+
 
 BatchBirths.prototype.setcommondata = function (surname, fathersurname, source, birthcounty) {
 
-    this.elementsurname = surname;
-    this.elementfathersurname = fathersurname;
-    this.elementsource = source;
-    this.elementbirthcounty = birthcounty;
+    this.surname = surname;
+    this.fathersurname = fathersurname;
+    this.source = source;
+    this.birthcounty = birthcounty;
 }
 
 
 
-BatchBirths.prototype.displayBirths = function (displayData) {
+BatchBirths.prototype.displayBirths = function (rowsrequired, displayData) {
 
     // this approach is interesting if you need to dynamically create data in Javascript 
-    var total = Number($('#txtRows').val());
+    //var total = Number($('#txtRows').val());
+
+    //  var total = Number($('#txtRows').val());
+
+    this.rowcount = rowsrequired;
 
     displayData.metadata.push({ name: "InValid", label: "Invalid", datatype: "boolean", editable: true, class: 'colBoolWidth' });
     displayData.metadata.push({ name: "IsMale", label: "Sex", datatype: "boolean", editable: true, class: 'colBoolWidth' });
@@ -49,7 +59,7 @@ BatchBirths.prototype.displayBirths = function (displayData) {
 
     var idx = 1;
 
-    while (idx < total) {
+    while (idx < this.rowcount) {
 
         displayData.data.push({ id: idx, values: {
             "InValid": true,
@@ -71,7 +81,7 @@ BatchBirths.prototype.displayBirths = function (displayData) {
         idx++;
     }
 
-    return displayData;
+     
 }
 
 
@@ -79,12 +89,12 @@ BatchBirths.prototype.displayBirths = function (displayData) {
 
 
 
-BatchBirths.prototype.displayDeaths = function (displayData) {
+BatchBirths.prototype.displayDeaths = function (rowsrequired, displayData) {
 
-
+    this.rowcount = rowsrequired;
     // this approach is interesting if you need to dynamically create data in Javascript 
 
-    var total = Number($('#txtRows').val());
+   // var total = Number($('#txtRows').val());
 
     displayData.metadata.push({ name: "InValid", label: "Invalid", datatype: "boolean", editable: false, class: 'colBoolWidth' });
     displayData.metadata.push({ name: "IsMale", label: "Sex", datatype: "boolean", editable: true, class: 'colBoolWidth' });
@@ -116,7 +126,7 @@ BatchBirths.prototype.displayDeaths = function (displayData) {
     var idx = 1;
 
 
-    while (idx < total) {
+    while (idx < rowcount) {
 
         displayData.data.push({ id: idx, values: {
             "InValid": true,
@@ -201,10 +211,11 @@ BatchBirths.prototype.GetDeathRecord = function (rowIdx) {
     var theData = {};
 
     theData.personId = '';
+
     theData.birthparishId = getParameterByName('parl', '');
-
-
     theData.sources = getParameterByName('scs', '');
+
+
 
     theData.ismale = this.editableGrid.getValueAt(rowIdx, 1); //sex 
     theData.christianName = this.editableGrid.getValueAt(rowIdx, 2); //name
@@ -235,7 +246,7 @@ BatchBirths.prototype.ValidateBirths = function (rowIdx) {
 
     var isValidRow = true;
 
-    var personRecord = GetBirthRecord(rowIdx);
+    var personRecord = this.GetBirthRecord(rowIdx);
 
     if (personRecord.baptismDate == '' && personRecord.birthDate == '')
         isValidRow = false;
@@ -252,24 +263,21 @@ BatchBirths.prototype.ValidateBirths = function (rowIdx) {
     if (personRecord.surname == '')
         isValidRow = false;
 
-
-
-
-
     return isValidRow;
-
 }
 
 
 BatchBirths.prototype.ValidateDeaths = function () {
 
-    var rowIdx = 0;
+   // var rowIdx = 0;
     var isValidRow = true;
 
-    var colCount = this.editableGrid.getColumnCount();
+    //var colCount = this.editableGrid.getColumnCount();
     //  alert(colCount);
 
-    while (rowIdx < this.editableGrid.getRowCount()) {
+    var personRecord = this.GetDeathRecord(rowIdx);
+
+    //while (rowIdx < this.editableGrid.getRowCount()) {
 
         if (personRecord.christianName == '')
             isValidRow = false;
@@ -277,8 +285,8 @@ BatchBirths.prototype.ValidateDeaths = function () {
         if (personRecord.surname == '')
             isValidRow = false;
 
-        rowIdx++;
-    }
+      //  rowIdx++;
+   // }
 
     return isValidRow;
 }
@@ -305,4 +313,16 @@ BatchBirths.prototype.savePerson = function (theData) {
     //    });
 
     twaPostJSON('/Person/Add', theData,'', function (args) { recordAdded(); });
+}
+
+
+BatchBirths.prototype.saveBirth = function (rowIdx) {
+    var _birth = this.GetBirthRecord(rowIdx);
+    this.savePerson(_birth);
+}
+
+
+BatchBirths.prototype.saveDeath = function (rowIdx) {
+    var _death = this.GetDeathRecord(rowIdx);
+    this.savePerson(_death);
 }

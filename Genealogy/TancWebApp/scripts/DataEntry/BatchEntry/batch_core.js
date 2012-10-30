@@ -19,225 +19,232 @@ $.fn.pasteEvents = function (delay) {
 //}
 
 $(document).ready(function () {
-
+    
+        
     createHeader('#1', run);
 });
 
 
+var BatchCore = function (grid) {
 
-
-run = function () {
-
-    getSourceLst();
-    getParishLst();
-
-
-
-    $("#tablecontent").on("postpaste", function () {
-
-        var result = $("#tablecontent input:text").val();
-        //  editableGrid.getCell(editableGrid.currentCellX, editableGrid.currentCellY);
-
-        var idx = 0;
-        var rowIdx = editableGrid.currentCellX;
-        var columnIndex = editableGrid.currentCellY;
-
-        $("#txtSource").focus();
-
-        var rows = result.split('\x20');
-
-
-        while (idx < rows.length) {
-
-            var colIdx = editableGrid.currentCellY;
-
-            var cols = rows[idx].split('\x09');
-
-            var cidx = 0;
-
-            while (cidx < cols.length) {
-
-                var _value = cols[cidx];
-
-                editableGrid.setValueAt(rowIdx, colIdx, _value);
-
-                colIdx++;
-                cidx++;
-            }
-            rowIdx++;
-            idx++;
-        }
-
-    }).pasteEvents();
-}
-
-
-selectParish = function () {
-
-    var _loc = window.location.hash;
-
-
-    _loc = updateStrForQry(_loc, 'parl', '');
-    _loc = _loc.replace('#', '');
-
-    var url = '../HtmlPages/ParishSearch.html#' + _loc;
-
-    window.location.href = url;
-}
-
-
-
-
-
-selectSource = function () {
-
-
-    var _loc = window.location.hash;
-
-    _loc = updateStrForQry(_loc, 'ldrl', '0');
-    _loc = updateStrForQry(_loc, 'ldru', '0');
-    _loc = updateStrForQry(_loc, 'udrl', '2000');
-    _loc = updateStrForQry(_loc, 'udru', '2000');
-    _loc = updateStrForQry(_loc, 'scs', '');
-
-    _loc = _loc.replace('#', '');
-
-
-    var url = '../HtmlPages/SourceSearch.html#' + _loc;
-
-    window.location.href = url;
+    this.batchBirths = new BatchBirths(grid);
+    this.parishparam = 'parl';
+    this.sourceparam = 'scs';
 
 }
 
+BatchCore.prototype = {
 
-Display = function () {
+    run: function () {
 
-    var displayData = {
-        metadata: [],
-        data: []
-    };
+        getSourceLst();
+        getParishLst();
 
-    // var test = test123();
+        $("#tablecontent").on("postpaste", function () {
 
-    var _isValidSources = isValidSources();
-    var _isValidParishs = isValidParishs();
+            var result = $("#tablecontent input:text").val();
+            //  editableGrid.getCell(editableGrid.currentCellX, editableGrid.currentCellY);
+
+            var idx = 0;
+            var rowIdx = this.editableGrid.currentCellX;
+            var columnIndex = this.editableGrid.currentCellY;
+
+            $("#txtSource").focus();
+
+            var rows = result.split('\x20');
 
 
-    var chkBirths = $('#chkIncludeBirths').prop('checked');
+            while (idx < rows.length) {
 
-    var chkDeaths = $('#chkIncludeDeaths').prop('checked');
+                var colIdx = this.editableGrid.currentCellY;
 
-    var chkRefs = $('#chkIncludeRefs').prop('checked');
+                var cols = rows[idx].split('\x09');
 
+                var cidx = 0;
 
-    if (_isValidSources && _isValidParishs && (chkBirths || chkDeaths || chkRefs)) {
+                while (cidx < cols.length) {
 
-        $("#footer").show();
+                    var _value = cols[cidx];
 
-        if (chkBirths) {
-            displayBirths(displayData);
-        }
+                    this.editableGrid.setValueAt(rowIdx, colIdx, _value);
 
-        if (chkDeaths) {
-            displayDeaths(displayData);
-        }
-
-        if (chkRefs) {
-            displayReferences(displayData);
-        }
-
-        editableGrid = new EditableGrid("DemoGrid");
-        editableGrid.load({ "metadata": displayData.metadata, "data": displayData.data });
-        editableGrid.renderGrid("tablecontent", "testgrid");
-
-        var rowCount = editableGrid.getRowCount();
-
-        if (rowCount > 10) {
-
-            var workingTotal = rowCount - 10;
-
-            workingTotal = workingTotal * 35;
-
-            workingTotal = workingTotal + 800;
-
-            $('.maincontent2').css("height", String(workingTotal) + "px");
-        }
-        else {
-            $('.maincontent2').css("height", "800px");
-        }
-
-        editableGrid.modelChanged = function (rowIndex, columnIndex, oldValue, newValue, row) {
-
-            var rowIdx = 0;
-            var colCount = editableGrid.getColumnCount();
-
-            while (rowIdx < editableGrid.getRowCount()) {
-
-                var isValidRow = false;
-
-                var personRecord = GetBirthRecord(rowIdx);
-
-                if (chkBirths) {
-                    isValidRow = ValidateBirths(rowIdx);
+                    colIdx++;
+                    cidx++;
                 }
-
-                if (chkDeaths) {
-                    isValidRow = ValidateDeaths(rowIdx);
-                }
-
-
-                if (isValidRow && _isValidParishs && _isValidSources)
-                    this.setValueAt(rowIdx, 0, false);
-                else
-                    this.setValueAt(rowIdx, 0, true);
-
-
                 rowIdx++;
+                idx++;
             }
 
+        }).pasteEvents();
+    }
+
+    , selectParish: function () {
+        var _loc = window.location.hash;
+
+        _loc = updateStrForQry(_loc, this.parishparam, '');
+        _loc = _loc.replace('#', '');
+
+        var url = '../HtmlPages/ParishSearch.html#' + _loc;
+
+        window.location.href = url;
+    }
+
+    , selectSource: function () {
+        var _loc = window.location.hash;
+
+        _loc = updateStrForQry(_loc, 'ldrl', '0');
+        _loc = updateStrForQry(_loc, 'ldru', '0');
+        _loc = updateStrForQry(_loc, 'udrl', '2000');
+        _loc = updateStrForQry(_loc, 'udru', '2000');
+        _loc = updateStrForQry(_loc, sourceparam, '');
+
+        _loc = _loc.replace('#', '');
+
+
+        var url = '../HtmlPages/SourceSearch.html#' + _loc;
+
+        window.location.href = url;
+
+    }
+
+
+    , validateRow: function (rowIndex, columnIndex, oldValue, newValue, row) {
+
+        var rowIdx = 0;
+        var colCount = this.editableGrid.getColumnCount();
+
+        while (rowIdx < this.editableGrid.getRowCount()) {
+
+            var isValidRow = false;
+
+            var personRecord = this.batchBirths.GetBirthRecord(rowIdx);
+
+            if (chkBirths) {
+                isValidRow = this.batchBirths.ValidateBirths(rowIdx);
+            }
+
+            if (chkDeaths) {
+                isValidRow = ValidateDeaths(rowIdx);
+            }
+
+
+            if (isValidRow && _isValidParishs && _isValidSources)
+                this.setValueAt(rowIdx, 0, false);
+            else
+                this.setValueAt(rowIdx, 0, true);
+
+
+            rowIdx++;
+        }
+
+    }
+
+
+    , Display: function () {
+
+        var displayData = {
+            metadata: [],
+            data: []
         };
 
+        // var test = test123();
+
+        var _isValidSources = isValidSources();
+        var _isValidParishs = isValidParishs();
+
+        var chkBirths = $('#chkIncludeBirths').prop('checked');
+        var chkDeaths = $('#chkIncludeDeaths').prop('checked');
+        var chkRefs = $('#chkIncludeRefs').prop('checked');
+        var rowsreq = $('#txtRows').val();
+
+        if (_isValidSources && _isValidParishs && (chkBirths || chkDeaths || chkRefs)) {
+
+            $("#footer").show();
+
+            if (chkBirths) {
+
+                this.batchBirths.displayBirths(rowsreq, displayData);
+            }
+
+            if (chkDeaths) {
+                displayDeaths(displayData);
+            }
+
+            if (chkRefs) {
+                displayReferences(displayData);
+            }
+
+            this.editableGrid = new EditableGrid("DemoGrid");
+            this.editableGrid.load({ "metadata": displayData.metadata, "data": displayData.data });
+            this.editableGrid.renderGrid("tablecontent", "testgrid");
+
+            var rowCount = this.editableGrid.getRowCount();
+
+            if (rowCount > 10) {
+
+                var workingTotal = rowCount - 10;
+
+                workingTotal = workingTotal * 35;
+
+                workingTotal = workingTotal + 800;
+
+                $('.maincontent2').css("height", String(workingTotal) + "px");
+            }
+            else {
+                $('.maincontent2').css("height", "800px");
+            }
+
+            this.editableGrid.modelChanged = validateRow;
+
+        }
+        else {
+            $("#footer").hide();
+        }
     }
-    else {
-        $("#footer").hide();
-    }
+
+    , Save: function () {
 
 
 
+        //Number($('#txtRows').val());
 
+        var colCount = this.editableGrid.getColumnCount();
+        var rowIdx = 0;
+        var selectiontype = $('input[name=recType]:checked').val();
 
-}
-
-
-
-Save = function () {
-
-    //getRowCount
-    //getColumnCount
-
-    //editableGrid.getValueAt( 
-    var colCount = editableGrid.getColumnCount();
-
-    var rowIdx = 0;
-    while (rowIdx < editableGrid.getRowCount()) {
-        switch ($('input[name=recType]:checked').val()) {
+        switch (selectiontype) {
             case 'births':
-                var _birth = GetBirthRecord(rowIdx);
-                savePerson(_birth);
+                var _birth = this.batchBirths.setcommondata($('#txtSurname'), $('#txtFatherSurname'), $('#txtSource'), $('#txtBirthCounty'));
                 break;
             case 'deaths':
-                var _death = GetDeathRecord(rowIdx);
-                savePerson(_death);
+
                 break;
             case 'references':
-                saveReference();
+
                 break;
         }
-        rowIdx++;
+
+        while (rowIdx < this.editableGrid.getRowCount()) {
+            switch (selectiontype) {
+                case 'births':
+                    var _birth = this.batchBirths.GetBirthRecord(rowIdx);
+                    this.batchBirths.savePerson(_birth);
+                    break;
+                case 'deaths':
+                    var _death = this.batchBirths.GetDeathRecord(rowIdx);
+                    this.batchBirths.savePerson(_death);
+                    break;
+                case 'references':
+                    saveReference();
+                    break;
+            }
+            rowIdx++;
+        }
+
+        var display = 'xx';
+        $('#templabel').html(display);
     }
 
-    var display = 'xx';
-    $('#templabel').html(display);
 }
 
 
