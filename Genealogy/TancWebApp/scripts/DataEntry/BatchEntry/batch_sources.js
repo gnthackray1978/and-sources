@@ -3,66 +3,63 @@
 
 
 
-isValidSources = function () {
-
-    var source_names = getSourcesNamesFromForm();
-
-
-
-    if (source_names == '')
-        return false;
-    else
-        return true;
-
-
-
-    return true;
-}
-
- getSourceLst = function() {
-
-    var params = {};
-    var scs = getParameterByName('scs', '');     
-    params[0] = scs;
+var BatchSources = function () {
  
-  //  $.ajaxSetup({ cache: false });
-   // $.getJSON(sourceTypesUrl, params, processsourcetypes);
-    twaGetJSON('/Sources/GetSourceNames', params, processsourcetypes);
-
-    return false;
+    this.sourceparam = 'scs';
+    this.parishparam = 'parl';
 }
 
 
- processsourcetypes = function(data) {
-    var tableBody = '';
-    var count = 0;
-    tableBody += '<table class = "data_list">';
 
-    $.each(data, function (source, sourceInfo) {
-        count++;
+BatchSources.prototype = {
 
-        tableBody += '<tr><td class = "source_data">' + sourceInfo + '</td></tr>';
+    isValidSources: function () {
+        var source_names = this.getSourcesNamesFromForm();
+        if (source_names == '')
+            return false;
+        else
+            return true;
+        return true;
+    }
+    ,getSourceLst: function() {
+        var params = {};
+        var scs = AncUtils.getParameterByName(sourceparam, '');     
+        params[0] = scs;
+        twaGetJSON('/Sources/GetSourceNames', params, processsourcetypes);
+        return false;
+    }
 
-    });
 
-    tableBody += '</table>';
-    $('#sourceLst').html(tableBody);
+     processsourcetypes = function(data) {
+        var tableBody = '';
+        var count = 0;
+        tableBody += '<table class = "data_list">';
 
-}
+        $.each(data, function (source, sourceInfo) {
+            count++;
+
+            tableBody += '<tr><td class = "source_data">' + sourceInfo + '</td></tr>';
+
+        });
+
+        tableBody += '</table>';
+        $('#sourceLst').html(tableBody);
+
+    }
 
 
- getSourcesNamesFromForm = function() {
+     getSourcesNamesFromForm = function() {
 
-    var result = '';
+        var result = '';
     
-    $('.source_data').each(function (i) {
+        $('.source_data').each(function (i) {
 
-        result += this.outerText;
+            result += this.outerText;
 
-    });
+        });
+        return result;
+    }
 
 
-    return result;
+
 }
-
-

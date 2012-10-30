@@ -66,9 +66,25 @@ function twaGetJSON(url, paramsArg, methodArg) {
         data: paramsArg,
         success: methodArg,
 
-        beforeSend: setHeader
+        //beforeSend: setHeader
+        beforeSend: proxy(FB)
     });
 
+
+}
+
+
+
+function proxy(_fb) {
+
+    return function(xhr) {
+        var access_token = '';
+        if (_fb != undefined) {
+            if (_fb.getAuthResponse() != null)
+                access_token = _fb.getAuthResponse()['accessToken'];
+        }
+        xhr.setRequestHeader('fb', access_token);
+    }
 
 }
 
