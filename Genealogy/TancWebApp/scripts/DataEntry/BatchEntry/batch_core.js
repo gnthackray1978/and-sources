@@ -124,7 +124,7 @@ BatchCore.prototype = {
             }
 
             if (chkDeaths) {
-                isValidRow = ValidateDeaths(rowIdx);
+                isValidRow = this.batchBirths.ValidateDeaths(rowIdx);
             }
 
 
@@ -167,7 +167,7 @@ BatchCore.prototype = {
             }
 
             if (chkDeaths) {
-                displayDeaths(displayData);
+                this.batchBirths.displayDeaths(rowsreq, displayData);
             }
 
             if (chkRefs) {
@@ -203,36 +203,27 @@ BatchCore.prototype = {
     }
 
     , Save: function () {
-
-
-
-        //Number($('#txtRows').val());
-
-        var colCount = this.editableGrid.getColumnCount();
-        var rowIdx = 0;
+ 
         var selectiontype = $('input[name=recType]:checked').val();
 
         switch (selectiontype) {
             case 'births':
-                var _birth = this.batchBirths.setcommondata($('#txtSurname'), $('#txtFatherSurname'), $('#txtSource'), $('#txtBirthCounty'));
-                break;
             case 'deaths':
-
+                this.batchBirths.setcommondata($('#txtSurname'), $('#txtFatherSurname'), $('#txtSource'), $('#txtBirthCounty'));                
                 break;
             case 'references':
 
                 break;
         }
-
+        
+        var rowIdx = 0;
         while (rowIdx < this.editableGrid.getRowCount()) {
             switch (selectiontype) {
-                case 'births':
-                    var _birth = this.batchBirths.GetBirthRecord(rowIdx);
-                    this.batchBirths.savePerson(_birth);
+                case 'births':                    
+                    this.batchBirths.saveBirth(rowIdx);
                     break;
                 case 'deaths':
-                    var _death = this.batchBirths.GetDeathRecord(rowIdx);
-                    this.batchBirths.savePerson(_death);
+                    this.batchBirths.saveDeath(rowIdx);
                     break;
                 case 'references':
                     saveReference();
