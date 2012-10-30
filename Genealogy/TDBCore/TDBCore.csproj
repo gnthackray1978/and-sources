@@ -1,0 +1,263 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3DF715DA-4279-43AF-AF42-49C47083D62F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TDBCore</RootNamespace>
+    <AssemblyName>TDBCore</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Gedcom, Version=1.0.3480.40193, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Resources\Gedcom.dll</HintPath>
+    </Reference>
+    <Reference Include="GedcomParser, Version=1.0.3327.36310, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Resources\GedcomParser.dll</HintPath>
+    </Reference>
+    <Reference Include="GedLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Resources\GedLib.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Utility">
+      <HintPath>..\Resources\Utility.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BLL\BaseBLL.cs" />
+    <Compile Include="BLL\CountyDictionaryBLL.cs" />
+    <Compile Include="BLL\DeathsBirthsBLL.cs" />
+    <Compile Include="BLL\FilesBLL.cs" />
+    <Compile Include="BLL\GedditterBLL.cs" />
+    <Compile Include="BLL\LocationDictionaryBLL.cs" />
+    <Compile Include="BLL\MarriageRelationsBLL.cs" />
+    <Compile Include="BLL\MarriagesBLL.cs" />
+    <Compile Include="BLL\MarriageWitnessesBLL.cs" />
+    <Compile Include="BLL\MissingParishRecordsBLL.cs" />
+    <Compile Include="BLL\ParishRecordsBLL.cs" />
+    <Compile Include="BLL\ParishsBLL.cs" />
+    <Compile Include="BLL\ParishTranscriptionsBLL.cs" />
+    <Compile Include="BLL\RelationsBLL.cs" />
+    <Compile Include="BLL\SourceBLL.cs" />
+    <Compile Include="BLL\SourceMappingParishsBLL.cs" />
+    <Compile Include="BLL\SourceMappingsBLL.cs" />
+    <Compile Include="BLL\SourceTypesBLL.cs" />
+    <Compile Include="BLL\TreeBLL.cs" />
+    <Compile Include="BLL\UserBLL.cs" />
+    <Compile Include="ControlObjects\CombinedEventSearchControl.cs" />
+    <Compile Include="ControlObjects\DeathBirthEditorControl.cs" />
+    <Compile Include="ControlObjects\DeathBirthFilterControl.cs" />
+    <Compile Include="ControlObjects\FileControl.cs" />
+    <Compile Include="ControlObjects\FileFilterControl.cs" />
+    <Compile Include="ControlObjects\FileMappingControl.cs" />
+    <Compile Include="ControlObjects\MarriagesEditorControl.cs" />
+    <Compile Include="ControlObjects\MarriagesFilterControl.cs" />
+    <Compile Include="ControlObjects\MissingRecordsFilterControl.cs" />
+    <Compile Include="ControlObjects\ParishEditorControl.cs" />
+    <Compile Include="ControlObjects\ParishsFilterControl.cs" />
+    <Compile Include="ControlObjects\SourceEditorControl.cs" />
+    <Compile Include="ControlObjects\SourceFilterControl.cs" />
+    <Compile Include="ControlObjects\SourceMappingControl.cs" />
+    <Compile Include="ControlObjects\SourceMappingParishsControl.cs" />
+    <Compile Include="ControlObjects\SourceTypeEditorControl.cs" />
+    <Compile Include="ControlObjects\SourceTypeFilterControl.cs" />
+    <Compile Include="ControlObjects\SourceTypeMappingControl.cs" />
+    <Compile Include="ControlObjects\TreeControl.cs" />
+    <Compile Include="csDoubleMetaphone.cs" />
+    <Compile Include="csFileFormatHelper.cs" />
+    <Compile Include="csImportCSV.cs" />
+    <Compile Include="csImportGed.cs" />
+    <Compile Include="csLists.cs" />
+    <Compile Include="csUtils.cs" />
+    <Compile Include="EntityModel\GeneralModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GeneralModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\MarriageExtensions.cs" />
+    <Compile Include="EntityModel\PersonExtensions.cs" />
+    <Compile Include="Interfaces\DeathBirthInterfaces.cs" />
+    <Compile Include="Interfaces\IAncestor.cs" />
+    <Compile Include="Interfaces\IAncestorTree.cs" />
+    <Compile Include="Interfaces\ICombinedEventInterfaces.cs" />
+    <Compile Include="Interfaces\IDBRecord.cs" />
+    <Compile Include="Interfaces\IFileInterface.cs" />
+    <Compile Include="Interfaces\IMissingRecords.cs" />
+    <Compile Include="Interfaces\IParishRecords.cs" />
+    <Compile Include="Interfaces\IParishs.cs" />
+    <Compile Include="Interfaces\IPersonControl.cs" />
+    <Compile Include="Interfaces\IPersonModal.cs" />
+    <Compile Include="Interfaces\IPersonView.cs" />
+    <Compile Include="Interfaces\ITree.cs" />
+    <Compile Include="Interfaces\MarriageInterface.cs" />
+    <Compile Include="Interfaces\SourceInterfaces.cs" />
+    <Compile Include="Interfaces\SourceTypeInterfaces.cs" />
+    <Compile Include="ModelObjects\AncestorModel.cs" />
+    <Compile Include="ModelObjects\BaseModel.cs" />
+    <Compile Include="ModelObjects\CombinedEventSearchModel.cs" />
+    <Compile Include="ModelObjects\DeathBirthEditorModel.cs" />
+    <Compile Include="ModelObjects\DeathBirthFilterModel.cs" />
+    <Compile Include="ModelObjects\FileFilterModel.cs" />
+    <Compile Include="ModelObjects\FileMappingModel.cs" />
+    <Compile Include="ModelObjects\FileModel.cs" />
+    <Compile Include="ModelObjects\MarriagesEditorModel.cs" />
+    <Compile Include="ModelObjects\MarriagesFilterModel.cs" />
+    <Compile Include="ModelObjects\MissingRecordsFilterModel.cs" />
+    <Compile Include="ModelObjects\ParishRecordsModel.cs" />
+    <Compile Include="ModelObjects\ParishsEditorModel.cs" />
+    <Compile Include="ModelObjects\ParishsFilterModel.cs" />
+    <Compile Include="ModelObjects\SourceEditorModel.cs" />
+    <Compile Include="ModelObjects\SourceFilterModel.cs" />
+    <Compile Include="ModelObjects\SourceMappingModel.cs" />
+    <Compile Include="ModelObjects\SourceMappingParishsModel.cs" />
+    <Compile Include="ModelObjects\SourceTypeEditorModel.cs" />
+    <Compile Include="ModelObjects\SourceTypeFilterModel.cs" />
+    <Compile Include="ModelObjects\SourceTypeMappingModel.cs" />
+    <Compile Include="ModelObjects\TreeModel.cs" />
+    <Compile Include="ModelObjects\UserModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Services\TreeServices.cs" />
+    <Compile Include="Types\Comparer.cs" />
+    <Compile Include="Types\DoublePoint.cs" />
+    <Compile Include="Types\Dynamic.cs" />
+    <Compile Include="Types\ExportToHtml.cs" />
+    <Compile Include="Types\ExtensionMethods.cs" />
+    <Compile Include="Types\ImportTypes.cs" />
+    <Compile Include="Types\MarriageResult.cs" />
+    <Compile Include="Types\MarriageValidation.cs" />
+    <Compile Include="Types\MiscTypes.cs" />
+    <Compile Include="Types\Parish.cs" />
+    <Compile Include="Types\ParishDataTypes.cs" />
+    <Compile Include="Types\ParishRecord.cs" />
+    <Compile Include="Types\PersonValidation.cs" />
+    <Compile Include="Types\Post.cs" />
+    <Compile Include="Types\RectangleD.cs" />
+    <Compile Include="Types\ServiceTypes.cs" />
+    <Compile Include="Types\TreePoint.cs" />
+    <Compile Include="Types\TreePerson.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <EntityDeploy Include="EntityModel\GeneralModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>GeneralModel.Designer.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EntityDeploy>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ControlObjects\Silverlight.js" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

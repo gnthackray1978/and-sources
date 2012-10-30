@@ -1,0 +1,52 @@
+﻿
+
+
+body {
+    margin: 0px;
+    padding: 0px;
+}
+div#header {
+    clear: both;
+    height: 50px;
+   
+    padding: 1px;
+}
+
+div#left {
+    float: left;
+    width: 250px;
+    height: 270px;
+}
+div#right {
+    float: left;
+    width: 250px;
+  
+}
+div#middle {
+   /* padding: 0px 250px 5px 250px;*/
+  /*  margin: 0px;*/
+   
+    height: 270px;
+    float: left;
+    width: 250px;
+}
+div#footer {
+    clear: both;
+   display:none;
+}
+
+ 
+
+table.data_list
+{
+    margin-left:10px;
+    table-layout: fixed;
+}
+
+
+.bottom_button
+{
+    position: absolute;
+      top: 270px;
+        
+    }
