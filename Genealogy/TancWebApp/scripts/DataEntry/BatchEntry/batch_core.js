@@ -1,4 +1,7 @@
 ﻿
+
+
+
 $.fn.pasteEvents = function (delay) {
     if (delay == undefined) delay = 20;
     return $(this).each(function () {
@@ -11,23 +14,22 @@ $.fn.pasteEvents = function (delay) {
 };
 
 
-
-//window.onload = function () {
-
-//    createHeader('#1',run);
-
-//}
-
 $(document).ready(function () {
     
+    var bc = new BatchCore(this.editableGrid);
         
-    createHeader('#1', run);
+    createHeader('#1', bc.run);
 });
 
 
 var BatchCore = function (grid) {
 
+    this.bp = new BatchParishs();
+    this.bs = new BatchSources();
+
     this.batchBirths = new BatchBirths(grid);
+    this.batchReferences = new BatchReferences(grid);
+
     this.parishparam = 'parl';
     this.sourceparam = 'scs';
 
@@ -37,8 +39,8 @@ BatchCore.prototype = {
 
     run: function () {
 
-        getSourceLst();
-        getParishLst();
+        bs.getSourceLst();
+        bp.getParishLst();
 
         $("#tablecontent").on("postpaste", function () {
 
@@ -81,7 +83,7 @@ BatchCore.prototype = {
     , selectParish: function () {
         var _loc = window.location.hash;
 
-        _loc = updateStrForQry(_loc, this.parishparam, '');
+        _loc = AncUtils.updateStrForQry(_loc, this.parishparam, '');
         _loc = _loc.replace('#', '');
 
         var url = '../HtmlPages/ParishSearch.html#' + _loc;
@@ -92,11 +94,11 @@ BatchCore.prototype = {
     , selectSource: function () {
         var _loc = window.location.hash;
 
-        _loc = updateStrForQry(_loc, 'ldrl', '0');
-        _loc = updateStrForQry(_loc, 'ldru', '0');
-        _loc = updateStrForQry(_loc, 'udrl', '2000');
-        _loc = updateStrForQry(_loc, 'udru', '2000');
-        _loc = updateStrForQry(_loc, sourceparam, '');
+        _loc = AncUtils.updateStrForQry(_loc, 'ldrl', '0');
+        _loc = AncUtils.updateStrForQry(_loc, 'ldru', '0');
+        _loc = AncUtils.updateStrForQry(_loc, 'udrl', '2000');
+        _loc = AncUtils.updateStrForQry(_loc, 'udru', '2000');
+        _loc = AncUtils.updateStrForQry(_loc, sourceparam, '');
 
         _loc = _loc.replace('#', '');
 
@@ -149,8 +151,9 @@ BatchCore.prototype = {
 
         // var test = test123();
 
-        var _isValidSources = isValidSources();
-        var _isValidParishs = isValidParishs();
+
+        var _isValidSources = bs.isValidSources();
+        var _isValidParishs = bp.isValidParishs();
 
         var chkBirths = $('#chkIncludeBirths').prop('checked');
         var chkDeaths = $('#chkIncludeDeaths').prop('checked');

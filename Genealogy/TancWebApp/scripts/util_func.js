@@ -10,16 +10,7 @@
 
 
 
-
-
-
-var style_cookie_name = "style";
-var style_cookie_duration = 30;
-
-
-
-
-
+//ANCUTILS
 function twaPostJSON(url, data, redirectUrl, idparam,  successFunc) {
 
     var localurl = getHost() + url;
@@ -52,7 +43,7 @@ function twaPostJSON(url, data, redirectUrl, idparam,  successFunc) {
 
 }
 
-
+//ANCUTILS
 function twaGetJSON(url, paramsArg, methodArg) {
 
     var aburl = getHost() + url;
@@ -73,7 +64,7 @@ function twaGetJSON(url, paramsArg, methodArg) {
 
 }
 
-
+ 
 
 function proxy(_fb) {
 
@@ -89,6 +80,7 @@ function proxy(_fb) {
 }
 
 
+ 
 function setHeader(xhr) {
 
 
@@ -167,29 +159,6 @@ function showError(error) {
 
 }
 
-function encodeToHex(str) {
-    var r = "";
-    var e = str.length;
-    var c = 0;
-    var h;
-    while (c < e) {
-        h = str.charCodeAt(c++).toString(16);
-        while (h.length < 3) h = "0" + h;
-        r += h;
-    }
-    return r;
-}
-function decodeFromHex(str) {
-    var r = "";
-    var e = str.length;
-    var s;
-    while (e >= 0) {
-        s = e - 3;
-        r = String.fromCharCode("0x" + str.substring(s, e)) + r;
-        e = s;
-    }
-    return r;
-}
 
 
 
@@ -216,6 +185,8 @@ function almostEqual(double1, double2, precision) {
     return (Math.abs(double1 - double2) <= precision);
 }
 
+
+
 function sort_inner(sort_col, param_name) {
 
     var col_name = 'sort_col';
@@ -236,10 +207,7 @@ function sort_inner(sort_col, param_name) {
 
     }
 
-    updateQryPar(col_name, sort_col);
-
-
-   
+    updateQryPar(col_name, sort_col);   
 }
 
 
@@ -301,7 +269,7 @@ function makeIdQryString(paramName,path) {
     return _loc;
 }
 
-
+//ANCUTILS
 function updateQryPar(parname, parval) {
 
     //////////////////////
@@ -345,7 +313,7 @@ function updateQryPar(parname, parval) {
 }
 
 
-
+//ANCUTILS
 function updateStrForQry(qry, parname, parval) {
 
     //parameter not found in string
@@ -401,6 +369,7 @@ function getParameterByNameFromString(qry, name) {
 
 }
 
+//ANCUTILS
 function getParameterByName(name, defvalue) {
 
     var match = RegExp('[?&]' + name + '=([^&]*)')
@@ -417,51 +386,146 @@ function getParameterByName(name, defvalue) {
       
 }
 
-//function getParameterByName(name) {
 
-//    var match = RegExp('[?&]' + name + '=([^&]*)')
-//                    .exec(window.location.hash);
 
-//    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+// UTIL CLASS
+//
 
-//}
 
-function switch_style(css_title) {
+var AncUtils = function () { }
 
-   
-    set_cookie(style_cookie_name, css_title, style_cookie_duration);
-    //window.location.reload()
+
+AncUtils.updateQryPar = function (parname, parval) {   
+    var qry = window.location.hash;
+    if (qry.indexOf(parname) < 0) {
+        if (qry.indexOf('?') < 0) {
+            qry = '?' + parname + '=' + parval;
+            window.location.hash = qry;
+        }
+        else {
+            qry += '&' + parname + '=' + parval;
+            window.location.replace(qry);
+        }
+    }
+    else {
+        var oldVal = getParameterByName(parname, '');
+        var pageQry = parname + '=' + oldVal;
+        var replaceQry = parname + '=' + parval;
+        qry = qry.replace(pageQry, replaceQry);         
+        window.location.replace(qry);
+    }
+
+
 }
 
-function set_style_from_cookie() {
+//update parameters in a string NOT the address bar
+AncUtils.updateStrForQry = function (qry, parname, parval) {
+    //parameter not found in string
+    if (qry.indexOf('?' + parname) < 0 && qry.indexOf('&' + parname) < 0) {
+        if (qry.indexOf('?') < 0) {
+            // the query string is completely empty
+            qry = '?' + parname + '=' + parval;
+        }
+        else {
+            // so tack it on the end
+            qry += '&' + parname + '=' + parval;
+        }
+    }
+    else {
+        var oldVal = getParameterByNameFromString(qry, parname);
 
- 
-    var css_title = get_cookie(style_cookie_name);
-    if (css_title.length) {
-       switch_style(css_title);
+        if (!oldVal) oldVal = '';
+
+        var pageQry = parname + '=' + oldVal;
+        var replaceQry = parname + '=' + parval;
+        qry = qry.replace(pageQry, replaceQry);
+    }
+    return qry;
+};
+
+//get parameter specify defvalue if you want a default value if it doesnt exist
+AncUtils.getParameterByName = function(name, defvalue) { 
+    var match = RegExp('[?&]' + name + '=([^&]*)')
+                    .exec(window.location.href);
+
+    if (defvalue != undefined && defvalue != null) {
+        if (match != null)
+            return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+        else
+            return defvalue;
+    } else {
+        return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+    }
+
+}
+
+// gets json set
+AncUtils.twaGetJSON = function (url, paramsArg, methodArg, fbArg) {
+
+    var aburl = getHost() + url;
+
+    $.ajaxSetup({ cache: false });
+
+    $.ajax({
+        url: aburl,
+        dataType: "json",
+
+        data: paramsArg,
+        success: methodArg,
+
+        //call back function needs to have specific sig.
+        
+        beforeSend: AncUtils.addFBToHeader
+    });
+}
+
+//ANCUTILS
+AncUtils.twaPostJSON = function (url, data, redirectUrl, idparam, successFunc) {
+
+    var localurl = getHost() + url;
+
+    var stringy = JSON.stringify(data);
+
+    if (successFunc == undefined) {
+        successFunc = function (error) {
+            if (redirectUrl != undefined && redirectUrl != '') {
+                handleReturnCodeWithReturn(error, redirectUrl, idparam);
+            }
+            else {
+                handleReturnCode(error, idparam);
+            }
+        };
+    }
+
+    $.ajax({
+        cache: false,
+        type: "POST",
+        async: false,
+        url: localurl,
+        data: stringy,
+        contentType: "application/json",
+        dataType: "json",
+        beforeSend: setHeader,
+        success: successFunc
+    });
+
+}
+
+
+//beforeSend: function (xhr) { passToProxy(xhr, url); }
+// sets facebook token to request header
+AncUtils.addFBToHeader = function (xhr, fb) {
+    return function (xhr) {
+        var access_token = '';
+        if (FB != undefined) {
+            if (FB.getAuthResponse() != null)
+                access_token = FB.getAuthResponse()['accessToken'];
+        }
+        xhr.setRequestHeader('fb', access_token);
     }
 }
 
-function set_cookie(cookie_name, cookie_value,
-    lifespan_in_days, valid_domain) {
-    // http://www.thesitewizard.com/javascripts/cookies.shtml
-    var domain_string = valid_domain ?
-                       ("; domain=" + valid_domain) : '';
-    document.cookie = cookie_name +
-                       "=" + encodeURIComponent(cookie_value) +
-                       "; max-age=" + 60 * 60 *
-                       24 * lifespan_in_days +
-                       "; path=/" + domain_string;
-}
-function get_cookie(cookie_name) {
-    // http://www.thesitewizard.com/javascripts/cookies.shtml
-    var cookie_string = document.cookie;
-    if (cookie_string.length != 0) {
-        var cookie_value = cookie_string.match(
-                        '(^|;)[\s]*' +
-                        cookie_name +
-                        '=([^;]*)');
-        return decodeURIComponent(cookie_value[2]);
-    }
-    return '';
-}
+
+
+
+
