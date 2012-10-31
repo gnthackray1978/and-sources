@@ -165,10 +165,10 @@ BatchBirths.prototype.GetBirthRecord = function (rowIdx) {
 
     var theData = {};
     theData.personId = '';
-    theData.birthparishId = getParameterByName('parl', '');
+    theData.birthparishId = AncUtils.getParameterByName('parl', '');
 
 
-    theData.sources = getParameterByName('scs', '');
+    theData.sources = AncUtils.getParameterByName('scs', '');
     theData.christianName = this.editableGrid.getValueAt(rowIdx, 2); //name
     theData.surname = $('#txtSurname').val();
     theData.fatherchristianname = this.editableGrid.getValueAt(rowIdx, 4); //father name
@@ -212,8 +212,8 @@ BatchBirths.prototype.GetDeathRecord = function (rowIdx) {
 
     theData.personId = '';
 
-    theData.birthparishId = getParameterByName('parl', '');
-    theData.sources = getParameterByName('scs', '');
+    theData.birthparishId = AncUtils.getParameterByName('parl', '');
+    theData.sources = AncUtils.getParameterByName('scs', '');
 
 
 
@@ -294,25 +294,7 @@ BatchBirths.prototype.ValidateDeaths = function () {
 
 BatchBirths.prototype.savePerson = function (theData) {
 
-    //    var localurl = getHost() + '/Person/Add';
-
-    //    var stringy = JSON.stringify(theData);
-
-    //    $.ajax({
-    //        cache: false,
-    //        type: "POST",
-    //        async: false,
-    //        url: localurl,
-    //        data: stringy,
-    //        contentType: "application/json",
-    //        dataType: "json",
-    //        success: function (department) {
-    //            recordAdded();
-    //        }
-
-    //    });
-
-    twaPostJSON('/Person/Add', theData,'', function (args) { recordAdded(); });
+    AncUtils.twaPostJSON('/Person/Add', theData, '', function (args) { recordAdded(); });
 }
 
 

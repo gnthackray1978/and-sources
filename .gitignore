@@ -1,0 +1,16 @@
+*bin/
+*obj/
+Genealogy/TancWebApp/resources/images/
+
+
+# Per-user data
+*/*.csproj.user
+*.suo
+*.sln.cache
+*.ReSharper.user
+*.TeamCity.user
+*.sln.DotSettings.user
+_ReSharper.*
+*.docstates
+*.csproj.ReSharper
+*.dotcover

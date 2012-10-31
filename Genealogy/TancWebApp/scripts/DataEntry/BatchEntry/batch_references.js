@@ -1,5 +1,25 @@
 ﻿
-displayReferences = function (displayData) {
+
+var BatchReferences = function (grid) {
+    this.editableGrid = grid;
+    this.rowcount = 0;
+    this.surname = '';
+    this.fathersurname = '';
+    this.source = '';
+    this.birthcounty = '';
+    this.sourceparam = 'scs';
+    this.parishparam = 'parl';
+}
+
+
+BatchBirths.prototype.saveReference = function () {
+    // yet to be implemented
+
+}
+
+
+
+BatchBirths.prototype.displayReferences = function (displayData) {
     // this approach is interesting if you need to dynamically create data in Javascript 
     var metadata = [];
 

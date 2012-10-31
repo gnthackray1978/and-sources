@@ -124,6 +124,7 @@
     <Content Include="Scripts\DataEntry\sourceType_editor.js" />
     <Content Include="Scripts\DataEntry\source_editor.js" />
     <Content Include="Scripts\default.js" />
+    <Content Include="Scripts\encoding.js" />
     <Content Include="Scripts\jquery\jquery-1.7.2-vsdoc.js" />
     <Content Include="Scripts\jquery\jquery-1.7.2.js" />
     <Content Include="Scripts\jquery\jquery-1.7.2.min.js" />
