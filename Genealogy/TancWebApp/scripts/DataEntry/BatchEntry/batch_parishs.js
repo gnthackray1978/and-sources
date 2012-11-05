@@ -4,7 +4,7 @@
 
 var BatchParishs = function () {
 
-    
+    this.ancUtils = new AncUtils();
     this.parishparam = 'parl';
 }
 
@@ -14,13 +14,13 @@ BatchParishs.prototype = {
     getParishLst : function () {
 
         var params = {};
-        var scs = AncUtils.getParameterByName(this.parishparam, '');
+        var scs = this.ancUtils.getParameterByName(this.parishparam, '');
         params[0] = scs;
 
         //   $.ajaxSetup({ cache: false });
         //   $.getJSON(parishListURL, params, processParishs);
 
-        AncUtils.twaGetJSON("/Parishs/GetParishNames", params, this.processParishs);
+        this.ancUtils.twaGetJSON("/Parishs/GetParishNames", params, this.processParishs);
         return false;
     },
 

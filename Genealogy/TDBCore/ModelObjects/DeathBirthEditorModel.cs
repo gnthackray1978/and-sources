@@ -1418,8 +1418,10 @@ namespace GedItter.BirthDeathRecords
                 //these should defaulted to 1 and 1
                 if (this.totalEvents == 0 && this.eventPriority == 0)
                 {
-                    this.totalEvents = 1;
-                    this.eventPriority = 1;
+                    var p = deathBirthDLL.GetDeathBirthRecordById2(this.SelectedRecordId).FirstOrDefault();
+                 
+                    this.totalEvents = p.TotalEvents;
+                    this.eventPriority = p.EventPriority;
                 }
 
                 deathBirthDLL.UpdateBirthDeathRecord2(
