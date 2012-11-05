@@ -755,6 +755,14 @@ namespace GedItter.MarriageRecords
                 
                 BLL.MarriagesBLL marriageBLL = new GedItter.MarriageRecords.BLL.MarriagesBLL();
 
+                var m = marriageBLL.GetMarriageById2(this.SelectedRecordId).FirstOrDefault();
+
+                if (m != null)
+                {
+                    this.totalEvents = m.TotalEvents.GetValueOrDefault();
+                    this.eventPriority = m.EventPriority.GetValueOrDefault();
+                }
+
                 marriageBLL.UpdateMarriage2(this.SelectedRecordId,
                     this._marriage.Date,
                     this._marriage.FemaleCName,

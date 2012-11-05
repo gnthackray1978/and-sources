@@ -395,136 +395,178 @@ function getParameterByName(name, defvalue) {
 var AncUtils = function () { }
 
 
-AncUtils.updateQryPar = function (parname, parval) {   
-    var qry = window.location.hash;
-    if (qry.indexOf(parname) < 0) {
-        if (qry.indexOf('?') < 0) {
-            qry = '?' + parname + '=' + parval;
-            window.location.hash = qry;
-        }
-        else {
-            qry += '&' + parname + '=' + parval;
-            window.location.replace(qry);
-        }
-    }
-    else {
-        var oldVal = getParameterByName(parname, '');
-        var pageQry = parname + '=' + oldVal;
-        var replaceQry = parname + '=' + parval;
-        qry = qry.replace(pageQry, replaceQry);         
-        window.location.replace(qry);
-    }
+AncUtils.prototype = {
 
-
-}
-
-//update parameters in a string NOT the address bar
-AncUtils.updateStrForQry = function (qry, parname, parval) {
-    //parameter not found in string
-    if (qry.indexOf('?' + parname) < 0 && qry.indexOf('&' + parname) < 0) {
-        if (qry.indexOf('?') < 0) {
-            // the query string is completely empty
-            qry = '?' + parname + '=' + parval;
-        }
-        else {
-            // so tack it on the end
-            qry += '&' + parname + '=' + parval;
-        }
-    }
-    else {
-        var oldVal = getParameterByNameFromString(qry, parname);
-
-        if (!oldVal) oldVal = '';
-
-        var pageQry = parname + '=' + oldVal;
-        var replaceQry = parname + '=' + parval;
-        qry = qry.replace(pageQry, replaceQry);
-    }
-    return qry;
-};
-
-//get parameter specify defvalue if you want a default value if it doesnt exist
-AncUtils.getParameterByName = function(name, defvalue) { 
-    var match = RegExp('[?&]' + name + '=([^&]*)')
-                    .exec(window.location.href);
-
-    if (defvalue != undefined && defvalue != null) {
-        if (match != null)
-            return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+    getHost: function()
+    {
+        if (window.location.hostname.indexOf("local") == -1)
+            return 'http://www.gnthackray.net'
         else
-            return defvalue;
-    } else {
-        return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
-    }
+            return 'http://local.gnthackray.net:666';
+    },
 
-}
-
-// gets json set
-AncUtils.twaGetJSON = function (url, paramsArg, methodArg, fbArg) {
-
-    var aburl = getHost() + url;
-
-    $.ajaxSetup({ cache: false });
-
-    $.ajax({
-        url: aburl,
-        dataType: "json",
-
-        data: paramsArg,
-        success: methodArg,
-
-        //call back function needs to have specific sig.
-        
-        beforeSend: AncUtils.addFBToHeader
-    });
-}
-
-//ANCUTILS
-AncUtils.twaPostJSON = function (url, data, redirectUrl, idparam, successFunc) {
-
-    var localurl = getHost() + url;
-
-    var stringy = JSON.stringify(data);
-
-    if (successFunc == undefined) {
-        successFunc = function (error) {
-            if (redirectUrl != undefined && redirectUrl != '') {
-                handleReturnCodeWithReturn(error, redirectUrl, idparam);
+    updateQryPar: function (parname, parval) {   
+        var qry = window.location.hash;
+        if (qry.indexOf(parname) < 0) {
+            if (qry.indexOf('?') < 0) {
+                qry = '?' + parname + '=' + parval;
+                window.location.hash = qry;
             }
             else {
-                handleReturnCode(error, idparam);
+                qry += '&' + parname + '=' + parval;
+                window.location.replace(qry);
             }
-        };
-    }
-
-    $.ajax({
-        cache: false,
-        type: "POST",
-        async: false,
-        url: localurl,
-        data: stringy,
-        contentType: "application/json",
-        dataType: "json",
-        beforeSend: setHeader,
-        success: successFunc
-    });
-
-}
-
-
-//beforeSend: function (xhr) { passToProxy(xhr, url); }
-// sets facebook token to request header
-AncUtils.addFBToHeader = function (xhr, fb) {
-    return function (xhr) {
-        var access_token = '';
-        if (FB != undefined) {
-            if (FB.getAuthResponse() != null)
-                access_token = FB.getAuthResponse()['accessToken'];
         }
-        xhr.setRequestHeader('fb', access_token);
-    }
-}
+        else {
+            var oldVal = this.getParameterByName(parname, '');
+            var pageQry = parname + '=' + oldVal;
+            var replaceQry = parname + '=' + parval;
+            qry = qry.replace(pageQry, replaceQry);         
+            window.location.replace(qry);
+        }
+    },
 
+    //update parameters in a string NOT the address bar
+    updateStrForQry: function (qry, parname, parval) {
+        //parameter not found in string
+        if (qry.indexOf('?' + parname) < 0 && qry.indexOf('&' + parname) < 0) {
+            if (qry.indexOf('?') < 0) {
+                // the query string is completely empty
+                qry = '?' + parname + '=' + parval;
+            }
+            else {
+                // so tack it on the end
+                qry += '&' + parname + '=' + parval;
+            }
+        }
+        else {
+            var oldVal = this.getParameterByNameFromString(qry, parname);
+
+            if (!oldVal) oldVal = '';
+
+            var pageQry = parname + '=' + oldVal;
+            var replaceQry = parname + '=' + parval;
+            qry = qry.replace(pageQry, replaceQry);
+        }
+        return qry;
+    },
+
+    //get parameter specify defvalue if you want a default value if it doesnt exist
+    getParameterByName: function(name, defvalue) { 
+        var match = RegExp('[?&]' + name + '=([^&]*)')
+                        .exec(window.location.href);
+
+        if (defvalue != undefined && defvalue != null) {
+            if (match != null)
+                return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+            else
+                return defvalue;
+        } else {
+            return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+        }
+
+    },
+
+    // gets json set
+    twaGetJSON:function (url, paramsArg, methodArg, fbArg) {
+
+        var aburl = this.getHost() + url;
+
+        $.ajaxSetup({ cache: false });
+
+        $.ajax({
+            url: aburl,
+            dataType: "json",
+
+            data: paramsArg,
+            success: methodArg,
+
+            //call back function needs to have specific sig.
+        
+            beforeSend: this.addFBToHeader
+        });
+    },
+
+    //ANCUTILS
+    twaPostJSON:function (url, data, redirectUrl, idparam, successFunc) {
+
+        var localurl = this.getHost() + url;
+
+        var stringy = JSON.stringify(data);
+
+        if (successFunc == undefined) {
+            successFunc = function (error) {
+                if (redirectUrl != undefined && redirectUrl != '') {
+                    this.handleReturnCodeWithReturn(error, redirectUrl, idparam);
+                }
+                else {
+                    this.handleReturnCode(error, idparam);
+                }
+            };
+        }
+
+        $.ajax({
+            cache: false,
+            type: "POST",
+            async: false,
+            url: localurl,
+            data: stringy,
+            contentType: "application/json",
+            dataType: "json",
+            beforeSend: setHeader,
+            success: successFunc
+        });
+
+    },
+
+
+    handleReturnCodeWithReturn: function(message, redirectUrl, idParam) {
+
+        var result = this.getValueFromKey(message, 'Id');
+
+        this.updateQryPar(idParam, result);
+
+        var error = this.getValueFromKey(message, 'error');
+
+        if (error != '' && error != null) {
+            this.showError(error);
+        }
+        else {
+            var _hash = window.location.hash;
+            window.location = redirectUrl + _hash;
+        }
+    },
+
+    getValueFromKey: function(qry, name) {
+        var match = RegExp(name + '=([^&]*)')
+                    .exec(qry);
+        return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+    },
+
+    
+    showError: function(error) {
+        if (error != '' && error != null) {
+            $('#errorDialog').html(error);
+            $("#errorDialog").dialog();       
+        }
+    },
+
+
+    //beforeSend: function (xhr) { passToProxy(xhr, url); }
+    // sets facebook token to request header
+    addFBToHeader :function (xhr, fb) {
+        return function (xhr) {
+            var access_token = '';
+            if (FB != undefined) {
+                if (FB.getAuthResponse() != null)
+                    access_token = FB.getAuthResponse()['accessToken'];
+            }
+            xhr.setRequestHeader('fb', access_token);
+        }
+    }
+
+
+}
 
 
 

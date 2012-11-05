@@ -290,75 +290,11 @@ $(selectorid).addClass('midtop');
 $(selectorid).html(headersection);
 
 
-
-//var localurl = getHost() + '/LoggedInUser';
-//var userName = '';
-
-//$.ajaxSetup({ cache: false });
-//$.getJSON(localurl, '', function (data) {
-
-
-//twaGetJSON("/LoggedInUser", '', function (data) { userName = data; });
-
-
-
-//    if (userName == '') {
-//        $('#usrinfo').html('<a href=\'../Forms/Login.aspx\'><span>Log in</span></a>');
-//    } else {
-
-//        if(data.indexOf('Error') >0)
-//        {
-//            var userNameArray = data.split(',');
-//            if(userNameArray.length >0)
-//            {
-//                $('#usrinfo').html('<span> Logged in as ' + userNameArray[0] + '</span><a href=\'../Forms/Login.aspx\'><span> Logout</span></a>');
-//            }
-//        }
-//        else
-//        {
-
-//            $('#usrinfo').html('<span> Logged in as ' + userName + '</span><a href=\'../Forms/Login.aspx\'><span> Logout</span></a>');
-//        }
-//    }
-
-//});
-
  
 }
 
 
 
-
-
-
-//window.fbAsyncInit = function () {
-//    FB.init({ appId: 205401136237103, status: true, cookie: true, xfbml: true });
-
-//    FB.Event.subscribe('auth.login', function (response) {
-//       // login(); 
-//    });
-
-//    FB.Event.subscribe('auth.logout', function (response) {
-//      //  logout(); 
-//    });
-
-//    FB.getLoginStatus(function (response) {
-//      
-
-//        if (response.status == 'connected') {
-//           
-//           // showError('connected');
-//            getLoggedInUserName();
-//        }
-//        else {
-//    
-//          //  showError('not connected');
-//        }
-//    });
-
-
-
-//};
 
 
 
@@ -422,5 +358,147 @@ function masterShowTab(panel) {
         $("#panelC").removeClass("displayPanel").addClass("hidePanel");
         $("#panelD").removeClass("hidePanel").addClass("displayPanel");
     }
+
+}
+
+
+
+
+
+
+
+var JSMaster = function () {
+    this.facebookReady = null;
+    var ancUtils = new AncUtils();
+    window.fbAsyncInit = this.initFacebook;
+
+
+}
+
+  
+
+JSMaster.prototype = {
+
+
+    getLoggedInUserName: function () {
+
+        var params = {};
+
+        params[0] = 'hello';
+
+        this.ancUtils.twaGetJSON("/TestLogin", params, processData2);
+
+        return false;
+    },
+
+    initFacebook: function () {
+
+        FB.init({ appId: 205401136237103, status: true, cookie: true, xfbml: true });
+
+        FB.getLoginStatus(function (response) {
+            if (response.status == 'connected') {
+                // showError('connected');
+                this.getLoggedInUserName();
+
+                if (facebookReady != null) {
+                    this.facebookReady.apply();
+                }
+            }
+            else {
+                this.facebookReady.apply();
+            }
+        });
+    },
+    
+    generateHeader: function (selectorid, readyfunction) {
+
+    
+
+            this.facebookReady = readyfunction;
+
+            var headersection = '';
+
+            headersection += '<div class = "mtropt">';
+
+            headersection += '<div class = "mtrlnk">';
+            headersection += '<a id="lnk_mainoptions"   href=\'\' onclick="masterShowTab(\'1\');return false" ><span>Main Options</span></a>';
+            headersection += '<a id="lnk_alongwith"     href=\'\' onclick="masterShowTab(\'2\');return false" ><span>Along With</span></a>';
+            headersection += '<a id="lnk_tools"         href=\'\' onclick="masterShowTab(\'3\');return false" ><span>Tools</span></a>';
+            headersection += '<a id="lnk_settings"      href=\'\' onclick="masterShowTab(\'4\');return false" ><span>Settings</span></a>';
+            headersection += '<a id="lnk_mapview"       href=\'../HtmlPages/MapView.html\'><span>Map View</span></a>';
+            headersection += '</div>';
+
+            headersection += '<div>';
+            headersection += '<div id="panelA" class = "displayPanel">';
+            headersection += '<div class = "mtrlnk">';
+            headersection += '<a id="lnk_home"      href=\'../Default.html\'><span>Home</span></a>';
+            headersection += '<a id="lnk_marriages" href=\'../HtmlPages/MarriageSearch.html\'><span>Marriages</span></a>';
+            headersection += '<a id="lnk_persons"   href=\'../HtmlPages/PersonSearch.html\'><span>Persons</span></a>';
+            headersection += '<a id="lnk_sources"   href=\'../HtmlPages/SourceSearch.html\'><span>Sources</span></a>';
+            headersection += '</div>';
+            headersection += '</div>';
+
+            headersection += '<div id="panelB" class = "hidePanel">';
+            headersection += '<div class = "mtrlnk">';
+            headersection += '<a id="lnk_parishs"       href=\'../HtmlPages/ParishSearch.html\'><span>Parishs</span></a>';
+            headersection += '<a id="lnk_events"        href=\'../HtmlPages/Events.html\'><span>Events</span></a>';
+            headersection += '<a id="lnk_batchevents"   href=\'../HtmlPages/batchEntry.html\'><span>Batch Entry</span></a>';
+            headersection += '<a id="lnk_files"         href=\'../Forms/FrmFiles.aspx\'><span>Files</span></a>';
+            headersection += '<a id="lnk_sourcetypes"   href=\'../HtmlPages/SourceTypesSearch.html\'><span>Source Types</span></a>';
+            headersection += '</div>';
+            headersection += '</div>';
+            headersection += '<div id="panelC" class = "hidePanel">';
+            headersection += '<div class = "mtrlnk">';
+
+
+            headersection += '<a id="lnk_importparishs" href=\'../Forms/FrmImportCSV.aspx?Type=PARISH\'><span>Import Parishs</span></a>';
+            headersection += '<a id="lnk_importmarriages" href=\'../Forms/FrmImportCSV.aspx?Type=MAR\'><span>Import Marriages</span></a>';
+            headersection += '<a id="lnk_importsources" href=\'../Forms/FrmImportCSV.aspx?Type=SOURCE\'><span>Import Sources</span></a>';
+            headersection += '<a id="lnk_viewtrees" href=\'../HtmlPages/TreeSearch.html\'><span>View Trees</span></a>';
+            headersection += '</div>';
+            headersection += '</div>';
+            headersection += '<div id="panelD" class = "hidePanel">';
+            headersection += '<div class = "mtrlnk">';
+            headersection += '<a id="lnk_prevback" href="../Default.aspx" onclick="prevBackground();return false"  ><span>Previous Style</span></a>';
+            headersection += '<a id="lnk_nextback" href="../Default.aspx" onclick="nextBackground();return false"  ><span>Next Style</span></a>';
+            headersection += '</div>';
+            headersection += '</div>';
+            headersection += '</div>';
+
+            headersection += '</div>';
+
+            headersection += '<div id="usrinfo" class = "mtrusr">';
+
+
+            headersection += '<div id="fb-root">';
+            headersection += '<fb:login-button autologoutlink="true" &nbsp;perms="email,user_birthday,status_update,publish_stream"></fb:login-button>';
+            headersection += '</div>';
+
+            headersection += '<div id = "usr_nam"></div>';
+            headersection += '</div>';
+
+            headersection += '<div class = "mtrlog">Ancestry Notes Database</div>';
+            headersection += '<div id="errorDialog" title="Error"></div>';
+
+
+            headersection += '</div>';
+
+
+
+            headersection += '<br />';
+
+            //headersection += '</div>';
+
+            $(selectorid).addClass('midtop');
+
+            $(selectorid).html(headersection);
+
+
+
+        
+
+    } 
+
+
 
 }
