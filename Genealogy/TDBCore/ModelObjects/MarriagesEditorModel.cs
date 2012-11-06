@@ -761,6 +761,8 @@ namespace GedItter.MarriageRecords
                 {
                     this.totalEvents = m.TotalEvents.GetValueOrDefault();
                     this.eventPriority = m.EventPriority.GetValueOrDefault();
+                    this.uniqueRef = m.UniqueRef.GetValueOrDefault();
+
                 }
 
                 marriageBLL.UpdateMarriage2(this.SelectedRecordId,
