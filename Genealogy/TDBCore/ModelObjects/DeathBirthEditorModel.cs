@@ -1422,6 +1422,7 @@ namespace GedItter.BirthDeathRecords
                  
                     this.totalEvents = p.TotalEvents;
                     this.eventPriority = p.EventPriority;
+                    this.uniqueRef = p.UniqueRef;
                 }
 
                 deathBirthDLL.UpdateBirthDeathRecord2(
