@@ -381,7 +381,34 @@ var JSMaster = function () {
 
 
     this.ancUtils = new AncUtils();
-    window.fbAsyncInit = this.initFacebook;
+    window.fbAsyncInit =
+    function () {
+
+        var getloggedinuser = this.getLoggedInUserName;
+
+        FB.init({ appId: 205401136237103, status: true, cookie: true, xfbml: true });
+
+        FB.getLoginStatus(function (response) {
+
+
+
+            if (response.status == 'connected') {
+                // showError('connected');
+                //this.getLoggedInUserName();
+                getloggedinuser.apply();
+
+                if (this.facebookReady != null) {
+                    this.facebookReady.apply();
+                }
+            }
+            else {
+                this.facebookReady.apply();
+            }
+        });
+    };
+
+    //this.initFacebook;
+
     $(window).resize($.debounce(250, this.setBackground));
 
     this.testvar = 'var';
