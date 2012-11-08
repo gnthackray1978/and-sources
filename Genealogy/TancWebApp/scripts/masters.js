@@ -18,30 +18,27 @@ var JSMaster = function () {
 
     window.fbAsyncInit = this.initFacebook;
 
-    $(window).resize($.debounce(250, this.setBackground)); 
-     
+    $(window).resize(function () {
+
+//        $.debounce(250,proxy( function () {
+//            alert('hello');
+//        },this));
+
+    }
+
+    );
+
     this.testvar = 'var';
- 
+
 }
 
 
 
-
+test  = function (){
+    alert('hello');
+}
 
 JSMaster.prototype = {
-
-//    getLoggedInUserName: function () {
-
-//        var params = {};
-
-//        params[0] = 'hello';
-//     
-
-//        this.ancUtils.twaGetJSON("/TestLogin", params, function (data) { $('#usr_nam').html(data); });
-
-//        return false;
-//    },
-
 
 
     initFacebook: function () {
@@ -82,10 +79,10 @@ JSMaster.prototype = {
         headersection += '<div class = "mtropt">';
 
         headersection += '<div class = "mtrlnk">';
-        headersection += '<a id="lnk_mainoptions"   href=\'\' onclick="masterShowTab(\'1\');return false" ><span>Main Options</span></a>';
-        headersection += '<a id="lnk_alongwith"     href=\'\' onclick="masterShowTab(\'2\');return false" ><span>Along With</span></a>';
-        headersection += '<a id="lnk_tools"         href=\'\' onclick="masterShowTab(\'3\');return false" ><span>Tools</span></a>';
-        headersection += '<a id="lnk_settings"      href=\'\' onclick="masterShowTab(\'4\');return false" ><span>Settings</span></a>';
+        headersection += '<a id="lnk_mainoptions"   href=""  ><span>Main Options</span></a>';
+        headersection += '<a id="lnk_alongwith"     href=""  ><span>Along With</span></a>';
+        headersection += '<a id="lnk_tools"         href=""  ><span>Tools</span></a>';
+        headersection += '<a id="lnk_settings"      href=""  ><span>Settings</span></a>';
         headersection += '<a id="lnk_mapview"       href=\'../HtmlPages/MapView.html\'><span>Map View</span></a>';
         headersection += '</div>';
 
@@ -154,10 +151,14 @@ JSMaster.prototype = {
 
         $(selectorid).html(headersection);
 
-        $("#lnk_mainoptions").live("click", function () { this.masterShowTab("1"); return false; });
-        $("#lnk_alongwith").live("click", function () { this.masterShowTab("2"); return false; });
-        $("#lnk_tools").live("click", function () { this.masterShowTab("3"); return false; });
-        $("#lnk_settings").live("click", function () { this.masterShowTab("4"); return false; });
+
+       // $.proxy(Foo.test, Foo)
+
+        $("#lnk_mainoptions").live("click",   $.proxy( function () { this.masterShowTab(1); return false; } , this));
+        $("#lnk_alongwith").live("click", $.proxy(  function () { this.masterShowTab(2); return false; } , this));
+        $("#lnk_tools").live("click", $.proxy(  function () { this.masterShowTab(3); return false; } , this));
+        $("#lnk_settings").live("click", $.proxy(function () { this.masterShowTab(4); return false; }, this));
+
         //$("#lnk_mapview").live("click", function() { masterShowTab("1"); return false;  });
 
         //$("#lnk_home").live("click", function() { masterShowTab("1"); return false;  });
@@ -176,8 +177,8 @@ JSMaster.prototype = {
         //$("#lnk_importsources").live("click", function() { masterShowTab("1"); return false;  });
         //$("#lnk_viewtrees").live("click", function() { masterShowTab("1"); return false;  });
 
-        $("#lnk_prevback").live("click", function () { this.prevBackground(); return false; });
-        $("#lnk_nextback").live("click", function () { this.nextBackground(); return false; });
+        $("#lnk_prevback").live("click",$.proxy( function () { this.prevBackground(); return false; }, this));
+        $("#lnk_nextback").live("click", $.proxy(function () { this.nextBackground(); return false; }, this));
 
 
     },
@@ -252,9 +253,9 @@ JSMaster.prototype = {
         }
 
 
-        this.setCookie("gnt_back", imgIdx, 365);
+        this.setCookie("gnt_back", this.imgIdx, 365);
 
-        this.setBackground(imgIdx);
+        this.setBackground(this.imgIdx);
     },
 
 
@@ -275,9 +276,9 @@ JSMaster.prototype = {
             }
         }
 
-        this.setCookie("gnt_back", imgIdx, 365);
+        this.setCookie("gnt_back", this.imgIdx, 365);
 
-        this.setBackground(imgIdx);
+        this.setBackground(this.imgIdx);
     },
 
     makeImageData: function (name, width, height) {
@@ -310,7 +311,7 @@ JSMaster.prototype = {
         imgArray.push(this.makeImageData('back_trees_bw', 640, 800));
 
 
-        $('.mainbackground').css("background", "url(../Images/backgrounds/" + this.backgrounds[imgIdx] + ".jpg) no-repeat "); //center top
+        $('.mainbackground').css("background", "url(../Images/backgrounds/" + this.backgrounds[this.imgIdx] + ".jpg) no-repeat "); //center top
         $('.mainbackground').css("position", "absolute");
         $('.mainbackground').css("height", "1290px");
         $('.mainbackground').css("z-index", "-1");
