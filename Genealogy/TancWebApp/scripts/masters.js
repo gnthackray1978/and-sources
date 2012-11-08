@@ -16,44 +16,12 @@ var JSMaster = function () {
 
     Window.prototype.facebookReady = this.facebookReady;
 
-
-
-<<<<<<< HEAD
-    this.ancUtils = new AncUtils();
-    window.fbAsyncInit =
-    function () {
-
-        var getloggedinuser = this.getLoggedInUserName;
-
-        FB.init({ appId: 205401136237103, status: true, cookie: true, xfbml: true });
-
-        FB.getLoginStatus(function (response) {
-
-
-
-            if (response.status == 'connected') {
-                // showError('connected');
-                //this.getLoggedInUserName();
-                getloggedinuser.apply();
-
-                if (this.facebookReady != null) {
-                    this.facebookReady.apply();
-                }
-            }
-            else {
-                this.facebookReady.apply();
-            }
-        });
-    };
-
-    //this.initFacebook;
-=======
     window.fbAsyncInit = this.initFacebook;
->>>>>>> 2927cf16413089c3477e33d1403a57f5871fd5df
 
-    $(window).resize($.debounce(250, this.setBackground));
-
+    $(window).resize($.debounce(250, this.setBackground)); 
+     
     this.testvar = 'var';
+ 
 }
 
 
