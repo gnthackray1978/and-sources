@@ -483,7 +483,7 @@ AncUtils.prototype = {
 
             //call back function needs to have specific sig.
         
-            beforeSend: this.addFBToHeader
+            beforeSend: this.addFBToHeader(FB)
         });
     },
 
@@ -554,7 +554,7 @@ AncUtils.prototype = {
 
     //beforeSend: function (xhr) { passToProxy(xhr, url); }
     // sets facebook token to request header
-    addFBToHeader :function (xhr, fb) {
+    addFBToHeader :function (fb) {
         return function (xhr) {
             var access_token = '';
             if (FB != undefined) {
