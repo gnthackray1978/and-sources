@@ -6,23 +6,32 @@ $(document).ready(function () {
 
 
     var jsMaster = new JSMaster();
-    jsMaster.generateHeader('#1', getPerson);
+    jsMaster.generateHeader('#1', function () {
+
+//        var params = {};
+
+//        params[0] = 'hello';
+
+//        twaGetJSON("/TestLogin", params, function (data) { });
+
+        return false;
+    });
 
    // createHeader('#1', getPerson);
 
  
 });
 
-getPerson = function () {
+//getPerson = function () {
 
-    var params = {};
+//    var params = {};
 
-    params[0] = 'hello';
+//    params[0] = 'hello';
 
-    twaGetJSON("/TestLogin", params, function (data) { } );
+//    twaGetJSON("/TestLogin", params, function (data) { });
 
-    return false;
-}
+//    return false;
+//};
 
 
 
