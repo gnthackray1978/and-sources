@@ -18,15 +18,18 @@ var JSMaster = function () {
 
     window.fbAsyncInit = this.initFacebook;
 
-    $(window).resize(function () {
+    
+    //$(window).resize($.debounce(250, this.test));
 
-//        $.debounce(250,proxy( function () {
-//            alert('hello');
-//        },this));
+//    $(window).resize(function () {
 
-    }
+////        $.debounce(250,proxy( function () {
+////            alert('hello');
+////        },this));
 
-    );
+//    }
+
+//    );
 
     this.testvar = 'var';
 
@@ -34,9 +37,6 @@ var JSMaster = function () {
 
 
 
-test  = function (){
-    alert('hello');
-}
 
 JSMaster.prototype = {
 
