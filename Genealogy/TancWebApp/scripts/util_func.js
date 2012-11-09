@@ -1,13 +1,47 @@
-﻿///*
-//* jQuery throttle / debounce - v1.1 - 3/7/2010
-//* http://benalman.com/projects/jquery-throttle-debounce-plugin/
-//* 
-//* Copyright (c) 2010 "Cowboy" Ben Alman
-//* Dual licensed under the MIT and GPL licenses.
-//* http://benalman.com/about/license/
-//*/
-//(function (b, c) { var $ = b.jQuery || b.Cowboy || (b.Cowboy = {}), a; $.throttle = a = function (e, f, j, i) { var h, d = 0; if (typeof f !== "boolean") { i = j; j = f; f = c } function g() { var o = this, m = +new Date() - d, n = arguments; function l() { d = +new Date(); j.apply(o, n) } function k() { h = c } if (i && !h) { l() } h && clearTimeout(h); if (i === c && m > e) { l() } else { if (f !== true) { h = setTimeout(i ? k : l, i === c ? e - m : e) } } } if ($.guid) { g.guid = j.guid = j.guid || $.guid++ } return g }; $.debounce = function (d, e, f) { return f === c ? a(d, e, false) : a(d, f, e !== false) } })(this);
+﻿//USAGE EXAMPLES 
 
+// using debounce in a constructor or initialization function to debounce
+// focus events for a widget (onFocus is the original handler):
+//this.debouncedOnFocus = this.onFocus.debounce(500, false);
+//this.inputNode.addEventListener('focus', this.debouncedOnFocus, false);
+
+//// to coordinate the debounce of a method for all objects of a certain class, do this:
+//MyClass.prototype.someMethod = function () {
+//    /* do something here, but only once */
+//} .debounce(100, true); // execute at start and use a 100 msec detection period
+
+//// wait until the user is done moving the mouse, then execute
+//// (using the stand-alone version)
+//document.onmousemove = debounce(function (e) {
+//    /* do something here, but only once after mouse cursor stops */
+//}, 250, false);
+//http://ajaxian.com/archives/debounce-your-javascript-functions
+Function.prototype.debounce = function (threshold, execAsap) {
+    var func = this, // reference to original function
+            timeout; // handle to setTimeout async task (detection period)
+    // return the new debounced function which executes the original function only once
+    // until the detection period expires
+    return function debounced() {
+        var obj = this, // reference to original context object
+                args = arguments; // arguments at execution time
+        // this is the detection function. it will be executed if/when the threshold expires
+        function delayed() {
+            // if we're executing at the end of the detection period
+            if (!execAsap)
+                func.apply(obj, args); // execute now
+            // clear timeout handle
+            timeout = null;
+        };
+        // stop any current detection period
+        if (timeout)
+            clearTimeout(timeout);
+        // otherwise, if we're not already waiting and we're executing at the beginning of the waiting period
+        else if (execAsap)
+            func.apply(obj, args); // execute now
+        // reset the waiting period
+        timeout = setTimeout(delayed, threshold || 100);
+    };
+}
 
 
 //ANCUTILS
