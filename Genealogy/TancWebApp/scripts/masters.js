@@ -13,25 +13,10 @@ var JSMaster = function () {
         var ancUtils = new AncUtils();
         ancUtils.twaGetJSON("/TestLogin", params, function (data) { $('#usr_nam').html(data); });
     };
-
-    Window.prototype.facebookReady = this.facebookReady;
-
+    
     window.fbAsyncInit = this.initFacebook;
 
-    
-    //$(window).resize($.debounce(250, this.test));
-
-//    $(window).resize(function () {
-
-////        $.debounce(250,proxy( function () {
-////            alert('hello');
-////        },this));
-
-//    }
-
-//    );
-
-    this.testvar = 'var';
+    $(window).resize($.proxy(this.setBackground.debounce(250, false), this));
 
 }
 
@@ -49,13 +34,9 @@ JSMaster.prototype = {
 
         FB.getLoginStatus(function (response) {
 
-
-
             if (response.status == 'connected') {
                 // showError('connected');
                 window.getLoggedInUserName();
-
-
 
                 if (window.facebookReady != null) {
                     window.facebookReady.apply();
@@ -70,7 +51,8 @@ JSMaster.prototype = {
 
     generateHeader: function (selectorid, readyfunction) {
 
-
+        //todo rewrite this to use .proxy - i think it shouldnt be necessary to use the window.prototype for this!
+        Window.prototype.facebookReady = readyfunction;
 
         this.facebookReady = readyfunction;
 
@@ -152,11 +134,11 @@ JSMaster.prototype = {
         $(selectorid).html(headersection);
 
 
-       // $.proxy(Foo.test, Foo)
+        // $.proxy(Foo.test, Foo)
 
-        $("#lnk_mainoptions").live("click",   $.proxy( function () { this.masterShowTab(1); return false; } , this));
-        $("#lnk_alongwith").live("click", $.proxy(  function () { this.masterShowTab(2); return false; } , this));
-        $("#lnk_tools").live("click", $.proxy(  function () { this.masterShowTab(3); return false; } , this));
+        $("#lnk_mainoptions").live("click", $.proxy(function () { this.masterShowTab(1); return false; }, this));
+        $("#lnk_alongwith").live("click", $.proxy(function () { this.masterShowTab(2); return false; }, this));
+        $("#lnk_tools").live("click", $.proxy(function () { this.masterShowTab(3); return false; }, this));
         $("#lnk_settings").live("click", $.proxy(function () { this.masterShowTab(4); return false; }, this));
 
         //$("#lnk_mapview").live("click", function() { masterShowTab("1"); return false;  });
@@ -177,7 +159,7 @@ JSMaster.prototype = {
         //$("#lnk_importsources").live("click", function() { masterShowTab("1"); return false;  });
         //$("#lnk_viewtrees").live("click", function() { masterShowTab("1"); return false;  });
 
-        $("#lnk_prevback").live("click",$.proxy( function () { this.prevBackground(); return false; }, this));
+        $("#lnk_prevback").live("click", $.proxy(function () { this.prevBackground(); return false; }, this));
         $("#lnk_nextback").live("click", $.proxy(function () { this.nextBackground(); return false; }, this));
 
 
@@ -292,6 +274,8 @@ JSMaster.prototype = {
     },
 
     setBackground: function () {
+
+        //alert('set back');
         var imgIdx = this.getCookie('gnt_back');
 
 
