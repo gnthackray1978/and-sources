@@ -62,14 +62,11 @@
             
                 <div class="fltopt">               
                     <div class="fltoptrow">
-                        <a href='' onclick = 'getMarriages("0");return false' class="button" ><span>Refresh</span></a>   
-                        
+                        <a id='refresh' href='' class="button" ><span>Refresh</span></a>                           
                     </div>
                     <div class="fltoptrow">
-                        <a href='' onclick="sourcesShowPanel('1');return false" class="button" ><span>Main</span></a>
-                        <a href='' onclick="sourcesShowPanel('2');return false" class="button" ><span>More</span></a>
-            
-
+                        <a id='main' href='' class="button" ><span>Main</span></a>
+                        <a id='more' href='' class="button" ><span>More</span></a>           
                     </div>                 
                 </div>
                             
@@ -114,21 +111,21 @@
                    <div id="pMore" class = "hidePanel">
                    
                     <div class = "flt_gen">
-                    <span >Join Options</span>    
-                    <br />
-                    <a href='' onclick="addMarriage('00000000-0000-0000-0000-000000000000');return false" >Add Record</a>
-                    <br />
-                    <a href='' onclick="DeleteRecord();return false">Delete Record</a>
-                    <br />
-                    <a href='' onclick="PrintableResults();return false">Printable Results</a>
+                        <span >Join Options</span>    
+                        <br />
+                        <a id = 'add' href='' onclick="addMarriage('00000000-0000-0000-0000-000000000000');return false" >Add Record</a>
+                        <br />
+                        <a id = 'delete' href='' onclick="DeleteRecord();return false">Delete Record</a>
+                        <br />
+                        <a id = 'print' href='' onclick="PrintableResults();return false">Printable Results</a>
                    
-                    <br />
-                    <a href='' onclick="SetDuplicates();return false">Set Duplicates</a>
-                    <br />
-                    <a href='' onclick="SetMergeMarriages();return false">Merge Sources</a>
-                    <br />
-                    <a href='' onclick="SetRemoveLink();return false">Remove Link</a>
-                    <br />
+                        <br />
+                        <a id = 'dupe' href='' onclick="SetDuplicates();return false">Set Duplicates</a>
+                        <br />
+                        <a id = 'merge' href='' onclick="SetMergeMarriages();return false">Merge Sources</a>
+                        <br />
+                        <a id = 'remove' href='' onclick="SetRemoveLink();return false">Remove Link</a>
+                        <br />
                     </div>   
 
                     </div>
@@ -149,33 +146,33 @@
                             <tr id="Tr2" runat="server" class="hed">
 
                             <td class="sources">
-                                <a href='../HtmlPages/MarriageSearch.html' onclick = 'return false'  ><span>Sources</span></a>   
+                                <a href='../HtmlPages/MarriageSearch.html'><span>Sources</span></a>   
                             </td>
                             <td >
-                                <a href='../HtmlPages/MarriageSearch.html' onclick = "sort('MarriageDate');return false"  ><span>Year</span></a>                           
+                                <a id = 'year_hed' href='../HtmlPages/MarriageSearch.html' onclick = "sort('MarriageDate');return false"  ><span>Year</span></a>                           
                             </td>
                             <td class = "locat">
-                                <a href='../HtmlPages/MarriageSearch.html' onclick = "return false"  ><span>Edit</span></a>
+                                <a href='../HtmlPages/MarriageSearch.html'><span>Edit</span></a>
                             </td>
                             <td class = "surname">
-                                <a href='../HtmlPages/MarriageSearch.html' onclick = "sort('MaleCName');return false"  ><span>Male Name</span></a>
+                                <a id = "mcname_hed" href='../HtmlPages/MarriageSearch.html' onclick = "sort('MaleCName');return false"  ><span>Male Name</span></a>
                             </td>
                             <td class = "surname">
-                                <a href='../HtmlPages/MarriageSearch.html' onclick = "sort('MaleSName');return false"  ><span>Male Surname</span></a> 
+                                <a id= "msname_hed" href='../HtmlPages/MarriageSearch.html' onclick = "sort('MaleSName');return false"  ><span>Male Surname</span></a> 
                             </td>
                             <td class = "surname">
-                                <a href='../HtmlPages/MarriageSearch.html' onclick = "sort('FemaleCName');return false"  ><span>Female Name</span></a> 
+                                <a id= "fcname_hed" href='../HtmlPages/MarriageSearch.html' onclick = "sort('FemaleCName');return false"  ><span>Female Name</span></a> 
                             </td>
                             <td class = "surname">
-                                <a href='../HtmlPages/MarriageSearch.html' onclick = "sort('FemaleSName');return false"  ><span>Female Surname</span></a>
+                                <a id= "fsname_hed" href='../HtmlPages/MarriageSearch.html' onclick = "sort('FemaleSName');return false"  ><span>Female Surname</span></a>
                             </td>
                                                                                             
                             <td class = "locat">
-                                <a href='../HtmlPages/MarriageSearch.html' onclick = "sort('MarriageLocation');return false"  ><span>Locat.</span></a>
+                                <a id= "locat_hed" href='../HtmlPages/MarriageSearch.html' onclick = "sort('MarriageLocation');return false"  ><span>Locat.</span></a>
                             </td>
                             
                             <td class = "locat">
-                                <a href='../HtmlPages/MarriageSearch.html' onclick = "return false"  ><span>Witnesses</span></a>
+                                <a href='../HtmlPages/MarriageSearch.html' ><span>Witnesses</span></a>
                             </td>         
                             </tr>
                         </thead>

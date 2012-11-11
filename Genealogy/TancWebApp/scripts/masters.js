@@ -6,6 +6,8 @@ var JSMaster = function () {
     this.imgIdx = 0;
     this.setBackground();
     this.ancUtils = new AncUtils();
+    this.qryStrUtils = new QryStrUtils();
+
 
     Window.prototype.getLoggedInUserName = function () {
         var params = {};

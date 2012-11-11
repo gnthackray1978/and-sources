@@ -27,6 +27,7 @@ var BatchCore = function (grid) {
     this.bp = new BatchParishs();
     this.bs = new BatchSources();
     this.ancUtils = new AncUtils();
+    this.qryStrUtils = new QryStrUtils();
 
     this.batchBirths = new BatchBirths(grid);
     this.batchReferences = new BatchReferences(grid);
@@ -85,7 +86,7 @@ BatchCore.prototype = {
     , selectParish: function () {
         var _loc = window.location.hash;
 
-        _loc = this.ancUtils.updateStrForQry(_loc, this.parishparam, '');
+        _loc = this.qryStrUtils.updateStrForQry(_loc, this.parishparam, '');
         _loc = _loc.replace('#', '');
 
         var url = '../HtmlPages/ParishSearch.html#' + _loc;
@@ -96,11 +97,11 @@ BatchCore.prototype = {
     , selectSource: function () {
         var _loc = window.location.hash;
 
-        _loc = this.ancUtils.updateStrForQry(_loc, 'ldrl', '0');
-        _loc = this.ancUtils.updateStrForQry(_loc, 'ldru', '0');
-        _loc = this.ancUtils.updateStrForQry(_loc, 'udrl', '2000');
-        _loc = this.ancUtils.updateStrForQry(_loc, 'udru', '2000');
-        _loc = this.ancUtils.updateStrForQry(_loc, sourceparam, '');
+        _loc = this.qryStrUtils.updateStrForQry(_loc, 'ldrl', '0');
+        _loc = this.qryStrUtils.updateStrForQry(_loc, 'ldru', '0');
+        _loc = this.qryStrUtils.updateStrForQry(_loc, 'udrl', '2000');
+        _loc = this.qryStrUtils.updateStrForQry(_loc, 'udru', '2000');
+        _loc = this.qryStrUtils.updateStrForQry(_loc, sourceparam, '');
 
         _loc = _loc.replace('#', '');
 

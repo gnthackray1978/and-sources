@@ -166,10 +166,10 @@ BatchBirths.prototype.GetBirthRecord = function (rowIdx) {
 
     var theData = {};
     theData.personId = '';
-    theData.birthparishId = this.ancUtils.getParameterByName('parl', '');
+    theData.birthparishId = this.qryStrUtils.getParameterByName('parl', '');
 
 
-    theData.sources = this.ancUtils.getParameterByName('scs', '');
+    theData.sources = this.qryStrUtils.getParameterByName('scs', '');
     theData.christianName = this.editableGrid.getValueAt(rowIdx, 2); //name
     theData.surname = $('#txtSurname').val();
     theData.fatherchristianname = this.editableGrid.getValueAt(rowIdx, 4); //father name
@@ -213,8 +213,8 @@ BatchBirths.prototype.GetDeathRecord = function (rowIdx) {
 
     theData.personId = '';
 
-    theData.birthparishId = this.ancUtils.getParameterByName('parl', '');
-    theData.sources = this.ancUtils.getParameterByName('scs', '');
+    theData.birthparishId = this.qryStrUtils.getParameterByName('parl', '');
+    theData.sources = this.qryStrUtils.getParameterByName('scs', '');
 
 
 
