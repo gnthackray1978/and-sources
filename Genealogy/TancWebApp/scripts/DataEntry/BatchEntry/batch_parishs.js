@@ -5,6 +5,8 @@
 var BatchParishs = function () {
 
     this.ancUtils = new AncUtils();
+    this.qryStrUtils = new QryStrUtils();
+
     this.parishparam = 'parl';
 }
 
@@ -14,7 +16,7 @@ BatchParishs.prototype = {
     getParishLst : function () {
 
         var params = {};
-        var scs = this.ancUtils.getParameterByName(this.parishparam, '');
+        var scs = this.qryStrUtils.getParameterByName(this.parishparam, '');
         params[0] = scs;
 
         //   $.ajaxSetup({ cache: false });

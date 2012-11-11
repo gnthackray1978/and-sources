@@ -4,7 +4,10 @@
 
 
 var BatchSources = function () {
- 
+
+    this.qryStrUtils = new QryStrUtils();
+    this.ancUtils = new AncUtils();
+
     this.sourceparam = 'scs';
     this.parishparam = 'parl';
 }
@@ -23,7 +26,7 @@ BatchSources.prototype = {
     }
     ,getSourceLst: function() {
         var params = {};
-        var scs = this.ancUtils.getParameterByName(sourceparam, '');     
+        var scs = this.qryStrUtils.getParameterByName(sourceparam, '');     
         params[0] = scs;
         this.ancUtils.twaGetJSON('/Sources/GetSourceNames', params, processsourcetypes);
         return false;

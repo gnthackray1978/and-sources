@@ -44,6 +44,33 @@ Function.prototype.debounce = function (threshold, execAsap) {
 }
 
 
+
+
+
+
+//remove invalid selections from an array
+Array.prototype.RemoveInvalid = function (selection) {
+    var filteredArray = new Array();
+    for (var si = 0; si < selection.length; si++) {
+        for (var i = 0; i < this.length; i++) {
+            if (this[i] == selection[si]) {
+                filteredArray.push(this[i]);
+                break;
+            }
+        }
+    }
+    return filteredArray;
+}
+
+
+
+
+
+
+
+
+
+
 //ANCUTILS
 function twaPostJSON(url, data, redirectUrl, idparam,  successFunc) {
 
@@ -431,74 +458,88 @@ var AncUtils = function () { }
 
 AncUtils.prototype = {
 
+     convertToCSV: function(array) {
+        var csvStr = '';
+
+        $.each(array, function (intIdx, objVal) {
+            if (intIdx == 0)
+                csvStr += objVal;
+            else
+                csvStr += ',' + objVal;
+        })
+
+        return csvStr;
+    },
+    
+    sort_inner: function (sort_col, param_name) {
+
+        var col_name = 'sort_col';
+
+        if (param_name != undefined && param_name != '')
+            col_name = param_name;
+
+        var existing_col = this.getParameterByName(col_name);
+
+        if (existing_col) {
+
+            if (existing_col.indexOf(sort_col) >= 0) {
+                if (existing_col.indexOf('DESC') < 0) {
+                    sort_col += ' DESC';
+                }
+            }
+        }
+
+        this.updateQryPar(col_name, sort_col);   
+    },
+
+
+    handleSelection: function(evt, selection, bodytag, id)
+    {
+        var arIdx = jQuery.inArray(evt, selection);
+
+        if (arIdx == -1) {
+            selection.push(evt);
+        }
+        else {
+            selection.splice(arIdx, 1);
+        }
+
+        $(bodytag).each(function () {
+            $this = $(this)
+
+            var quantity = $this.find(id).val();
+            arIdx = jQuery.inArray(quantity, selection);
+
+            if (arIdx == -1) {
+                $this.removeClass('highLightRow');
+            }
+            else {
+                $this.addClass('highLightRow');
+            }
+        }); //end each
+    },
+
+
+    addlinks: function (dupeEvents, func, context) {
+        for (var i = 0; i < dupeEvents.length; i++) {
+            var m = i;
+            $("#" + dupeEvents[i].key).live("click",
+                $.proxy(function () {
+                    var va = m;
+
+                    func.call(context,va);
+                    return false;
+                }, context));
+        }
+    
+    },
+
     getHost: function()
     {
         if (window.location.hostname.indexOf("local") == -1)
             return 'http://www.gnthackray.net'
         else
             return 'http://local.gnthackray.net:666';
-    },
-
-    updateQryPar: function (parname, parval) {   
-        var qry = window.location.hash;
-        if (qry.indexOf(parname) < 0) {
-            if (qry.indexOf('?') < 0) {
-                qry = '?' + parname + '=' + parval;
-                window.location.hash = qry;
-            }
-            else {
-                qry += '&' + parname + '=' + parval;
-                window.location.replace(qry);
-            }
-        }
-        else {
-            var oldVal = this.getParameterByName(parname, '');
-            var pageQry = parname + '=' + oldVal;
-            var replaceQry = parname + '=' + parval;
-            qry = qry.replace(pageQry, replaceQry);         
-            window.location.replace(qry);
-        }
-    },
-
-    //update parameters in a string NOT the address bar
-    updateStrForQry: function (qry, parname, parval) {
-        //parameter not found in string
-        if (qry.indexOf('?' + parname) < 0 && qry.indexOf('&' + parname) < 0) {
-            if (qry.indexOf('?') < 0) {
-                // the query string is completely empty
-                qry = '?' + parname + '=' + parval;
-            }
-            else {
-                // so tack it on the end
-                qry += '&' + parname + '=' + parval;
-            }
-        }
-        else {
-            var oldVal = this.getParameterByNameFromString(qry, parname);
-
-            if (!oldVal) oldVal = '';
-
-            var pageQry = parname + '=' + oldVal;
-            var replaceQry = parname + '=' + parval;
-            qry = qry.replace(pageQry, replaceQry);
-        }
-        return qry;
-    },
-
-    //get parameter specify defvalue if you want a default value if it doesnt exist
-    getParameterByName: function(name, defvalue) { 
-        var match = RegExp('[?&]' + name + '=([^&]*)')
-                        .exec(window.location.href);
-
-        if (defvalue != undefined && defvalue != null) {
-            if (match != null)
-                return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
-            else
-                return defvalue;
-        } else {
-            return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
-        }
-
     },
 
     // gets json set
@@ -598,10 +639,128 @@ AncUtils.prototype = {
             xhr.setRequestHeader('fb', access_token);
         }
     }
-
-
 }
 
 
 
 
+
+
+
+
+
+var QryStrUtils = function () { }
+
+
+QryStrUtils.prototype = {
+
+     makeIdQryString: function(paramName,path) {
+
+        var _loc = window.location.hash;
+
+        var idParam = this.getParameterByName(paramName);
+
+        if (idParam == null) {
+            if (_loc == '') {
+                _loc += paramName + '=' + path;
+            }
+            else {
+                _loc += '&' + paramName + '=' + path;
+            }
+        }
+        else {
+            idParam = paramName +'=' + idParam;
+            _loc = _loc.replace(idParam, paramName + '=' + path);
+        }
+
+        if (_loc.indexOf('?') < 0) {
+            _loc = '?' + _loc;
+        }
+
+        return _loc;
+    },
+
+
+    updateQry: function (args) {
+        // var myJSONObject = { "ircEvent": "PRIVMSG", "method": "newURI", "regex": "^http://.*" };
+
+         var workingQry = window.location.hash;
+
+         for (var prop in args) {
+
+             if ($.type(args[prop]) == "string")
+                workingQry = this.updateStrForQry(workingQry, prop, args[prop]);
+             else
+                workingQry = this.updateStrForQry(workingQry, prop, args[prop].val());
+
+         }
+
+         window.location.replace(workingQry);
+     },
+
+     updateQryPar: function (parname, parval) {   
+        var qry = window.location.hash;
+        if (qry.indexOf(parname) < 0) {
+            if (qry.indexOf('?') < 0) {
+                qry = '?' + parname + '=' + parval;
+                window.location.hash = qry;
+            }
+            else {
+                qry += '&' + parname + '=' + parval;
+                window.location.replace(qry);
+            }
+        }
+        else {
+            var oldVal = this.getParameterByName(parname, '');
+            var pageQry = parname + '=' + oldVal;
+            var replaceQry = parname + '=' + parval;
+            qry = qry.replace(pageQry, replaceQry);         
+            window.location.replace(qry);
+        }
+    },
+
+    //update parameters in a string NOT the address bar
+    updateStrForQry: function (qry, parname, parval) {
+        //parameter not found in string
+        if (qry.indexOf('?' + parname) < 0 && qry.indexOf('&' + parname) < 0) {
+            if (qry.indexOf('?') < 0) {
+                // the query string is completely empty
+                qry = '?' + parname + '=' + parval;
+            }
+            else {
+                // so tack it on the end
+                qry += '&' + parname + '=' + parval;
+            }
+        }
+        else {
+            var oldVal = this.getParameterByNameFromString(qry, parname);
+
+            if (!oldVal) oldVal = '';
+
+            var pageQry = parname + '=' + oldVal;
+            var replaceQry = parname + '=' + parval;
+            qry = qry.replace(pageQry, replaceQry);
+        }
+        return qry;
+    },
+
+    //get parameter specify defvalue if you want a default value if it doesnt exist
+    getParameterByName: function(name, defvalue) { 
+        var match = RegExp('[?&]' + name + '=([^&]*)')
+                        .exec(window.location.href);
+
+        if (defvalue != undefined && defvalue != null) {
+            if (match != null)
+                return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+            else
+                return defvalue;
+        } else {
+            return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+        }
+
+    }
+
+
+
+
+}

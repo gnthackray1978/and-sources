@@ -184,7 +184,6 @@
     <Content Include="Scripts\TreeDiags\DescTreeDiag.js" />
     <Content Include="Scripts\pager.js" />
     <Content Include="Scripts\SearchScreens\lookups\sourceTypeLookup.js" />
-    <Content Include="Scripts\test.js" />
     <Content Include="Scripts\TreeDiags\treeUI.js" />
     <Content Include="Scripts\visiblePanels.js" />
     <Content Include="Styles\batchImporter.css" />
