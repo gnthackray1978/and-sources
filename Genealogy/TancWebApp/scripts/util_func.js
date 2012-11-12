@@ -458,7 +458,7 @@ var AncUtils = function () { }
 
 AncUtils.prototype = {
 
-     convertToCSV: function(array) {
+    convertToCSV: function (array) {
         var csvStr = '';
 
         $.each(array, function (intIdx, objVal) {
@@ -470,7 +470,7 @@ AncUtils.prototype = {
 
         return csvStr;
     },
-    
+
     sort_inner: function (sort_col, param_name) {
 
         var col_name = 'sort_col';
@@ -489,12 +489,11 @@ AncUtils.prototype = {
             }
         }
 
-        this.updateQryPar(col_name, sort_col);   
+        this.updateQryPar(col_name, sort_col);
     },
 
 
-    handleSelection: function(evt, selection, bodytag, id)
-    {
+    handleSelection: function (evt, selection, bodytag, id) {
         var arIdx = jQuery.inArray(evt, selection);
 
         if (arIdx == -1) {
@@ -527,15 +526,18 @@ AncUtils.prototype = {
                 $.proxy(function () {
                     var va = m;
 
-                    func.call(context,va);
+                    if (va != null)
+                        func.call(context, va);
+                    else
+                        func.call(context);
+
                     return false;
                 }, context));
         }
-    
+
     },
 
-    getHost: function()
-    {
+    getHost: function () {
         if (window.location.hostname.indexOf("local") == -1)
             return 'http://www.gnthackray.net'
         else
@@ -543,7 +545,7 @@ AncUtils.prototype = {
     },
 
     // gets json set
-    twaGetJSON:function (url, paramsArg, methodArg, fbArg) {
+    twaGetJSON: function (url, paramsArg, methodArg, fbArg) {
 
         var aburl = this.getHost() + url;
 
@@ -557,13 +559,13 @@ AncUtils.prototype = {
             success: methodArg,
 
             //call back function needs to have specific sig.
-        
+
             beforeSend: this.addFBToHeader(FB)
         });
     },
 
     //ANCUTILS
-    twaPostJSON:function (url, data, redirectUrl, idparam, successFunc) {
+    twaPostJSON: function (url, data, redirectUrl, idparam, successFunc) {
 
         var localurl = this.getHost() + url;
 
@@ -595,7 +597,7 @@ AncUtils.prototype = {
     },
 
 
-    handleReturnCodeWithReturn: function(message, redirectUrl, idParam) {
+    handleReturnCodeWithReturn: function (message, redirectUrl, idParam) {
 
         var result = this.getValueFromKey(message, 'Id');
 
@@ -612,24 +614,24 @@ AncUtils.prototype = {
         }
     },
 
-    getValueFromKey: function(qry, name) {
+    getValueFromKey: function (qry, name) {
         var match = RegExp(name + '=([^&]*)')
                     .exec(qry);
         return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
     },
 
-    
-    showError: function(error) {
+
+    showError: function (error) {
         if (error != '' && error != null) {
             $('#errorDialog').html(error);
-            $("#errorDialog").dialog();       
+            $("#errorDialog").dialog();
         }
     },
 
 
     //beforeSend: function (xhr) { passToProxy(xhr, url); }
     // sets facebook token to request header
-    addFBToHeader :function (fb) {
+    addFBToHeader: function (fb) {
         return function (xhr) {
             var access_token = '';
             if (FB != undefined) {
@@ -638,7 +640,108 @@ AncUtils.prototype = {
             }
             xhr.setRequestHeader('fb', access_token);
         }
+    },
+
+
+    createpager: function (currentPage, recordsPerPage, totalRecords, functionname) {
+
+        var clickEvents = new Array();
+
+        //   dupeEvents.push({ key: '#d' + _idx, value: sourceInfo.XREF });
+
+
+        var blocksize = 5;
+
+        var remainderPages = totalRecords % recordsPerPage;
+        var totalRequiredPages = (totalRecords - remainderPages) / recordsPerPage;
+
+        if (remainderPages > 0)
+            totalRequiredPages++;
+
+        var pagerBody = '';
+
+        if (totalRequiredPages <= blocksize) {
+            var idx0 = 0;
+
+            while (idx0 < totalRequiredPages) {
+
+                pagerBody += "<a id='a" + idx0 + "' href='' class = 'pagerlink'>" + String(idx0 + 1) + "</a>";
+                clickEvents.push({ key: '#a' + idx0, value: idx0 });
+                idx0++;
+            }
+        }
+        else {
+            var startpage = currentPage - (currentPage % blocksize);
+            var limit = 0;
+
+            if ((startpage + blocksize) > totalRequiredPages) {
+
+                limit = totalRequiredPages;
+            }
+            else {
+                limit = startpage + blocksize;
+
+            }
+
+            //   alert(startpage + ' ' + limit);
+
+
+            if (startpage >= blocksize) {
+                pagerBody += "<a id='b0' href='' class = 'pagerlink'>First</a>";
+                clickEvents.push({ key: '#b0', value: 0 });
+
+                // work out how far back to move the pager when the '..' is clicked.
+                // if we are at the end of the record and there is only a few pages available
+                // then the .. should be moved back to the start of block of pages boundary 
+                // eg 01234 56789 1011121314 the block boundaries would be 0 5 and 10
+
+                var countPagesAvailable = (limit - startpage);
+
+                var linkPage = (startpage - blocksize);
+
+                pagerBody += "<a id='c" + linkPage + "' href='' class = 'pagerlink'>..</a>";
+
+                clickEvents.push({ key: '#c' + linkPage, value: linkPage });
+            }
+
+            var idx = startpage;
+            while (idx < limit) {
+                if (idx == currentPage) {
+                    pagerBody += "<a id='d" + idx + "' href='' class = 'pagerlink_selected'>" + String(idx + 1) + "</a>";
+                    clickEvents.push({ key: '#d' + idx, value: idx });
+                }
+                else {
+                    pagerBody += "<a id='d" + idx + "' href='' class = 'pagerlink' >" + String(idx + 1) + "</a>";
+                    clickEvents.push({ key: '#d' + idx, value: idx });               
+                }
+                idx++;
+            }
+
+
+            if (idx < totalRequiredPages) {
+
+                var remainderAvailablePages = totalRequiredPages % blocksize;
+                //zero based
+
+                startpage += blocksize;
+                startpage++;
+
+                pagerBody += "<a id='e" + startpage + "' href='' class = 'pagerlink'>..</a>";
+                clickEvents.push({ key: '#e' + startpage, value: startpage });
+
+                pagerBody += "<a id='e" + (totalRequiredPages - remainderAvailablePages) + "' href='' class = 'pagerlink'>Last</a>";
+                clickEvents.push({ key: '#e' + (totalRequiredPages - remainderAvailablePages), value: (totalRequiredPages - remainderAvailablePages) });   
+
+            }
+        }
+
+
+
+        return pagerBody;
     }
+
+
+
 }
 
 
@@ -764,3 +867,8 @@ QryStrUtils.prototype = {
 
 
 }
+
+
+
+
+

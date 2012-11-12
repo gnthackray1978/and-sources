@@ -13,7 +13,9 @@ var JSMaster = function () {
         var params = {};
         params[0] = 'hello';
         var ancUtils = new AncUtils();
-        ancUtils.twaGetJSON("/TestLogin", params, function (data) { $('#usr_nam').html(data); });
+        ancUtils.twaGetJSON("/TestLogin", params, function (data) {
+            $('#usr_nam').html(data); 
+         });
     };
     
     window.fbAsyncInit = this.initFacebook;

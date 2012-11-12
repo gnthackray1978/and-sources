@@ -32,16 +32,30 @@ AncMarriages.prototype = {
     init: function () {
         var isActive = this.qryStrUtils.getParameterByName('active', '');
 
-        var clickEvents = new Array();
-        var panels = new panels();
 
-        //clickEvents.push({ key: '#', value: 1 });
-        //this.ancUtils.addlinks(clickEvents, this.loadDupes, this);
+        var panels = new Panels();
 
-        $("#refresh").live("click", $.proxy(function () { this.getMarriages("0"); return false; }, this));
+
+
         $("#main").live("click", $.proxy(function () { panels.sourcesShowPanel('1'); return false; }, panels));
         $("#more").live("click", $.proxy(function () { panels.sourcesShowPanel('2'); return false; }, panels));
 
+        $("#refresh").live("click", $.proxy(function () { this.getMarriages("0"); return false; }, this));
+
+        $("#add").live("click", $.proxy(function () { this.addMarriage('00000000-0000-0000-0000-000000000000'); return false; }, this));
+        $("#delete").live("click", $.proxy(function () { this.DeleteRecord(); return false; }, this));
+        $("#print").live("click", $.proxy(function () { this.PrintableResults(); return false; }, this));
+        $("#dupe").live("click", $.proxy(function () { this.SetDuplicates(); return false; }, this));
+        $("#merge").live("click", $.proxy(function () { this.SetMergeMarriages(); return false; }, this));
+        $("#remove").live("click", $.proxy(function () { this.SetRemoveLink(); return false; }, this));
+
+        $("#year_hed").live("click", $.proxy(function () { this.sort('MarriageDate'); return false; }, this));
+        $("#mcname_hed").live("click", $.proxy(function () { this.sort('MaleCName'); return false; }, this));
+        $("#msname_hed").live("click", $.proxy(function () { this.sort('MaleSName'); return false; }, this));
+        $("#fcname_hed").live("click", $.proxy(function () { this.sort('FemaleCName'); return false; }, this));
+        $("#fsname_hed").live("click", $.proxy(function () { this.sort('FemaleSName'); return false; }, this));
+
+        $("#locat_hed").live("click", $.proxy(function () { this.sort('MarriageLocation'); return false; }, this));
 
 
 
@@ -65,7 +79,8 @@ AncMarriages.prototype = {
     },
 
     createQryString: function () {
-        this.qryStrUtils.updateQryPar({
+
+        var args = {
             "active": '1',
             "mcname": $('#txtMaleCName'),
             "msname": $('#txtMaleSName'),
@@ -74,8 +89,11 @@ AncMarriages.prototype = {
             "locat": $('#txtLocation'),
             "ldrl": $('#txtLowerDateRangeLower'),
             "ldru": $('#txtLowerDateRangeUpper'),
-            "parid": parishId
-        });
+            "parid": this.parishId
+        };
+
+
+        this.qryStrUtils.updateQry(args);
 
     },
 
@@ -104,9 +122,9 @@ AncMarriages.prototype = {
         params[11] = '30';
         params[12] = this.qryStrUtils.getParameterByName('sort_col', 'MarriageDate');
 
-        this.ancUtils.twaGetJSON('/Marriages/GetMarriages/Select', params, this.marriageResult);
+        this.ancUtils.twaGetJSON('/Marriages/GetMarriages/Select', params, $.proxy(this.marriageResult, this));
 
-        this.createQryString(page);
+        this.createQryString();
 
         return false;
     },
@@ -121,6 +139,8 @@ AncMarriages.prototype = {
         var selectEvents = new Array();
 
         var _idx = 0;
+
+        var that = this;
 
         $.each(data.serviceMarriages, function (source, sourceInfo) {
 
@@ -137,7 +157,7 @@ AncMarriages.prototype = {
             }
 
             var _loc = window.location.hash;
-            _loc = this.ancUtils.updateStrForQry(_loc, 'id', sourceInfo.MarriageId);
+            _loc = that.qryStrUtils.updateStrForQry(_loc, 'id', sourceInfo.MarriageId);
 
             tableBody += '<td><a id= "d' + _idx + '" href=""><div>' + sourceInfo.Events + '</div></a></td>';
             dupeEvents.push({ key: '#d' + _idx, value: sourceInfo.XREF });
@@ -168,6 +188,14 @@ AncMarriages.prototype = {
 
             $('#search_bdy').html(tableBody);
             //create pager based on results
+
+            var pagerparams = { ParentElement: $('#pager'),
+                Batch: data.Batch,
+                BatchLength: data.BatchLength,
+                Total: data.Total,
+                Function: this.getLink,
+                Context: this
+            };
 
             $('#pager').html(createpager(data.Batch, data.BatchLength, data.Total, 'getLink'));
 
