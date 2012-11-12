@@ -26,16 +26,35 @@ $(document).ready(function () {
 var JSTest = function () {
     this.monkey = 'monkey';
 
-
+    this.ancUtils = new AncUtils();
 }
 
 JSTest.prototype.logmessage = function (somecrap) {
 
-    //if (console.log != undefined)
-    //   console.log();
-    var hello = 'called ' + this.monkey + ' sc ' + somecrap;
+    var params = {};
+    params[0] = '';
+    params[1] = '';
+    params[2] = 'Thac';
+    params[3] = '';
+    params[4] = '';
+    params[5] = '';
+    params[6] = '1700';
+    params[7] = '1720';
+    params[8] = '';
+    params[9] = '';
+    params[10] = '0';
+    params[11] = '30';
+    params[12] =  'MarriageDate';
 
-    var end = 0;
+    this.ancUtils.twaGetJSON('/Marriages/GetMarriages/Select', params, this.marriageResult);
+
+
+
+}
+
+JSTest.prototype.marriageResult=function (data) {
+            var test = 'hello there';
+        alert(test);
 }
 
 JSTest.prototype.adddata = function () {
