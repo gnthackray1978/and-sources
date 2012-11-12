@@ -643,7 +643,14 @@ AncUtils.prototype = {
     },
 
 
-    createpager: function (currentPage, recordsPerPage, totalRecords, functionname) {
+
+    //ParentElement: $('#pager'),
+    //Batch: data.Batch,
+    //BatchLength: data.BatchLength,
+    //Total: data.Total,
+    //Function: this.getLink,
+    //Context: this
+    createpager: function (pagerparams) {
 
         var clickEvents = new Array();
 
@@ -712,7 +719,7 @@ AncUtils.prototype = {
                 }
                 else {
                     pagerBody += "<a id='d" + idx + "' href='' class = 'pagerlink' >" + String(idx + 1) + "</a>";
-                    clickEvents.push({ key: '#d' + idx, value: idx });               
+                    clickEvents.push({ key: '#d' + idx, value: idx });
                 }
                 idx++;
             }
@@ -730,14 +737,16 @@ AncUtils.prototype = {
                 clickEvents.push({ key: '#e' + startpage, value: startpage });
 
                 pagerBody += "<a id='e" + (totalRequiredPages - remainderAvailablePages) + "' href='' class = 'pagerlink'>Last</a>";
-                clickEvents.push({ key: '#e' + (totalRequiredPages - remainderAvailablePages), value: (totalRequiredPages - remainderAvailablePages) });   
+                clickEvents.push({ key: '#e' + (totalRequiredPages - remainderAvailablePages), value: (totalRequiredPages - remainderAvailablePages) });
 
             }
         }
 
+        // set pager html
+        pagerparams.ParentElement.html(pagerBody);
 
-
-        return pagerBody;
+        // add click events
+        this.addlinks(clickEvents, pagerparams.Function, pagerparams.Context);
     }
 
 

@@ -197,7 +197,9 @@ AncMarriages.prototype = {
                 Context: this
             };
 
-            $('#pager').html(createpager(data.Batch, data.BatchLength, data.Total, 'getLink'));
+            this.ancUtils.createpager(pagerparams);
+
+           // $('#pager').html(createpager(data.Batch, data.BatchLength, data.Total, 'getLink'));
 
             $('#reccount').html(data.Total + ' Marriages');
         }
