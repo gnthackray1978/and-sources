@@ -521,10 +521,11 @@ AncUtils.prototype = {
 
     addlinks: function (dupeEvents, func, context) {
         for (var i = 0; i < dupeEvents.length; i++) {
-            var m = i;
-            $("#" + dupeEvents[i].key).live("click",
-                $.proxy(function () {
-                    var va = m;
+
+            var somecrap = function (i) {
+
+                $("#" + dupeEvents[i].key).live("click", $.proxy(function () {
+                    var va = i;
 
                     if (va != null)
                         func.call(context, va);
@@ -533,6 +534,11 @@ AncUtils.prototype = {
 
                     return false;
                 }, context));
+
+            };
+
+            somecrap(i);
+
         }
 
     },
@@ -743,7 +749,7 @@ AncUtils.prototype = {
         }
 
         // set pager html
-        $('#'+pagerparams.ParentElement).html(pagerBody);
+        $('#' + pagerparams.ParentElement).html(pagerBody);
 
         // add click events
         this.addlinks(clickEvents, pagerparams.Function, pagerparams.Context);
@@ -870,8 +876,13 @@ QryStrUtils.prototype = {
             return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
         }
 
-    }
+    },
 
+    getParameterByNameFromString: function(qry, name) {
+        var match = RegExp('[?&]' + name + '=([^&]*)')
+                        .exec(qry);
+        return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+    }
 
 
 
