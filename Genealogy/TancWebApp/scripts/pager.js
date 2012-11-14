@@ -1,4 +1,6 @@
-﻿function createpager(currentPage, recordsPerPage, totalRecords, functionname) {
+﻿
+
+function createpager(currentPage, recordsPerPage, totalRecords, functionname) {
 
 
 
