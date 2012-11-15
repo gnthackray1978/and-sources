@@ -521,10 +521,11 @@ AncUtils.prototype = {
 
     addlinks: function (dupeEvents, func, context) {
         for (var i = 0; i < dupeEvents.length; i++) {
-            var m = i;
-            $("#" + dupeEvents[i].key).live("click",
-                $.proxy(function () {
-                    var va = m;
+
+            var somecrap = function (i) {
+
+                $("#" + dupeEvents[i].key).live("click", $.proxy(function () {
+                    var va = i;
 
                     if (va != null)
                         func.call(context, va);
@@ -533,6 +534,11 @@ AncUtils.prototype = {
 
                     return false;
                 }, context));
+
+            };
+
+            somecrap(i);
+
         }
 
     },
@@ -659,31 +665,31 @@ AncUtils.prototype = {
 
         var blocksize = 5;
 
-        var remainderPages = totalRecords % recordsPerPage;
-        var totalRequiredPages = (totalRecords - remainderPages) / recordsPerPage;
+        var remainderPages = pagerparams.Total % pagerparams.BatchLength;
+        var totalRequiredPages = (pagerparams.Total - remainderPages) / pagerparams.BatchLength;
 
         if (remainderPages > 0)
-            totalRequiredPages++;
+            pagerparams.Total++;
 
         var pagerBody = '';
 
-        if (totalRequiredPages <= blocksize) {
+        if (pagerparams.Total <= blocksize) {
             var idx0 = 0;
 
-            while (idx0 < totalRequiredPages) {
+            while (idx0 < pagerparams.Total) {
 
                 pagerBody += "<a id='a" + idx0 + "' href='' class = 'pagerlink'>" + String(idx0 + 1) + "</a>";
-                clickEvents.push({ key: '#a' + idx0, value: idx0 });
+                clickEvents.push({ key: 'a' + idx0, value: idx0 });
                 idx0++;
             }
         }
         else {
-            var startpage = currentPage - (currentPage % blocksize);
+            var startpage = pagerparams.Batch - (pagerparams.Batch % blocksize);
             var limit = 0;
 
-            if ((startpage + blocksize) > totalRequiredPages) {
+            if ((startpage + blocksize) > pagerparams.Total) {
 
-                limit = totalRequiredPages;
+                limit = pagerparams.Total;
             }
             else {
                 limit = startpage + blocksize;
@@ -695,7 +701,7 @@ AncUtils.prototype = {
 
             if (startpage >= blocksize) {
                 pagerBody += "<a id='b0' href='' class = 'pagerlink'>First</a>";
-                clickEvents.push({ key: '#b0', value: 0 });
+                clickEvents.push({ key: 'b0', value: 0 });
 
                 // work out how far back to move the pager when the '..' is clicked.
                 // if we are at the end of the record and there is only a few pages available
@@ -708,42 +714,42 @@ AncUtils.prototype = {
 
                 pagerBody += "<a id='c" + linkPage + "' href='' class = 'pagerlink'>..</a>";
 
-                clickEvents.push({ key: '#c' + linkPage, value: linkPage });
+                clickEvents.push({ key: 'c' + linkPage, value: linkPage });
             }
 
             var idx = startpage;
             while (idx < limit) {
-                if (idx == currentPage) {
+                if (idx == pagerparams.Batch) {
                     pagerBody += "<a id='d" + idx + "' href='' class = 'pagerlink_selected'>" + String(idx + 1) + "</a>";
-                    clickEvents.push({ key: '#d' + idx, value: idx });
+                    clickEvents.push({ key: 'd' + idx, value: idx });
                 }
                 else {
                     pagerBody += "<a id='d" + idx + "' href='' class = 'pagerlink' >" + String(idx + 1) + "</a>";
-                    clickEvents.push({ key: '#d' + idx, value: idx });
+                    clickEvents.push({ key: 'd' + idx, value: idx });
                 }
                 idx++;
             }
 
 
-            if (idx < totalRequiredPages) {
+            if (idx < pagerparams.Total) {
 
-                var remainderAvailablePages = totalRequiredPages % blocksize;
+                var remainderAvailablePages = pagerparams.Total % blocksize;
                 //zero based
 
                 startpage += blocksize;
                 startpage++;
 
                 pagerBody += "<a id='e" + startpage + "' href='' class = 'pagerlink'>..</a>";
-                clickEvents.push({ key: '#e' + startpage, value: startpage });
+                clickEvents.push({ key: 'e' + startpage, value: startpage });
 
-                pagerBody += "<a id='e" + (totalRequiredPages - remainderAvailablePages) + "' href='' class = 'pagerlink'>Last</a>";
-                clickEvents.push({ key: '#e' + (totalRequiredPages - remainderAvailablePages), value: (totalRequiredPages - remainderAvailablePages) });
+                pagerBody += "<a id='e" + (pagerparams.Total - remainderAvailablePages) + "' href='' class = 'pagerlink'>Last</a>";
+                clickEvents.push({ key: 'e' + (pagerparams.Total - remainderAvailablePages), value: (pagerparams.Total - remainderAvailablePages) });
 
             }
         }
 
         // set pager html
-        pagerparams.ParentElement.html(pagerBody);
+        $('#' + pagerparams.ParentElement).html(pagerBody);
 
         // add click events
         this.addlinks(clickEvents, pagerparams.Function, pagerparams.Context);
@@ -870,8 +876,13 @@ QryStrUtils.prototype = {
             return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
         }
 
-    }
+    },
 
+    getParameterByNameFromString: function(qry, name) {
+        var match = RegExp('[?&]' + name + '=([^&]*)')
+                        .exec(qry);
+        return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+    }
 
 
 

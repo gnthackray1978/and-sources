@@ -189,7 +189,7 @@ AncMarriages.prototype = {
             $('#search_bdy').html(tableBody);
             //create pager based on results
 
-            var pagerparams = { ParentElement: $('#pager'),
+            var pagerparams = { ParentElement: 'pager',
                 Batch: data.Batch,
                 BatchLength: data.BatchLength,
                 Total: data.Total,
