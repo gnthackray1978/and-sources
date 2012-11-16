@@ -98,7 +98,7 @@ AncMarriages.prototype = {
     },
 
     getMarriages: function (showdupes) {
-
+        console.time('getMarriages');
         var parentId = '';
         if (showdupes == '0') {
             this.qryStrUtils.updateQryPar('_parentId', parentId);
@@ -131,7 +131,9 @@ AncMarriages.prototype = {
 
 
     marriageResult: function (data) {
-        //alert('received something');
+
+        console.time('result');
+
         var tableBody = '';
         var visibleRecords = new Array();
 
@@ -160,10 +162,10 @@ AncMarriages.prototype = {
             _loc = that.qryStrUtils.updateStrForQry(_loc, 'id', sourceInfo.MarriageId);
 
             tableBody += '<td><a id= "d' + _idx + '" href=""><div>' + sourceInfo.Events + '</div></a></td>';
-            dupeEvents.push({ key: '#d' + _idx, value: sourceInfo.XREF });
+            dupeEvents.push({ key: 'd' + _idx, value: sourceInfo.XREF });
 
             tableBody += '<td><a id= "s' + _idx + '" href=""><div>' + sourceInfo.MarriageDate + '</div></a></td>';
-            selectEvents.push({ key: '#s' + _idx, value: sourceInfo.MarriageId });
+            selectEvents.push({ key: 's' + _idx, value: sourceInfo.MarriageId });
 
             tableBody += '<td><a href="../HtmlPages/MarriageEditor.html' + _loc + '"><div> Edit </div></a></td>';
 
@@ -199,7 +201,7 @@ AncMarriages.prototype = {
 
             this.ancUtils.createpager(pagerparams);
 
-           // $('#pager').html(createpager(data.Batch, data.BatchLength, data.Total, 'getLink'));
+            // $('#pager').html(createpager(data.Batch, data.BatchLength, data.Total, 'getLink'));
 
             $('#reccount').html(data.Total + ' Marriages');
         }
@@ -213,7 +215,8 @@ AncMarriages.prototype = {
         this.ancUtils.addlinks(dupeEvents, this.loadDupes, this);
 
         this.ancUtils.addlinks(selectEvents, this.processSelect, this);
-
+        console.timeEnd('getMarriages');
+        console.timeEnd('result');
     },
 
     loadDupes: function (id) {
