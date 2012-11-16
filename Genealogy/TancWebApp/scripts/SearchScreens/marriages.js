@@ -25,6 +25,15 @@ var AncMarriages = function () {
     this.ancUtils = new AncUtils();
     this.selection = new Array();
     this.parishId = '';
+    this.postParams = { 
+        url: '',
+        data: '',
+        idparam: undefined,
+        refreshmethod: this.getMarriages,
+        refreshArgs: ['1'],
+        Context: this
+    };
+ 
 }
 
 AncMarriages.prototype = {
@@ -149,7 +158,7 @@ AncMarriages.prototype = {
             var hidPID = '<input type="hidden" name="MarriageId" id="MarriageId" value ="' + sourceInfo.MarriageId + '"/>';
             var hidParID = '<input type="hidden" name="parent_id" id="parent_id" value ="' + sourceInfo.XREF + '"/>';
 
-            var arIdx = jQuery.inArray(sourceInfo.MarriageId, this.selection);
+            var arIdx = jQuery.inArray(sourceInfo.MarriageId, that.selection);
 
             if (arIdx >= 0) {
                 tableBody += '<tr class = "highLightRow">' + hidPID + hidParID;
@@ -189,8 +198,8 @@ AncMarriages.prototype = {
         if (tableBody != '') {
 
             $('#search_bdy').html(tableBody);
-            //create pager based on results
 
+            //create pager based on results
             var pagerparams = { ParentElement: 'pager',
                 Batch: data.Batch,
                 BatchLength: data.BatchLength,
@@ -200,8 +209,6 @@ AncMarriages.prototype = {
             };
 
             this.ancUtils.createpager(pagerparams);
-
-            // $('#pager').html(createpager(data.Batch, data.BatchLength, data.Total, 'getLink'));
 
             $('#reccount').html(data.Total + ' Marriages');
         }
@@ -239,49 +246,31 @@ AncMarriages.prototype = {
     },
 
     DeleteRecord: function () {
-        var theData = {};
-
-        theData.marriageIds = this.ancUtils.convertToCSV(this.selection);
-
-        this.ancUtils.twaPostJSON('/Marriages/Delete', theData, '', '', function (args) {
-            this.getMarriages('1');
-        });
+        this.postParams.url = '/Marriages/Delete';
+        this.postParams.data = { marriage: this.ancUtils.convertToCSV(this.selection) };
+        this.ancUtils.twaPostJSON(this.postParams);
     },
 
     SetDuplicates: function () {
-        var theData = {};
-
-        theData.marriages = this.ancUtils.convertToCSV(this.selection);
-
-        this.ancUtils.twaPostJSON('/Marriages/SetDuplicate', theData, '', '', function (args) {
-            this.getMarriages('1');
-        });
-
+        this.postParams.url = '/Marriages/SetDuplicate';
+        this.postParams.data = { marriage: this.ancUtils.convertToCSV(this.selection) };
+        this.ancUtils.twaPostJSON(this.postParams);
     },
 
     SetRemoveLink: function () {
-
-        var theData = {};
-
-        theData.marriage = this.ancUtils.convertToCSV(this.selection);
-
-        this.ancUtils.twaPostJSON('/Marriages/RemoveLinks', theData, '', '', function (args) {
-            this.getMarriages('1');
-        });
-
+        this.postParams.url = '/Marriages/RemoveLinks';
+        this.postParams.data = { marriage: this.ancUtils.convertToCSV(this.selection) };
+        this.ancUtils.twaPostJSON(this.postParams);
     },
 
     SetMergeMarriages: function () {
-        var theData = {};
-        theData.marriage = this.ancUtils.convertToCSV(this.selection);
-        this.ancUtils.twaPostJSON('/Marriages/MergeMarriages', theData, '', '', function (args) {
-            this.getMarriages('1');
-        });
+        this.postParams.url = '/Marriages/MergeMarriages';
+        this.postParams.data = { marriage: this.ancUtils.convertToCSV(this.selection) }; 
+        this.ancUtils.twaPostJSON(this.postParams);
     },
 
     addMarriage: function (path) {
         window.location.href = '../HtmlPages/MarriageEditor.html#' + this.qryStrUtils.makeIdQryString('id', path);
-
     }
 }
 

@@ -570,23 +570,43 @@ AncUtils.prototype = {
         });
     },
 
+
+              
+
     //ANCUTILS
-    twaPostJSON: function (url, data, redirectUrl, idparam, successFunc) {
+    twaPostJSON: function (postParams) {
 
-        var localurl = this.getHost() + url;
+//        var postParams = { url: 'pager',
+//            data: data.Batch,
+//            idparam: data.BatchLength,
+//            refreshmethod: data.Total,
+//            refreshArgs: this.getLink,
+//            Context: this
+//        };
 
-        var stringy = JSON.stringify(data);
+        var localurl = this.getHost() + postParams.url;
 
-        if (successFunc == undefined) {
-            successFunc = function (error) {
-                if (redirectUrl != undefined && redirectUrl != '') {
-                    this.handleReturnCodeWithReturn(error, redirectUrl, idparam);
+        var stringy = JSON.stringify(postParams.data);
+
+        var successFunc = function (message) {
+            // was there a error
+            var error = this.getValueFromKey(message, 'error');
+
+            if (error != '' && error != null) {
+                //yes
+                this.showError(error);
+            }
+            else {
+                //everything was fine - supposedly.
+                if (postParams.idparam != undefined) {
+                    var result = this.getValueFromKey(message, 'Id');
+                    this.updateQryPar(postParams.idParam, result);
                 }
-                else {
-                    this.handleReturnCode(error, idparam);
+                if (postParams.refreshmethod != undefined) {
+                    postParams.refreshMethod.call(postParams.context, postParams.refreshArgs);
                 }
-            };
-        }
+            }
+        };
 
         $.ajax({
             cache: false,
@@ -596,29 +616,40 @@ AncUtils.prototype = {
             data: stringy,
             contentType: "application/json",
             dataType: "json",
-            beforeSend: setHeader,
+            beforeSend: this.addFBToHeader(FB),
             success: successFunc
         });
 
     },
 
 
-    handleReturnCodeWithReturn: function (message, redirectUrl, idParam) {
+    //    handleReturnCodeWithReturn: function (message, redirectUrl, idParam) {
 
-        var result = this.getValueFromKey(message, 'Id');
+    //        var result = this.getValueFromKey(message, 'Id');
 
-        this.updateQryPar(idParam, result);
+    //        this.updateQryPar(idParam, result);
 
-        var error = this.getValueFromKey(message, 'error');
+    //        var error = this.getValueFromKey(message, 'error');
 
-        if (error != '' && error != null) {
-            this.showError(error);
-        }
-        else {
-            var _hash = window.location.hash;
-            window.location = redirectUrl + _hash;
-        }
-    },
+    //        if (error != '' && error != null) {
+    //            this.showError(error);
+    //        }
+    //        else {
+    //            var _hash = window.location.hash;
+    //            window.location = redirectUrl + _hash;
+    //        }
+    //    },
+
+
+//    refreshWithErrorHandler: function (refreshMethod, message) {
+//        var error = this.getValueFromKey(message, 'error');
+//        if (error != '' && error != null) {
+//            this.showError(error);
+//        }
+//        else {
+//            refreshMethod.apply(this, ['1']);
+//        }
+//    },
 
     getValueFromKey: function (qry, name) {
         var match = RegExp(name + '=([^&]*)')
