@@ -522,10 +522,19 @@ AncUtils.prototype = {
     addlinks: function (dupeEvents, func, context) {
         for (var i = 0; i < dupeEvents.length; i++) {
 
-            var somecrap = function (i) {
+            $("#" + dupeEvents[i].key).die("click");
 
-                $("#" + dupeEvents[i].key).live("click", $.proxy(function () {
-                    var va = i;
+            //console.log('creating event for : ' + dupeEvents[i].key);
+
+            var somecrap = function (idx, val) {
+                //probably not efficient to do this multiple times
+                //this can be a future optimization.
+
+
+                $("#" + dupeEvents[idx].key).live("click", $.proxy(function () {
+                    var va = val;
+
+                    //console.log('clicked with : ' + va);
 
                     if (va != null)
                         func.call(context, va);
@@ -537,7 +546,7 @@ AncUtils.prototype = {
 
             };
 
-            somecrap(i);
+            somecrap(i, dupeEvents[i].value);
 
         }
 
@@ -552,7 +561,7 @@ AncUtils.prototype = {
 
     // gets json set
     twaGetJSON: function (url, paramsArg, methodArg, fbArg) {
-
+        console.log('get json');
         var aburl = this.getHost() + url;
 
         $.ajaxSetup({ cache: false });
@@ -571,18 +580,18 @@ AncUtils.prototype = {
     },
 
 
-              
+
 
     //ANCUTILS
     twaPostJSON: function (postParams) {
 
-//        var postParams = { url: 'pager',
-//            data: data.Batch,
-//            idparam: data.BatchLength,
-//            refreshmethod: data.Total,
-//            refreshArgs: this.getLink,
-//            Context: this
-//        };
+        //        var postParams = { url: 'pager',
+        //            data: data.Batch,
+        //            idparam: data.BatchLength,
+        //            refreshmethod: data.Total,
+        //            refreshArgs: this.getLink,
+        //            Context: this
+        //        };
 
         var localurl = this.getHost() + postParams.url;
 
@@ -641,15 +650,15 @@ AncUtils.prototype = {
     //    },
 
 
-//    refreshWithErrorHandler: function (refreshMethod, message) {
-//        var error = this.getValueFromKey(message, 'error');
-//        if (error != '' && error != null) {
-//            this.showError(error);
-//        }
-//        else {
-//            refreshMethod.apply(this, ['1']);
-//        }
-//    },
+    //    refreshWithErrorHandler: function (refreshMethod, message) {
+    //        var error = this.getValueFromKey(message, 'error');
+    //        if (error != '' && error != null) {
+    //            this.showError(error);
+    //        }
+    //        else {
+    //            refreshMethod.apply(this, ['1']);
+    //        }
+    //    },
 
     getValueFromKey: function (qry, name) {
         var match = RegExp(name + '=([^&]*)')
@@ -709,8 +718,8 @@ AncUtils.prototype = {
 
             while (idx0 < pagerparams.Total) {
 
-                pagerBody += "<a id='a" + idx0 + "' href='' class = 'pagerlink'>" + String(idx0 + 1) + "</a>";
-                clickEvents.push({ key: 'a' + idx0, value: idx0 });
+                pagerBody += "<a id='cp_" + idx0 + "' href='' class = 'pagerlink'>" + String(idx0 + 1) + "</a>";
+                clickEvents.push({ key: 'cp_' + idx0, value: idx0 });
                 idx0++;
             }
         }
@@ -731,8 +740,8 @@ AncUtils.prototype = {
 
 
             if (startpage >= blocksize) {
-                pagerBody += "<a id='b0' href='' class = 'pagerlink'>First</a>";
-                clickEvents.push({ key: 'b0', value: 0 });
+                pagerBody += "<a id='cp_0' href='' class = 'pagerlink'>First</a>";
+                clickEvents.push({ key: 'cp_0', value: 0 });
 
                 // work out how far back to move the pager when the '..' is clicked.
                 // if we are at the end of the record and there is only a few pages available
@@ -743,20 +752,20 @@ AncUtils.prototype = {
 
                 var linkPage = (startpage - blocksize);
 
-                pagerBody += "<a id='c" + linkPage + "' href='' class = 'pagerlink'>..</a>";
+                pagerBody += "<a id='cp_" + linkPage + "' href='' class = 'pagerlink'>..</a>";
 
-                clickEvents.push({ key: 'c' + linkPage, value: linkPage });
+                clickEvents.push({ key: 'cp_' + linkPage, value: linkPage });
             }
 
             var idx = startpage;
             while (idx < limit) {
                 if (idx == pagerparams.Batch) {
-                    pagerBody += "<a id='d" + idx + "' href='' class = 'pagerlink_selected'>" + String(idx + 1) + "</a>";
-                    clickEvents.push({ key: 'd' + idx, value: idx });
+                    pagerBody += "<a id='cp_" + idx + "' href='' class = 'pagerlink_selected'>" + String(idx + 1) + "</a>";
+                    clickEvents.push({ key: 'cp_' + idx, value: idx });
                 }
                 else {
-                    pagerBody += "<a id='d" + idx + "' href='' class = 'pagerlink' >" + String(idx + 1) + "</a>";
-                    clickEvents.push({ key: 'd' + idx, value: idx });
+                    pagerBody += "<a id='cp_" + idx + "' href='' class = 'pagerlink' >" + String(idx + 1) + "</a>";
+                    clickEvents.push({ key: 'cp_' + idx, value: idx });
                 }
                 idx++;
             }
@@ -770,11 +779,11 @@ AncUtils.prototype = {
                 startpage += blocksize;
                 startpage++;
 
-                pagerBody += "<a id='e" + startpage + "' href='' class = 'pagerlink'>..</a>";
-                clickEvents.push({ key: 'e' + startpage, value: startpage });
+                pagerBody += "<a id='cp_" + startpage + "' href='' class = 'pagerlink'>..</a>";
+                clickEvents.push({ key: 'cp_' + startpage, value: startpage });
 
-                pagerBody += "<a id='e" + (pagerparams.Total - remainderAvailablePages) + "' href='' class = 'pagerlink'>Last</a>";
-                clickEvents.push({ key: 'e' + (pagerparams.Total - remainderAvailablePages), value: (pagerparams.Total - remainderAvailablePages) });
+                pagerBody += "<a id='cp_" + (pagerparams.Total - remainderAvailablePages) + "' href='' class = 'pagerlink'>Last</a>";
+                clickEvents.push({ key: 'cp_' + (pagerparams.Total - remainderAvailablePages), value: (pagerparams.Total - remainderAvailablePages) });
 
             }
         }
@@ -837,10 +846,24 @@ QryStrUtils.prototype = {
 
          for (var prop in args) {
 
-             if ($.type(args[prop]) == "string")
-                workingQry = this.updateStrForQry(workingQry, prop, args[prop]);
-             else
-                workingQry = this.updateStrForQry(workingQry, prop, args[prop].val());
+//             if ($.type(args[prop]) == "string")
+//                workingQry = this.updateStrForQry(workingQry, prop, args[prop]);
+//             else
+//                workingQry = this.updateStrForQry(workingQry, prop, args[prop].val());
+
+
+            switch($.type(args[prop]))
+            {
+                case "string":
+                    workingQry = this.updateStrForQry(workingQry, prop, args[prop]);
+                    break;
+                case "boolean":
+                    workingQry = this.updateStrForQry(workingQry, prop, args[prop]);
+                    break;
+                default:
+                    workingQry = this.updateStrForQry(workingQry, prop, args[prop].val());
+            }
+
 
          }
 
