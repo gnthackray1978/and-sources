@@ -224,6 +224,7 @@ AncMarriages.prototype = {
         this.ancUtils.addlinks(selectEvents, this.processSelect, this);
         console.timeEnd('getMarriages');
         console.timeEnd('result');
+        console.log('result ended');
     },
 
     loadDupes: function (id) {
@@ -265,7 +266,7 @@ AncMarriages.prototype = {
 
     SetMergeMarriages: function () {
         this.postParams.url = '/Marriages/MergeMarriages';
-        this.postParams.data = { marriage: this.ancUtils.convertToCSV(this.selection) }; 
+        this.postParams.data = { marriage: this.ancUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
     },
 

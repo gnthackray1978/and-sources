@@ -29,10 +29,10 @@ var AncPersons = function () {
 
 
 
-AncMarriages.prototype = {
+AncPersons.prototype = {
 
     init: function () {
-        var isActive = getParameterByName('active', '');
+        var isActive = this.qryStrUtils.getParameterByName('active', '');
 
 
         var panels = new Panels();
@@ -164,7 +164,7 @@ AncMarriages.prototype = {
         params[13] = String($('#chkIncludeDeaths').prop('checked'));
         params[14] = '';
         params[15] = String($('#txtSpouse').val());
-        params[16] = parishId;
+        params[16] = this.parishId;
         params[17] = String(this.qryStrUtils.getParameterByName('page', 0));
         params[18] = '30';
         params[19] = String(this.qryStrUtils.getParameterByName('sort_col', 'BirthInt'));
@@ -271,10 +271,10 @@ AncMarriages.prototype = {
         this.getPersons('1');
     },
     processSelect: function (evt) {
-        this.ancUtils.handleSelection(evt, selection, '#search_bdy tr', "#person_id");
+        this.ancUtils.handleSelection(evt, this.selection, '#search_bdy tr', "#person_id");
     },
     getLink: function (toPage) {
-        this.ancUtils.updateQryPar('page', toPage);
+        this.qryStrUtils.updateQryPar('page', toPage);
         this.getPersons('1');
     },
     sort: function (sort_col) {

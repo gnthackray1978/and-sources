@@ -55,29 +55,25 @@
     
                 <div class = "fltbar">
         
-                <div class="filterheadingrow">
-              
+                <div class="filterheadingrow">              
                     <div class = "mar_txt">SOURCES</div>                 
                 </div>
             
                 <div class="fltopt">               
                     <div class="fltoptrow">
-                        <a href='../Default.aspx' onclick = 'getSources();return false' class="button" ><span>Refresh</span></a>   
+                        <a id="refresh"  href='' onclick = 'getSources();return false' class="button" ><span>Refresh</span></a>   
                         
                     </div>
                     <div class="fltoptrow">
-                        <a href='../Default.aspx' onclick="sourcesShowPanel('1');return false" class="button" ><span>Main</span></a>
-                        <a href='../Default.aspx' onclick="sourcesShowPanel('2');return false" class="button" ><span>More</span></a>
-                        <a href='../Default.aspx' onclick="sourcesShowPanel('3');return false" class="button" ><span>Additional</span></a>
+                        <a id = "main" href='' onclick="sourcesShowPanel('1');return false" class="button" ><span>Main</span></a>
+                        <a id = "more" href='' onclick="sourcesShowPanel('2');return false" class="button" ><span>More</span></a>
+                        <a id = "additional" href='' onclick="sourcesShowPanel('3');return false" class="button" ><span>Additional</span></a>
 
                     </div>                 
                 </div>
                             
                 <div class = "flt_mv">
                     <div id="filterbar">
-
-
-
                     <div id="pMain" class = "displayPanel flt_gen" >                        
                         <span>Filter Search</span>
                         <span>Source Ref.</span>
@@ -139,24 +135,20 @@
                     <div id="pAdd" class = "hidePanel">
                         <div class = "flt_gen">
                              <br />
+                             <br />                             
+                             <a id= "add" href='' >Add Source</a>
                              <br />
-                             
-
-                             <a href='../HtmlPages/SourceSearch.html' onclick="addSource('00000000-0000-0000-0000-000000000000');return false" >Add Source</a>
-                             <br />
-                             <a href='../HtmlPages/SourceSearch.html' onclick="deleteSources();return false" >Delete Sources</a>
-                             <br />
-                       
-                             <a href='../HtmlPages/SourceSearch.html' onclick="printableSources();return false" >Printable Report</a>
+                             <a id = "delete" href=''>Delete Sources</a>
+                             <br />                       
+                             <a id = "print" href=''>Printable Report</a>
                         </div>     
                     </div>
 
                     <div id="rLink" class = "hidePanel">
                         <div class = "flt_gen">
-                        <a href='' onclick="returnselection();return false">Return selection</a>
+                            <a id= "select_return" href=''>Return selection</a>
                         </div>  
                     </div>
-
                     </div>
                 </div>
                 
@@ -173,7 +165,7 @@
                         <thead>
                             <tr id="Tr2" runat="server" class="hed">
                                 <td class = "sourcedate">
-                                     <a href='../Default.aspx' onclick = 'sort("SourceDate");return false'  ><span>Date</span></a>   
+                                     <a id= "sdate" href=''><span>Date</span></a>   
                                 </td>
                                 <td>
 
@@ -182,10 +174,10 @@
 
                                 </td>
                                 <td class = "sourceref">
-                                      <a href='../Default.aspx' onclick = 'sort("SourceRef");return false' ><span>Ref</span></a>   
+                                      <a id = "sref" href=''><span>Ref</span></a>   
                                 </td>
                                 <td class = "source_desc">
-                                      <a href='../Default.aspx' onclick = 'sort("SourceDescription");return false' ><span>Description</span></a>   
+                                      <a id= "sdesc" href=''><span>Description</span></a>   
                                 </td>
                                 <td>
                                 
