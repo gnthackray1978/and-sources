@@ -33,7 +33,7 @@ var AncSources = function () {
  
 }
 
-AncMarriages.prototype = {
+AncSources.prototype = {
 
     init: function() {
 
@@ -224,179 +224,29 @@ AncMarriages.prototype = {
 
 
         this.ancUtils.addlinks(selectEvents, this.processSelect, this);
+    },
+    processSelect: function (evt) {
+        this.ancUtils.handleSelection(evt, selection, '#search_bdy tr', "#source_id");
+    },
+    sort: function (sort_col) {
+        this.ancUtils.sort_inner(sort_col);
+        this.getSources();
+    },
+    getLink: function (toPage){
+        this.qryStrUtils.updateQryPar('page', toPage);
+        this.getSources();
+    },
+    addSource: function (path) {
+        window.location.href = '../HtmlPages/SourceEditor.html#' + this.qryStrUtils.makeIdQryString('id', path);
+    },
+    deleteSources: function () {
+        this.postParams.url = '/Source/Delete';
+        this.postParams.data = { sourceId: this.ancUtils.convertToCSV(this.selection) };
+        this.ancUtils.twaPostJSON(this.postParams);
+    },
+    printableSources: function () {
+        //not implemented yet.
     }
 
-
-
-
 }
-
-
-
-
-
-
-
-
-//$(document).ready(function () {
-// //   var monkey = 'test';
-//     createHeader('#1', imready);
-//});
-
-
-
-
-//function sort(sort_col) {
-
-//    sort_inner(sort_col,'scol');
-//    getSources();
-//}
-
-
-//function getLink(toPage) {
-
-//    updateQryPar('page', toPage);
-//    getSources();
-
-//}
-
-
-
-
-
-
-//function processSelect(evt) {
-
-//    var arIdx = jQuery.inArray(evt, selection);
-
-//    if (arIdx == -1) {
-//        selection.push(evt);
-//    }
-//    else {
-//        selection.splice(arIdx, 1);
-//    }
-
-//    $('#search_bdy tr').each(function () {
-//        $this = $(this)
-
-//        var quantity = $this.find("input").val();
-//        arIdx = jQuery.inArray(quantity, selection);
-
-//        if (arIdx == -1) {
-//            $this.removeClass('highLightRow');
-//        }
-//        else {
-//            $this.addClass('highLightRow');
-//        }
-//    }); //end each
-
-//}
-
-
-//function RefreshSources(form) {
-
-
-//    var sref = $('[id*=txtSourceRef]').val()
-//    var sdesc = $('[id*=txtSourceDescription]').val()
-
-//    var origloc = $('[id*=txtOriginalLocation]').val()
-//    var ldrl = $('[id*=txtLowerDateRangeLower]').val()
-//    var ldru = $('[id*=txtLowerDateRangeUpper]').val()
-//    var udrl = $('[id*=txtUpperDateRangeLower]').val()
-//    var udru = $('[id*=txtUpperDateRangeUpper]').val()
-
-//    var isthac = $('[id*=chkIsThackrayFound]').is(':checked')
-
-//    var iscopy = $('[id*=chkIsCopyHeld]').is(':checked')
-//    var isview = $('[id*=chkIsViewed]').is(':checked')
-//    var isCheck = $('[id*=chkUseOptions]').is(':checked')
-
-//    var count = $('[id*=txtCountNo]').val()
-
-//    var stype = $("[id*=selectedTypes]").val()
-
-
-//    var qry = 'FilteredSources.aspx?' + 'p=0&sref=' + sref + '&sdesc=' + sdesc + '&origloc=' + origloc + '&ldrl=' + ldrl + '&ldru=' + ldru
-//    + '&udrl=' + udrl + '&udru=' + udru + '&isthac=' + isthac + '&iscopy=' + iscopy + '&isview=' + isview + '&isCheck=' + isCheck + '&count=' + count + '&stype=' + stype;
-
-
-//   
-
-//    if (sref != '' || sdesc != '' || origloc != '' || ldrl != '' || ldru != '' || udrl != '' || udru != '') {
-//        window.location.href = qry
-//    }
-
-
-//}
-
-//function RefreshSourcesTypes(form) {
-
-//    var stypedesc = $('[id*=txtDescription]').val()
-
-//    var qry = 'FilteredSourceTypes.aspx?' + 'p=0&stypedesc=' + stypedesc;
-
-//    if (stypedesc != '') {
-//        window.location.href = qry
-//    }
-//}
-
-////function jsgetSrcTypeURL(path) {
-
-////    qry = window.location.search.substring(1);
-
-////    var url = 'FrmSourceTypeEditor.aspx?id=' + path + '&' + qry;
-
-////    window.location.href = url;
-////}
-
-
-
-//function addSource(path) {
-
-
-//    window.location.href = '../HtmlPages/SourceEditor.html#' + makeIdQryString('id', path);
-//}
-
-
-////function jsgetSrcURL(path) {
-
-////    qry = window.location.search.substring(1);
-
-////    var url = '../HtmlPages/SourceEditor.html?id=' + path + '&' + qry;
-////    /// <reference path="../../HtmlPages/SourceEditor.html" />
-
-////    window.location.href = url;
-////}
-
-//function deleteSources() {
-
-//    var theData = {};
-
-//    theData.sourceId = convertToCSV(selection);
-
-//    twaPostJSON('/Source/Delete', theData, '', '', function (args) {
-//        refreshWithErrorHandler(getSources, args);
-//    });
-
-////    var stringy = JSON.stringify(theData);
-
-////    $.ajax({
-////        cache: false,
-////        type: "POST",
-////        async: false,
-////        url: deleteSourceUrl,
-////        data: stringy,
-////        contentType: "application/json",
-////        dataType: "json",
-////        success: function (department) {
-////            getSources();
-////        }
-////    });
-
-
-//}
-
-//function printableSources() {
-
-//}
 

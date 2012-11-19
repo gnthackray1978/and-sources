@@ -494,14 +494,19 @@ AncUtils.prototype = {
 
 
     handleSelection: function (evt, selection, bodytag, id) {
-        var arIdx = jQuery.inArray(evt, selection);
 
-        if (arIdx == -1) {
-            selection.push(evt);
+
+        if (evt != undefined) {
+            var arIdx = jQuery.inArray(evt, selection);
+
+            if (arIdx == -1) {
+                selection.push(evt);
+            }
+            else {
+                selection.splice(arIdx, 1);
+            }
         }
-        else {
-            selection.splice(arIdx, 1);
-        }
+
 
         $(bodytag).each(function () {
             $this = $(this)
