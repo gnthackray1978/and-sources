@@ -1,191 +1,161 @@
-﻿var selection = new Array();
-//var url = getHost() + "/SourceTypes/Select";
-
-
-
-$(document).ready(function () {
-
-    //   $('#1').html(tableBody);
-
-    createHeader('#1');
-
-    var isActive = getParameterByName('active', '');
-
-    if (isActive == '1') {
-        $('#txtDescription').val(getParameterByName('stdesc', ''));
-       
-
-        getSourceTypes('1');
-    }
-
+﻿$(document).ready(function () {
+    var jsMaster = new JSMaster();
+    var ancSourceTypes = new AncSourceTypes();
+    jsMaster.generateHeader('#1', function () {
+        ancSourceTypes.init();
+    });
 });
 
-function createQryString(page) {
-    updateQryPar('active', '1');
-    updateQryPar('stdesc', $('#txtDescription').val());
-   
+
+var AncSourceTypes = function () {
+    this.qryStrUtils = new QryStrUtils();
+    this.ancUtils = new AncUtils();
+    this.selection = new Array();
+  
+    this.postParams = {
+        url: '',
+        data: '',
+        idparam: undefined,
+        refreshmethod: this.getSourceTypes,
+        refreshArgs: ['1'],
+        Context: this
+    };
 }
 
 
-function getSourceTypes(showdupes) {
 
-    var params = {};
+AncSourceTypes.prototype = {
 
-    var page = getParameterByName('page');
-    var sort_col = getParameterByName('sort_col');
+    init: function () {
+        var isActive = this.qryStrUtils.getParameterByName('active', '');
+        
+        var panels = new Panels();
 
-    if (!page || isNaN(page))
-        page = 0;
+        $("#main").live("click", $.proxy(function () { panels.sourcesShowPanel('1'); return false; }, panels));
+        $("#more").live("click", $.proxy(function () { panels.sourcesShowPanel('2'); return false; }, panels));
+        $("#refresh").live("click", $.proxy(function () { this.getSourceTypes(); return false; }, this));
 
-    if (!sort_col || sort_col == '')
-        sort_col = 'SourceTypeDesc';
+        $("#add").live("click", $.proxy(function () { this.AddSourceType(); return false; }, this));
+        $("#delete").live("click", $.proxy(function () { this.DeleteRecord(); return false; }, this));
 
+        $("#stdesc").live("click", $.proxy(function () { this.sort('SourceTypeDesc'); return false; }, this));
 
-    params[0] = String($('#txtDescription').val()); 
-    params[1] = String(page);
-    params[2] = '30';
-    params[3] = sort_col;
-
-    //$.ajaxSetup({ cache: false });
-   // $.getJSON(url, params, processData);
-
-    twaGetJSON('/SourceTypes/Select', params, processData);
-
-    createQryString(page);
-
-    return false;
-}
+        if (isActive == '1') {
+            $('#txtDescription').val(this.qryStrUtils.getParameterByName('stdesc', ''));
 
 
-function processData(data) {
-    //alert('received something');
-    var tableBody = '';
+            this.getSourceTypes('1');
+        }
+    },
+    createQryString: function(page) {
+         
+        var args = {
+            "active": '1',
+            "stdesc": $('#txtDescription') 
+        };
 
-    $.each(data.serviceSources, function (source, sourceInfo) {
-        //<a href='' class="button" ><span>Main</span></a>
-        var hidPID = '<input type="hidden" name="SourceTypeId" id="SourceTypeId" value ="' + sourceInfo.TypeId + '"/>';
+        this.qryStrUtils.updateQry(args);
+    },
+    getSourceTypes: function(showdupes) {
+
+        var params = {};
+
+        params[0] = String($('#txtDescription').val());
+        params[1] = String(this.qryStrUtils.getParameterByName('page', 0));
+        params[2] = '30';
+        params[3] = String(this.qryStrUtils.getParameterByName('sort_col', 'SourceTypeDesc'));
+
+        this.ancUtils.twaGetJSON('/SourceTypes/Select', params, $.proxy(this.processData, this));
+        
+        this.createQryString(page);
+
+        return false;
+    },
+
+    processData: function(data) {
+        //alert('received something');
+        var tableBody = '';
+        var tableBody = '';
+        var selectEvents = new Array();
+        var _idx = 0;
+        var that = this;
 
 
-        var arIdx = jQuery.inArray(sourceInfo.TypeId, selection);
 
-        if (arIdx >= 0) {
-            tableBody += '<tr class = "highLightRow">' + hidPID + hidParID;
+        $.each(data.serviceSources, function (source, sourceInfo) {
+            //<a href='' class="button" ><span>Main</span></a>
+            var hidPID = '<input type="hidden" name="SourceTypeId" id="SourceTypeId" value ="' + sourceInfo.TypeId + '"/>';
+
+
+            var arIdx = jQuery.inArray(sourceInfo.TypeId, selection);
+
+            if (arIdx >= 0) {
+                tableBody += '<tr class = "highLightRow">' + hidPID + hidParID;
+            }
+            else {
+                tableBody += '<tr>' + hidPID;
+            }
+
+            var _loc = window.location.hash;
+            _loc = that.qryStrUtils.updateStrForQry(_loc, 'id', sourceInfo.TypeId);
+
+            tableBody += '<td><a id= "s' + _idx + '" href="" ><div>' + sourceInfo.Description + '</div></a></td>';
+            selectEvents.push({ key: 's' + _idx, value: sourceInfo.TypeId });
+
+            tableBody += '<td><div>' + sourceInfo.Order + '</div></td>';
+            tableBody += '<td><a href="../HtmlPages/SourceTypeEditor.html' + _loc + '"><div> Edit </div></a></td>';
+
+            tableBody += '</tr>';
+        });
+
+        if (tableBody != '') {
+
+            $('#search_bdy').html(tableBody);
+            //create pager based on results
+
+
+            var pagerparams = { ParentElement: 'pager',
+                Batch: data.Batch,
+                BatchLength: data.BatchLength,
+                Total: data.Total,
+                Function: this.getLink,
+                Context: this
+            };
+
+            this.ancUtils.createpager(pagerparams);
+
+            //$('#pager').html(createpager(data.Batch, data.BatchLength, data.Total, 'getLink'));
+
+            $('#reccount').html(data.Total + ' Source Types');
         }
         else {
-            tableBody += '<tr>' + hidPID;
+
+            $('#search_bdy').html(tableBody);
+            $('#reccount').html('0 Source Types');
         }
 
-        var _loc = window.location.hash;
-        _loc = updateStrForQry(_loc, 'id', sourceInfo.TypeId);
-
-        tableBody += '<td><a href="" onClick ="processSelect(\'' + sourceInfo.TypeId + '\');return false"><div>' + sourceInfo.Description + '</div></a></td>';
-        tableBody += '<td><div>' + sourceInfo.Order + '</div></td>';
-        tableBody += '<td><a href="../HtmlPages/SourceTypeEditor.html' + _loc + '"><div> Edit </div></a></td>';
-
-        tableBody += '</tr>';
-    });
-
-    if (tableBody != '') {
-
-        $('#search_bdy').html(tableBody);
-        //create pager based on results
-
-        $('#pager').html(createpager(data.Batch, data.BatchLength, data.Total, 'getLink'));
-
-        $('#reccount').html(data.Total + ' Source Types');
-    }
-    else {
-
-        $('#search_bdy').html(tableBody);
-        $('#reccount').html('0 Source Types');
-    }
-}
-
-
-function processSelect(evt) {
-
-    var arIdx = jQuery.inArray(evt, selection);
-
-    if (arIdx == -1) {
-        selection.push(evt);
-    }
-    else {
-        selection.splice(arIdx, 1);
+        this.ancUtils.addlinks(selectEvents, this.processSelect, this);
+    },
+    processSelect: function (evt) {
+        this.ancUtils.handleSelection(evt, this.selection, '#search_bdy tr', "#SourceTypeId");
+    },
+    sort: function (sort_col) {
+        this.ancUtils.sort_inner(sort_col);
+        this.getSourceTypes();
+    },
+    getLink: function(toPage) {
+        this.qryStrUtils.updateQryPar('page', toPage);
+        this.getSourceTypes();
+    },
+    DeleteRecord: function () {
+        this.postParams.url = '/SourceTypes/Delete';
+        this.postParams.data = { sourceIds: this.ancUtils.convertToCSV(this.selection) };
+        this.ancUtils.twaPostJSON(this.postParams);
+    },
+    AddParish: function () {
+        window.location.href = '../HtmlPages/SourceTypeEditor.html#' + this.qryStrUtils.makeIdQryString('id', '0');
     }
 
-    $('#search_bdy tr').each(function () {
-        $this = $(this)
-
-        var quantity = $this.find("#SourceTypeId").val();
-        arIdx = jQuery.inArray(quantity, selection);
-
-        if (arIdx == -1) {
-            $this.removeClass('highLightRow');
-        }
-        else {
-            $this.addClass('highLightRow');
-        }
-    }); //end each
-
-}
-
-function sort(sort_col) {
-
-
-    sort_inner(sort_col);
-    getSourceTypes();
 }
 
 
-
-function getLink(toPage) {
-
-    updateQryPar('page', toPage);
-    getSourceTypes();
-
-}
-
-
-
-function DeleteRecord() {
-
-    var localurl = getHost() + '/SourceTypes/Delete';
-    var theData = {};
-
-    theData.sourceIds = convertToCSV(selection);
-
-    twaPostJSON('/SourceTypes/Delete', theData, '', '', function (args) {
-        refreshWithErrorHandler(getSourceTypes, args);
-    });
-
-//    var stringy = JSON.stringify(theData);
-
-//    $.ajax({
-//        cache: false,
-//        type: "POST",
-//        async: false,
-//        url: localurl,
-//        data: stringy,
-//        contentType: "application/json",
-//        dataType: "json",
-//        success: function (department) {
-//            getSourceTypes();
-//        }
-
-//    });
-
-}
-
-
-function AddSourceType() {
-
-    //  qry = window.location.search.substring(1);
-
-
-
-    var _loc = window.location.hash
-    _loc = _loc.replace('#', '');
-    var url = '../HtmlPages/SourceTypeEditor.html#?id=0' + '&' + _loc;
-
-    window.location.href = url;
-}

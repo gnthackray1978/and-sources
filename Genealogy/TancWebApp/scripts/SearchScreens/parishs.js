@@ -1,274 +1,212 @@
 ﻿
-
-var selection = new Array();
-//var url = getHost() + "/Parishs/GetParishs/Select";
-
-
-
 $(document).ready(function () {
-
-    //   $('#1').html(tableBody);
-
-    createHeader('#1');
-
-    var isActive = getParameterByName('active', '');
-
-    if (isActive == '1') {
-        $('#txtDeposited').val(getParameterByName('dep', ''));
-        $('#txtName').val(getParameterByName('name', ''));
-        $('#txtCounty').val(getParameterByName('count', ''));
-
-
-        getParishs('1');
-    }
-
-
-    var isPersonImpSelection = getParameterByName('parl', '');
-
-    if (isPersonImpSelection != null) {
-        $("#rLink").removeClass("hidePanel").addClass("displayPanel");
-    }
-    else {
-        $("#rLink").addClass("hidePanel").removeClass("displayPanel");
-    }
-
+    var jsMaster = new JSMaster();
+    var ancParishs = new AncParishs();
+    jsMaster.generateHeader('#1', function () {
+        ancParishs.init();
+    });
 });
 
 
-function returnselection() {
-
-    var parl = getParameterByName('parl', '');
-    var parishLst = '';
-
-    $.each(selection, function (idx, val) {
-        if (idx > 0) {
-            parishLst += ',' + val;
-        }
-        else {
-            parishLst += val;
-        }
-    });
-
-    updateQryPar('parl', parishLst);
-
-
-
-    var sources = getParameterByName('scs', '');
-    //dont lose these if they are there.
-    var parishs = getParameterByName('parl', '');
-
-
-    var _loc = '#?scs=' + sources + '&parl=' + parishs;
-
-
-
-  //  var _loc = window.location.hash; // +'&id=' + sourceInfo.PersonId;
-   
-    var url = '../HtmlPages/batchEntry.html' + _loc;
-
-    window.location.href = url;
-}
-
-
-function createQryString(page) {
-
-
-    updateQryPar('active', '1');
-    updateQryPar('dep', $('#txtDeposited').val());
-    updateQryPar('name', $('#txtName').val());
-    updateQryPar('count', $('#txtCounty').val());
-
-
-
-
-}
-
-
-function getParishs(showdupes) {
-
-    var params = {};
-
-    var page = getParameterByName('page');
-    var sort_col = getParameterByName('sort_col');
+var AncParishs = function () {
+    this.qryStrUtils = new QryStrUtils();
+    this.ancUtils = new AncUtils();
+    this.selection = new Array();
   
-    if (!page || isNaN(page))
-        page = 0;
-
-    if (!sort_col || sort_col == '')
-        sort_col = 'ParishName';
-
-
-    params[0] = String($('#txtDeposited').val());
-    params[1] = String($('#txtName').val());
-    params[2] = String($('#txtCounty').val());
-    params[3] = String(page);
-    params[4] = '30';
-    params[5] = sort_col;
-
-    //$.ajaxSetup({ cache: false });
-    //$.getJSON(url, params, processData);
-
-    twaGetJSON('/Parishs/GetParishs/Select', params, processData);
-
-    createQryString(page);
-
-    return false;
+    this.postParams = {
+        url: '',
+        data: '',
+        idparam: undefined,
+        refreshmethod: this.getParishs,
+        refreshArgs: ['1'],
+        Context: this
+    };
 }
 
 
-function processData(data) {
-    //alert('received something');
-    var tableBody = '';
 
-    $.each(data.serviceParishs, function (source, sourceInfo) {
-        
-        var hidPID = '<input type="hidden" name="ParishId" id="ParishId" value ="' + sourceInfo.ParishId + '"/>';
-        var arIdx = jQuery.inArray(sourceInfo.ParishId, selection);
+AncParishs.prototype = {
 
-        if (arIdx >= 0) {
-            tableBody += '<tr class = "highLightRow">' + hidPID + hidParID;
+    init: function () {
+        var isActive = this.qryStrUtils.getParameterByName('active', '');
+
+        var panels = new Panels();
+
+        $("#main").live("click", $.proxy(function () { panels.sourcesShowPanel('1'); return false; }, panels));
+        $("#more").live("click", $.proxy(function () { panels.sourcesShowPanel('2'); return false; }, panels));     
+        $("#refresh").live("click", $.proxy(function () { this.getParishs(); return false; }, this));
+
+
+        $("#add").live("click", $.proxy(function () { this.AddParish(); return false; }, this));
+        $("#delete").live("click", $.proxy(function () { this.DeleteRecord(); return false; }, this));
+        $("#select_return").live("click", $.proxy(function () { this.returnselection(); return false; }, this));
+
+        $("#pname").live("click", $.proxy(function () { this.sort("ParishName"); return false; }, this));
+        $("#pdeposited").live("click", $.proxy(function () { this.sort("ParishDeposited"); return false; }, this));
+        $("#pparent").live("click", $.proxy(function () { this.sort("ParishParent"); return false; }, this));
+        $("#pstartyear").live("click", $.proxy(function () { this.sort("ParishStartYear"); return false; }, this));
+        $("#pendyear").live("click", $.proxy(function () { this.sort("ParishEndYear"); return false; }, this));
+        $("#pcounty").live("click", $.proxy(function () { this.sort("ParishCounty"); return false; }, this));
+
+        if (isActive == '1') {
+            $('#txtDeposited').val(this.qryStrUtils.getParameterByName('dep', ''));
+            $('#txtName').val(this.qryStrUtils.getParameterByName('name', ''));
+            $('#txtCounty').val(this.qryStrUtils.getParameterByName('count', ''));
+
+            this.getParishs('1');
+        }
+
+
+        var isPersonImpSelection = this.qryStrUtils.getParameterByName('parl', '');
+
+        if (isPersonImpSelection != null) {
+            $("#rLink").removeClass("hidePanel").addClass("displayPanel");
         }
         else {
-            tableBody += '<tr>' + hidPID;
+            $("#rLink").addClass("hidePanel").removeClass("displayPanel");
         }
 
-        var _loc = window.location.hash;
-        _loc = updateStrForQry(_loc, 'id', sourceInfo.ParishId);
+    },
+    returnselection: function () {
 
-        tableBody += '<td><a href="" onClick ="processSelect(\'' + sourceInfo.ParishId + '\');return false"><div>' + sourceInfo.ParishName + '</div></a></td>';
-        tableBody += '<td><div>' + sourceInfo.ParishDeposited + '</div></td>';
-        tableBody += '<td><a href="../HtmlPages/ParishEditor.html' + _loc + '"><div> Edit </div></a></td>';
-        tableBody += '<td><div>' + sourceInfo.ParishParent + '</div></td>';
-        tableBody += '<td><div>' + sourceInfo.ParishStartYear + '</div></td>';
-        tableBody += '<td><div>' + sourceInfo.ParishEndYear + '</div></td>';
-        tableBody += '<td><div>' + sourceInfo.ParishCounty + '</div></td>';
+        var parl = this.qryStrUtils.getParameterByName('parl', '');
+        var parishLst = '';
 
-        tableBody += '</tr>';
-    });
+        $.each(selection, function (idx, val) {
+            if (idx > 0) {
+                parishLst += ',' + val;
+            }
+            else {
+                parishLst += val;
+            }
+        });
 
-    if (tableBody != '') {
+        this.qryStrUtils.updateQryPar('parl', parishLst);
 
-        $('#search_bdy').html(tableBody);
-        //create pager based on results
+        var sources = this.qryStrUtils.getParameterByName('scs', '');
+        //dont lose these if they are there.
+        var parishs = this.qryStrUtils.getParameterByName('parl', '');
 
-        $('#pager').html(createpager(data.Batch, data.BatchLength, data.Total, 'getLink'));
+        var _loc = '#?scs=' + sources + '&parl=' + parishs;
 
-        $('#reccount').html(data.Total + ' Parishs');
-    }
-    else {
+        var url = '../HtmlPages/batchEntry.html' + _loc;
 
-        $('#search_bdy').html(tableBody);
-        $('#reccount').html('0 Parishs');
-    }
-}
+        window.location.href = url;
+    },
+    createQryString: function (page) {
+
+        var args = {
+            "active": '1',
+            "dep": $('#txtDeposited'),
+            "name": $('#txtName'),
+            "count": $('#txtCounty')
+        };
+
+        this.qryStrUtils.updateQry(args);
+
+    },
+    getParishs: function () {
+
+        var params = {};
+
+        params[0] = String($('#txtDeposited').val());
+        params[1] = String($('#txtName').val());
+        params[2] = String($('#txtCounty').val());
+        params[3] = String(this.qryStrUtils.getParameterByName('page', 0));
+        params[4] = '30';
+        params[5] = String(this.qryStrUtils.getParameterByName('sort_col', 'ParishName'));
+
+        this.ancUtils.twaGetJSON('/Parishs/GetParishs/Select', params, $.proxy(this.processData, this));
+
+        this.createQryString(page);
+
+        return false;
+    },
+    processData: function (data) {
+        //alert('received something');
+        var tableBody = '';
+        var selectEvents = new Array();
+        var _idx = 0;
+        var that = this;
 
 
-function processSelect(evt) {
+        $.each(data.serviceParishs, function (source, sourceInfo) {
 
-    var arIdx = jQuery.inArray(evt, selection);
+            var hidPID = '<input type="hidden" name="ParishId" id="ParishId" value ="' + sourceInfo.ParishId + '"/>';
+            var arIdx = jQuery.inArray(sourceInfo.ParishId, selection);
 
-    if (arIdx == -1) {
-        selection.push(evt);
-    }
-    else {
-        selection.splice(arIdx, 1);
-    }
+            if (arIdx >= 0) {
+                tableBody += '<tr class = "highLightRow">' + hidPID + hidParID;
+            }
+            else {
+                tableBody += '<tr>' + hidPID;
+            }
 
-    $('#search_bdy tr').each(function () {
-        $this = $(this)
+            var _loc = window.location.hash;
+            _loc = that.qryStrUtils.updateStrForQry(_loc, 'id', sourceInfo.ParishId);
 
-        var quantity = $this.find("#ParishId").val();
-        arIdx = jQuery.inArray(quantity, selection);
+            tableBody += '<td><a id= "s' + _idx + '" href="" ><div>' + sourceInfo.ParishName + '</div></a></td>';
+            selectEvents.push({ key: 's' + _idx, value: sourceInfo.ParishId });
 
-        if (arIdx == -1) {
-            $this.removeClass('highLightRow');
+            tableBody += '<td><div>' + sourceInfo.ParishDeposited + '</div></td>';
+            tableBody += '<td><a href="../HtmlPages/ParishEditor.html' + _loc + '"><div> Edit </div></a></td>';
+            tableBody += '<td><div>' + sourceInfo.ParishParent + '</div></td>';
+            tableBody += '<td><div>' + sourceInfo.ParishStartYear + '</div></td>';
+            tableBody += '<td><div>' + sourceInfo.ParishEndYear + '</div></td>';
+            tableBody += '<td><div>' + sourceInfo.ParishCounty + '</div></td>';
+
+            tableBody += '</tr>';
+            _idx++;
+        });
+
+        if (tableBody != '') {
+
+            $('#search_bdy').html(tableBody);
+            //create pager based on results
+
+            var pagerparams = { ParentElement: 'pager',
+                Batch: data.Batch,
+                BatchLength: data.BatchLength,
+                Total: data.Total,
+                Function: this.getLink,
+                Context: this
+            };
+
+            this.ancUtils.createpager(pagerparams);
+
+            // $('#pager').html(createpager(data.Batch, data.BatchLength, data.Total, 'getLink'));
+
+            $('#reccount').html(data.Total + ' Parishs');
         }
         else {
-            $this.addClass('highLightRow');
+
+            $('#search_bdy').html(tableBody);
+            $('#reccount').html('0 Parishs');
         }
-    }); //end each
 
+        this.ancUtils.addlinks(selectEvents, this.processSelect, this);
+    },
+    processSelect: function (evt) {
+        this.ancUtils.handleSelection(evt, this.selection, '#search_bdy tr', "#ParishId");
+    },
+    sort: function (sort_col) {
+        this.ancUtils.sort_inner(sort_col);
+        this.getParishs('1');
+    },
+    getLink: function (toPage) {
+        this.qryStrUtils.updateQryPar('page', toPage);
+        this.getParishs('1');
+    },
+    DeleteRecord: function () {
+        this.postParams.url = '/Parishs/Delete';
+        this.postParams.data = { parishIds: this.ancUtils.convertToCSV(this.selection) };
+        this.ancUtils.twaPostJSON(this.postParams);
+    },
+    AddParish: function () {
+        window.location.href = '../HtmlPages/ParishEditor.html#' + this.qryStrUtils.makeIdQryString('id', '00000000-0000-0000-0000-000000000000');
+    }
 }
 
 
-function sort(sort_col) {
 
-
-    sort_inner(sort_col);
-    getParishs('1');
-}
-
-
-
-function getLink(toPage) {
-
-    updateQryPar('page', toPage);
-    getParishs('1');
-
-}
-
-
-function DeleteRecord() {
-
-
-
- //   var localurl = getHost() + '/Parishs/Delete';
-    var theData = {};
-
-    theData.parishIds = convertToCSV(selection);
-
-    twaPostJSON('/Parishs/Delete', theData, '', '', function (args) {
-        refreshWithErrorHandler(getParishs, args);
-    });
-
-//    var stringy = JSON.stringify(theData);
-
-//    $.ajax({
-//        cache: false,
-//        type: "POST",
-//        async: false,
-//        url: localurl,
-//        data: stringy,
-//        contentType: "application/json",
-//        dataType: "json",
-//        success: function (message) {
-//            refreshWithErrorHandler(getParishs, message);
-
-//            var error = getValueFromKey(message, 'error');
-
-//            if (error != '' && error != null) {
-//                showError(error);
-//            }
-//            else {
-//                getParishs('1');
-//            }
-//        }
-
-//    });
-
-
-
-
-}
-
-
-function AddParish() {
-
-    //  qry = window.location.search.substring(1);
-
-
-
-
-
-   // _loc += '&id=00000000-0000-0000-0000-000000000000';
-    // _loc = _loc.replace('#', '');
-
-    updateQryPar('id', '00000000-0000-0000-0000-000000000000');
-
-    var _loc = window.location.hash;
-    
-    var url = '../HtmlPages/ParishEditor.html' + _loc;
-
-    window.location.href = url;
-}
  

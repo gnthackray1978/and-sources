@@ -44,14 +44,11 @@
             
                 <div class="fltopt">               
                     <div class="fltoptrow">
-                        <a href='' onclick = 'getParishs("0");return false' class="button" ><span>Refresh</span></a>   
-                        
+                        <a id = "refresh"  href='' class="button" ><span>Refresh</span></a>   
                     </div>
                     <div class="fltoptrow">
-                        <a href='' onclick="sourcesShowPanel('1');return false" class="button" ><span>Main</span></a>
-                        <a href='' onclick="sourcesShowPanel('2');return false" class="button" ><span>More</span></a>
-            
-
+                        <a id = "main" href=''  class="button" ><span>Main</span></a>
+                        <a id = "more" href='' class="button" ><span>More</span></a>            
                     </div>                 
                 </div>
                             
@@ -86,9 +83,9 @@
                     <div class = "flt_gen">
                     <span >Options</span>    
                     <br />
-                    <a href='' onclick="AddParish();return false" >Add Record</a>
+                    <a id = 'add' href=''>Add Record</a>
                     <br />
-                    <a href='' onclick="DeleteRecord();return false" >Delete Record</a>
+                    <a id = 'delete' href='' >Delete Record</a>
                     <br />
 
                     </div>   
@@ -98,7 +95,7 @@
 
                     <div id="rLink" class = "hidePanel">
                         <div class = "flt_gen">
-                        <a href='' onclick="returnselection();return false">Return selection</a>
+                        <a id = 'select_return' href='' >Return selection</a>
                         </div>  
                     </div>
 
@@ -119,25 +116,25 @@
                             <tr id="Tr2" runat="server" class="hed">
 
                             <td >
-                                <a href='../HtmlPages/ParishSearch.html' onclick = "sort('ParishName');return false"  ><span>Name</span></a>   
+                                <a id = 'pname' href='../HtmlPages/ParishSearch.html' onclick = "sort('ParishName');return false"  ><span>Name</span></a>   
                             </td>
                             <td >
-                                <a href='../HtmlPages/ParishSearch.html' onclick = "sort('ParishDeposited');return false"  ><span>Dep</span></a>                           
+                                <a id = 'pdeposited' href='../HtmlPages/ParishSearch.html' onclick = "sort('ParishDeposited');return false"  ><span>Dep</span></a>                           
                             </td>
                             <td >
-                                <a href='../HtmlPages/ParishSearch.html' onclick = "return false"  ><span>Edit</span></a>
+                                <a href='' ><span>Edit</span></a>
                             </td>
                             <td >
-                                <a href='../HtmlPages/ParishSearch.html' onclick = "sort('ParishParent');return false"  ><span>Parent</span></a>
+                                <a id = 'pparent' href='../HtmlPages/ParishSearch.html' onclick = "sort('ParishParent');return false"  ><span>Parent</span></a>
                             </td>
                             <td >
-                                <a href='../HtmlPages/ParishSearch.html' onclick = "sort('ParishStartYear');return false"  ><span>Start</span></a> 
+                                <a id = 'pstartyear' href='../HtmlPages/ParishSearch.html' onclick = "sort('ParishStartYear');return false"  ><span>Start</span></a> 
                             </td>
                             <td >
-                                <a href='../HtmlPages/ParishSearch.html' onclick = "sort('ParishEndYear');return false"  ><span>End</span></a> 
+                                <a id = 'pendyear' href='../HtmlPages/ParishSearch.html' onclick = "sort('ParishEndYear');return false"  ><span>End</span></a> 
                             </td>
                             <td >
-                                <a href='../HtmlPages/ParishSearch.html' onclick = "sort('ParishCounty');return false"  ><span>County</span></a>
+                                <a id = 'pcounty' href='../HtmlPages/ParishSearch.html' onclick = "sort('ParishCounty');return false"  ><span>County</span></a>
                             </td>
                                                                                             
                                    

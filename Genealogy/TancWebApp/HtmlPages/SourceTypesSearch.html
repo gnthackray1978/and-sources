@@ -35,21 +35,17 @@
     
                 <div class = "fltbar">
         
-                <div class="filterheadingrow filterheadingrowST">
-              
+                <div class="filterheadingrow filterheadingrowST">              
                     <div class = "mar_txt">SOURCE TYPES</div>                 
                 </div>
             
                 <div class="fltopt">               
                     <div class="fltoptrow">
-                        <a href='' onclick = 'getSourceTypes();return false' class="button" ><span>Refresh</span></a>   
-                        
+                        <a id = 'refresh' href='' class="button" ><span>Refresh</span></a>                           
                     </div>
                     <div class="fltoptrow">
-                        <a href='' onclick="sourcesShowPanel('1');return false" class="button" ><span>Main</span></a>
-                        <a href='' onclick="sourcesShowPanel('2');return false" class="button" ><span>More</span></a>
-            
-
+                        <a id = 'main' href='' class="button" ><span>Main</span></a>
+                        <a id = 'more' href='' class="button" ><span>More</span></a>           
                     </div>                 
                 </div>
                             
@@ -76,9 +72,9 @@
                     <div class = "flt_gen">
                     <span >Options</span>    
                     <br />
-                    <a href='' onclick="AddSourceType();return false" >Add Record</a>
+                    <a id = 'add' href='' >Add Record</a>
                     <br />
-                    <a href='' onclick="DeleteRecord();return false" >Delete Record</a>
+                    <a id = 'delete' href=''>Delete Record</a>
                     <br />
 
                     </div>   
@@ -104,7 +100,7 @@
                         <thead>
                             <tr id="Tr2" runat="server" class="hed">
                             <td class = "st_description">
-                                <a href='../HtmlPages/SourceTypesSearch.html' onclick = "sort('SourceTypeDesc');return false"  ><span>Name</span></a>   
+                                <a id ='stdesc' href='' ><span>Name</span></a>   
                             </td>
                             <td ><span>Order</span></td>    
                             <td ></td>                           
