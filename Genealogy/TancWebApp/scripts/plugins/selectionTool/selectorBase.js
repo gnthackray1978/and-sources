@@ -229,6 +229,45 @@ AncMarriages.prototype = {
         }
 
         this.refreshSelected(pargs.param_name, pargs.selectionUrl, pargs.search_hed);
+    },
+
+    getNewSources: function (paramName, search_hed) {
+
+        var refreshRequired = false;
+        var newSources = new Array();
+        var currentSources = new Array();
+
+        var paramSources = this.qryStrUtils.getParameterByName(paramName);
+
+        //existing sources selected
+        $('#'+ search_hed + ' .selected_source').each(function () {
+            currentSources.push(this.id);
+        });
+
+        if (paramSources != '' && paramSources != null) {
+            //if we just have 1 source in the query string
+            if (paramSources.indexOf(',') == -1) {
+                // if the current sources on the form dont contain that source 
+                // add it to the new sources list
+                if (currentSources.indexOf(paramSources) == -1) {
+                    newSources.push(paramSources);
+                }
+            } else {
+                //loop through each source in the query string
+                $.each(paramSources.split(','), function (key, val) {
+
+                    if (currentSources.indexOf(val) == -1) {
+
+                        newSources.push(val);
+                    }
+
+                });
+            }
+        }
+
+
+
+        return newSources;
     }
 
 
@@ -413,7 +452,7 @@ function removeFromSelection(sourceId, param_name) {
 
 }
 
-
+//inc
 function createBody(data,batch_data, editorUrl, param_name, selectionUrl, pagerLinkFunction, searchBody,searchHead, pager) {
 
     var tableBody = '';
