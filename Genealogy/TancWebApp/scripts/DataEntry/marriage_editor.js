@@ -31,28 +31,41 @@ $(document).ready(function () {
 var AncMarriageEditor = function () {
     this.qryStrUtils = new QryStrUtils();
     this.ancUtils = new AncUtils();
- 
+
+    this.postParams = {
+
+        url: '',
+        data: '',
+        idparam: 'id',
+        refreshmethod: this.load,
+        refreshArgs: undefined,
+        Context: this
+    };
 }
 
 AncMarriageEditor.prototype = {
 
     init: function () {
-        var params = {};
+
 
         $("#save").live("click", $.proxy(function () { this.save(); return false; }, this));
 
         $("#return").live("click", $.proxy(function () { this.saveReturn(); return false; }, this));
 
 
-        var id = this.qryStrUtils.getParameterByName('id', '');
-
-        params[0] = id;
-
-        this.ancUtils.twaGetJSON("/Marriages/GetMarriage/Select", params, $.proxy(this.processData, this));
+        this.load();
 
         return false;
 
     },
+
+    load: function () {
+        var params = {};
+        params[0] = this.qryStrUtils.getParameterByName('id', '');
+
+        this.ancUtils.twaGetJSON("/Marriages/GetMarriage/Select", params, $.proxy(this.processData, this));
+    },
+
 
     processData: function (data) {
 
@@ -168,20 +181,33 @@ AncMarriageEditor.prototype = {
 
         return record;
     },
-
     save: function () {
-        var serviceMarriage = this.GetMarriageRecord();
-        this.saveMarriage(serviceMarriage);
+        this.postParams.url = '/Marriages/Add';
+        this.postParams.data = GetMarriageRecord();
+        this.ancUtils.twaPostJSON(this.postParams);
     },
 
     saveReturn: function () {
-        var serviceMarriage = this.GetMarriageRecord();
-        twaPostJSON('/Marriages/Add', serviceMarriage, '../HtmlPages/MarriageSearch.html', 'id');
-    },
-
-    saveMarriage: function (serviceMarriage) {
-        twaPostJSON('/Marriages/Add', serviceMarriage, '', 'id');
+        this.postParams.refreshmethod = function () { window.location = '../HtmlPages/MarriageSearch.html' + window.location.hash; };
+        this.postParams.url = '/Marriages/Add';
+        this.postParams.data = GetMarriageRecord();
+        this.ancUtils.twaPostJSON(this.postParams);
     }
+
+//    save: function () {
+//        var serviceMarriage = this.GetMarriageRecord();
+//        this.saveMarriage(serviceMarriage);
+//    },
+
+//    saveReturn: function () {
+//        var serviceMarriage = this.GetMarriageRecord();
+//        //  twaPostJSON('/Marriages/Add', serviceMarriage, '../HtmlPages/MarriageSearch.html', 'id');
+
+//    },
+
+//    saveMarriage: function (serviceMarriage) {
+//        twaPostJSON('/Marriages/Add', serviceMarriage, '', 'id');
+//    }
 
 
 }

@@ -590,7 +590,7 @@ AncUtils.prototype = {
     //ANCUTILS
     twaPostJSON: function (postParams) {
 
-        //        var postParams = { url: 'pager',
+        //        var postParams = { url: '',
         //            data: data.Batch,
         //            idparam: data.BatchLength,
         //            refreshmethod: data.Total,
@@ -615,8 +615,18 @@ AncUtils.prototype = {
             else {
                 //everything was fine - supposedly.
                 if (postParams.idparam != undefined) {
-                    var result = that.getValueFromKey(message, 'Id');
-                    that.updateQryPar(postParams.idParam, result);
+                    var result = that.getValueFromKey(message, 'Id');// make this Id value less arbitary
+                    that.updateQryPar(postParams.idParam, result); 
+
+                    //used to redirect the page after function has returned.
+                    //                    if (postParams.url != undefined && postParams.url != '') {
+                    //                        var _hash = window.location.hash;
+                    //                        window.location = postParams.url + _hash;
+                    //                    }
+                    //                    else {
+                    //                        //reload page with new values in query string.
+                    //                        window.location.reload();
+                    //                    }
                 }
                 if (postParams.refreshmethod != undefined) {
                     postParams.refreshmethod.call(postParams.Context, postParams.refreshArgs);
