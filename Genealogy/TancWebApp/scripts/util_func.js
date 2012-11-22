@@ -602,22 +602,24 @@ AncUtils.prototype = {
 
         var stringy = JSON.stringify(postParams.data);
 
+        var that = this;
+
         var successFunc = function (message) {
             // was there a error
-            var error = this.getValueFromKey(message, 'error');
+            var error = that.getValueFromKey(message, 'error');
 
             if (error != '' && error != null) {
                 //yes
-                this.showError(error);
+                that.showError(error);
             }
             else {
                 //everything was fine - supposedly.
                 if (postParams.idparam != undefined) {
-                    var result = this.getValueFromKey(message, 'Id');
-                    this.updateQryPar(postParams.idParam, result);
+                    var result = that.getValueFromKey(message, 'Id');
+                    that.updateQryPar(postParams.idParam, result);
                 }
                 if (postParams.refreshmethod != undefined) {
-                    postParams.refreshMethod.call(postParams.context, postParams.refreshArgs);
+                    postParams.refreshmethod.call(postParams.Context, postParams.refreshArgs);
                 }
             }
         };
