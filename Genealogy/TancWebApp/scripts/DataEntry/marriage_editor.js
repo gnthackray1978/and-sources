@@ -2,13 +2,26 @@
 
 
 
+//$(document).ready(function () {
+
+//    //http://localhost:666/Forms/FrmEditorMarriages.aspx?_parentId=&active=1&mcname=test&msname=&fcname=&fsname=&locat=&ldrl=1700&ldru=1799&parid=&id=c2c2c673-b10b-42a3-8922-0c0bc1b29144
+
+
+//    createHeader('#1',getMarriage);
+//   // ();
+//});
+
+
+
 $(document).ready(function () {
+    var jsMaster = new JSMaster();
+    var ancMarriageEditor = new AncMarriageEditor();
 
-    //http://localhost:666/Forms/FrmEditorMarriages.aspx?_parentId=&active=1&mcname=test&msname=&fcname=&fsname=&locat=&ldrl=1700&ldru=1799&parid=&id=c2c2c673-b10b-42a3-8922-0c0bc1b29144
+    jsMaster.generateHeader('#1', function () {
+        ancMarriageEditor.init();
 
+    });
 
-    createHeader('#1',getMarriage);
-   // ();
 });
 
 
@@ -26,11 +39,16 @@ AncMarriageEditor.prototype = {
     init: function () {
         var params = {};
 
+        $("#save").live("click", $.proxy(function () { this.save(); return false; }, this));
+
+        $("#return").live("click", $.proxy(function () { this.saveReturn(); return false; }, this));
+
+
         var id = this.qryStrUtils.getParameterByName('id', '');
 
         params[0] = id;
 
-        this.ancUtils.twaGetJSON("/Marriages/GetMarriages/Select", params, $.proxy(this.processData, this));
+        this.ancUtils.twaGetJSON("/Marriages/GetMarriage/Select", params, $.proxy(this.processData, this));
 
         return false;
 
@@ -111,7 +129,7 @@ AncMarriageEditor.prototype = {
     },
 
     GetMarriageRecord: function (rowIdx) {
-    // theData.SourceDescription = $('#txtSource').val();
+        // theData.SourceDescription = $('#txtSource').val();
         var record = {};
         record.FemaleLocationId = '';
         record.LocationId = '';
@@ -151,17 +169,17 @@ AncMarriageEditor.prototype = {
         return record;
     },
 
-    save :function () {
+    save: function () {
         var serviceMarriage = this.GetMarriageRecord();
         this.saveMarriage(serviceMarriage);
     },
 
-    saveReturn:function () {
+    saveReturn: function () {
         var serviceMarriage = this.GetMarriageRecord();
-        twaPostJSON('/Marriages/Add', serviceMarriage, '../HtmlPages/MarriageSearch.html','id');
+        twaPostJSON('/Marriages/Add', serviceMarriage, '../HtmlPages/MarriageSearch.html', 'id');
     },
 
-    saveMarriage:function (serviceMarriage) {
+    saveMarriage: function (serviceMarriage) {
         twaPostJSON('/Marriages/Add', serviceMarriage, '', 'id');
     }
 

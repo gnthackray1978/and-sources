@@ -233,7 +233,7 @@ AncMarriages.prototype = {
     },
 
     processSelect: function (evt) {
-        this.ancUtils.handleSelection(evt, selection, '#search_bdy tr', "#MarriageId");
+        this.ancUtils.handleSelection(evt, this.selection, '#search_bdy tr', "#MarriageId");
     },
 
     getLink: function (toPage) {
@@ -254,7 +254,7 @@ AncMarriages.prototype = {
 
     SetDuplicates: function () {
         this.postParams.url = '/Marriages/SetDuplicate';
-        this.postParams.data = { marriage: this.ancUtils.convertToCSV(this.selection) };
+        this.postParams.data = { marriages: this.ancUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
     },
 
