@@ -1,27 +1,37 @@
 ﻿
+//this.ancSelectorBase.context_data = {
+//    editorUrl: '../Forms/FrmEditSource.aspx',
+//    param_name: 'source_ids',
+//    selectionUrl: '/Sources/GetSourceNames',
+//    pagerfunction: undefined,   // this.pagerfunction = 'getLink';
+//    search_body: 'search_bdy',
+//    search_hed: 'search_hed',
+//    pager: 's_pager',
+//    sourceRefId: 'txtSourceRef',
+//    title: 'SOURCES',
+//    refreshMethod: this.getSources
+
+//};
+
+
 var AncSelectorBase = function () {
     this.qryStrUtils = new QryStrUtils();
     this.ancUtils = new AncUtils();
     this.selection = new Array();
-    this.postParams = {
-        url: '',
-        data: '',
-        idparam: undefined,
-        refreshmethod: this.getMarriages,
-        refreshArgs: ['1'],
-        Context: this
-    };
+    this.context_data = {};
 
 }
 
-AncMarriages.prototype = {
+AncSelectorBase.prototype = {
 
-    createOutline: function (selectorid, refresh_function, selectionbodyid, resultsbodyid, searchInputId, title, pager) {
+    createOutline: function (selectorid) {
+      
+                  
         var body = '';
 
         body += '<div class = "sf_shad sf_cont">';
 
-        body += '<div class = "sf_hed"><div><b>' + title + '</b></div></div>';
+        body += '<div class = "sf_hed"><div><b>' + this.ancSelectorBase.context_data.title + '</b></div></div>';
 
         body += '<div class = "sf_pad-cont">';
         body += '<table border="0">';
@@ -32,7 +42,7 @@ AncMarriages.prototype = {
         body += '</tr>';
         body += '</thead>';
 
-        body += '<tbody id = "' + selectionbodyid + '">';
+        body += '<tbody id = "' + this.ancSelectorBase.context_data.search_hed + '">';
         body += '</tbody>';
         body += '</table>';
 
@@ -42,7 +52,7 @@ AncMarriages.prototype = {
 
         body += '<div class="sf_mid-lab">';
         body += '<div class="sf_mlab-dlef">';
-        body += '<input id="' + searchInputId + '" class = "sf_txt" type="text"/>';
+        body += '<input id="' + this.ancSelectorBase.context_data.sourceRefId + '" class = "sf_txt" type="text"/>';
         body += '</div>';
 
 
@@ -62,7 +72,7 @@ AncMarriages.prototype = {
         body += '<td></td>';
         body += '</tr>';
         body += '</thead>';
-        body += '<tbody id = "' + resultsbodyid + '">';
+        body += '<tbody id = "' + this.ancSelectorBase.context_data.search_body + '">';
         body += '</tbody>';
         body += '</table>';
 
@@ -70,7 +80,7 @@ AncMarriages.prototype = {
 
 
         body += '<div class="fltbrow">';
-        body += '<div id="' + pager + '" class = "pager"></div>';
+        body += '<div id="' + this.ancSelectorBase.context_data.pager + '" class = "pager"></div>';
 
         body += '</div>';
 
@@ -81,15 +91,15 @@ AncMarriages.prototype = {
         $(selectorid).html(body);
 
 
-        $("#sb_refresh").live("click", $.proxy(refresh_function, this));
+        $("#sb_refresh").live("click", $.proxy(this.ancSelectorBase.context_data.refreshMethod, this));
 
 
     },
 
 
-    refreshSelected: function (param_name, selectionUrl, search_hed) {
+    refreshSelected: function () {
 
-        var newSources = this.getNewSources(param_name, search_hed);
+        var newSources = this.getNewSources();
 
         if (newSources.length > 0) {
             var params = {};
@@ -101,22 +111,22 @@ AncMarriages.prototype = {
                     var row0 = { desc: sourceInfo };
                     rows.push(row0);
                 });
-                this.addNewSelectedSources(data, param_name, search_hed);
+                this.addNewSelectedSources(data);
             };
 
-            this.ancUtils.twaGetJSON(selectionUrl, params, $.proxy(successmethod, this));
+            this.ancUtils.twaGetJSON(this.ancSelectorBase.context_data.selectionUrl, params, $.proxy(successmethod, this));
         }
     },
 
 
-    addNewSelectedSources: function (data, param_name, search_hed) {
+    addNewSelectedSources: function (data) {
 
-        var indexs = this.getNewSources(param_name, search_hed);
+        var indexs = this.getNewSources();
         var selectEvents = new Array();
         var count = 0;
         var selected_sourceId = null;
 
-        var tableBody = $('#' + search_hed).html();
+        var tableBody = $('#' + this.ancSelectorBase.context_data.search_hed).html();
 
         var _idx = 0;
 
@@ -131,25 +141,25 @@ AncMarriages.prototype = {
             tableBody += '<tr id = "' + selected_sourceId + '" class="selected_source" >'; //+ hidfield;
             tableBody += '<td>' + objValue + '</td>';
             tableBody += '<td><a id= "sr' + _idx + '" href=""><div> Remove </div></a></td>';
-            selectEvents.push({ key: 'sr' + _idx, value: { sourceId: selected_sourceId, param_name: param_name} });
+            selectEvents.push({ key: 'sr' + _idx, value: selected_sourceId});
 
             tableBody += '</tr>';
             _idx++;
         });
 
 
-        $('#' + search_hed).html(tableBody);
+        $('#' + this.ancSelectorBase.context_data.search_hed).html(tableBody);
 
         this.ancUtils.addlinks(selectEvents, this.removeFromSelection, this);
     },
 
 
-    removeFromSelection: function (pargs) {
+    removeFromSelection: function (sourceId) {
 
         //sourceId, param_name
 
         var selectedSourceIds = new Array();
-        var paramSources = this.qryStrUtils.getParameterByName(pargs.param_name);
+        var paramSources = this.qryStrUtils.getParameterByName(this.context_data.param_name);
         if (paramSources != '' && paramSources != null) {
             selectedSourceIds = paramSources.split(',');
         }
@@ -157,24 +167,22 @@ AncMarriages.prototype = {
 
         if (selectedSourceIds != undefined) {
 
-            selectedSourceIds.splice(selectedSourceIds.indexOf(pargs.sourceId), 1);
+            selectedSourceIds.splice(selectedSourceIds.indexOf(sourceId), 1);
 
-            $('#' + pargs.sourceId + '.selected_source').remove();
+            $('#' + sourceId + '.selected_source').remove();
 
-            this.qryStrUtils.updateQryPar(pargs.param_name, convertToCSV(selectedSourceIds));
+            this.qryStrUtils.updateQryPar(this.context_data.param_name, convertToCSV(selectedSourceIds));
         }
 
     },
 
-    createBody: function (data, batch_data, editorUrl, param_name, selectionUrl, pagerLinkFunction, searchBody, searchHead, pager) {
-
+    createBody: function (batch_data) {
         var tableBody = '';
         var selectEvents = new Array();
         var _idx = 0;
 
-
         $.each(
-                data,
+                batch_data.rows,
                 function (intIndex, objValue) {
                     var hidfield = '<input type="hidden" name="source_id" id="source_id" value ="' + objValue.id + '"/>';
                     tableBody += '<tr>' + hidfield;
@@ -184,7 +192,7 @@ AncMarriages.prototype = {
                     tableBody += '<td><a href="' + editorUrl + _loc + '"><div>' + objValue.ref + '</div></a></td>';
                     tableBody += '<td><a id= "cb' + _idx + '" href="" ><div> Add </div></a></td>';
 
-                    selectEvents.push({ key: 'cb' + _idx, value: { id: selected_sourceId, param_name: param_name, selectionUrl: selectionUrl, searchHead: searchHead} });
+                    selectEvents.push({ key: 'cb' + _idx, value: objValue.id });
                     
                     tableBody += '</tr>';
                     
@@ -195,52 +203,68 @@ AncMarriages.prototype = {
         );
 
         if (tableBody != '') {
-            $('#' + searchBody).html(tableBody); //          
-            $('#' + pager).html(createpager(batch_data.Batch, batch_data.BatchLength, batch_data.Total, pagerLinkFunction));
+            $('#' + this.context_data.searchBody).html(tableBody); //
+
+
+            //create pager based on results
+            var pagerparams = { ParentElement: this.context_data.pager,
+                Batch: batch_data.Batch,
+                BatchLength: batch_data.BatchLength,
+                Total: batch_data.Total,
+                Function: this.context_data.pagerfunction,
+                Context: this
+            };
+
+            this.ancUtils.createpager(pagerparams);
+
+
+           // $('#' + pager).html(createpager(batch_data.Batch, batch_data.BatchLength, batch_data.Total, pagerLinkFunction));
+
+
         }
         else {
-            $('#' + searchBody).html(tableBody); //'#search_bdy'         
+            $('#' + this.context_data.searchBody).html(tableBody); //'#search_bdy'         
         }
 
         this.ancUtils.addlinks(selectEvents, this.addToSelection, this);
 
-        this.refreshSelected(param_name, selectionUrl, searchHead);
+        this.refreshSelected();
 
 
     },
 
-    addToSelection: function (pargs) {
+    addToSelection: function (sourceId) {
         //sourceId, param_name, selectionUrl, search_hed
         var selectedSourceIds = new Array();
         //var param_name = 'source_ids';
 
-        var paramSources = this.qryStrUtils.getParameterByName(pargs.param_name);
+        var paramSources = this.qryStrUtils.getParameterByName(this.context_data.param_name);
         if (paramSources != '' && paramSources != null) {
             selectedSourceIds = paramSources.split(',');
         }
 
         if (selectedSourceIds != undefined) {
 
-            if (selectedSourceIds.indexOf(pargs.sourceId) == -1) {
-                selectedSourceIds.push(pargs.sourceId);
+            if (selectedSourceIds.indexOf(sourceId) == -1) {
+                selectedSourceIds.push(sourceId);
             }
 
-            this.qryStrUtils.updateQryPar(pargs.param_name, convertToCSV(selectedSourceIds));
+            this.qryStrUtils.updateQryPar(this.context_data.param_name, convertToCSV(selectedSourceIds));
         }
 
-        this.refreshSelected(pargs.param_name, pargs.selectionUrl, pargs.search_hed);
+        this.refreshSelected();
     },
 
-    getNewSources: function (paramName, search_hed) {
+    getNewSources: function () {
 
         var refreshRequired = false;
         var newSources = new Array();
         var currentSources = new Array();
 
-        var paramSources = this.qryStrUtils.getParameterByName(paramName);
+        var paramSources = this.qryStrUtils.getParameterByName(this.context_data.param_name);
 
         //existing sources selected
-        $('#'+ search_hed + ' .selected_source').each(function () {
+        $('#' + this.context_data.search_hed + ' .selected_source').each(function () {
             currentSources.push(this.id);
         });
 
