@@ -15,9 +15,13 @@
 
 $(document).ready(function () {
     var jsMaster = new JSMaster();
-    var ancMarriageEditor = new AncMarriageEditor();
+
+
+    console.log('marriage editor ready');
 
     jsMaster.generateHeader('#1', function () {
+        
+        var ancMarriageEditor = new AncMarriageEditor();
         ancMarriageEditor.init();
 
     });
@@ -47,7 +51,7 @@ AncMarriageEditor.prototype = {
 
     init: function () {
 
-
+        console.log('marriage editor init');
         $("#save").live("click", $.proxy(function () { this.save(); return false; }, this));
 
         $("#return").live("click", $.proxy(function () { this.saveReturn(); return false; }, this));
@@ -60,6 +64,7 @@ AncMarriageEditor.prototype = {
     },
 
     load: function () {
+        console.log('marriage editor load');
         var params = {};
         params[0] = this.qryStrUtils.getParameterByName('id', '');
 
@@ -68,6 +73,8 @@ AncMarriageEditor.prototype = {
 
 
     processData: function (data) {
+
+        console.log('marriage editor recieved data');
 
         $('#txtMDate').val(data.MarriageDate);
         $('#txtSource').val(data.SourceDescription);
@@ -138,7 +145,13 @@ AncMarriageEditor.prototype = {
         this.qryStrUtils.updateQryPar('source_ids', data.Sources);
 
 
-        getSources('#sourceselector');
+        //getSources('#sourceselector');
+
+        var ancSelectorSources = new AncSelectorSources();
+
+        ancSelectorSources.getSources('#sourceselector');
+        
+        console.log('marriage editor requested source data');
     },
 
     GetMarriageRecord: function (rowIdx) {
@@ -183,31 +196,31 @@ AncMarriageEditor.prototype = {
     },
     save: function () {
         this.postParams.url = '/Marriages/Add';
-        this.postParams.data = GetMarriageRecord();
+        this.postParams.data = this.GetMarriageRecord();
         this.ancUtils.twaPostJSON(this.postParams);
     },
 
     saveReturn: function () {
         this.postParams.refreshmethod = function () { window.location = '../HtmlPages/MarriageSearch.html' + window.location.hash; };
         this.postParams.url = '/Marriages/Add';
-        this.postParams.data = GetMarriageRecord();
+        this.postParams.data = this.GetMarriageRecord();
         this.ancUtils.twaPostJSON(this.postParams);
     }
 
-//    save: function () {
-//        var serviceMarriage = this.GetMarriageRecord();
-//        this.saveMarriage(serviceMarriage);
-//    },
+    //    save: function () {
+    //        var serviceMarriage = this.GetMarriageRecord();
+    //        this.saveMarriage(serviceMarriage);
+    //    },
 
-//    saveReturn: function () {
-//        var serviceMarriage = this.GetMarriageRecord();
-//        //  twaPostJSON('/Marriages/Add', serviceMarriage, '../HtmlPages/MarriageSearch.html', 'id');
+    //    saveReturn: function () {
+    //        var serviceMarriage = this.GetMarriageRecord();
+    //        //  twaPostJSON('/Marriages/Add', serviceMarriage, '../HtmlPages/MarriageSearch.html', 'id');
 
-//    },
+    //    },
 
-//    saveMarriage: function (serviceMarriage) {
-//        twaPostJSON('/Marriages/Add', serviceMarriage, '', 'id');
-//    }
+    //    saveMarriage: function (serviceMarriage) {
+    //        twaPostJSON('/Marriages/Add', serviceMarriage, '', 'id');
+    //    }
 
 
 }
