@@ -521,6 +521,11 @@ AncUtils.prototype = {
                 $this.addClass('highLightRow');
             }
         }); //end each
+
+
+
+
+        return selection;
     },
 
 
@@ -615,8 +620,11 @@ AncUtils.prototype = {
             else {
                 //everything was fine - supposedly.
                 if (postParams.idparam != undefined) {
-                    var result = that.getValueFromKey(message, 'Id');// make this Id value less arbitary
-                    that.updateQryPar(postParams.idParam, result); 
+                    var result = that.getValueFromKey(message, 'Id'); // make this Id value less arbitary
+
+                    var qutils = new QryStrUtils();
+
+                    qutils.updateQryPar(postParams.idparam, result);
 
                     //used to redirect the page after function has returned.
                     //                    if (postParams.url != undefined && postParams.url != '') {
@@ -647,35 +655,6 @@ AncUtils.prototype = {
         });
 
     },
-
-
-    //    handleReturnCodeWithReturn: function (message, redirectUrl, idParam) {
-
-    //        var result = this.getValueFromKey(message, 'Id');
-
-    //        this.updateQryPar(idParam, result);
-
-    //        var error = this.getValueFromKey(message, 'error');
-
-    //        if (error != '' && error != null) {
-    //            this.showError(error);
-    //        }
-    //        else {
-    //            var _hash = window.location.hash;
-    //            window.location = redirectUrl + _hash;
-    //        }
-    //    },
-
-
-    //    refreshWithErrorHandler: function (refreshMethod, message) {
-    //        var error = this.getValueFromKey(message, 'error');
-    //        if (error != '' && error != null) {
-    //            this.showError(error);
-    //        }
-    //        else {
-    //            refreshMethod.apply(this, ['1']);
-    //        }
-    //    },
 
     getValueFromKey: function (qry, name) {
         var match = RegExp(name + '=([^&]*)')
@@ -726,14 +705,14 @@ AncUtils.prototype = {
         var totalRequiredPages = (pagerparams.Total - remainderPages) / pagerparams.BatchLength;
 
         if (remainderPages > 0)
-            pagerparams.Total++;
+            totalRequiredPages++;
 
         var pagerBody = '';
 
-        if (pagerparams.Total <= blocksize) {
+        if (totalRequiredPages <= blocksize) {
             var idx0 = 0;
 
-            while (idx0 < pagerparams.Total) {
+            while (idx0 < totalRequiredPages) {
 
                 pagerBody += "<a id='cp_" + idx0 + "' href='' class = 'pagerlink'>" + String(idx0 + 1) + "</a>";
                 clickEvents.push({ key: 'cp_' + idx0, value: idx0 });
@@ -744,9 +723,9 @@ AncUtils.prototype = {
             var startpage = pagerparams.Batch - (pagerparams.Batch % blocksize);
             var limit = 0;
 
-            if ((startpage + blocksize) > pagerparams.Total) {
+            if ((startpage + blocksize) > totalRequiredPages) {
 
-                limit = pagerparams.Total;
+                limit = totalRequiredPages;
             }
             else {
                 limit = startpage + blocksize;
@@ -788,9 +767,9 @@ AncUtils.prototype = {
             }
 
 
-            if (idx < pagerparams.Total) {
+            if (idx < totalRequiredPages) {
 
-                var remainderAvailablePages = pagerparams.Total % blocksize;
+                var remainderAvailablePages = totalRequiredPages  % blocksize;
                 //zero based
 
                 startpage += blocksize;
@@ -799,8 +778,8 @@ AncUtils.prototype = {
                 pagerBody += "<a id='cp_" + startpage + "' href='' class = 'pagerlink'>..</a>";
                 clickEvents.push({ key: 'cp_' + startpage, value: startpage });
 
-                pagerBody += "<a id='cp_" + (pagerparams.Total - remainderAvailablePages) + "' href='' class = 'pagerlink'>Last</a>";
-                clickEvents.push({ key: 'cp_' + (pagerparams.Total - remainderAvailablePages), value: (pagerparams.Total - remainderAvailablePages) });
+                pagerBody += "<a id='cp_" + (totalRequiredPages - remainderAvailablePages) + "' href='' class = 'pagerlink'>Last</a>";
+                clickEvents.push({ key: 'cp_' + (totalRequiredPages - remainderAvailablePages), value: (totalRequiredPages - remainderAvailablePages) });
 
             }
         }

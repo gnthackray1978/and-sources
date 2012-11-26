@@ -77,9 +77,11 @@ AncPersonEditor.prototype = {
 
         this.qryStrUtils.updateQryPar('source_ids', data.Sources);
 
-        
 
-        getSources('#sourceselector');
+
+        var ancSelectorSources = new AncSelectorSources();
+
+        ancSelectorSources.getSources('#sourceselector');
 
     },
     GetPersonRecord: function () {
@@ -114,14 +116,14 @@ AncPersonEditor.prototype = {
     },
     save: function () {
         this.postParams.url = '/Person/Add';
-        this.postParams.data = GetPersonRecord();
+        this.postParams.data = this.GetPersonRecord();
         this.ancUtils.twaPostJSON(this.postParams);
     },
 
     saveReturn: function () {             
         this.postParams.refreshmethod = function () { window.location = '../HtmlPages/PersonSearch.html' + window.location.hash; };
         this.postParams.url = '/Person/Add';
-        this.postParams.data = GetPersonRecord();
+        this.postParams.data = this.GetPersonRecord();
         this.ancUtils.twaPostJSON(this.postParams);
     }
  

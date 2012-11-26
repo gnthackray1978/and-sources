@@ -2,6 +2,14 @@
 /****************2 table Selection control*************************/
 /***************************************************************/
 
+a.specialLink {
+    display:inline-block;
+    overflow:hidden;
+    white-space:nowrap;
+    width: 10em;
+}
+    
+
 .sf_shad
 {
     border-bottom-style: solid;
@@ -20,6 +28,7 @@
   /*  margin: 3px;*/
     border-style: solid;
     width: 240px;
+    font-size :15px;
 }
 
 .sf_hed

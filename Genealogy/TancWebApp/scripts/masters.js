@@ -1,7 +1,20 @@
 ﻿
 
+
+
+
+
 var JSMaster = function () {
-    this.facebookReady = null;
+
+    //this.facebookReady = null;
+    console.log('setting initFacebook');
+
+
+
+    window.fbAsyncInit = this.initFacebook;
+
+    //Window.prototype.facebookReady = readyfunction;
+
     this.backgrounds = ['photo4', 'waterfall', 'gard_tree', 'stone_tree', 'back_trees', 'back_stones', 'back_hole_stone', 'back_trees_bw'];
     this.imgIdx = 0;
     this.setBackground();
@@ -9,19 +22,10 @@ var JSMaster = function () {
     this.qryStrUtils = new QryStrUtils();
 
 
-    Window.prototype.getLoggedInUserName = function () {
-        var params = {};
-        params[0] = 'hello';
-        var ancUtils = new AncUtils();
-        ancUtils.twaGetJSON("/TestLogin", params, function (data) {
-            $('#usr_nam').html(data); 
-         });
-    };
-    
-    window.fbAsyncInit = this.initFacebook;
 
     $(window).resize($.proxy(this.setBackground.debounce(250, false), this));
 
+    console.log('finished creating JSMaster');
 }
 
 
@@ -32,15 +36,27 @@ JSMaster.prototype = {
 
     initFacebook: function () {
 
+        console.log('jsmaster init face book');
+
         var hellothere = 'whatever';
 
-        FB.init({ appId: 205401136237103, status: true, cookie: true, xfbml: true });
+
+        FB.init({ appId: 205401136237103, status: true, cookie: true, xfbml: true, channelUrl: '../HtmlPages/channel.html' });
 
         FB.getLoginStatus(function (response) {
 
+            console.log('jsmaster init getLoginStatus');
+
             if (response.status == 'connected') {
                 // showError('connected');
-                window.getLoggedInUserName();
+                //window.getLoggedInUserName();
+
+                var params = {};
+                params[0] = 'hello';
+                var ancUtils = new AncUtils();
+                ancUtils.twaGetJSON("/TestLogin", params, function (data) {
+                    $('#usr_nam').html(data);
+                });
 
                 if (window.facebookReady != null) {
                     window.facebookReady.apply();
@@ -56,9 +72,12 @@ JSMaster.prototype = {
     generateHeader: function (selectorid, readyfunction) {
 
         //todo rewrite this to use .proxy - i think it shouldnt be necessary to use the window.prototype for this!
+
+        console.log('jsmaster generateHeader');
+
         Window.prototype.facebookReady = readyfunction;
 
-        this.facebookReady = readyfunction;
+       // this.facebookReady = readyfunction;
 
         var headersection = '';
 
@@ -115,7 +134,7 @@ JSMaster.prototype = {
 
 
         headersection += '<div id="fb-root">';
-        headersection += '<fb:login-button autologoutlink="true" &nbsp;perms="email,user_birthday,status_update,publish_stream"></fb:login-button>';
+        headersection += '<fb:login-button autologoutlink="true" perms="email,user_birthday,status_update"></fb:login-button>';
         headersection += '</div>';
 
         headersection += '<div id = "usr_nam"></div>';
@@ -136,6 +155,16 @@ JSMaster.prototype = {
         $(selectorid).addClass('midtop');
 
         $(selectorid).html(headersection);
+
+
+        (function () {
+            var e = document.createElement('script');
+            e.src = 'http://connect.facebook.net/en_US/all.js';
+            e.async = true;
+            document.getElementById('fb-root').appendChild(e);
+        } ());
+
+
 
 
         // $.proxy(Foo.test, Foo)
@@ -166,7 +195,7 @@ JSMaster.prototype = {
         $("#lnk_prevback").live("click", $.proxy(function () { this.prevBackground(); return false; }, this));
         $("#lnk_nextback").live("click", $.proxy(function () { this.nextBackground(); return false; }, this));
 
-
+       
     },
 
     masterShowTab: function (panel) {
@@ -280,7 +309,7 @@ JSMaster.prototype = {
     setBackground: function () {
 
         //alert('set back');
-        var imgIdx = this.getCookie('gnt_back');
+        this.imgIdx = this.getCookie('gnt_back');
 
 
         if (this.imgIdx == undefined)

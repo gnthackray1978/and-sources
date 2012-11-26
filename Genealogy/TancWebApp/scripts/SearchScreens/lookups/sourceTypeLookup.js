@@ -36,10 +36,10 @@ SourceTypeLookup.prototype = {
 
         var selectEvents = new Array();
         var _idx = 0;
-  
+
 
         $.each(data.serviceSources, function (source, sourceInfo) {
-       
+
             var hidfield = '<input type="hidden" name="typeId" id="typeId" value ="' + sourceInfo.TypeId + '"/>';
             tableBody += '<tr>' + hidfield + '<td><a  id= "st' + _idx + '" href="" ><span>' + sourceInfo.Description + '</span></a></td></tr>';
 
@@ -65,7 +65,7 @@ SourceTypeLookup.prototype = {
         this.selectTypes();
     },
 
-    getSourceLink: function(toPage) {
+    getSourceLink: function (toPage) {
 
         this.qryStrUtils.updateQryPar('stpage', toPage);
 
@@ -73,17 +73,29 @@ SourceTypeLookup.prototype = {
 
     },
 
-    selectTypes: function (evt) {
-        // get selected ids from query string !
-        var stypeSelection = new Array();  
-        var selectedIds = this.ancUtils.getParameterByName('stids', '');
+    selectTypes: function (stypeIds) {
+   
+        var stds = this.qryStrUtils.getParameterByName('stids', '');
+   
+        var stypeSelection = this.ancUtils.handleSelection(String(stypeIds), stds.split(','), '#sourcetype_lookup_body tr', "input");
 
-        if(selectedIds != null)
-            stypeSelection = selectedIds.split(',');
+        if (stypeSelection != undefined) {
 
-        $('#selected_types').val(convertToCSV(stypeSelection));
+            var tp = new Array();
 
-        this.ancUtils.handleSelection(evt, stypeSelection, '#sourcetype_lookup_body tr', "input");
+            for (var i = 0; i < stypeSelection.length; i++) {
+                if (stypeSelection[i] != undefined || stypeSelection[i] != "undefined") {
+                    tp.push(stypeSelection[i]);
+                   
+                }
+            }
+
+            this.qryStrUtils.updateQryPar('stids', convertToCSV(tp));
+
+            $('#selected_types').val(convertToCSV(tp));
+
+        }
+
     }
 
 

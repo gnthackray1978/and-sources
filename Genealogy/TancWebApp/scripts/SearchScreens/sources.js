@@ -1,4 +1,8 @@
-﻿
+﻿//var setDefaultPersonUrl = getHost() + "/settreepersons/Set";
+//var saveSourceUrl = getHost() + "/SaveTree/Save";
+
+//var deleteSourceUrl = getHost() + "/Source/Delete";
+
 
 $(document).ready(function () {
     var jsMaster = new JSMaster();
@@ -17,10 +21,6 @@ var AncSources = function () {
     this.ancUtils = new AncUtils();
     this.selection = new Array();
     this.parishId = '';
-//var setDefaultPersonUrl = getHost() + "/settreepersons/Set";
-//var saveSourceUrl = getHost() + "/SaveTree/Save";
-
-//var deleteSourceUrl = getHost() + "/Source/Delete";
 
     this.postParams = { 
         url: '',
@@ -35,26 +35,27 @@ var AncSources = function () {
 
 AncSources.prototype = {
 
-    init: function() {
-
-         var isActive = this.qryStrUtils.getParameterByName('active');
-
-         var panels = new Panels();
-
-         $("#main").live("click", $.proxy(function () { panels.sourcesShowPanel('1'); return false; }, panels));
-         $("#more").live("click", $.proxy(function () { panels.sourcesShowPanel('2'); return false; }, panels));
-         $("#additional").live("click", $.proxy(function () { panels.sourcesShowPanel('3'); return false; }, panels));
-         $("#refresh").live("click", $.proxy(function () { this.getSources(); return false; }, this));
+    init: function () {
 
 
-         $("#add").live("click", $.proxy(function () { this.addSource('00000000-0000-0000-0000-000000000000'); return false; }, this));
-         $("#delete").live("click", $.proxy(function () { this.deleteSources(); return false; }, this));
-         $("#print").live("click", $.proxy(function () { this.printableSources(); return false; }, this));
-         $("#select_return").live("click", $.proxy(function () { this.returnselection(); return false; }, this));
+        var isActive = this.qryStrUtils.getParameterByName('active');
 
-         $("#sdate").live("click", $.proxy(function () { this.sort("SourceDate"); return false; }, this));
-         $("#sref").live("click", $.proxy(function () { this.sort("SourceRef"); return false; }, this));
-         $("#sdesc").live("click", $.proxy(function () { this.sort("SourceDescription"); return false; }, this));
+        var panels = new Panels();
+
+        $("#main").live("click", $.proxy(function () { panels.sourcesShowPanel('1'); return false; }, panels));
+        $("#more").live("click", $.proxy(function () { panels.sourcesShowPanel('2'); return false; }, panels));
+        $("#additional").live("click", $.proxy(function () { panels.sourcesShowPanel('3'); return false; }, panels));
+        $("#refresh").live("click", $.proxy(function () { this.getSources(); return false; }, this));
+
+
+        $("#add").live("click", $.proxy(function () { this.addSource('00000000-0000-0000-0000-000000000000'); return false; }, this));
+        $("#delete").live("click", $.proxy(function () { this.deleteSources(); return false; }, this));
+        $("#print").live("click", $.proxy(function () { this.printableSources(); return false; }, this));
+        $("#select_return").live("click", $.proxy(function () { this.returnselection(); return false; }, this));
+
+        $("#sdate").live("click", $.proxy(function () { this.sort("SourceDate"); return false; }, this));
+        $("#sref").live("click", $.proxy(function () { this.sort("SourceRef"); return false; }, this));
+        $("#sdesc").live("click", $.proxy(function () { this.sort("SourceDescription"); return false; }, this));
 
 
 
@@ -79,8 +80,10 @@ AncSources.prototype = {
             this.getSources();
         }
 
-        this.getSourceTypes();
 
+
+        var sourceTypeLookup = new SourceTypeLookup();
+        sourceTypeLookup.init();
 
         var isPersonImpSelection = this.qryStrUtils.getParameterByName('scs', '');
 
@@ -91,9 +94,9 @@ AncSources.prototype = {
             $("#rLink").addClass("hidePanel").removeClass("displayPanel");
         }
 
-    },
-
-    getSources: function() {
+    }
+    ,
+    getSources: function () {
 
         var params = {};
         params[0] = this.qryStrUtils.getParameterByName('stids', '');
@@ -105,20 +108,21 @@ AncSources.prototype = {
         params[6] = $('#txtUpperDateRangeLower').val();
         params[7] = $('#txtUpperDateRangeUpper').val();
         params[8] = $('#txtCountNo').val();
-        params[9] = 'false';// $('#chkIsThackrayFound').val();
-        params[10] = 'false';// $('#chkIsCopyHeld').val();
-        params[11] = 'false';// $('#chkIsViewed').val();
-        params[12] = 'false';// $('#chkUseOptions').val();
+        params[9] = 'false'; // $('#chkIsThackrayFound').val();
+        params[10] = 'false'; // $('#chkIsCopyHeld').val();
+        params[11] = 'false'; // $('#chkIsViewed').val();
+        params[12] = 'false'; // $('#chkUseOptions').val();
         params[13] = String(this.qryStrUtils.getParameterByName('page', 0));
         params[14] = '30';
-        params[15] = this.qryStrUtils.getParameterByName('sort_col', 'sdate'); 
+        params[15] = this.qryStrUtils.getParameterByName('sort_col', 'sdate');
+    
         this.ancUtils.twaGetJSON('/GetSources/Select', params, $.proxy(this.processData, this));
-               
-        this.createQryString(page);
+
+        this.createQryString();
         return false;
     },
 
-    returnselection: function() {
+    returnselection: function () {
 
         var parishLst = '';
 
@@ -145,8 +149,8 @@ AncSources.prototype = {
     },
 
 
-    createQryString: function(page) {
- 
+    createQryString: function () {
+
         var args = {
             "active": '1',
             "sref": $('#txtSourceRef'),
@@ -156,7 +160,7 @@ AncSources.prototype = {
             "ldru": $('#txtLowerDateRangeUpper'),
             "udrl": $('#txtUpperDateRangeLower'),
             "udru": $('#txtUpperDateRangeUpper'),
-            "fcount": $('#txtCountNo'
+            "fcount": $('#txtCountNo')
         };
 
         this.qryStrUtils.updateQry(args);
@@ -165,7 +169,7 @@ AncSources.prototype = {
 
     //// this can find out what page its on based on the
     //// returned data.
-    processData: function(data) {
+    processData: function (data) {
         //alert('received something');
         var tableBody = '';
         var selectEvents = new Array();
@@ -190,7 +194,7 @@ AncSources.prototype = {
 
             selectEvents.push({ key: 's' + _idx, value: sourceInfo.SourceId });
 
-            tableBody += '<td class = "source_d" ><div  title="'+ sourceInfo.SourceDesc +'">' + sourceInfo.SourceDesc + '</div></td>';
+            tableBody += '<td class = "source_d" ><div  title="' + sourceInfo.SourceDesc + '">' + sourceInfo.SourceDesc + '</div></td>';
 
             tableBody += '</tr>';
             _idx++;
@@ -205,8 +209,8 @@ AncSources.prototype = {
 
             $('#reccount').html(data.Total + ' Sources');
 
-           // $('#pager').html(createpager(data.Batch, data.BatchLength, data.Total, 'getLink'));
-                   
+            // $('#pager').html(createpager(data.Batch, data.BatchLength, data.Total, 'getLink'));
+
             var pagerparams = { ParentElement: 'pager',
                 Batch: data.Batch,
                 BatchLength: data.BatchLength,
@@ -226,13 +230,13 @@ AncSources.prototype = {
         this.ancUtils.addlinks(selectEvents, this.processSelect, this);
     },
     processSelect: function (evt) {
-        this.ancUtils.handleSelection(evt, selection, '#search_bdy tr', "#source_id");
+        this.ancUtils.handleSelection(evt, this.selection, '#search_bdy tr', "#source_id");
     },
     sort: function (sort_col) {
         this.ancUtils.sort_inner(sort_col);
         this.getSources();
     },
-    getLink: function (toPage){
+    getLink: function (toPage) {
         this.qryStrUtils.updateQryPar('page', toPage);
         this.getSources();
     },

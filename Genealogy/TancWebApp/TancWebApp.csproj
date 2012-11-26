@@ -79,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="HtmlPages\AncestorsTree.html" />
+    <Content Include="HtmlPages\channel.html" />
     <Content Include="HtmlPages\DescendantsTree.html" />
     <Content Include="HtmlPages\Events.html" />
     <Content Include="HtmlPages\MapView.html" />
@@ -95,6 +96,7 @@
     <Content Include="HtmlPages\SourceTypeEditor.html" />
     <Content Include="HtmlPages\SourceTypesSearch.html" />
     <Content Include="Default.html" />
+    <Content Include="HtmlPages\testpage.html" />
     <Content Include="HtmlPages\TreeSearch.html" />
     <Content Include="Images\backgrounds\back_hole_stone.jpg" />
     <Content Include="Images\backgrounds\back_stones.jpg" />
