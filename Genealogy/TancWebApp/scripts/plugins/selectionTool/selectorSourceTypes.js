@@ -33,7 +33,7 @@ AncSelectorSourceTypes.prototype = {
         if (selectorid != undefined) {
             this.ancSelectorBase.createOutline(selectorid)
         }
-        var sourceTypeDesc = $('#' + sourceRefId).val();
+        var sourceTypeDesc = $('#' + this.ancSelectorBase.context_data.sourceRefId).val();
 
         if (sourceTypeDesc == '') sourceTypeDesc = '%';
 

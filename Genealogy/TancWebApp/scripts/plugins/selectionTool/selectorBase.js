@@ -1,5 +1,6 @@
 ﻿
 //this.ancSelectorBase.context_data = {
+//    name: ''
 //    editorUrl: '../Forms/FrmEditSource.aspx',
 //    param_name: 'source_ids',
 //    selectionUrl: '/Sources/GetSourceNames',
