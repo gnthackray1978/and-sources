@@ -17,9 +17,9 @@ $(document).ready(function () {
 var AncPersonEditor = function () {
     this.qryStrUtils = new QryStrUtils();
     this.ancUtils = new AncUtils();
-
+    
     this.postParams = {
-        
+
         url: '',
         data: '',
         idparam: 'id',
