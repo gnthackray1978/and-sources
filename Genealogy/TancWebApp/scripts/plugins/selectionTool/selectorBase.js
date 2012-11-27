@@ -1,6 +1,7 @@
 
 
 
+
 //this.ancSelectorBase.context_data = {
 //    name: ''
 //    editorUrl: '../Forms/FrmEditSource.aspx',
@@ -13,7 +14,6 @@
 //    sourceRefId: 'txtSourceRef',
 //    title: 'SOURCES',
 //    refreshMethod: this.getSources
-// monkey
 //};
 
 
@@ -22,7 +22,7 @@ var AncSelectorBase = function () {
     this.ancUtils = new AncUtils();
     this.selection = new Array();
     this.context_data = {};
-    var test = '';
+ 
     
 }
 
@@ -127,7 +127,7 @@ AncSelectorBase.prototype = {
 
         var indexs = this.getNewSources();
         var selectEvents = new Array();
-        var count = 0;
+      
         var selected_sourceId = null;
 
         var tableBody = $('#' + this.context_data.search_hed).html();
@@ -164,12 +164,12 @@ AncSelectorBase.prototype = {
 
         var selectedSourceIds = new Array();
         var paramSources = this.qryStrUtils.getParameterByName(this.context_data.param_name);
-        if (paramSources != '' && paramSources != null) {
+        if (paramSources !== '' && paramSources !== null) {
             selectedSourceIds = paramSources.split(',');
         }
 
 
-        if (selectedSourceIds != undefined) {
+        if (selectedSourceIds !== undefined) {
 
             selectedSourceIds.splice(selectedSourceIds.indexOf(sourceId), 1);
 
