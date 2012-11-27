@@ -1,4 +1,6 @@
-﻿
+
+
+
 //this.ancSelectorBase.context_data = {
 //    name: ''
 //    editorUrl: '../Forms/FrmEditSource.aspx',
@@ -11,7 +13,7 @@
 //    sourceRefId: 'txtSourceRef',
 //    title: 'SOURCES',
 //    refreshMethod: this.getSources
-
+// monkey
 //};
 
 
@@ -20,7 +22,8 @@ var AncSelectorBase = function () {
     this.ancUtils = new AncUtils();
     this.selection = new Array();
     this.context_data = {};
-
+    var test = '';
+    
 }
 
 AncSelectorBase.prototype = {
