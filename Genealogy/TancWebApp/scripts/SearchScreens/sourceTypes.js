@@ -1,4 +1,7 @@
-﻿$(document).ready(function () {
+var JSMaster, QryStrUtils, AncUtils,Panels;
+
+
+$(document).ready(function () {
     var jsMaster = new JSMaster();
     var ancSourceTypes = new AncSourceTypes();
     jsMaster.generateHeader('#1', function () {
@@ -10,7 +13,7 @@
 var AncSourceTypes = function () {
     this.qryStrUtils = new QryStrUtils();
     this.ancUtils = new AncUtils();
-    this.selection = new Array();
+    this.selection = [];
   
     this.postParams = {
         url: '',
@@ -47,7 +50,7 @@ AncSourceTypes.prototype = {
             this.getSourceTypes('1');
         }
     },
-    createQryString: function(page) {
+    createQryString: function() {
          
         var args = {
             "active": '1',
@@ -67,16 +70,16 @@ AncSourceTypes.prototype = {
 
         this.ancUtils.twaGetJSON('/SourceTypes/Select', params, $.proxy(this.processData, this));
         
-        this.createQryString(page);
+        this.createQryString();
 
         return false;
     },
 
     processData: function(data) {
-        //alert('received something');
+       
         var tableBody = '';
-        var tableBody = '';
-        var selectEvents = new Array();
+      
+        var selectEvents = [];
         var _idx = 0;
         var that = this;
 
@@ -87,10 +90,10 @@ AncSourceTypes.prototype = {
             var hidPID = '<input type="hidden" name="SourceTypeId" id="SourceTypeId" value ="' + sourceInfo.TypeId + '"/>';
 
 
-            var arIdx = jQuery.inArray(sourceInfo.TypeId, selection);
+            var arIdx = jQuery.inArray(sourceInfo.TypeId, this.selection);
 
             if (arIdx >= 0) {
-                tableBody += '<tr class = "highLightRow">' + hidPID + hidParID;
+                tableBody += '<tr class = "highLightRow">' + hidPID ;
             }
             else {
                 tableBody += '<tr>' + hidPID;
@@ -108,7 +111,7 @@ AncSourceTypes.prototype = {
             tableBody += '</tr>';
         });
 
-        if (tableBody != '') {
+        if (tableBody !== '') {
 
             $('#search_bdy').html(tableBody);
             //create pager based on results

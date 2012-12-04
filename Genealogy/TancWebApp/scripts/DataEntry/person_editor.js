@@ -1,4 +1,5 @@
-﻿
+var JSMaster, QryStrUtils, AncUtils, AncSelectorSources, Panels;
+
 $(document).ready(function () {
     var jsMaster = new JSMaster();
     var ancPersonEditor = new AncPersonEditor();
@@ -9,10 +10,6 @@ $(document).ready(function () {
     });
 
 });
-
-
-
-
 
 var AncPersonEditor = function () {
     this.qryStrUtils = new QryStrUtils();
@@ -27,7 +24,7 @@ var AncPersonEditor = function () {
         refreshArgs: undefined,
         Context: this
     };
-}
+};
 
 AncPersonEditor.prototype = {
 

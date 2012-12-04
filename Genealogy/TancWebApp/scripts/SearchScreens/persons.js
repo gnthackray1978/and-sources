@@ -1,4 +1,7 @@
-﻿
+var JSMaster,QryStrUtils,AncUtils,Panels;
+
+
+
 $(document).ready(function () {
     var jsMaster = new JSMaster();
     var ancPersons = new AncPersons();
@@ -14,7 +17,7 @@ $(document).ready(function () {
 var AncPersons = function () {
     this.qryStrUtils = new QryStrUtils();
     this.ancUtils = new AncUtils();
-    this.selection = new Array();
+    this.selection = [];
     this.parishId = '';
 
     this.postParams = {
@@ -25,7 +28,7 @@ var AncPersons = function () {
         refreshArgs: ['1'],
         Context: this
     };
-}
+};
 
 
 
@@ -179,9 +182,9 @@ AncPersons.prototype = {
     processData: function (data) {
 
         var tableBody = '';
-        var visibleRecords = new Array();
-        var dupeEvents = new Array();
-        var selectEvents = new Array();
+        var visibleRecords = [];
+        var dupeEvents = [];
+        var selectEvents = [];
         var _idx = 0;
         var that = this;
 
@@ -217,7 +220,7 @@ AncPersons.prototype = {
 
             tableBody += '<td><div>' + sourceInfo.Surname + '</div></td>';
 
-            if (sourceInfo.Spouse == '')
+            if (sourceInfo.Spouse === '')
                 tableBody += '<td><div class = "parent">' + sourceInfo.FatherChristianName + '</div></td>';
             else
                 tableBody += '<td><div class = "spouse">' + sourceInfo.Spouse + '</div></td>';
@@ -233,11 +236,11 @@ AncPersons.prototype = {
             _idx++;
         });
 
-        if (this.selection != undefined) {
+        if (this.selection !== undefined) {
             this.selection = this.selection.RemoveInvalid(visibleRecords);
         }
 
-        if (tableBody != '') {
+        if (tableBody !== '') {
 
             $('#search_bdy').html(tableBody);
 
@@ -322,7 +325,7 @@ AncPersons.prototype = {
     }
 
 
-}
+};
 
 
 

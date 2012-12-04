@@ -1,5 +1,5 @@
-﻿
- 
+
+var JSMaster, QryStrUtils, AncUtils;
  
  
 var infoWindows = new Array();
@@ -8,16 +8,28 @@ var infoWindows = new Array();
 var zoomLevel = 0;
 var map = null;
 
-$(document).ready(function () {
+//$(document).ready(function () {
 
-    localCreate('#1', initMap);
+  //  localCreate('#1', initMap);
+//});
+
+
+$(document).ready(function () {
+    
+    var jsMaster = new JSMaster();
+    var censusMap = new CensusMap();
+
+    jsMaster.connectfacebook(function () {        
+
+        censusMap.init();
+
+    });
+
 });
 
-
-
-function localCreate(selectorid, readyfunction) {
-
-    facebookReady = readyfunction;
+var CensusMap = function () {
+    this.qryStrUtils = new QryStrUtils();
+    this.ancUtils = new AncUtils();
 
     var headersection = '';
 
@@ -25,22 +37,28 @@ function localCreate(selectorid, readyfunction) {
     headersection += '<fb:login-button autologoutlink="true" &nbsp;perms="email,user_birthday,status_update,publish_stream"></fb:login-button>';
     headersection += '</div>';
 
-    $(selectorid).html(headersection);
-}
-
-function donothing() {
+    $('#1').html(headersection);
 
 
-}
+    this.postParams = {
+
+        url: '',
+        data: '',
+        idparam: 'id',
+        refreshmethod: this.load,
+        refreshArgs: undefined,
+        Context: this
+    };
+};
 
 
+CensusMap.prototype ={
+    
 
+    init: function(selectorid, readyfunction) {
 
-
-function initMap() {
-
-    var latLng = new google.maps.LatLng(53.957700, -1.082290);
-    var homeLatLng = new google.maps.LatLng(53.957700, -1.082290);
+        var latLng = new google.maps.LatLng(53.957700, -1.082290);
+        var homeLatLng = new google.maps.LatLng(53.957700, -1.082290);
 
 
 
@@ -75,7 +93,12 @@ function initMap() {
     var params = {};
 
     twaGetJSON('/Sources/Get1841CensusPlaces', params, parishResults);
-};
+    
+
+    }
+    
+}
+
 
 
 function parishResults(data) {

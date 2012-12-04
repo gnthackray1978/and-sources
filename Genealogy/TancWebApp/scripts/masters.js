@@ -1,4 +1,4 @@
-﻿
+
 
 
 
@@ -16,7 +16,9 @@ var JSMaster = function () {
     //Window.prototype.facebookReady = readyfunction;
 
     this.backgrounds = ['photo4', 'waterfall', 'gard_tree', 'stone_tree', 'back_trees', 'back_stones', 'back_hole_stone', 'back_trees_bw'];
-    this.imgIdx = 0;
+    this.imgIdx = 4;
+    this.urlroot = 'https://c9.io/gnthackray1978/and-sources/workspace/Genealogy/TancWebApp';
+        
     this.setBackground();
     this.ancUtils = new AncUtils();
     this.qryStrUtils = new QryStrUtils();
@@ -26,7 +28,7 @@ var JSMaster = function () {
     $(window).resize($.proxy(this.setBackground.debounce(250, false), this));
 
     console.log('finished creating JSMaster');
-}
+};
 
 
 
@@ -38,10 +40,10 @@ JSMaster.prototype = {
 
         console.log('jsmaster init face book');
 
-        var hellothere = 'whatever';
+        
 
 
-        FB.init({ appId: 205401136237103, status: true, cookie: true, xfbml: true, channelUrl: '../HtmlPages/channel.html' });
+        FB.init({ appId: 205401136237103, status: true, cookie: true, xfbml: true, channelUrl: this.urlroot +'/HtmlPages/channel.html' });
 
         FB.getLoginStatus(function (response) {
 
@@ -75,7 +77,7 @@ JSMaster.prototype = {
 
         console.log('jsmaster generateHeader');
 
-        Window.prototype.facebookReady = readyfunction;
+
 
        // this.facebookReady = readyfunction;
 
@@ -94,36 +96,36 @@ JSMaster.prototype = {
         headersection += '<div>';
         headersection += '<div id="panelA" class = "displayPanel">';
         headersection += '<div class = "mtrlnk">';
-        headersection += '<a id="lnk_home"      href=\'../Default.html\'><span>Home</span></a>';
-        headersection += '<a id="lnk_marriages" href=\'../HtmlPages/MarriageSearch.html\'><span>Marriages</span></a>';
-        headersection += '<a id="lnk_persons"   href=\'../HtmlPages/PersonSearch.html\'><span>Persons</span></a>';
-        headersection += '<a id="lnk_sources"   href=\'../HtmlPages/SourceSearch.html\'><span>Sources</span></a>';
+        headersection += '<a id="lnk_home"      href=\''+ this.urlroot + '/Default.html\'><span>Home</span></a>';
+        headersection += '<a id="lnk_marriages" href=\''+ this.urlroot +'/HtmlPages/MarriageSearch.html\'><span>Marriages</span></a>';
+        headersection += '<a id="lnk_persons"   href=\''+ this.urlroot +'/HtmlPages/PersonSearch.html\'><span>Persons</span></a>';
+        headersection += '<a id="lnk_sources"   href=\''+ this.urlroot +'/HtmlPages/SourceSearch.html\'><span>Sources</span></a>';
         headersection += '</div>';
         headersection += '</div>';
 
         headersection += '<div id="panelB" class = "hidePanel">';
         headersection += '<div class = "mtrlnk">';
-        headersection += '<a id="lnk_parishs"       href=\'../HtmlPages/ParishSearch.html\'><span>Parishs</span></a>';
-        headersection += '<a id="lnk_events"        href=\'../HtmlPages/Events.html\'><span>Events</span></a>';
-        headersection += '<a id="lnk_batchevents"   href=\'../HtmlPages/batchEntry.html\'><span>Batch Entry</span></a>';
-        headersection += '<a id="lnk_files"         href=\'../Forms/FrmFiles.aspx\'><span>Files</span></a>';
-        headersection += '<a id="lnk_sourcetypes"   href=\'../HtmlPages/SourceTypesSearch.html\'><span>Source Types</span></a>';
+        headersection += '<a id="lnk_parishs"       href=\''+ this.urlroot +'/HtmlPages/ParishSearch.html\'><span>Parishs</span></a>';
+        headersection += '<a id="lnk_events"        href=\''+ this.urlroot +'/HtmlPages/Events.html\'><span>Events</span></a>';
+        headersection += '<a id="lnk_batchevents"   href=\''+ this.urlroot +'/HtmlPages/batchEntry.html\'><span>Batch Entry</span></a>';
+        headersection += '<a id="lnk_files"         href=\''+ this.urlroot +'/Forms/FrmFiles.aspx\'><span>Files</span></a>';
+        headersection += '<a id="lnk_sourcetypes"   href=\''+ this.urlroot +'/HtmlPages/SourceTypesSearch.html\'><span>Source Types</span></a>';
         headersection += '</div>';
         headersection += '</div>';
         headersection += '<div id="panelC" class = "hidePanel">';
         headersection += '<div class = "mtrlnk">';
 
 
-        headersection += '<a id="lnk_importparishs" href=\'../Forms/FrmImportCSV.aspx?Type=PARISH\'><span>Import Parishs</span></a>';
-        headersection += '<a id="lnk_importmarriages" href=\'../Forms/FrmImportCSV.aspx?Type=MAR\'><span>Import Marriages</span></a>';
-        headersection += '<a id="lnk_importsources" href=\'../Forms/FrmImportCSV.aspx?Type=SOURCE\'><span>Import Sources</span></a>';
-        headersection += '<a id="lnk_viewtrees" href=\'../HtmlPages/TreeSearch.html\'><span>View Trees</span></a>';
+        headersection += '<a id="lnk_importparishs" href=\''+ this.urlroot +'/Forms/FrmImportCSV.aspx?Type=PARISH\'><span>Import Parishs</span></a>';
+        headersection += '<a id="lnk_importmarriages" href=\''+ this.urlroot +'/Forms/FrmImportCSV.aspx?Type=MAR\'><span>Import Marriages</span></a>';
+        headersection += '<a id="lnk_importsources" href=\''+ this.urlroot +'/Forms/FrmImportCSV.aspx?Type=SOURCE\'><span>Import Sources</span></a>';
+        headersection += '<a id="lnk_viewtrees" href=\''+ this.urlroot +'/HtmlPages/TreeSearch.html\'><span>View Trees</span></a>';
         headersection += '</div>';
         headersection += '</div>';
         headersection += '<div id="panelD" class = "hidePanel">';
         headersection += '<div class = "mtrlnk">';
-        headersection += '<a id="lnk_prevback" href="../Default.aspx"><span>Previous Style</span></a>';
-        headersection += '<a id="lnk_nextback" href="../Default.aspx"><span>Next Style</span></a>';
+        headersection += '<a id="lnk_prevback" href=\''+ this.urlroot +'/Default.aspx\'><span>Previous Style</span></a>';
+        headersection += '<a id="lnk_nextback" href=\''+ this.urlroot +'/Default.aspx\'><span>Next Style</span></a>';
         headersection += '</div>';
         headersection += '</div>';
         headersection += '</div>';
@@ -143,61 +145,47 @@ JSMaster.prototype = {
         headersection += '<div class = "mtrlog">Ancestry Notes Database</div>';
         headersection += '<div id="errorDialog" title="Error"></div>';
 
-
         headersection += '</div>';
 
-
-
         headersection += '<br />';
-
-        //headersection += '</div>';
 
         $(selectorid).addClass('midtop');
 
         $(selectorid).html(headersection);
-
-
-        (function () {
-            var e = document.createElement('script');
-            e.src = 'http://connect.facebook.net/en_US/all.js';
-            e.async = true;
-            document.getElementById('fb-root').appendChild(e);
-        } ());
-
-
-
-
-        // $.proxy(Foo.test, Foo)
-
+            
+        this.connectfacebook(readyfunction);
+        
         $("#lnk_mainoptions").live("click", $.proxy(function () { this.masterShowTab(1); return false; }, this));
         $("#lnk_alongwith").live("click", $.proxy(function () { this.masterShowTab(2); return false; }, this));
         $("#lnk_tools").live("click", $.proxy(function () { this.masterShowTab(3); return false; }, this));
         $("#lnk_settings").live("click", $.proxy(function () { this.masterShowTab(4); return false; }, this));
-
-        //$("#lnk_mapview").live("click", function() { masterShowTab("1"); return false;  });
-
-        //$("#lnk_home").live("click", function() { masterShowTab("1"); return false;  });
-        //$("#lnk_marriages").live("click", function() { masterShowTab("1"); return false;  });
-        //$("#lnk_persons").live("click", function() { masterShowTab("1"); return false;  });
-        //$("#lnk_sources").live("click", function() { masterShowTab("1"); return false;  });
-
-        //$("#lnk_parishs").live("click", function() { masterShowTab("1"); return false;  });
-        //$("#lnk_events").live("click", function() { masterShowTab("1"); return false;  });
-        //$("#lnk_batchevents").live("click", function() { masterShowTab("1"); return false;  });
-        //$("#lnk_files").live("click", function() { masterShowTab("1"); return false;  });
-        //$("#lnk_sourcetypes").live("click", function() { masterShowTab("1"); return false;  });
-
-        //$("#lnk_importparishs").live("click", function() { masterShowTab("1"); return false;  });
-        //$("#lnk_importmarriages").live("click", function() { masterShowTab("1"); return false;  });
-        //$("#lnk_importsources").live("click", function() { masterShowTab("1"); return false;  });
-        //$("#lnk_viewtrees").live("click", function() { masterShowTab("1"); return false;  });
 
         $("#lnk_prevback").live("click", $.proxy(function () { this.prevBackground(); return false; }, this));
         $("#lnk_nextback").live("click", $.proxy(function () { this.nextBackground(); return false; }, this));
 
        
     },
-
+    
+    connectfacebook: function(readyfunction) {
+        
+        if(this.urlroot == '..')
+        {
+            Window.prototype.facebookReady = readyfunction;
+            
+            (function () {
+                var e = document.createElement('script');
+                e.src = 'http://connect.facebook.net/en_US/all.js';
+                e.async = true;
+                document.getElementById('fb-root').appendChild(e);
+            } ());
+        }
+        else
+        {
+            readyfunction.call();        
+            
+        }    
+    },
+    
     masterShowTab: function (panel) {
         if (panel == 1) {
             $("#panelA").removeClass("hidePanel").addClass("displayPanel");
@@ -233,7 +221,7 @@ JSMaster.prototype = {
     setCookie: function (c_name, value, exdays) {
         var exdate = new Date();
         exdate.setDate(exdate.getDate() + exdays);
-        var c_value = escape(value) + ((exdays == null) ? ";path=/;" : "; path=/; expires=" + exdate.toUTCString());
+        var c_value = escape(value) + ((exdays === null) ? ";path=/;" : "; path=/; expires=" + exdate.toUTCString());
 
         document.cookie = c_name + "=" + c_value;
     },
@@ -254,7 +242,7 @@ JSMaster.prototype = {
     nextBackground: function () {
         var backIndex = this.getCookie('gnt_back');
 
-        if (backIndex == undefined) {
+        if (backIndex === undefined) {
             this.imgIdx = 1;
         }
         else {
@@ -277,14 +265,14 @@ JSMaster.prototype = {
     prevBackground: function () {
         var backIndex = this.getCookie('gnt_back');
 
-        if (backIndex == undefined) {
+        if (backIndex === undefined) {
             this.imgIdx = this.backgrounds.length - 1;
         }
         else {
             this.imgIdx = backIndex;
 
-            if (this.imgIdx == 0) {
-                this.imgIdx = backgrounds.length - 1;
+            if (this.imgIdx === 0) {
+                this.imgIdx = this.backgrounds.length - 1;
             }
             else {
                 this.imgIdx--;
@@ -312,7 +300,7 @@ JSMaster.prototype = {
         this.imgIdx = this.getCookie('gnt_back');
 
 
-        if (this.imgIdx == undefined)
+        if (this.imgIdx === undefined)
             this.imgIdx = 0;
 
 
@@ -328,7 +316,10 @@ JSMaster.prototype = {
         imgArray.push(this.makeImageData('back_trees_bw', 640, 800));
 
 
-        $('.mainbackground').css("background", "url(../Images/backgrounds/" + this.backgrounds[this.imgIdx] + ".jpg) no-repeat "); //center top
+
+        $('.mainbackground').css("background", "url(" + this.urlroot + "/Images/backgrounds/" + this.backgrounds[this.imgIdx] + ".jpg) no-repeat "); //center top
+        
+        
         $('.mainbackground').css("position", "absolute");
         $('.mainbackground').css("height", "1290px");
         $('.mainbackground').css("z-index", "-1");
