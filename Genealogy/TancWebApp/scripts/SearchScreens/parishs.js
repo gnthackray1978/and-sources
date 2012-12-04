@@ -1,4 +1,6 @@
-﻿
+var JSMaster, QryStrUtils, AncUtils,Panels;
+
+
 $(document).ready(function () {
     var jsMaster = new JSMaster();
     var ancParishs = new AncParishs();
@@ -11,7 +13,7 @@ $(document).ready(function () {
 var AncParishs = function () {
     this.qryStrUtils = new QryStrUtils();
     this.ancUtils = new AncUtils();
-    this.selection = new Array();
+    this.selection = [];
   
     this.postParams = {
         url: '',
@@ -21,7 +23,7 @@ var AncParishs = function () {
         refreshArgs: ['1'],
         Context: this
     };
-}
+};
 
 
 
@@ -59,7 +61,7 @@ AncParishs.prototype = {
 
         var isPersonImpSelection = this.qryStrUtils.getParameterByName('parl', '');
 
-        if (isPersonImpSelection != null) {
+        if (isPersonImpSelection !== null) {
             $("#rLink").removeClass("hidePanel").addClass("displayPanel");
         }
         else {
@@ -69,10 +71,10 @@ AncParishs.prototype = {
     },
     returnselection: function () {
 
-        var parl = this.qryStrUtils.getParameterByName('parl', '');
+        //var parl = this.qryStrUtils.getParameterByName('parl', '');
         var parishLst = '';
 
-        $.each(selection, function (idx, val) {
+        $.each(this.selection, function (idx, val) {
             if (idx > 0) {
                 parishLst += ',' + val;
             }
@@ -93,7 +95,7 @@ AncParishs.prototype = {
 
         window.location.href = url;
     },
-    createQryString: function (page) {
+    createQryString: function () {
 
         var args = {
             "active": '1',
@@ -118,14 +120,14 @@ AncParishs.prototype = {
 
         this.ancUtils.twaGetJSON('/Parishs/GetParishs/Select', params, $.proxy(this.processData, this));
 
-        this.createQryString(page);
+        this.createQryString();
 
         return false;
     },
     processData: function (data) {
         //alert('received something');
         var tableBody = '';
-        var selectEvents = new Array();
+        var selectEvents = [];
         var _idx = 0;
         var that = this;
 
@@ -133,10 +135,10 @@ AncParishs.prototype = {
         $.each(data.serviceParishs, function (source, sourceInfo) {
 
             var hidPID = '<input type="hidden" name="ParishId" id="ParishId" value ="' + sourceInfo.ParishId + '"/>';
-            var arIdx = jQuery.inArray(sourceInfo.ParishId, selection);
+            var arIdx = jQuery.inArray(sourceInfo.ParishId, this.selection);
 
             if (arIdx >= 0) {
-                tableBody += '<tr class = "highLightRow">' + hidPID + hidParID;
+                tableBody += '<tr class = "highLightRow">' + hidPID;// + hidParID;
             }
             else {
                 tableBody += '<tr>' + hidPID;
@@ -159,7 +161,7 @@ AncParishs.prototype = {
             _idx++;
         });
 
-        if (tableBody != '') {
+        if (tableBody !== '') {
 
             $('#search_bdy').html(tableBody);
             //create pager based on results
@@ -205,7 +207,7 @@ AncParishs.prototype = {
     AddParish: function () {
         window.location.href = '../HtmlPages/ParishEditor.html#' + this.qryStrUtils.makeIdQryString('id', '00000000-0000-0000-0000-000000000000');
     }
-}
+};
 
 
 
