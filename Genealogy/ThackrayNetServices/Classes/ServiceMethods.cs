@@ -34,9 +34,18 @@ namespace ANDServices
 {
 
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall, ConcurrencyMode = ConcurrencyMode.Multiple)]
-    [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]
+    [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Required)]
     public class APIServices : IAnd
     {
+
+        //[WebGet(ResponseFormat = WebMessageFormat.Json, UriTemplate = "{userName}?cb={callbackName}")]       
+        //[OperationContract]    
+        //[JSONPBehavior(callback = "callbackName")]    
+        //public string GetDataJSONCallback(string userName, string callbackName)
+        //{
+        //    return userName + “: I was called by WCF!”;
+        //} 
+
         public APIServices()
         {
             //

@@ -20,7 +20,7 @@ var JSMaster = function () {
     this.setBackground();
     this.ancUtils = new AncUtils();
     this.qryStrUtils = new QryStrUtils();
-
+    this.urlroot = '';
 
 
     $(window).resize($.proxy(this.setBackground.debounce(250, false), this));
@@ -328,7 +328,7 @@ JSMaster.prototype = {
         imgArray.push(this.makeImageData('back_trees_bw', 640, 800));
 
 
-        $('.mainbackground').css("background", "url(../Images/backgrounds/" + this.backgrounds[this.imgIdx] + ".jpg) no-repeat "); //center top
+        $('.mainbackground').css("background", "url(" + this.urlroot + "/Images/backgrounds/" + this.backgrounds[this.imgIdx] + ".jpg) no-repeat "); //center top
         $('.mainbackground').css("position", "absolute");
         $('.mainbackground').css("height", "1290px");
         $('.mainbackground').css("z-index", "-1");

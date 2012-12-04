@@ -113,7 +113,7 @@ function twaGetJSON(url, paramsArg, methodArg) {
   
     $.ajax({
         url: aburl,
-        dataType: "json",
+        dataType: "jsonp",
 
         data: paramsArg,
         success: methodArg,
@@ -572,20 +572,24 @@ AncUtils.prototype = {
     // gets json set
     twaGetJSON: function (url, paramsArg, methodArg, fbArg) {
         console.log('get json');
+
         var aburl = this.getHost() + url;
+
+     //   var aburl = 'http://localhost:61388' + url;
+
+       // paramsArg = { 0: '1' };
+
+       // methodArg = function (data) { alert('received') };
 
         $.ajaxSetup({ cache: false });
 
         $.ajax({
             url: aburl,
-            dataType: "json",
-
+            dataType: "jsonp",
             data: paramsArg,
-            success: methodArg,
-
-            //call back function needs to have specific sig.
-
-            beforeSend: this.addFBToHeader(FB)
+            success: methodArg
+            //            , 
+            //            beforeSend: this.addFBToHeader(FB)
         });
     },
 
@@ -769,7 +773,7 @@ AncUtils.prototype = {
 
             if (idx < totalRequiredPages) {
 
-                var remainderAvailablePages = totalRequiredPages  % blocksize;
+                var remainderAvailablePages = totalRequiredPages % blocksize;
                 //zero based
 
                 startpage += blocksize;
@@ -800,6 +804,10 @@ AncUtils.prototype = {
 
 
 
+
+function blah(data) {
+    console.log(data); // This is called properly
+}
 
 
 
