@@ -1,138 +1,75 @@
-﻿
-
-//ok
+var JSMaster, QryStrUtils, AncUtils;
 
 $(document).ready(function () {
+    var jsMaster = new JSMaster();
+ 
+    jsMaster.generateHeader('#1', function () {        
+        var ancSourceTypeEditor = new AncSourceTypeEditor();
+        ancSourceTypeEditor.init();
 
+    });
 
-
-    createHeader('#1',getSourceType);
-  
 });
 
-//ok
-save = function () {
-   // var sourceType = getSourceType();
-
-    saveSourceType();
-
-}
 
 
-//ok
-saveReturn = function () {
+var AncSourceTypeEditor = function () {
+    this.qryStrUtils = new QryStrUtils();
+    this.ancUtils = new AncUtils();
 
-    twaPostJSON('/SourceTypes/Add', GetSourceTypeRecord(), '../HtmlPages/SourceTypesSearch.html', 'id');
-
-    //    var localurl = getHost() + '/SourceTypes/Add';
-    //    var stringy = JSON.stringify(GetSourceTypeRecord());
-
-    //    $.ajax({
-    //        cache: false,
-    //        type: "POST",
-    //        async: false,
-    //        url: localurl,
-    //        data: stringy,
-    //        contentType: "application/json",
-    //        dataType: "json",
-    //        success: function (message) {
-
-    //            var result = getValueFromKey(message, 'Id');
-
-    //            updateQryPar('id', result);
-
-    //            var error = getValueFromKey(message, 'error');
-
-    //            if (error != '' && error != null) {
-    //                showError(error);
-    //            }
-    //            else {
-    //                var _hash = window.location.hash;
-    //                window.location = '../HtmlPages/SourceTypesSearch.html' + _hash;
-    //            }
-    //        }
-    //    });
-}
+    this.postParams = {
+        url: '',
+        data: '',
+        idparam: 'id',
+        refreshmethod: this.load,
+        refreshArgs: undefined,
+        Context: this
+    };
+};
 
 
+AncSourceTypeEditor.prototype = {
 
-saveSourceType = function () {
+    init: function () {                
+        $("#save").live("click", $.proxy(function () { this.save(); return false; }, this));
+        $("#return").live("click", $.proxy(function () { this.saveReturn(); return false; }, this));
+        this.load();
+        return false;
+    },
 
-    twaPostJSON('/SourceTypes/Add', GetSourceTypeRecord(), '', 'id');
+    load: function () {      
+        var params = {};
+        params[0] = this.qryStrUtils.getParameterByName('id', '');
 
-//    var localurl = getHost() + '/SourceTypes/Add';
+        this.ancUtils.twaGetJSON("/SourceTypes/Id", params, $.proxy(this.processData, this));
+    },
+    processData: function (data) {
+        $('#txtOrder').val(data.Order);
+        $('#txtDescription').val(data.Description);
+    },
 
+    GetSourceTypeRecord: function () {
 
+        var data = {};
+    
+        data.TypeId = this.qryStrUtils.getParameterByName('id', '');
+        data.Description = $('#txtDescription').val();
+        data.Order = $('#txtOrder').val();
+        
+        return data;
+    
+    },
+    save: function () {
+        this.postParams.url = '/SourceTypes/Add';
+        this.postParams.data = this.GetSourceTypeRecord();
+        this.ancUtils.twaPostJSON(this.postParams);
+    },
 
-//    var stringy = JSON.stringify(GetSourceTypeRecord());
+    saveReturn: function () {
+        this.postParams.refreshmethod = function () { window.location = '../HtmlPages/SourceTypesSearch.html' + window.location.hash; };
+        this.postParams.url = '/SourceTypes/Add';
+        this.postParams.data = this.GetSourceTypeRecord();
+        this.ancUtils.twaPostJSON(this.postParams);
+    }
 
-//    $.ajax({
-//        cache: false,
-//        type: "POST",
-//        async: false,
-//        url: localurl,
-//        data: stringy,
-//        contentType: "application/json",
-//        dataType: "json",
-//        success: function (message) {
-
-//            var result = getValueFromKey(message, 'Id');
-
-//            updateQryPar('id', result);
-
-//            var error = getValueFromKey(message, 'error');
-
-//            if (error != '' && error != null) {
-//                showError(error);
-//            }
-
-
-//        }
-
-//    });
-
-}
-
-//ok
-function getSourceType() {
-
-    var params = {};
-
- //   var url = getHost() + "/SourceTypes/Id";
-
-    var id = getParameterByName('id', '');
-
-    params[0] = id;
-
-//    $.ajaxSetup({ cache: false });
-//    $.getJSON(url, params, processData);
-
-    twaGetJSON("/SourceTypes/Id", params, processData);
-
-    return false;
-}
-
-
-
-function processData(data) {
-
-    // public string AddPerson(string personId, string birthparishId,string deathparishId, string referenceparishId, string ismale, string years, string months, string weeks, string days)
-
-    $('#txtOrder').val(data.Order);
-    $('#txtDescription').val(data.Description);
-  
-}
-
-
-
-GetSourceTypeRecord = function (rowIdx) {
-    var data = {};
-
-    data.TypeId = getParameterByName('id', '');
-    data.Description = $('#txtDescription').val();
-    data.Order = $('#txtOrder').val();
-
-
-
-    return data;
-}
+};

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     
@@ -13,18 +13,16 @@
 
     <link href="../Styles/jquery.jgrowl.css" rel="stylesheet" type="text/css" />
  
-
     <script src="../scripts/jquery/jquery.js" type="text/javascript"></script>     
-    <script src="http://connect.facebook.net/en_US/all.js" type="text/javascript"></script> 
         
-    <script src="../Scripts/visiblePanels.js" type="text/javascript"></script>
+    <script src="../scripts/visiblePanels.js" type="text/javascript"></script>
 
     <script src="../scripts/util_func.js" type="text/javascript"></script>
     <script src="../scripts/masters.js" type="text/javascript"></script>
  
-    <script src="../Scripts/pager.js" type="text/javascript"></script>
+    <script src="../scripts/pager.js" type="text/javascript"></script>
 
-    <script src="../Scripts/SearchScreens/events.js" type="text/javascript"></script>
+    <script src="../scripts/SearchScreens/events.js" type="text/javascript"></script>
 
 
 </head>
@@ -40,28 +38,22 @@
     
                 <div class = "fltbar">
         
-                <div class="filterheadingrow">
-              
+                <div class="filterheadingrow">              
                     <div class = "mar_txt">EVENTS</div>                 
                 </div>
             
                 <div class="fltopt">               
                     <div class="fltoptrow">
-                        <a href='' onclick = 'getEvents("0");return false' class="button" ><span>Refresh</span></a>   
-                        
+                        <a id='refresh' href='' class="button" ><span>Refresh</span></a>                           
                     </div>
                     <div class="fltoptrow">
-                        <a href='' onclick="sourcesShowPanel('1');return false" class="button" ><span>Main</span></a>
-                        <a href='' onclick="sourcesShowPanel('2');return false" class="button" ><span>More</span></a>
-            
-
+                        <a id='main' href='' class="button" ><span>Main</span></a>
+                        <a id='more' href='' class="button" ><span>More</span></a>            
                     </div>                 
                 </div>
                             
                 <div class = "flt_mv">
                     <div id="filterbar">
-
-
 
                     <div id="pMain" class = "displayPanel flt_gen" >
                         <br />
@@ -121,22 +113,22 @@
                             <tr id="Tr2" runat="server" class="hed">
 
                             <td >
-                                <a href='../HtmlPages/Events.html' onclick = "sort('EventDate');return false"  ><span>Date</span></a>   
+                                <a id = 'year_hed'  href='' ><span>Date</span></a>   
                             </td>
                             <td >
-                                <a href='../HtmlPages/Events.html' onclick = "return false"  ><span>Description</span></a>                           
+                                <a href=''><span>Description</span></a>                           
                             </td>
                             <td >
-                                <a href='../HtmlPages/Events.html' onclick = "return false"  ><span>Name</span></a>
+                                <a href=''><span>Name</span></a>
                             </td>
                             <td >
-                                <a href='../HtmlPages/Events.html' onclick = "sort('EventSurname');return false"  ><span>Surname</span></a>
+                                <a id = 'surname_hed'  href='' ><span>Surname</span></a>
                             </td>
                             <td >
-                                <a href='../HtmlPages/Events.html' onclick = "sort('EventLocation');return false"  ><span>Location</span></a> 
+                                <a id = 'locat_hed'  href='' ><span>Location</span></a> 
                             </td>
                             <td >
-                                <a href='../HtmlPages/Events.html' onclick = "return false"  ><span>Notes</span></a> 
+                                <a href=''><span>Notes</span></a> 
                             </td>
                            
                                                                                             
