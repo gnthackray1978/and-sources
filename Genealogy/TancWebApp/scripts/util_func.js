@@ -1,4 +1,4 @@
-﻿//USAGE EXAMPLES 
+//USAGE EXAMPLES 
 
 // using debounce in a constructor or initialization function to debounce
 // focus events for a widget (onFocus is the original handler):
@@ -106,20 +106,25 @@ function twaPostJSON(url, data, redirectUrl, idparam,  successFunc) {
 
 //ANCUTILS
 function twaGetJSON(url, paramsArg, methodArg) {
-
+    
+    var localfb= null;
+    
+    if(FB !== undefined  ) 
+        localfb = FB;
+        
     var aburl = getHost() + url;
 
     $.ajaxSetup({ cache: false });
   
     $.ajax({
         url: aburl,
-        dataType: "jsonp",
+        dataType: "json",
 
         data: paramsArg,
         success: methodArg,
 
         //beforeSend: setHeader
-        beforeSend: proxy(FB)
+        beforeSend: proxy(localfb)
     });
 
 
@@ -131,7 +136,7 @@ function proxy(_fb) {
 
     return function(xhr) {
         var access_token = '';
-        if (_fb != undefined) {
+        if (_fb != undefined || _fb != null) {
             if (_fb.getAuthResponse() != null)
                 access_token = _fb.getAuthResponse()['accessToken'];
         }
@@ -231,7 +236,7 @@ function getHost ()
 
 
     if (window.location.hostname.indexOf("local") == -1)
-        return 'http://www.gnthackray.net'
+        return 'http://www.gnthackray.net';
     else
         return 'http://local.gnthackray.net:666';
 }
@@ -453,7 +458,12 @@ function getParameterByName(name, defvalue) {
 //
 
 
-var AncUtils = function () { }
+var AncUtils = function () {
+    //this.localfb= FB;
+    this.localfb= null;
+    
+    
+    }
 
 
 AncUtils.prototype = {
@@ -572,24 +582,23 @@ AncUtils.prototype = {
     // gets json set
     twaGetJSON: function (url, paramsArg, methodArg, fbArg) {
         console.log('get json');
-
+        
+ 
+             
         var aburl = this.getHost() + url;
-
-     //   var aburl = 'http://localhost:61388' + url;
-
-       // paramsArg = { 0: '1' };
-
-       // methodArg = function (data) { alert('received') };
 
         $.ajaxSetup({ cache: false });
 
         $.ajax({
             url: aburl,
             dataType: "jsonp",
+
             data: paramsArg,
-            success: methodArg
-            //            , 
-            //            beforeSend: this.addFBToHeader(FB)
+            success: methodArg,
+
+            //call back function needs to have specific sig.
+
+            beforeSend: this.addFBToHeader()
         });
     },
 
@@ -654,7 +663,7 @@ AncUtils.prototype = {
             data: stringy,
             contentType: "application/json",
             dataType: "json",
-            beforeSend: this.addFBToHeader(FB),
+            beforeSend: this.addFBToHeader(),
             success: successFunc
         });
 
@@ -677,12 +686,12 @@ AncUtils.prototype = {
 
     //beforeSend: function (xhr) { passToProxy(xhr, url); }
     // sets facebook token to request header
-    addFBToHeader: function (fb) {
+    addFBToHeader: function () {
         return function (xhr) {
             var access_token = '';
-            if (FB != undefined) {
-                if (FB.getAuthResponse() != null)
-                    access_token = FB.getAuthResponse()['accessToken'];
+            if (this.localfb != null) {
+                if (this.localfb.getAuthResponse() != null)
+                    access_token = this.localfb.getAuthResponse()['accessToken'];
             }
             xhr.setRequestHeader('fb', access_token);
         }
@@ -773,7 +782,7 @@ AncUtils.prototype = {
 
             if (idx < totalRequiredPages) {
 
-                var remainderAvailablePages = totalRequiredPages % blocksize;
+                var remainderAvailablePages = totalRequiredPages  % blocksize;
                 //zero based
 
                 startpage += blocksize;
@@ -804,10 +813,6 @@ AncUtils.prototype = {
 
 
 
-
-function blah(data) {
-    console.log(data); // This is called properly
-}
 
 
 
