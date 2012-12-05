@@ -17,8 +17,8 @@ var JSMaster = function () {
 
     this.backgrounds = ['photo4', 'waterfall', 'gard_tree', 'stone_tree', 'back_trees', 'back_stones', 'back_hole_stone', 'back_trees_bw'];
     this.imgIdx = 4;
-    this.urlroot = 'https://c9.io/gnthackray1978/and-sources/workspace/Genealogy/TancWebApp';
-        
+  //  this.urlroot = 'https://c9.io/gnthackray1978/and-sources/workspace/Genealogy/TancWebApp';
+    this.urlroot = '..';  
     this.setBackground();
     this.ancUtils = new AncUtils();
     this.qryStrUtils = new QryStrUtils();

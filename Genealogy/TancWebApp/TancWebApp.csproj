@@ -271,7 +271,6 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <None Include="file_changes.ps1" />
     <None Include="Images\fonts\arded.eot" />
     <None Include="Images\fonts\IMFeENit29P.eot" />
     <None Include="Images\fonts\IMFeENit29P.ttf" />
@@ -295,8 +294,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
-    <Folder Include="App_LocalResources\" />
     <Folder Include="Images\icons\128x128\" />
     <Folder Include="Images\icons\16x16\" />
     <Folder Include="Images\icons\22x22\" />
