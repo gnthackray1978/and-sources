@@ -107,7 +107,7 @@ AncSelectorBase.prototype = {
 
         if (newSources.length > 0) {
             var params = {};
-            params[0] = convertToCSV(newSources);
+            params[0] = this.ancUtils.convertToCSV(newSources);
 
             var successmethod = function (data) {
                 var rows = new Array();
@@ -175,7 +175,7 @@ AncSelectorBase.prototype = {
 
             $('#' + sourceId + '.selected_source').remove();
 
-            this.qryStrUtils.updateQryPar(this.context_data.param_name, convertToCSV(selectedSourceIds));
+            this.qryStrUtils.updateQryPar(this.context_data.param_name, this.ancUtils.convertToCSV(selectedSourceIds));
         }
 
     },
@@ -254,7 +254,7 @@ AncSelectorBase.prototype = {
                 selectedSourceIds.push(sourceId);
             }
 
-            this.qryStrUtils.updateQryPar(this.context_data.param_name, convertToCSV(selectedSourceIds));
+            this.qryStrUtils.updateQryPar(this.context_data.param_name, this.ancUtils.convertToCSV(selectedSourceIds));
         }
 
         this.refreshSelected();

@@ -39,10 +39,7 @@ JSMaster.prototype = {
     initFacebook: function () {
 
         console.log('jsmaster init face book');
-
-        
-
-
+               
         FB.init({ appId: 205401136237103, status: true, cookie: true, xfbml: true, channelUrl: this.urlroot +'/HtmlPages/channel.html' });
 
         FB.getLoginStatus(function (response) {

@@ -59,7 +59,7 @@ namespace ANDServices
             string retVal = "could not get login ";
             string token = WebOperationContext.Current.IncomingRequest.Headers["fb"];
 
-            if (token != null)
+            if (token != null && token.Length != 0)
             {
 
                 Facebook.FacebookClient fbc = new FacebookClient(token);

@@ -90,9 +90,9 @@ SourceTypeLookup.prototype = {
                 }
             }
 
-            this.qryStrUtils.updateQryPar('stids', convertToCSV(tp));
+            this.qryStrUtils.updateQryPar('stids', this.ancUtils.convertToCSV(tp));
 
-            $('#selected_types').val(convertToCSV(tp));
+            $('#selected_types').val(this.ancUtils.convertToCSV(tp));
 
         }
 

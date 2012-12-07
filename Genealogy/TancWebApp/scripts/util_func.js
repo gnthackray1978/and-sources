@@ -1,3 +1,6 @@
+var FB;
+
+
 //USAGE EXAMPLES 
 
 // using debounce in a constructor or initialization function to debounce
@@ -43,11 +46,6 @@ Function.prototype.debounce = function (threshold, execAsap) {
     };
 }
 
-
-
-
-
-
 //remove invalid selections from an array
 Array.prototype.RemoveInvalid = function (selection) {
     var filteredArray = new Array();
@@ -65,391 +63,9 @@ Array.prototype.RemoveInvalid = function (selection) {
 
 
 
-
-
-
-
-
-
-//ANCUTILS
-function twaPostJSON(url, data, redirectUrl, idparam,  successFunc) {
-
-    var localurl = getHost() + url;
-
-    var stringy = JSON.stringify(data);
-
-    if(successFunc == undefined)
-    {
-        successFunc = function (error) {
-            if (redirectUrl != undefined && redirectUrl != '') {
-                handleReturnCodeWithReturn(error, redirectUrl, idparam);
-            }
-            else {
-                handleReturnCode(error, idparam);
-            }
-        };
-    }
-
-    $.ajax({
-        cache: false,
-        type: "POST",
-        async: false,
-        url: localurl,
-        data: stringy,
-        contentType: "application/json",
-        dataType: "json",
-        beforeSend: setHeader,
-        success:successFunc      
-    });
-
-}
-
-//ANCUTILS
-function twaGetJSON(url, paramsArg, methodArg) {
-    
-    var localfb= null;
-    
-    if(FB !== undefined  ) 
-        localfb = FB;
-        
-    var aburl = getHost() + url;
-
-    $.ajaxSetup({ cache: false });
-  
-    $.ajax({
-        url: aburl,
-        dataType: "json",
-
-        data: paramsArg,
-        success: methodArg,
-
-        //beforeSend: setHeader
-        beforeSend: proxy(localfb)
-    });
-
-
-}
-
- 
-
-function proxy(_fb) {
-
-    return function(xhr) {
-        var access_token = '';
-        if (_fb != undefined || _fb != null) {
-            if (_fb.getAuthResponse() != null)
-                access_token = _fb.getAuthResponse()['accessToken'];
-        }
-        xhr.setRequestHeader('fb', access_token);
-    }
-
-}
-
-
- 
-function setHeader(xhr) {
-
-
-
-    var access_token = '';
-
-    if (FB != undefined) {
-        if(FB.getAuthResponse() != null)
-            access_token = FB.getAuthResponse()['accessToken'];
-    }
-
-
-    xhr.setRequestHeader('fb', access_token);
-
-}
-
-
-
-
-function refreshWithErrorHandler(refreshMethod, message) {
-
-    var error = getValueFromKey(message, 'error');
-
-    if (error != '' && error != null) {
-        showError(error);
-    }
-    else {
-        refreshMethod.apply(this, ['1']);
-    //    getParishs('1');
-    }
-
-}
-
-
-
-function handleReturnCodeWithReturn(message, redirectUrl, idParam) {
-
-    var result = getValueFromKey(message, 'Id');
-
-    updateQryPar(idParam, result);
-
-    var error = getValueFromKey(message, 'error');
-
-    if (error != '' && error != null) {
-        showError(error);
-    }
-    else {
-        var _hash = window.location.hash;
-        window.location = redirectUrl + _hash;
-    }
-}
-
-
-function handleReturnCode(message, idParam) {
-
-    var result = getValueFromKey(message, 'Id');
-
-    updateQryPar(idParam, result);
-
-    var error = getValueFromKey(message, 'error');
-
-    if (error != '' && error != null) {
-        showError(error);
-    }
-     
-}
-
-
-function showError(error) {
-
-    if (error != '' && error != null) {
-        $('#errorDialog').html(error);
-        $("#errorDialog").dialog();       
-    }
-
-
-}
-
-
-
-
-
-function getHost ()
-{
- //   return 'http://www.gnthackray.net';
-    // return 'http://localhost:666';
-
-
-    if (window.location.hostname.indexOf("local") == -1)
-        return 'http://www.gnthackray.net';
-    else
-        return 'http://local.gnthackray.net:666';
-}
-
-
-
-
-
 // *** END OF CUSTOMISABLE SECTION ***
-
 function almostEqual(double1, double2, precision) {
     return (Math.abs(double1 - double2) <= precision);
-}
-
-
-
-function sort_inner(sort_col, param_name) {
-
-    var col_name = 'sort_col';
-
-    if (param_name != undefined && param_name != '')
-        col_name = param_name;
-
-    var existing_col = getParameterByName(col_name);
-
-    if (existing_col) {
-
-        if (existing_col.indexOf(sort_col) >= 0) {
-            if (existing_col.indexOf('DESC') < 0) {
-                sort_col += ' DESC';
-            }
-
-        }
-
-    }
-
-    updateQryPar(col_name, sort_col);   
-}
-
-
-function convertToCSV(array) {
-    var csvStr = '';
-
-    $.each(array, function (intIdx, objVal) {
-        if (intIdx == 0)
-            csvStr += objVal;
-        else
-            csvStr += ',' + objVal;
-    })
-
-    return csvStr;
-}
-
-function makeIdQryString(paramName,path) {
-
-    var _loc = window.location.hash;
-
-
-    // this will return an empty string even if 
-    // the key was missing
-    // i want something that returns null if the key is missing.
-
-    //getParameterByName(paramName);
-
-
-
-    //    var match = RegExp('[?&]' + name + '=([^&]*)')
-    //                    .exec(window.location.hash);
-
-    //    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
-
-
-
-    var idParam = getParameterByName(paramName);
-
-    if (idParam == null) {
-        if (_loc == '') {
-            _loc += paramName + '=' + path;
-        }
-        else {
-            _loc += '&' + paramName + '=' + path;
-        }
-    }
-    else {
-        idParam = paramName +'=' + idParam;
-        _loc = _loc.replace(idParam, paramName + '=' + path);
-    }
-
-
-    if (_loc.indexOf('?') < 0) {
-        _loc = '?' + _loc;
-    }
-
-
-
-    return _loc;
-}
-
-//ANCUTILS
-function updateQryPar(parname, parval) {
-
-    //////////////////////
-    // give this a try
-    ///////////////////
-    //location.replace(
-    //http://stackoverflow.com/questions/2305069/can-you-use-hash-navigation-without-affecting-history
-
-    var qry = window.location.hash;
-
-    if (qry.indexOf(parname) < 0) {
-        if (qry.indexOf('?') < 0) {
-
-            qry = '?' + parname + '=' + parval;
-            window.location.hash = qry;
-        }
-        else {
-            qry += '&' + parname + '=' + parval;
-            window.location.replace(qry);
-        }
-
-       
-
-    }
-    else {
-        var oldVal = getParameterByName(parname, '');
-
-
-
-        var pageQry = parname + '=' + oldVal;
-        var replaceQry = parname + '=' + parval;
-
-        qry = qry.replace(pageQry, replaceQry);
-
-       //  window.location.href = window.location.href.replace(pageQry, replaceQry);
-        window.location.replace(qry);
-
-    }
-
-
-}
-
-
-//ANCUTILS
-function updateStrForQry(qry, parname, parval) {
-
-    //parameter not found in string
-    if (qry.indexOf('?'+parname) < 0 && qry.indexOf('&' + parname) < 0) {
-        
-
-        if (qry.indexOf('?') < 0) {
-            // the query string is completely empty
-            qry = '?' + parname + '=' + parval;
-
-        }
-        else {
-            // so tack it on the end
-            qry += '&' + parname + '=' + parval;
-
-        }
-
-    }
-    else {
-        var oldVal = getParameterByNameFromString(qry, parname);
-
-        if (!oldVal) oldVal = '';
-
-        var pageQry = parname + '=' + oldVal;
-        var replaceQry = parname + '=' + parval;
-        qry = qry.replace(pageQry, replaceQry);
-    }
-
-
-    return qry;
-}
-
- 
-function getValueFromKey(qry, name) {
-
-    var match = RegExp(name + '=([^&]*)')
-                    .exec(qry);
-
-    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
-
-}
-
-
-// for 'disconnected' editting of hash
-// better to make lots of changes to the hash 
-//in memory then update the hash in one go.
-function getParameterByNameFromString(qry, name) {
-
-    var match = RegExp('[?&]' + name + '=([^&]*)')
-                    .exec(qry);
-
-    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
-
-}
-
-//ANCUTILS
-function getParameterByName(name, defvalue) {
-
-    var match = RegExp('[?&]' + name + '=([^&]*)')
-                    .exec(window.location.href);
-
-    if (defvalue != undefined && defvalue != null) {
-        if (match != null)
-            return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
-        else
-            return defvalue;
-    } else {
-        return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
-    }
-      
 }
 
 
@@ -458,12 +74,9 @@ function getParameterByName(name, defvalue) {
 //
 
 
-var AncUtils = function () {
-    //this.localfb= FB;
-    this.localfb= null;
-    
-    
-    }
+var AncUtils = function () {    
+    this.localfb= FB;
+}
 
 
 AncUtils.prototype = {
@@ -502,7 +115,6 @@ AncUtils.prototype = {
         this.updateQryPar(col_name, sort_col);
     },
 
-
     handleSelection: function (evt, selection, bodytag, id) {
 
 
@@ -537,7 +149,6 @@ AncUtils.prototype = {
 
         return selection;
     },
-
 
     addlinks: function (dupeEvents, func, context) {
         for (var i = 0; i < dupeEvents.length; i++) {
@@ -581,29 +192,17 @@ AncUtils.prototype = {
 
     // gets json set
     twaGetJSON: function (url, paramsArg, methodArg, fbArg) {
-        console.log('get json');
-        
- 
-             
         var aburl = this.getHost() + url;
-
         $.ajaxSetup({ cache: false });
 
         $.ajax({
             url: aburl,
             dataType: "jsonp",
-
             data: paramsArg,
             success: methodArg,
-
-            //call back function needs to have specific sig.
-
-            beforeSend: this.addFBToHeader()
+            beforeSend: $.proxy(this.addFBToHeader(), this)
         });
     },
-
-
-
 
     //ANCUTILS
     twaPostJSON: function (postParams) {
@@ -634,20 +233,8 @@ AncUtils.prototype = {
                 //everything was fine - supposedly.
                 if (postParams.idparam != undefined) {
                     var result = that.getValueFromKey(message, 'Id'); // make this Id value less arbitary
-
                     var qutils = new QryStrUtils();
-
                     qutils.updateQryPar(postParams.idparam, result);
-
-                    //used to redirect the page after function has returned.
-                    //                    if (postParams.url != undefined && postParams.url != '') {
-                    //                        var _hash = window.location.hash;
-                    //                        window.location = postParams.url + _hash;
-                    //                    }
-                    //                    else {
-                    //                        //reload page with new values in query string.
-                    //                        window.location.reload();
-                    //                    }
                 }
                 if (postParams.refreshmethod != undefined) {
                     postParams.refreshmethod.call(postParams.Context, postParams.refreshArgs);
@@ -663,7 +250,7 @@ AncUtils.prototype = {
             data: stringy,
             contentType: "application/json",
             dataType: "json",
-            beforeSend: this.addFBToHeader(),
+            beforeSend: $.proxy(this.addFBToHeader(), this),
             success: successFunc
         });
 
@@ -675,14 +262,12 @@ AncUtils.prototype = {
         return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
     },
 
-
     showError: function (error) {
         if (error != '' && error != null) {
             $('#errorDialog').html(error);
             $("#errorDialog").dialog();
         }
     },
-
 
     //beforeSend: function (xhr) { passToProxy(xhr, url); }
     // sets facebook token to request header
@@ -696,8 +281,6 @@ AncUtils.prototype = {
             xhr.setRequestHeader('fb', access_token);
         }
     },
-
-
 
     //ParentElement: $('#pager'),
     //Batch: data.Batch,
@@ -803,13 +386,7 @@ AncUtils.prototype = {
         // add click events
         this.addlinks(clickEvents, pagerparams.Function, pagerparams.Context);
     }
-
-
-
 }
-
-
-
 
 
 
@@ -821,7 +398,7 @@ var QryStrUtils = function () { }
 
 QryStrUtils.prototype = {
 
-     makeIdQryString: function(paramName,path) {
+    makeIdQryString: function(paramName,path) {
 
         var _loc = window.location.hash;
 
@@ -846,7 +423,6 @@ QryStrUtils.prototype = {
 
         return _loc;
     },
-
 
     updateQry: function (args) {
         // var myJSONObject = { "ircEvent": "PRIVMSG", "method": "newURI", "regex": "^http://.*" };
@@ -879,7 +455,7 @@ QryStrUtils.prototype = {
          window.location.replace(workingQry);
      },
 
-     updateQryPar: function (parname, parval) {   
+    updateQryPar: function (parname, parval) {   
         var qry = window.location.hash;
         if (qry.indexOf(parname) < 0) {
             if (qry.indexOf('?') < 0) {

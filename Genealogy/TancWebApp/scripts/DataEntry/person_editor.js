@@ -2,9 +2,11 @@ var JSMaster, QryStrUtils, AncUtils, AncSelectorSources, Panels;
 
 $(document).ready(function () {
     var jsMaster = new JSMaster();
-    var ancPersonEditor = new AncPersonEditor();
+
 
     jsMaster.generateHeader('#1', function () {
+        
+        var ancPersonEditor = new AncPersonEditor();
         ancPersonEditor.init();
 
     });
@@ -37,6 +39,9 @@ AncPersonEditor.prototype = {
         $("#return").live("click", $.proxy(function () { this.saveReturn(); return false; }, this));
         $("#main").live("click", $.proxy(function () { panels.sourcesShowPanel('1'); return false; }, panels));
         $("#more").live("click", $.proxy(function () { panels.sourcesShowPanel('2'); return false; }, panels));
+
+    
+
         this.load();
         return false;
     },
@@ -117,8 +122,9 @@ AncPersonEditor.prototype = {
         this.ancUtils.twaPostJSON(this.postParams);
     },
 
-    saveReturn: function () {             
-        this.postParams.refreshmethod = function () { window.location = '../HtmlPages/PersonSearch.html' + window.location.hash; };
+    saveReturn: function () {
+        this.postParams.refreshmethod = function () { 
+        window.location = '../HtmlPages/PersonSearch.html' + window.location.hash; };
         this.postParams.url = '/Person/Add';
         this.postParams.data = this.GetPersonRecord();
         this.ancUtils.twaPostJSON(this.postParams);
