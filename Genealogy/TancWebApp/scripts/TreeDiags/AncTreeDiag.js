@@ -62,14 +62,11 @@ function run() {
         }
     });
 
-
     $("#myCanvas").mousedown(function (evt) {
         if (_ancTree != null) {
             _mouseDown = true;
         }
     });
-
-
 
     $("#myCanvas").mouseup(function (evt) {
 
@@ -85,7 +82,6 @@ function run() {
 
         }
     });
-
 
     $("#myCanvas").mousemove(function (evt) {
         if (_ancTree != null) {
