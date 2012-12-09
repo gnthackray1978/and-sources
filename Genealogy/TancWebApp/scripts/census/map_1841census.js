@@ -1,5 +1,5 @@
 
-var JSMaster, QryStrUtils, AncUtils;
+var JSMaster, QryStrUtils, AncUtils, google;
  
 
 $(document).ready(function () {
@@ -18,7 +18,7 @@ $(document).ready(function () {
 var CensusMap = function () {
     this.qryStrUtils = new QryStrUtils();
     this.ancUtils = new AncUtils();
-    this.infoWindows = new Array();
+    this.infoWindows = [];
     this.zoomLevel = 0;
     this.map = null;
 
@@ -48,7 +48,7 @@ CensusMap.prototype = {
     init: function (selectorid, readyfunction) {
 
         var latLng = new google.maps.LatLng(53.957700, -1.082290);
-        var homeLatLng = new google.maps.LatLng(53.957700, -1.082290);
+        //var homeLatLng = new google.maps.LatLng(53.957700, -1.082290);
 
 
         var mapDiv = document.getElementById('map_canvas');
@@ -86,7 +86,7 @@ CensusMap.prototype = {
 
     parishResults: function (data) {
 
-        var tableBody = '';
+       
         var that = this;
 
         $.each(data, function (source, sourceInfo) {

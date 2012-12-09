@@ -1,25 +1,28 @@
-var TreeBase;
+var TreeBase, TreeUI;
 
 
 
-function AncTree() {
+var AncTree = function () {
 
         $.extend(this, new TreeBase());
 
-        this.adjustedDistances = new Array();
-        this.adjustedBoxWidths = new Array();
-        this.adjustedBoxHeights = new Array();
+        this.adjustedDistances = [];
+        this.adjustedBoxWidths = [];
+        this.adjustedBoxHeights = [];
 
-        this.moveList =  new Array();
+        this.moveList =  [];
 
         this.newX1 =0.0;
         this.newX2 =0.0;
 
         this.workingX1 =0.0;
         this.workingX2 =0.0;
+};
 
 
-        this.DrawTree = function () {
+AncTree.prototype = {
+
+    DrawTree :function () {
 
            var canvas = document.getElementById("myCanvas");
            var context = canvas.getContext("2d");
@@ -29,20 +32,13 @@ function AncTree() {
 
            this.ComputeLocations();
 
-           var topLeftCornerX = 188;
-           var topLeftCornerY = 50;
-           var width = 200;
-           var height = 100;
-
-
-
            var _genidx = 0;
            var _personIdx = 0;
-           //this.generations.length
+
 
            var treeUI = new TreeUI(this.screenWidth, this.screenHeight, this.boxWidth, this.boxHeight);
 
-           this.links = new Array();
+           this.links = [];
 
            while (_genidx < this.generations.length) {
                _personIdx = 0;
@@ -53,7 +49,7 @@ function AncTree() {
 
                    var personLink = treeUI.DrawPerson(_person,this.sourceId, this.zoomPercentage);
 
-                   if(personLink != null)
+                   if(personLink !== null)
                     this.links.push(personLink);
 
                    _personIdx++;
@@ -77,25 +73,18 @@ function AncTree() {
            } // end this.familySpanLines.length
 
 
-       }
-
-        this.ComputeLocations = function () {
-
-
-
-
+       },
+       
+    ComputeLocations :function () {
         var genidx = 0;
         this.drawingX2 = 0.0;
         this.drawingX1 = 0.0;
         var _y = this.centreVerticalPoint;
         var percentageLess = 0.0;
 
-        //            adjustedDistances = new List<double>(generations.Count);
-        //            adjustedBoxWidths = new List<double>(generations.Count);
-        //            adjustedBoxHeights = new List<double>(generations.Count);
-        this.adjustedDistances = new Array();
-        this.adjustedBoxWidths = new Array();
-        this.adjustedBoxHeights = new Array();
+        this.adjustedDistances = [];
+        this.adjustedBoxWidths = [];
+        this.adjustedBoxHeights = [];
 
 
         this.generations[0][0].X1 = this.centrePoint;
@@ -149,7 +138,7 @@ function AncTree() {
                             // increase the overlap so enough space if provided
                             overlap += (requiredSpace - spaceSoFarCreated);
                         }
-                        else if (overlap == 0) {
+                        else if (overlap === 0) {
                             overlap = (requiredSpace - spaceSoFarCreated);
                         }
 
@@ -209,7 +198,7 @@ function AncTree() {
 
                                     var parentlessPersonStartX = _movePerson.X1 - overlap; // GetX1ForParentlessPerson(_movePerson.generation, _movePerson.index);
 
-                                    if (parentlessPersonStartX == 0.0) {
+                                    if (parentlessPersonStartX === 0.0) {
                                         parentlessPersonStartX = 15;
                                         this.workingX2 = _nextPerson.X1 - parentlessPersonStartX;
                                         this.workingX1 = this.workingX2 - this.adjustedBoxWidths[_nextPerson.GenerationIdx];
@@ -305,9 +294,9 @@ function AncTree() {
         this.CreateConnectionLines();
 
 
-    }        //end compute locations
+    },       //end compute locations
 
-        this.CreateConnectionLines = function () {
+    CreateConnectionLines : function () {
 
         // this.FamilySpanLines = new List<List<List<TreePoint>>>();
 
@@ -337,7 +326,7 @@ function AncTree() {
 
                 //_family0[_family0.length] = new Array(_secondStorkX, _firstRow);
                               
-                _family0 = new Array();
+                _family0 = [];
                 //familySpanLines[genidx][personIdx].Clear();
 
                 middleTopChild = this.generations[genidx][personIdx].Y1;// + 10
@@ -430,13 +419,13 @@ function AncTree() {
 
 
 
-    } //this.CreateConnectionLines
+    }, //this.CreateConnectionLines
 
-        this.CreateChildPositionFromParent = function (movePerson) {
+    CreateChildPositionFromParent :function (movePerson) {
         
             this.workingX1 = 0.0;
             this.workingX2 = 0.0;
-            var boxWidth = 0.0;
+        
 
             if (this.adjustedBoxWidths.length > movePerson.GenerationIdx)
             {
@@ -476,9 +465,9 @@ function AncTree() {
                 this.workingX1 = ((parentX2 + parentX1) / 2) - ((movePerson.X2 - movePerson.X1) / 2);
                 this.workingX2 = this.workingX1 + (movePerson.X2 - movePerson.X1);
             }
-        }
+        },
 
-        this.GetNewX = function (genidx, percentageLess, personIdx) {
+    GetNewX:function (genidx, percentageLess, personIdx) {
 
 
             var adjustedBoxHeight = 0.0;
@@ -563,35 +552,30 @@ function AncTree() {
                 //this.adjustedBoxHeights[this.adjustedBoxWidths.length] = adjustedBoxHeight;
                 this.adjustedBoxHeights.push(adjustedBoxHeight);
             }
-
-
-
-
             this.newX2 = this.newX1 + adjustedBoxWidth;
 
+        },
 
-        } //end getnewx
+    getMoveList: function (person, startGen) {
 
-        this.getMoveList = function (person, startGen) {
-
-            this.moveList = new Array();
-            var moveGenIdx = startGen;
+        this.moveList = [];
+        var moveGenIdx = startGen;
 
            
-            while (moveGenIdx > 0)
+        while (moveGenIdx > 0)
+        {
+
+            if (!this.moveList.ContainsPerson(this.generations[moveGenIdx][person]))
             {
-
-                if (!this.moveList.ContainsPerson(this.generations[moveGenIdx][person]))
-                {
-                    this.moveList.push(this.generations[moveGenIdx][person]);
-                }
-
-                person = this.generations[moveGenIdx][person].ChildIdx;
-
-                moveGenIdx--;
+                this.moveList.push(this.generations[moveGenIdx][person]);
             }
 
+            person = this.generations[moveGenIdx][person].ChildIdx;
 
-        } //end  this.getMoveList = function (person, startGen) {
+            moveGenIdx--;
+        }
+
+
+    } 
 
 }
