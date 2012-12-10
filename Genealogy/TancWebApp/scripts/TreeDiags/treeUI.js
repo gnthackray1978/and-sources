@@ -341,10 +341,7 @@ TreeUI.prototype = {
                 nameAr.push(parseStr);
                 break;
         }
-
-        //        nameAr[nameAr.length] = person.DOB;
-
-
+ 
         return nameAr;
     }
 };

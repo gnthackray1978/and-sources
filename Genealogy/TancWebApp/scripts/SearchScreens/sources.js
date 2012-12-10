@@ -1,4 +1,6 @@
-﻿//var setDefaultPersonUrl = getHost() + "/settreepersons/Set";
+var JSMaster, QryStrUtils,AncUtils,Panels,SourceTypeLookup;
+
+//var setDefaultPersonUrl = getHost() + "/settreepersons/Set";
 //var saveSourceUrl = getHost() + "/SaveTree/Save";
 
 //var deleteSourceUrl = getHost() + "/Source/Delete";
@@ -19,7 +21,7 @@ $(document).ready(function () {
 var AncSources = function () {
     this.qryStrUtils = new QryStrUtils();
     this.ancUtils = new AncUtils();
-    this.selection = new Array();
+    this.selection = [];
     this.parishId = '';
 
     this.postParams = { 
@@ -31,7 +33,7 @@ var AncSources = function () {
         Context: this
     };
  
-}
+};
 
 AncSources.prototype = {
 
@@ -87,7 +89,7 @@ AncSources.prototype = {
 
         var isPersonImpSelection = this.qryStrUtils.getParameterByName('scs', '');
 
-        if (isPersonImpSelection != null) {
+        if (isPersonImpSelection !== null) {
             $("#rLink").removeClass("hidePanel").addClass("displayPanel");
         }
         else {
@@ -172,7 +174,7 @@ AncSources.prototype = {
     processData: function (data) {
         //alert('received something');
         var tableBody = '';
-        var selectEvents = new Array();
+        var selectEvents = [];
         var _idx = 0;
         var that = this;
 
@@ -201,7 +203,7 @@ AncSources.prototype = {
 
         });
 
-        if (tableBody != '') {
+        if (tableBody !== '') {
 
             $('#search_bdy').html(tableBody);
 
