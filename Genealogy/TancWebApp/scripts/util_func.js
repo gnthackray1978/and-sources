@@ -104,7 +104,7 @@ AncUtils.prototype = {
 
                     //console.log('clicked with : ' + va);
 
-                    if (va != null)
+                    if (va !== null)
                         func.call(context, va);
                     else
                         func.call(context);

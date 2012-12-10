@@ -114,13 +114,13 @@
             
                 <div class="fltopt">               
                     <div class="fltoptrow">
-                        <a href='' onclick = 'getTreeSources(0);return false' class="button" ><span>Refresh</span></a>   
+                        <a id= 'refresh' href='' class="button" ><span>Refresh</span></a>   
                         
                     </div>
                     <div class="fltoptrow">
-                        <a href='' onclick="sourcesShowPanel('1');return false" class="button" ><span>Main</span></a>
-                        <a href='' onclick="sourcesShowPanel('2');return false" class="button" ><span>Persons</span></a>
-                        <a href='' onclick="sourcesShowPanel('3');return false" class="button" ><span>Import</span></a>
+                        <a id= 'main' href='' class="button" ><span>Main</span></a>
+                        <a id= 'persons' href='' class="button" ><span>Persons</span></a>
+                        <a id= 'imports' href='' class="button" ><span>Import</span></a>
                     </div>                 
                 </div>
                             
@@ -135,7 +135,7 @@
                         <span id="reccount"></span>   
                         <br />
                         <div id = "dbutton" class = "hidePanel">
-                            <a href='../Default.aspx' onclick="deleteTree();return false" >Delete Select Tree</a>
+                            <a id = 'deltree' href='' onclick="deleteTree();return false" >Delete Select Tree</a>
                         </div>                                                   
                     </div>
 
@@ -162,8 +162,8 @@
                         <div class = "flt_gen">
                         <br />
                         <div class = "linkPair">
-                        <a href='' onclick = 'newTree(); return false'>New Record</a>
-                        <a href='' onclick = 'saveTree();return false'>Save</a>
+                        <a id = 'newtree' href=''>New Record</a>
+                        <a id = 'savetree' href=''>Save</a>
                         </div>
                         <br />
                        

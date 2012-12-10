@@ -40,24 +40,25 @@ DecTreeDiag.prototype = {
           
  
             $(".button_box").mousedown(function (evt) {
-            var _dir = '';
-
-            if (evt.target.id == "up") _dir = 'UP';
-            if (evt.target.id == "dn") _dir = 'DOWN';
-            if (evt.target.id == "we") _dir = 'WEST';
-            if (evt.target.id == "no") _dir = 'NORTH';
-            if (evt.target.id == "es") _dir = 'EAST';
-            if (evt.target.id == "so") _dir = 'SOUTH';
-
-            if (_tree !== null) {
-                int = setInterval(function () { _tree.MoveTree(_dir); }, 100);
-            }
+                var _dir = '';
+    
+                if (evt.target.id == "up") _dir = 'UP';
+                if (evt.target.id == "dn") _dir = 'DOWN';
+                if (evt.target.id == "we") _dir = 'WEST';
+                if (evt.target.id == "no") _dir = 'NORTH';
+                if (evt.target.id == "es") _dir = 'EAST';
+                if (evt.target.id == "so") _dir = 'SOUTH';
+    
+                if (this.ancTree !== null) {
+                    var that = this;
+                    int = setInterval(function () { that.ancTree.MoveTree(_dir); }, 100);
+                }
 
             }).mouseup(function () {
                 clearInterval(int);
             });
     
-            setTimeout(GameLoop, 1000 / 50);
+            setTimeout(this.GameLoop, 1000 / 50);
             
             
             
@@ -80,10 +81,10 @@ DecTreeDiag.prototype = {
             });
             
             $("#myCanvas").click(function (evt) {
-                if (_tree !== null) {
-                    _tree.PerformClick(evt.clientX, evt.clientY);
-                    if (_tree.refreshData) {
-                        window.location.hash = _tree.qryString;
+                if (this.ancTree !== null) {
+                    this.ancTree.PerformClick(evt.clientX, evt.clientY);
+                    if (this.ancTree.refreshData) {
+                        window.location.hash = this.ancTree.qryString;
                     }
                     var _point = new Array(1000000, 1000000);
     
@@ -92,9 +93,9 @@ DecTreeDiag.prototype = {
                 }
             });
             $("#myCanvas").mousemove(function (evt) {
-                if (_tree !== null) {
+                if (this.ancTree !== null) {
                     var _point = new Array(evt.clientX, evt.clientY);
-                    _tree.SetMouse(_point[0], _point[1]);
+                    this.ancTree.SetMouse(_point[0], _point[1]);
                     if (this._mouseDown) {
                         this._moustQueue.push(_point);
                     }
@@ -118,20 +119,6 @@ DecTreeDiag.prototype = {
               
             }
 
-
-       
-
-
-        
-            
-            
-            
-            
-            
-            
-            
-            
-            
         },
         processData: function (data) {
 
