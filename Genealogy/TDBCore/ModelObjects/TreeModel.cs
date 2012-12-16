@@ -2334,7 +2334,7 @@ namespace TDBCore.ModelObjects
 
                 foreach (GetDescendants_Result currentChild in descendantResults)
                 {
-
+                    
                     if (currentGenTest != currentChild.level)
                     {
                         // start new generation
@@ -2353,6 +2353,7 @@ namespace TDBCore.ModelObjects
 
                     foreach (var group in descendantResults.GroupBy(dr => dr.motherId == currentChild.motherId && dr.ParentId == currentChild.ParentId && currentChild.level == dr.level))
                     {
+                        
                         this.familySpanLines[currentGenTest].Add(new List<TreePoint>());
                     }
 

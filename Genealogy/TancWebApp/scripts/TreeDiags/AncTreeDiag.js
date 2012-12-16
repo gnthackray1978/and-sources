@@ -31,7 +31,8 @@ AncTreeDiag.prototype = {
         var params = {};
     
         var int;
-    
+        var that = this;
+
         $(".button_box").mousedown(function (evt) {
             var _dir = '';
     
@@ -43,7 +44,7 @@ AncTreeDiag.prototype = {
             if (evt.target.id == "so") _dir = 'SOUTH';
     
             if (this.ancTree !== null) {
-                var that = this;
+                
                 int = setInterval(function () { that.ancTree.MoveTree(_dir); }, 100);
             }
     
@@ -52,40 +53,46 @@ AncTreeDiag.prototype = {
         });
     
         //var gLoop = 
-        setTimeout(this.GameLoop, 1000 / 50);
+        setTimeout($.proxy(this.GameLoop,this), 1000 / 50);
     
         $("#myCanvas").click(function (evt) {
-            if (this.ancTree !== null) {                
-                this.ancTree.PerformClick(evt.clientX, evt.clientY);    
-                if (this.ancTree.refreshData) {                 
-                    window.location = '../HtmlPages/DescendantsTree.html#' + this.ancTree.qryString;    
+            if (that.ancTree !== null) {
+                that.ancTree.PerformClick(evt.clientX, evt.clientY);
+                if (that.ancTree.refreshData) {
+                    window.location = '../HtmlPages/DescendantsTree.html#' + that.ancTree.qryString;    
                 }        
                 var _point = new Array(1000000, 1000000);
-                this._moustQueue[this._moustQueue.length] = _point;
+                that._moustQueue[that._moustQueue.length] = _point;
             }
         });
-    
+
         $("#myCanvas").mousedown(function (evt) {
-            if (this.ancTree !== null) {
-                this._mouseDown = true;
+            evt.originalEvent.preventDefault();
+
+            if (that.ancTree !== null) {
+           
+                that._mouseDown = true;
+           
+           
             }
         });
     
-        $("#myCanvas").mouseup(function (evt) {    
-            if (this.ancTree !== null) {
-                this._mouseDown = false;
+        $("#myCanvas").mouseup(function (evt) {
+            if (that.ancTree !== null) {
+                that._mouseDown = false;
                 var _point = new Array(1000000, 1000000);
-                this._moustQueue[this._moustQueue.length] = _point;    
+                that._moustQueue[that._moustQueue.length] = _point;    
             }
         });
     
         $("#myCanvas").mousemove(function (evt) {
-            if (this.ancTree !== null) {
-                var _point = new Array(evt.clientX, evt.clientY);    
+            if (that.ancTree !== null) {
+                var _point = new Array(evt.clientX, evt.clientY);
                 
-                this.ancTree.SetMouse(_point[0], _point[1]);    
-                if (this._mouseDown) {    
-                    this._moustQueue.push(_point);
+                // pass into here is mouse down
+                that.ancTree.SetMouse(_point[0], _point[1], that._mouseDown);
+                if (that._mouseDown) {
+                    that._moustQueue.push(_point);
                 }
             }
         });

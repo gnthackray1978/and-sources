@@ -28,25 +28,25 @@ function Tree() {
 }
 
 
-Tree.prototype  = {
+Tree.prototype = {
 
     SetZoom: function (p_percentage) {
 
         var workingtp = this.original_distanceBetweenBoxs / 100;
-      
+
         this.distancesbetfam = workingtp * this.zoomPercentage;
 
         workingtp = this.original_lowerStalkHeight / 100;
 
-        this.lowerSpan = workingtp * this.zoomPercentage;// (int)original_lowerStalkHeight;
+        this.lowerSpan = workingtp * this.zoomPercentage; // (int)original_lowerStalkHeight;
 
         workingtp = this.original_middleSpan / 100;
 
-        this.middleSpan = workingtp * this.zoomPercentage;//(int)original_middleSpan;
+        this.middleSpan = workingtp * this.zoomPercentage; //(int)original_middleSpan;
 
         workingtp = this.original_topSpan / 100;
 
-        this.topSpan = workingtp * this.zoomPercentage;//(int)original_topSpan;
+        this.topSpan = workingtp * this.zoomPercentage; //(int)original_topSpan;
 
 
         this.BaseSetZoom(Number(p_percentage));
@@ -54,7 +54,7 @@ Tree.prototype  = {
 
     },
 
-    DrawTree:function () {
+    DrawTree: function () {
 
 
 
@@ -83,9 +83,9 @@ Tree.prototype  = {
         this.links = [];
         this.buttonLinks = [];
 
-  //      $("#body").remove(".tree_Links");
+        //      $("#body").remove(".tree_Links");
 
-                     //html('<span>Downloading Descendant Tree</span>');
+        //html('<span>Downloading Descendant Tree</span>');
 
         while (_genidx < this.generations.length) {
             _personIdx = 0;
@@ -96,15 +96,15 @@ Tree.prototype  = {
 
                 var personLink = treeUI.DrawPerson(_person, this.sourceId, this.zoomPercentage);
 
-                if(personLink !== null)
+                if (personLink !== null)
                     this.links.push(personLink);
 
                 var buttonLink = treeUI.DrawButton(_person, this.GetChildDisplayStatus(_person));
 
-                if(buttonLink !== null)
+                if (buttonLink !== null)
                     this.buttonLinks.push(buttonLink);
-                
-                
+
+
                 _personIdx++;
             }
             _genidx++;
@@ -118,8 +118,13 @@ Tree.prototype  = {
         while (_fslOuter < this.familySpanLines.length) {
             _fslInner = 0;
             while (_fslInner < this.familySpanLines[_fslOuter].length) {
-                treeUI.DrawLine(this.familySpanLines[_fslOuter][_fslInner]);
+
+                //if (_fslOuter == 7 && _fslInner == 15) {
+                    treeUI.DrawLine(this.familySpanLines[_fslOuter][_fslInner]);
+               // }
                 _fslInner++;
+
+
             } // end familySpanLines[_fslOuter].length
 
             _fslOuter++;
@@ -128,7 +133,7 @@ Tree.prototype  = {
 
     },
 
-    ComputeLocations:function () {
+    ComputeLocations: function () {
 
         if (this.generations.length === 0) {
             return;
@@ -141,18 +146,29 @@ Tree.prototype  = {
         this.childlessMarriages = [];
 
         this.drawingX2 = 0.0;
-        
+
+
+        this.familySpanLines = [];
+
+
         //initialize familyspan array
         while (_genIdx < this.generations.length) {
-            var _innerIdx = 0;
+            //  var _innerIdx = 0;
 
-            while (_innerIdx < this.familySpanLines[_genIdx].length) {
-                this.familySpanLines[_genIdx][_innerIdx] = [];
-                _innerIdx++;
-            }
+            //var newarray = [];
+            this.familySpanLines.push([]);
+
+            //            while (_innerIdx < this.familySpanLines[_genIdx].length) {
+            //                this.familySpanLines[_genIdx][_innerIdx] = [];
+            //                _innerIdx++;
+            //            }
 
             _genIdx++;
         }
+
+
+
+
 
         _genIdx = 0;
 
@@ -184,7 +200,7 @@ Tree.prototype  = {
 
 
                     if (genPerson.IsDisplayed) {
-                      //  console.log('displaying: ' + genPerson.Name);
+                        //  console.log('displaying: ' + genPerson.Name);
 
                         genPerson.X2 = genPerson.X1 + this.boxWidth;
 
@@ -203,7 +219,8 @@ Tree.prototype  = {
                         var _parent_gen_lower_y = 0.0;
                         if (genPerson.IsFamilyStart) {
                             _familyIdx++;
-                            this.familySpanLines[_genIdx][_familyIdx] = [];
+                            // this.familySpanLines[_genIdx][_familyIdx] = [];
+                            this.familySpanLines[_genIdx].push([]);
                         }
 
 
@@ -263,11 +280,16 @@ Tree.prototype  = {
 
 
 
+                        //if (genPerson.Name == 'George Shelton Thackray')
+                        //     console.log('displaying: ' + genPerson.Name);
 
                         //regional parental links
 
 
                         if (genPerson.IsParentalLink && _genIdx > 0) {
+
+
+
                             _middleParents = this.MiddleParents(_genIdx, genPerson.FatherIdx, genPerson.MotherIdx);
 
                             var _nextParentLink = this.GetFirst(_genIdx, genPerson.FatherIdx, genPerson.MotherIdx);
@@ -431,7 +453,7 @@ Tree.prototype  = {
             this.drawingY1 = this.generations[0][0].Y1;
         }
 
-        if (this.generations[_displayGenCount - 1].length > 0) { 
+        if (this.generations[_displayGenCount - 1].length > 0) {
             this.drawingY2 = lastPersonY2;
         }
         //drawingCentreVertical = drawingY2 - drawingY1;
@@ -440,7 +462,7 @@ Tree.prototype  = {
         this.drawingWidth = this.drawingX2 - this.drawingX1;
 
     },
-    
+
     IsGenerationDisplayed: function (genidx) {
         //returns if generation is to be displayed
         //also counts displayed families and displayed person
@@ -469,7 +491,7 @@ Tree.prototype  = {
 
     //IsGenerationDisplayed
     //must be run first
-    SetScheduleVars:function (genidx) {
+    SetScheduleVars: function (genidx) {
         var idx = 0;
         var _firstx1 = 0.0;
         var _lastx2 = 0.0;
@@ -482,7 +504,7 @@ Tree.prototype  = {
             this.startx1 = this.centrePoint - (((this.generations[genidx].length * this.boxWidth) + ((this.generations[genidx].length - 1) * this.distanceBetweenBoxs)) / 2);
         }
         else {
- 
+
 
             var firstPerson = null;
             var lastPerson = null;
@@ -517,9 +539,9 @@ Tree.prototype  = {
 
             _lastx2 += this.boxWidth;
 
-          //  console.log(genidx);
-           // console.log('first and last: ' + _firstx1 + ' ' + _lastx2);
-           // console.log('first and last persons: ' + firstPerson.Name + ' ' + lastPerson.Name);
+            //  console.log(genidx);
+            // console.log('first and last: ' + _firstx1 + ' ' + _lastx2);
+            // console.log('first and last persons: ' + firstPerson.Name + ' ' + lastPerson.Name);
 
             this.startx1 = _firstx1 + (this.boxWidth / 2);
             this.endx2 = _lastx2 - (this.boxWidth / 2);
@@ -547,8 +569,8 @@ Tree.prototype  = {
         }
 
     },
-    
-    fillGenXs:function (genidx) {
+
+    fillGenXs: function (genidx) {
 
         var idx = 0;
         var _currentDistanceBetweenBoxes = 0.0;
@@ -581,8 +603,8 @@ Tree.prototype  = {
             idx++;
         }
     },
-    
-    createFamilyCountArray:function (genidx) {
+
+    createFamilyCountArray: function (genidx) {
 
         var newswitchs = Array();
         var leftCounter = 0.0;
@@ -621,20 +643,20 @@ Tree.prototype  = {
         }
         return newswitchs;
     },
-    
-    MiddleParents:function (genidx, fatIdx, motIdx) {
+
+    MiddleParents: function (genidx, fatIdx, motIdx) {
         // return 
         var middleParents = 0.0;
-        
- 
+
+
         // returns 1 less than the furthest parent to the right!
- 
+
         // midx = 22 
         // fidx = 25 // F25 M24
-        
-       // midx = 25
-       // fidx = 22 // 24 25 
-        
+
+        // midx = 25
+        // fidx = 22 // 24 25 
+
         // if the parent had more than 1 spouse then 2 parents might not be next to each other in the generation.
         if (Math.abs(fatIdx - motIdx) > 1) {
             if (fatIdx < motIdx) {
@@ -650,8 +672,8 @@ Tree.prototype  = {
 
         return middleParents;
     },
-    
-    GetParentXs:function (genidx, fatIdx, motIdx) {
+
+    GetParentXs: function (genidx, fatIdx, motIdx) {
 
         if (genidx < 1) {
             this.secondPX = this.centrePoint;
@@ -670,8 +692,8 @@ Tree.prototype  = {
         }
 
     },
-    
-    GetFirst:function (genidx, fatIdx, motIdx) {
+
+    GetFirst: function (genidx, fatIdx, motIdx) {
         var middleParents = this.MiddleParents(genidx, fatIdx, motIdx);
         var nextParentLink = middleParents;
         var idxParentLink = motIdx;
@@ -697,7 +719,7 @@ Tree.prototype  = {
         var rightX2OfCurrentParent = this.generations[genidx - 1][idxParentLink].X2;
 
         var idx = 0;
-        
+
         var _treePerson = null;
 
         var isFound = false;
@@ -717,8 +739,8 @@ Tree.prototype  = {
 
         return nextParentLink;
     },
-    
-    GetPrev:function (genidx, fatIdx, motIdx) {
+
+    GetPrev: function (genidx, fatIdx, motIdx) {
 
         var middleParents = (this.generations[genidx - 1][fatIdx].X1 + this.generations[genidx - 1][motIdx].X2) / 2;
 
@@ -753,8 +775,8 @@ Tree.prototype  = {
             idx++;
         }
 
-       // if(_treePerson != null)
-     //   console.log('last person ' + _treePerson.Name);
+        // if(_treePerson != null)
+        //   console.log('last person ' + _treePerson.Name);
 
         if (_treePerson != null)
             prevParentLink = _treePerson.X2;
