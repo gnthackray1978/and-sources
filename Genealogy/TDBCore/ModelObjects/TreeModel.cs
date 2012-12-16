@@ -2351,11 +2351,11 @@ namespace TDBCore.ModelObjects
 
                     TreePerson treePerson = FillBasicDetails(currentChild, currentGenTest, Guid.Empty, persons);
 
-                    foreach (var group in descendantResults.GroupBy(dr => dr.motherId == currentChild.motherId && dr.ParentId == currentChild.ParentId && currentChild.level == dr.level))
-                    {
+                    //foreach (var group in descendantResults.GroupBy(dr => dr.motherId == currentChild.motherId && dr.ParentId == currentChild.ParentId && currentChild.level == dr.level))
+                    //{
                         
-                        this.familySpanLines[currentGenTest].Add(new List<TreePoint>());
-                    }
+                    //    this.familySpanLines[currentGenTest].Add(new List<TreePoint>());
+                    //}
 
                     treePerson.ChildLst.AddRange(descendantResults.Where(a => a.ParentId == treePerson.PersonId).Select(b => b.ChildId.GetValueOrDefault()).ToList());
 
