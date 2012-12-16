@@ -18,6 +18,17 @@ var AncUtils = function () {
 
 AncUtils.prototype = {
 
+    pad: function(number, length) {
+   
+        var str = '' + number;
+        while (str.length < length) {
+            str = '0' + str;
+        }
+   
+        return str;
+
+    },
+
     convertToCSV: function (array) {
         var csvStr = '';
 
@@ -389,7 +400,7 @@ QryStrUtils.prototype = {
 
          }
 
-         window.location.replace(workingQry);
+        window.location.hash = workingQry;
      },
 
     updateQryPar: function (parname, parval) {   

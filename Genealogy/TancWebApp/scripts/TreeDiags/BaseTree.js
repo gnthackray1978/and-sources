@@ -73,9 +73,9 @@ var TreeBase = function () {
 
 };
 
-TreeBase.prototype  = {
-        
-        SetInitialValues : function (zoomPerc,
+TreeBase.prototype = {
+
+    SetInitialValues: function (zoomPerc,
                                     dist_bet_box,
                                     dist_bet_gen,
                                     box_wid,
@@ -118,7 +118,7 @@ TreeBase.prototype  = {
         this.topSpan = this.original_topSpan;
 
     },
-    GetTreePerson:function (personId) {
+    GetTreePerson: function (personId) {
 
         var _genidx = 0;
         var _personIdx = 0;
@@ -187,14 +187,14 @@ TreeBase.prototype  = {
         }
 
 
-    },    
+    },
     MoveTree: function (direction) {
         // console.log('move tree' + direction);
 
-        if (direction == 'SOUTH') this.centreVerticalPoint -= 3;
-        if (direction == 'NORTH') this.centreVerticalPoint += 3;
-        if (direction == 'EAST') this.centrePoint += 3;
-        if (direction == 'WEST') this.centrePoint -= 3;
+        if (direction == 'SOUTH') this.centreVerticalPoint -= 1;
+        if (direction == 'NORTH') this.centreVerticalPoint += 1;
+        if (direction == 'EAST') this.centrePoint += 1;
+        if (direction == 'WEST') this.centrePoint -= 1;
 
 
         if (direction == 'UP' || direction == 'DOWN') {
@@ -227,53 +227,52 @@ TreeBase.prototype  = {
     SetZoom: function (percentage) {
 
 
-            if (percentage !== 0.0) 
-            {
-                var _workingtp = 0.0;
-                var _percLocal_x = 0.0;
-                var _percLocal_y = 0.0;
+        if (percentage !== 0.0) {
+            var _workingtp = 0.0;
+            var _percLocal_x = 0.0;
+            var _percLocal_y = 0.0;
 
-                //zoom drawing components 
-                this.zoomPercentage += percentage;
-                this.zoomLevel += percentage;
-                _workingtp = this.original_distanceBetweenBoxs / 100;
-                this.distanceBetweenBoxs = _workingtp * this.zoomPercentage;
-                _workingtp = this.original_boxWidth / 100;
-                this.boxWidth = _workingtp * this.zoomPercentage;
-                this.halfBox = this.boxWidth / 2;
-                _workingtp = this.original_distancesbetfam / 100;
-                _workingtp = this.original_distanceBetweenGens / 100;
-                this.distanceBetweenGens = _workingtp * this.zoomPercentage;
-                _workingtp = this.original_boxHeight / 100;
-                this.boxHeight = _workingtp * this.zoomPercentage;
+            //zoom drawing components 
+            this.zoomPercentage += percentage;
+            this.zoomLevel += percentage;
+            _workingtp = this.original_distanceBetweenBoxs / 100;
+            this.distanceBetweenBoxs = _workingtp * this.zoomPercentage;
+            _workingtp = this.original_boxWidth / 100;
+            this.boxWidth = _workingtp * this.zoomPercentage;
+            this.halfBox = this.boxWidth / 2;
+            _workingtp = this.original_distancesbetfam / 100;
+            _workingtp = this.original_distanceBetweenGens / 100;
+            this.distanceBetweenGens = _workingtp * this.zoomPercentage;
+            _workingtp = this.original_boxHeight / 100;
+            this.boxHeight = _workingtp * this.zoomPercentage;
 
-                this.halfBoxHeight = this.boxHeight / 2;
+            this.halfBoxHeight = this.boxHeight / 2;
 
-                this.ComputeLocations();
+            this.ComputeLocations();
 
-                this.GetPercDistances();
-                _percLocal_x = this.percX1;
-                _percLocal_y = this.percY1;
-
-
-                this.centreVerticalPoint += (this.drawingHeight / 100) * (_percLocal_y - this.mouseYPercLocat);
-
-                this.centrePoint += (this.drawingWidth / 100) * (_percLocal_x - this.mouseXPercLocat);
-
-                this.ComputeLocations();
-            } //end percentage ==0.0)
+            this.GetPercDistances();
+            _percLocal_x = this.percX1;
+            _percLocal_y = this.percY1;
 
 
+            this.centreVerticalPoint += (this.drawingHeight / 100) * (_percLocal_y - this.mouseYPercLocat);
 
-            this.DrawTree();
-        
+            this.centrePoint += (this.drawingWidth / 100) * (_percLocal_x - this.mouseXPercLocat);
+
+            this.ComputeLocations();
+        } //end percentage ==0.0)
+
+
+
+        this.DrawTree();
+
     },
-    SetZoomStart:function () {
+    SetZoomStart: function () {
         this.GetPercDistances();
         this.mouseXPercLocat = this.percX1;
         this.mouseYPercLocat = this.percY1;
     },
-    GetPercDistances:function () {
+    GetPercDistances: function () {
 
 
         var _distanceFromX1 = 0.0;
@@ -310,10 +309,11 @@ TreeBase.prototype  = {
 
         }
 
-    },    
-    SetMouse:function (x, y) {
+    },
+    SetMouse: function (x, y, mousestate) {
         this.mouse_x = x;
         this.mouse_y = y;
+        if (mousestate == undefined) mousestate = false;
 
         if (this.initial_mouse_x === 0) {
             this.initial_mouse_x = this.mouse_x;
@@ -341,11 +341,15 @@ TreeBase.prototype  = {
 
         var buttonLink = this.buttonLinks.LinkContainingPoint(this.mouse_x, this.mouse_y);
 
+
         if (mouseLink !== null || buttonLink !== null) {
             document.body.style.cursor = 'pointer';
         }
         else {
-            document.body.style.cursor = 'default';
+            if (mousestate == false)
+                document.body.style.cursor = 'default';
+            else
+                document.body.style.cursor = 'move';
         }
 
     },
@@ -368,47 +372,46 @@ TreeBase.prototype  = {
         }
 
         return isDisplayed;
-    },    
-    PerformClick:function (x, y) {
+    },
+    PerformClick: function (x, y) {
 
         var mouseLink = this.links.LinkContainingPoint(x, y);
 
         if (mouseLink !== null) {
-        
+
             var selectedPerson = this.GetTreePerson(mouseLink.action);
 
-            var zoomReq = this.zoomPercentage ;//-100
+            var zoomReq = this.zoomPercentage; //-100
             var xpos = selectedPerson.X1;
             var ypos = selectedPerson.Y1;
 
             var queryStr = '?sid=' + '00000000-0000-0000-0000-000000000000' + '&id=' + selectedPerson.PersonId;
-            queryStr+= '&xpos=' + xpos + '&ypos=' + ypos + '&zoom=' + zoomReq;
+            queryStr += '&xpos=' + xpos + '&ypos=' + ypos + '&zoom=' + zoomReq;
             this.qryString = queryStr;
-            this.refreshData =true;            
+            this.refreshData = true;
         }
-        else
-        {
+        else {
 
             var buttonLink = this.buttonLinks.LinkContainingPoint(x, y);
-    
-    
+
+
             if (buttonLink !== null) {
-    
+
                 var parts = buttonLink.action.split(',');
-    
+
                 var clickedPerson = this.GetTreePerson(parts[0]);
-    
+
                 var isVis = true;
-    
+
                 if (parts[1] == 'false') {
                     isVis = true;
                 }
                 else {
                     isVis = false;
                 }
-    
+
                 this.SetVisibility(clickedPerson, isVis);
-    
+
             }
 
         }
@@ -451,11 +454,11 @@ TreeBase.prototype  = {
         this.centrePointXOffset = 0;
         this.centrePointYOffset = 0;
     },
-    ZoomIn:function () {
+    ZoomIn: function () {
         this.zoomAmount++;
         this.SetZoom(this.zoomAmount);
     },
-    ZoomOut:function () {
+    ZoomOut: function () {
         if (this.zoomAmount > 7)
             this.zoomAmount--;
 
@@ -545,7 +548,7 @@ TreeBase.prototype  = {
             }
             else {
                 currentPersonLocation = _temp.X1;
-             
+
                 if (currentPersonLocation < 0.0) {
                     distanceToMove = _xpos - currentPersonLocation;
                 }
@@ -613,6 +616,90 @@ TreeBase.prototype  = {
 
             this.DrawTree();
         }
+    },
+    Debug: function () {
+        console.log('debugging');
+
+        var idx = 0;
+        var u = new AncUtils();
+
+        //        while (this.generations.length > idx) {
+
+
+
+        //            var cid = 0;
+        //            var cife = 0;
+        //            var cipl = 0;
+        //            var cifs = 0;
+        //            var cihl = 0;
+
+        //            var personidx = 0;
+
+        //            while (this.generations[idx].length > personidx) {
+
+        //                if (this.generations[idx][personidx].IsDisplayed == true) cid++;
+
+        //                if (this.generations[idx][personidx].IsFamilyEnd == true) cife++;
+
+        //                if (this.generations[idx][personidx].IsParentalLink == true) cipl++;
+
+        //                if (this.generations[idx][personidx].IsFamilyStart == true) cifs++;
+
+        //                if (this.generations[idx][personidx].IsHtmlLink == true) cihl++;
+
+        //                personidx++;
+        //            }
+
+        //            console.log(idx + ":" + u.pad(this.generations[idx].length, 3) + " IsDisplayed :" + u.pad(cid, 3) + " IsFamilyEnd: " + u.pad(cife, 3) + " IsParentalLink: " + u.pad(cipl, 3) + " IsFamilyStart: " + u.pad(cifs, 3) + " IsHtmlLink: " + u.pad(cihl, 3));
+
+        //            idx++;
+        //        }
+
+
+        //        idx = 0;
+
+
+        //        while (this.familySpanLines.length > idx) {
+        //            var spanidx = 0;
+        //           
+        //            while (this.familySpanLines[idx].length > spanidx) {
+
+
+        //                spanidx++;
+        //            }
+
+        //            console.log(idx + " spans :" + u.pad(this.familySpanLines[idx].length, 3));
+
+
+
+        //            idx++;
+        //        }
+
+
+
+        //        console.log(idx + " 7 - 12 :" + u.pad(this.familySpanLines[7][12].length, 3));
+        //        console.log(idx + " 7 - 13 :" + u.pad(this.familySpanLines[7][13].length, 3));
+        //        console.log(idx + " 7 - 14 :" + u.pad(this.familySpanLines[7][14].length, 3));
+        console.log(idx + " 7 - 15 :" + u.pad(this.familySpanLines[7][15].length, 3));
+        //        console.log(idx + " 7 - 16 :" + u.pad(this.familySpanLines[7][16].length, 3));
+        //        console.log(idx + " 7 - 17 :" + u.pad(this.familySpanLines[7][17].length, 3));
+        //        console.log(idx + " 7 - 18 :" + u.pad(this.familySpanLines[7][18].length, 3));
+        //        console.log(idx + " 7 - 19 :" + u.pad(this.familySpanLines[7][19].length, 3));
+        //        console.log(idx + " 7 - 20 :" + u.pad(this.familySpanLines[7][20].length, 3));
+
+        //  console.log(idx + " 6 - 21 :" + u.pad(this.familySpanLines[6][21].length, 3));8
+        //  console.log(idx + " 6 - 22 :" + u.pad(this.familySpanLines[6][22].length, 3));
+
+
+        idx = 0;
+
+        while (this.familySpanLines[7][15].length > idx) {
+            console.log(idx + " val :" + this.familySpanLines[7][15][idx]);
+            idx++;
+        }
     }
+
+
+
 };
 

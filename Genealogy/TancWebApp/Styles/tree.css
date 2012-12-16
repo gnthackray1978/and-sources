@@ -98,6 +98,15 @@
     background-repeat: no-repeat;
 }
 
+#map_control .debug
+{
+    background-position: center center;
+    position: absolute;
+    right: 2px;
+    bottom: 10px;
+    background-image: url('../Images/silver_images/navigate_debug.png');
+    background-repeat: no-repeat;
+}
 
 .button_box
 {
