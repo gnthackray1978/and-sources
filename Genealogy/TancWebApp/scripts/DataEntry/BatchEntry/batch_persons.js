@@ -6,7 +6,7 @@
     //Number($('#txtRows').val());
 
 
-var BatchBirths = function (grid) {
+var BatchBirths = function (grid, batchcore) {
     this.editableGrid = grid;
     this.rowcount = 0;
     this.surname = '';
@@ -16,6 +16,8 @@ var BatchBirths = function (grid) {
     this.sourceparam = 'scs';
     this.parishparam = 'parl';
     this.ancUtils = new AncUtils();
+    this.qryStrUtils = new QryStrUtils();
+    this.batchCore = batchcore;
 }
 
 
@@ -295,7 +297,8 @@ BatchBirths.prototype.ValidateDeaths = function () {
 
 BatchBirths.prototype.savePerson = function (theData) {
 
-    this.ancUtils.twaPostJSON('/Person/Add', theData, '', function (args) { recordAdded(); });
+
+    this.ancUtils.twaPostJSON('/Person/Add', theData, '', $.proxy(batchCore.recordAdded, batchCore));
 }
 
 

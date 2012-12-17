@@ -22,7 +22,7 @@ BatchParishs.prototype = {
         //   $.ajaxSetup({ cache: false });
         //   $.getJSON(parishListURL, params, processParishs);
 
-        this.ancUtils.twaGetJSON("/Parishs/GetParishNames", params, this.processParishs);
+        this.ancUtils.twaGetJSON("/Parishs/GetParishNames", params, $.proxy(this.processParishs, this));
         return false;
     },
 
