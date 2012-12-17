@@ -270,7 +270,7 @@ AncPersons.prototype = {
         this.ancUtils.addlinks(selectEvents, this.processSelect, this);
     },
     loadDupes: function (id) {
-        this.ancUtils.updateQryPar('_parentId', id);
+        this.qryStrUtils.updateQryPar('_parentId', id);
         this.getPersons('1');
     },
     processSelect: function (evt) {

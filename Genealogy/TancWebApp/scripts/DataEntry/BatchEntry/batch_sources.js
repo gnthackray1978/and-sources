@@ -26,9 +26,9 @@ BatchSources.prototype = {
     }
     ,getSourceLst: function() {
         var params = {};
-        var scs = this.qryStrUtils.getParameterByName(sourceparam, '');     
+        var scs = this.qryStrUtils.getParameterByName(this.sourceparam, '');     
         params[0] = scs;
-        this.ancUtils.twaGetJSON('/Sources/GetSourceNames', params, processsourcetypes);
+        this.ancUtils.twaGetJSON('/Sources/GetSourceNames', params , $.proxy(this.processsourcetypes, this)) ;//processsourcetypes);
         return false;
     }
 
