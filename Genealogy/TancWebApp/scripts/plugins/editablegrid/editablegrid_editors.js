@@ -286,24 +286,33 @@ TextCellEditor.prototype.updateStyle = function(htmlInput)
 	else this.editablegrid.addClassName(htmlInput, this.editablegrid.invalidClassName);
 };
 
-TextCellEditor.prototype.getEditor = function(element, value)
-{
-	// create and initialize text field
-	var htmlInput = document.createElement("input"); 
-	htmlInput.setAttribute("type", "text");
-	if (this.maxLength > 0) htmlInput.setAttribute("maxlength", this.maxLength);
+TextCellEditor.prototype.getEditor = function (element, value) {
+    // create and initialize text field
+    var htmlInput = document.createElement("textarea");
 
-	if (this.fieldSize > 0) htmlInput.setAttribute("size", this.fieldSize);
-	else htmlInput.style.width = this.editablegrid.autoWidth(element) + 'px'; // auto-adapt width to cell, if no length specified 
-	
-	var autoHeight = this.editablegrid.autoHeight(element);
-	if (this.autoHeight) htmlInput.style.height = autoHeight + 'px'; // auto-adapt height to cell
-	htmlInput.value = this.editorValue(value);
+    console.log('fieldsize: '+this.fieldSize);
+    console.log('maxLength: ' + this.maxLength);
 
-	// listen to keyup to check validity and update style of input field 
-	htmlInput.onkeyup = function(event) { this.celleditor.updateStyle(this); };
+    htmlInput.cols = "5";
+    htmlInput.rows = "1";
 
-	return htmlInput; 
+    //htmlInput.setAttribute("type", "text");
+    //if (this.maxLength > 0) htmlInput.setAttribute("maxlength", this.maxLength);
+
+    //if (this.fieldSize > 0) htmlInput.setAttribute("size", this.fieldSize);
+
+
+    //	else htmlInput.style.width = this.editablegrid.autoWidth(element) + 'px'; // auto-adapt width to cell, if no length specified 
+
+    //	var autoHeight = this.editablegrid.autoHeight(element);
+    //	if (this.autoHeight) htmlInput.style.height = autoHeight + 'px'; // auto-adapt height to cell
+
+    htmlInput.value = this.editorValue(value);
+
+    // listen to keyup to check validity and update style of input field 
+    //	htmlInput.onkeyup = function(event) { this.celleditor.updateStyle(this); };
+
+    return htmlInput;
 };
 
 TextCellEditor.prototype.displayEditor = function(element, htmlInput) 

@@ -42,7 +42,9 @@ BatchBirths.prototype.displayBirths = function (rowsrequired, displayData) {
 
     this.rowcount = rowsrequired;
 
-    displayData.metadata.push({ name: "InValid", label: "Invalid", datatype: "boolean", editable: true, class: 'colBoolWidth' });
+    displayData.metadata.push({ name: "InValid", label: "Inv.", datatype: "boolean", editable: true, class: 'colBoolWidth' });
+    displayData.metadata.push({ name: "Id", label: "Id", datatype: "string", editable: false, class: 'colIdWidth' });
+
     displayData.metadata.push({ name: "IsMale", label: "Sex", datatype: "boolean", editable: true, class: 'colBoolWidth' });
     displayData.metadata.push({ name: "ChristianName", label: "Name", datatype: "string", editable: true, class: 'default' });
     // metadata.push({ name: "Surname", label: "Surname", datatype: "string", editable: true , class: 'default' });
@@ -66,6 +68,7 @@ BatchBirths.prototype.displayBirths = function (rowsrequired, displayData) {
 
         displayData.data.push({ id: idx, values: {
             "InValid": true,
+            "Id":"",
             "IsMale": false,
             "ChristianName": "",
             "BirthLocation": "",
@@ -88,10 +91,6 @@ BatchBirths.prototype.displayBirths = function (rowsrequired, displayData) {
 }
 
 
-
-
-
-
 BatchBirths.prototype.displayDeaths = function (rowsrequired, displayData) {
 
     this.rowcount = rowsrequired;
@@ -99,20 +98,21 @@ BatchBirths.prototype.displayDeaths = function (rowsrequired, displayData) {
 
    // var total = Number($('#txtRows').val());
 
-    displayData.metadata.push({ name: "InValid", label: "Invalid", datatype: "boolean", editable: false, class: 'colBoolWidth' });
+    displayData.metadata.push({ name: "InValid", label: "Inv.", datatype: "boolean", editable: false, class: 'colBoolWidth' });
+    displayData.metadata.push({ name: "Id", label: "Id", datatype: "string", editable: false, class: 'colIdWidth' });
     displayData.metadata.push({ name: "IsMale", label: "Sex", datatype: "boolean", editable: true, class: 'colBoolWidth' });
     displayData.metadata.push({ name: "ChristianName", label: "Name", datatype: "string", editable: true, class: 'default' });
 
 
-    displayData.metadata.push({ name: "DeathLocation", label: "Death Location", datatype: "string", editable: true, class: 'default' });
+    displayData.metadata.push({ name: "DeathLocation", label: "Death Loc.", datatype: "string", editable: true, class: 'default' });
     displayData.metadata.push({ name: "FatherChristianName", label: "Father Name", datatype: "string", editable: true, class: 'default' });
 
     displayData.metadata.push({ name: "MotherChristianName", label: "Mother Name", datatype: "string", editable: true, class: 'default' });
     displayData.metadata.push({ name: "MotherSurname", label: "Mother Surname", datatype: "string", editable: true, class: 'default' });
     displayData.metadata.push({ name: "Notes", label: "Notes", datatype: "string", editable: true, class: 'default' });
 
-    displayData.metadata.push({ name: "Occupation", label: "Occupation", datatype: "string", editable: true, class: 'default' });
-    displayData.metadata.push({ name: "FatherOccupation", label: "Father Occupation", datatype: "string", editable: true, class: 'default' });
+    displayData.metadata.push({ name: "Occupation", label: "Occu.", datatype: "string", editable: true, class: 'default' });
+    displayData.metadata.push({ name: "FatherOccupation", label: "Father Occ.", datatype: "string", editable: true, class: 'default' });
 
     displayData.metadata.push({ name: "DeathDateStr", label: "Death Date", datatype: "string", editable: true, class: 'default' });
 
@@ -124,15 +124,16 @@ BatchBirths.prototype.displayDeaths = function (rowsrequired, displayData) {
     displayData.metadata.push({ name: "AgeMonth", label: "Age Month", datatype: "string", editable: true, class: 'default' });
     displayData.metadata.push({ name: "AgeDay", label: "Age Days", datatype: "int", editable: true, class: 'default' });
     displayData.metadata.push({ name: "AgeWeek", label: "Age Weeks", datatype: "int", editable: true, class: 'default' });
-    displayData.metadata.push({ name: "InValid", label: "Is Valid", datatype: "boolean", editable: true, class: 'colBoolWidth' });
+   // displayData.metadata.push({ name: "InValid", label: "Is Valid", datatype: "boolean", editable: true, class: 'colBoolWidth' });
 
     var idx = 1;
 
 
-    while (idx < rowcount) {
+    while (idx < this.rowcount) {
 
         displayData.data.push({ id: idx, values: {
             "InValid": true,
+            "Id":"",
             "IsMale": false,
             "ChristianName": "",
 
@@ -163,31 +164,30 @@ BatchBirths.prototype.displayDeaths = function (rowsrequired, displayData) {
 }
 
 
-
 BatchBirths.prototype.GetBirthRecord = function (rowIdx) {
 
     var theData = {};
-    theData.personId = '';
+    theData.personId = this.editableGrid.getValueAt(rowIdx, 1); 
     theData.birthparishId = this.qryStrUtils.getParameterByName('parl', '');
 
 
     theData.sources = this.qryStrUtils.getParameterByName('scs', '');
-    theData.christianName = this.editableGrid.getValueAt(rowIdx, 2); //name
+    theData.christianName = this.editableGrid.getValueAt(rowIdx, 3); //name
     theData.surname = $('#txtSurname').val();
-    theData.fatherchristianname = this.editableGrid.getValueAt(rowIdx, 4); //father name
+    theData.fatherchristianname = this.editableGrid.getValueAt(rowIdx, 5); //father name
     theData.fathersurname = $('#txtFatherSurname').val();
-    theData.motherchristianname = this.editableGrid.getValueAt(rowIdx, 5); //mother name
-    theData.mothersurname = this.editableGrid.getValueAt(rowIdx, 6); //mother surname
+    theData.motherchristianname = this.editableGrid.getValueAt(rowIdx, 6); //mother name
+    theData.mothersurname = this.editableGrid.getValueAt(rowIdx, 7); //mother surname
     theData.source = $('#txtSource').val();
-    theData.ismale = this.editableGrid.getValueAt(rowIdx, 1); ;
-    theData.occupation = this.editableGrid.getValueAt(rowIdx, 8);
-    theData.fatheroccupation = this.editableGrid.getValueAt(rowIdx, 9);
-    theData.birthDate = this.editableGrid.getValueAt(rowIdx, 10);
-    theData.baptismDate = this.editableGrid.getValueAt(rowIdx, 11);
+    theData.ismale = this.editableGrid.getValueAt(rowIdx, 2); ;
+    theData.occupation = this.editableGrid.getValueAt(rowIdx, 9);
+    theData.fatheroccupation = this.editableGrid.getValueAt(rowIdx, 10);
+    theData.datebirthstr = this.editableGrid.getValueAt(rowIdx, 11);
+    theData.datebapstr = this.editableGrid.getValueAt(rowIdx, 12);
 
-    theData.birthloc = this.editableGrid.getValueAt(rowIdx, 3); //location
+    theData.birthloc = this.editableGrid.getValueAt(rowIdx, 4); //location
     theData.birthcounty = $('#txtBirthCounty').val();
-    theData.notes = this.editableGrid.getValueAt(rowIdx, 7); //notes
+    theData.notes = this.editableGrid.getValueAt(rowIdx, 8); //notes
 
     theData.datedeath = '';
     theData.deathloc = '';
@@ -201,48 +201,59 @@ BatchBirths.prototype.GetBirthRecord = function (rowIdx) {
     theData.days = '';
     theData.weeks = '';
 
-
+    theData.spousesurname = '';
+    theData.spousechristianname = '';
+    
 
 
     return theData;
 }
 
 
-
-
 BatchBirths.prototype.GetDeathRecord = function (rowIdx) {
     var theData = {};
 
-    theData.personId = '';
+    theData.personId = this.editableGrid.getValueAt(rowIdx, 1); 
 
     theData.birthparishId = this.qryStrUtils.getParameterByName('parl', '');
     theData.sources = this.qryStrUtils.getParameterByName('scs', '');
 
 
 
-    theData.ismale = this.editableGrid.getValueAt(rowIdx, 1); //sex 
-    theData.christianName = this.editableGrid.getValueAt(rowIdx, 2); //name
-    theData.deathLoc = this.editableGrid.getValueAt(rowIdx, 3); //location
-    theData.fatherchristianname = this.editableGrid.getValueAt(rowIdx, 4); //father name
-    theData.motherchristianname = this.editableGrid.getValueAt(rowIdx, 5); //mother name
-    theData.mothersurname = this.editableGrid.getValueAt(rowIdx, 6); //mother surname
-    theData.notes = this.editableGrid.getValueAt(rowIdx, 7); //notes
-    theData.occupation = this.editableGrid.getValueAt(rowIdx, 8); //occupation
-    theData.fatheroccupation = this.editableGrid.getValueAt(rowIdx, 9); //father occupation
+    theData.ismale = this.editableGrid.getValueAt(rowIdx, 2); //sex 
+    theData.christianName = this.editableGrid.getValueAt(rowIdx, 3); //name
+    theData.surname = $('#txtSurname').val();
+    theData.deathloc = this.editableGrid.getValueAt(rowIdx, 4); //location
+    theData.birthloc = '';
+    theData.birthcounty = $('#txtBirthCounty').val();
+    theData.deathcounty = $('#txtDeathCounty').val();
 
-    theData.deathDate = this.editableGrid.getValueAt(rowIdx, 10); //birth or death date
+    theData.fatherchristianname = this.editableGrid.getValueAt(rowIdx, 5); //father name
+    theData.fathersurname = $('#txtFatherSurname').val();
+    theData.motherchristianname = this.editableGrid.getValueAt(rowIdx, 6); //mother name
+    theData.mothersurname = this.editableGrid.getValueAt(rowIdx, 7); //mother surname
+    theData.notes = this.editableGrid.getValueAt(rowIdx, 8); //notes
+    theData.occupation = this.editableGrid.getValueAt(rowIdx, 9); //occupation
+    theData.fatheroccupation = this.editableGrid.getValueAt(rowIdx, 10); //father occupation
 
-    theData.spouseCName = this.editableGrid.getValueAt(rowIdx, 11); //baptism date or spousename
-    theData.spouseSName = this.editableGrid.getValueAt(rowIdx, 12); //baptism date or spousename
+    theData.datedeath = this.editableGrid.getValueAt(rowIdx, 11); //birth or death date
 
-    theData.AgeYear = this.editableGrid.getValueAt(rowIdx, 13); // - age year
-    theData.AgeMonth = this.editableGrid.getValueAt(rowIdx, 14); // - age month
-    theData.AgeDays = this.editableGrid.getValueAt(rowIdx, 15); //- age days
-    theData.AgeWeeks = this.editableGrid.getValueAt(rowIdx, 16); //- age weeks
+    theData.datebirthstr = '';
+    theData.datebapstr = '';
+
+    theData.refdate = '';
+    theData.refloc = '';
+
+    theData.spousechristianname = this.editableGrid.getValueAt(rowIdx, 12); //baptism date or spousename
+    theData.spousesurname = this.editableGrid.getValueAt(rowIdx, 13); //baptism date or spousename
+    theData.source = $('#txtSource').val();
+    theData.years = this.editableGrid.getValueAt(rowIdx, 14); // - age year
+    theData.months = this.editableGrid.getValueAt(rowIdx, 15); // - age month
+    theData.weeks = this.editableGrid.getValueAt(rowIdx, 16); //- age days
+    theData.days = this.editableGrid.getValueAt(rowIdx, 17); //- age weeks
 
     return theData;
 }
-
 
 
 BatchBirths.prototype.ValidateBirths = function (rowIdx) {
@@ -270,7 +281,7 @@ BatchBirths.prototype.ValidateBirths = function (rowIdx) {
 }
 
 
-BatchBirths.prototype.ValidateDeaths = function () {
+BatchBirths.prototype.ValidateDeaths = function (rowIdx) {
 
    // var rowIdx = 0;
     var isValidRow = true;
@@ -297,18 +308,39 @@ BatchBirths.prototype.ValidateDeaths = function () {
 
 BatchBirths.prototype.savePerson = function (theData) {
 
-
-    this.ancUtils.twaPostJSON('/Person/Add', theData, '', $.proxy(batchCore.recordAdded, batchCore));
+    this.ancUtils.twaPostJSON(theData);
+  
 }
 
 
 BatchBirths.prototype.saveBirth = function (rowIdx) {
-    var _birth = this.GetBirthRecord(rowIdx);
-    this.savePerson(_birth);
+    var args = { rowid: rowIdx, data: '' };
+
+   var postParams = {
+        url: '/Person/Add',
+        data: this.GetBirthRecord(rowIdx),
+        idparam: 'id',
+        refreshmethod: $.proxy(this.batchCore.recordAdded, this.batchCore),
+        refreshArgs: args,
+        Context: this
+    }; 
+    this.savePerson(postParams); 
 }
 
 
 BatchBirths.prototype.saveDeath = function (rowIdx) {
-    var _death = this.GetDeathRecord(rowIdx);
-    this.savePerson(_death);
+    //  var _death = this.GetDeathRecord(rowIdx);
+    // this.savePerson(_death);
+    var args = {rowid: rowIdx, data: ''};
+
+    var postParams = {
+        url: '/Person/Add',
+        data: this.GetDeathRecord(rowIdx),
+        idparam: 'id',
+        refreshmethod: $.proxy(this.batchCore.recordAdded, this.batchCore),
+        refreshArgs: args,
+        Context: this
+    };
+
+    this.savePerson(postParams);
 }

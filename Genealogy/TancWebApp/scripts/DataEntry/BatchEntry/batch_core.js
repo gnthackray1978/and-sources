@@ -35,6 +35,16 @@ var BatchCore = function () {
     this.rowsId = '#txtRows';
     this._isValidSources = false;
     this._isValidParishs = false;
+
+    this.postParams = {
+        url: '',
+        data: '',
+        idparam: 'id',
+        refreshmethod: this.load,
+        refreshArgs: undefined,
+        Context: this
+    };
+
 }
 
 BatchCore.prototype = {
@@ -48,6 +58,39 @@ BatchCore.prototype = {
         $("#selectparish").live("click", $.proxy(function () { this.selectParish(); return false; }, this));
         $("#tablecontent").on("postpaste", $.proxy(this.paste, this)).pasteEvents();
 
+        $('#txtBirthCounty').val(this.qryStrUtils.getParameterByName('bcount', ''));
+        $('#txtDeathCounty').val(this.qryStrUtils.getParameterByName('dcount', ''));
+        $('#txtSurname').val(this.qryStrUtils.getParameterByName('surname', ''));
+        $('#txtFatherSurname').val(this.qryStrUtils.getParameterByName('fsurname', ''));
+        $('#txtSource').val(this.qryStrUtils.getParameterByName('source', ''));
+
+        if (this.qryStrUtils.getParameterByName('ibirt', '') == 'false') {
+            $('#chkIncludeBirths').prop('checked', false);
+        }
+        else {
+            $('#chkIncludeBirths').prop('checked', true);
+        }
+
+
+        if (this.qryStrUtils.getParameterByName('ideath', '') == 'false') {
+            $('#chkIncludeDeaths').prop('checked', false);
+        }
+        else {
+            $('#chkIncludeDeaths').prop('checked', true);
+        }
+
+
+        if (this.qryStrUtils.getParameterByName('iref', '') == 'false') {
+            $('#chkIncludeRefs').prop('checked', false);
+        }
+        else {
+            $('#chkIncludeRefs').prop('checked', true);
+        }
+
+
+
+
+
         this.bs.getSourceLst();
         this.bp.getParishLst();
 
@@ -55,7 +98,7 @@ BatchCore.prototype = {
     },
 
     paste: function () {
-        var result = $("#tablecontent input:text").val();
+        var result = $("#tablecontent textarea").val();
         //  editableGrid.getCell(editableGrid.currentCellX, editableGrid.currentCellY);
 
         var idx = 0;
@@ -64,7 +107,7 @@ BatchCore.prototype = {
 
         $("#txtSource").focus();
 
-        var rows = result.split('\x20');
+        var rows = result.split('\x0A');
 
 
         while (idx < rows.length) {
@@ -76,7 +119,7 @@ BatchCore.prototype = {
             var cidx = 0;
 
             if (rowIdx < this.editableGrid.data.length) {
-             
+
                 while (cidx < cols.length) {
                     var _value = cols[cidx];
                     this.editableGrid.setValueAt(rowIdx, colIdx, _value);
@@ -168,6 +211,8 @@ BatchCore.prototype = {
         var chkRefs = $(this.includeRefsId).prop('checked');
         var rowsreq = $(this.rowsId).val();
 
+        this.createQryString();
+
         if (this._isValidSources && this._isValidParishs && (chkBirths || chkDeaths || chkRefs)) {
 
             $("#footer").show();
@@ -212,6 +257,8 @@ BatchCore.prototype = {
             $("#footer").hide();
         }
     },
+
+
     Save: function () {
 
         var selectiontype = $('input[name=recType]:checked').val();
@@ -228,16 +275,21 @@ BatchCore.prototype = {
 
         var rowIdx = 0;
         while (rowIdx < this.editableGrid.getRowCount()) {
-            switch (selectiontype) {
-                case 'births':
-                    this.batchBirths.saveBirth(rowIdx);
-                    break;
-                case 'deaths':
-                    this.batchBirths.saveDeath(rowIdx);
-                    break;
-                case 'references':
-                    saveReference();
-                    break;
+
+            var notvalid = this.editableGrid.getValueAt(rowIdx, 0);
+
+            if (notvalid != true) {
+                switch (selectiontype) {
+                    case 'births':
+                        this.batchBirths.saveBirth(rowIdx);
+                        break;
+                    case 'deaths':
+                        this.batchBirths.saveDeath(rowIdx);
+                        break;
+                    case 'references':
+                        saveReference();
+                        break;
+                }
             }
             rowIdx++;
         }
@@ -245,9 +297,32 @@ BatchCore.prototype = {
         var display = 'xx';
         $('#templabel').html(display);
     },
-    recordAdded: function () {
-        console.log('record added');
+    recordAdded: function (rowidx) {
+        //console.log('record added ' + rowidx);
 
+        var result = this.ancUtils.getValueFromKey(rowidx.data, 'Id');
+
+        this.editableGrid.setValueAt(rowidx.rowid, 1, result);
+    },
+
+    createQryString: function () {
+
+        var args = {
+
+            "bcount": $('#txtBirthCounty'),
+            "dcount": $('#txtDeathCounty'),
+            "surname": $('#txtSurname'),
+            "fsurname": $('#txtFatherSurname'),
+            "source": $('#txtSource'),
+
+            "ibirt": $('#chkIncludeBirths').prop('checked'),
+            "ideath": $('#chkIncludeDeaths').prop('checked'),
+            "iref": $('#chkIncludeRefs').prop('checked')
+
+        };
+
+
+        this.qryStrUtils.updateQry(args);
     }
 
 }

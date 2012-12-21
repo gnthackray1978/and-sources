@@ -18,13 +18,13 @@ var AncUtils = function () {
 
 AncUtils.prototype = {
 
-    pad: function(number, length) {
-   
+    pad: function (number, length) {
+
         var str = '' + number;
         while (str.length < length) {
             str = '0' + str;
         }
-   
+
         return str;
 
     },
@@ -171,7 +171,7 @@ AncUtils.prototype = {
 
         var successFunc = function (message) {
             // was there a error
-            var error = that.getValueFromKey(message, 'error');
+            var error = that.getValueFromKey(message, 'Error');
 
             if (error != '' && error != null) {
                 //yes
@@ -185,6 +185,12 @@ AncUtils.prototype = {
                     qutils.updateQryPar(postParams.idparam, result);
                 }
                 if (postParams.refreshmethod != undefined) {
+
+                    if (postParams.refreshArgs != undefined) {
+                        if (postParams.refreshArgs.data != undefined)
+                            postParams.refreshArgs.data = message;
+                    }
+
                     postParams.refreshmethod.call(postParams.Context, postParams.refreshArgs);
                 }
             }
@@ -313,7 +319,7 @@ AncUtils.prototype = {
 
             if (idx < totalRequiredPages) {
 
-                var remainderAvailablePages = totalRequiredPages  % blocksize;
+                var remainderAvailablePages = totalRequiredPages % blocksize;
                 //zero based
 
                 startpage += blocksize;

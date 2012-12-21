@@ -28,7 +28,7 @@ var AncSelectorBase = function () {
 
 AncSelectorBase.prototype = {
 
-    createOutline: function (selectorid) {
+    createOutline: function (selectorid, base) {
 
 
         var body = '';
@@ -94,8 +94,19 @@ AncSelectorBase.prototype = {
 
         $(selectorid).html(body);
 
+        var that = this;
 
-        $("#sb_refresh").live("click", $.proxy(this.context_data.refreshMethod, this));
+      
+       // var tp = base;
+        //var lrefreshMethod = that.context_data.refreshMethod;
+
+
+        $("#sb_refresh").live("click", function () {
+            that.context_data.refreshMethod.call(that.context_data.parentContext, 'nothing');          
+            return false;
+        });
+
+   
 
 
     },
@@ -127,7 +138,7 @@ AncSelectorBase.prototype = {
 
         var indexs = this.getNewSources();
         var selectEvents = new Array();
-      
+
         var selected_sourceId = null;
 
         var tableBody = $('#' + this.context_data.search_hed).html();
