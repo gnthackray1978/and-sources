@@ -28,6 +28,7 @@ using System.Web;
 using Facebook;
 using System.Xml.Linq;
 using GedItter.Interfaces;
+using GedItter;
  
 
 namespace ANDServices
@@ -1181,7 +1182,7 @@ namespace ANDServices
                 retVal += iModel.StatusMessage;
             }
 
-            return retVal;
+            return MakeReturn(persons, retVal);
         }
 
 
@@ -1213,7 +1214,7 @@ namespace ANDServices
             }
 
 
-            return retVal;
+            return MakeReturn(person, retVal);
         }
 
         public string RemoveLink(string person)
@@ -1248,7 +1249,7 @@ namespace ANDServices
                 retVal += iModel.StatusMessage;
             }
 
-            return retVal;
+            return MakeReturn(person, retVal);
         }
 
         public string SetPersonRelation(string persons, string relationType)
@@ -1281,7 +1282,7 @@ namespace ANDServices
                 retVal += iModel.StatusMessage;
             }
 
-            return retVal;
+            return MakeReturn(persons, retVal);
         }
 
         public string DeletePerson(string personId)
@@ -1315,7 +1316,9 @@ namespace ANDServices
                 retVal += iModel.StatusMessage;
             }
 
-            return retVal;
+
+
+            return MakeReturn(personId, retVal);
         }
 
         public string AddPerson(string personId, string birthparishId, string deathparishId, string referenceparishId, string sources, string christianName, string surname, string fatherchristianname,
@@ -1334,6 +1337,43 @@ namespace ANDServices
              deathloc, deathcounty, notes, refdate,
              refloc, fatheroccupation, spousesurname, spousechristianname, years, months, weeks, days);
 
+
+            if (datebapstr == "" && datebirthstr == "" && datedeath !="" && (years !="" || months !="" || weeks != "" || days !=""))
+            {
+                DateTime deathDate = new DateTime(2100, 1, 1);
+
+                if (!DateTime.TryParse(datedeath, out deathDate))
+                {
+                    int deathYear = CsUtils.GetDateYear(datedeath);
+                    if (deathYear != 0)
+                    {
+                        deathDate = new DateTime(deathYear, 1, 1);
+                    }
+                }
+
+                if (deathDate.Year != 2100)
+                {
+                    int iyears = 0;
+                    int imonths = 0;
+                    int iweeks = 0;
+                    int idays = 0;
+
+                    Int32.TryParse(years, out iyears);
+                    Int32.TryParse(months, out imonths);
+                    Int32.TryParse(weeks, out iweeks);
+                    Int32.TryParse(days, out idays);
+
+                    idays = (iyears * 365) + (imonths * 28) + (iweeks * 7) + idays;
+
+                    TimeSpan ts = new TimeSpan(idays,1,1,1);
+
+
+                    DateTime birthDate = deathDate.Subtract(ts);
+
+                    datebirthstr = birthDate.ToString("dd MMM yyyy");
+
+                }
+            }
 
 
 
@@ -1920,85 +1960,148 @@ namespace ANDServices
             return serviceMarriageObject;
         }
 
-        public bool DeleteMarriages(string marriageIds)
+        public string DeleteMarriages(string marriageIds)
         {
             MarriagesFilterModel iModel = new MarriagesFilterModel();
             MarriagesFilterControl iControl = new MarriagesFilterControl();
-            iControl.SetModel(iModel);
+            string retVal = "";
 
-            List<Guid> selection = new List<Guid>();
+            try
+            {
+                iControl.SetModel(iModel);
 
-            marriageIds.Split(',').ToList().ForEach(p => selection.Add(p.ToGuid()));
+                List<Guid> selection = new List<Guid>();
+
+                marriageIds.Split(',').ToList().ForEach(p => selection.Add(p.ToGuid()));
 
 
-            iControl.RequestSetSelectedIds(selection);
-            iControl.RequestSetUser(WebHelper.GetUser());
-            iControl.RequestDelete();
+                iControl.RequestSetSelectedIds(selection);
+                iControl.RequestSetUser(WebHelper.GetUser());
+                iControl.RequestDelete();
+            }
+            catch (Exception ex1)
+            {
+                retVal = ex1.Message;
+            }
+            finally
+            {
+                if (retVal != "") retVal += Environment.NewLine;
+                retVal += iModel.StatusMessage;
+            }
 
-            return true;
+            return MakeReturn(marriageIds, retVal);
         }
 
-        public bool SetMarriageDuplicate(string marriages)
+        public string SetMarriageDuplicate(string marriages)
         {
             //RequestSetSelectedDuplicateMarriage
             MarriagesFilterModel iModel = new MarriagesFilterModel();
             MarriagesFilterControl iControl = new MarriagesFilterControl();
-            iControl.SetModel(iModel);
 
-            List<Guid> selection = new List<Guid>();
+            string retVal = "";
 
-
-            string[] persons = marriages.Split(',');
-
-            foreach (string _person in persons)
+            try
             {
-                selection.Add(_person.ToGuid());
+                iControl.SetModel(iModel);
+
+                List<Guid> selection = new List<Guid>();
+
+
+                string[] persons = marriages.Split(',');
+
+                foreach (string _person in persons)
+                {
+                    selection.Add(_person.ToGuid());
+                }
+
+                iControl.RequestSetSelectedIds(selection);
+                iControl.RequestSetUser(WebHelper.GetUser());
+                iControl.RequestSetSelectedDuplicateMarriage();
+
+            }
+            catch (Exception ex1)
+            {
+                retVal = ex1.Message;
+            }
+            finally
+            {
+                if (retVal != "") retVal += Environment.NewLine;
+                retVal += iModel.StatusMessage;
             }
 
-            iControl.RequestSetSelectedIds(selection);
-            iControl.RequestSetUser(WebHelper.GetUser());
-            iControl.RequestSetSelectedDuplicateMarriage();
-
-            return true;
+            return MakeReturn(marriages, retVal);
 
         }
 
-        public bool RemoveMarriageLink(string marriage)
+        public string RemoveMarriageLink(string marriage)
         {
 
             MarriagesFilterModel iModel = new MarriagesFilterModel();
             MarriagesFilterControl iControl = new MarriagesFilterControl();
-            iControl.SetModel(iModel);
 
-            List<Guid> selection = new List<Guid>();
+            string retVal = "";
 
-
-            string[] persons = marriage.Split(',');
-
-            foreach (string _person in persons)
+            try
             {
-                selection.Add(_person.ToGuid());
+                iControl.SetModel(iModel);
+
+                List<Guid> selection = new List<Guid>();
+
+
+                string[] persons = marriage.Split(',');
+
+                foreach (string _person in persons)
+                {
+                    selection.Add(_person.ToGuid());
+                }
+
+                iControl.RequestSetSelectedIds(selection);
+
+                iControl.RequestSetUser(WebHelper.GetUser());
+                iControl.RequestSetRemoveSelectedFromDuplicateList();
+
+            }
+            catch (Exception ex1)
+            {
+                retVal = ex1.Message;
+            }
+            finally
+            {
+                if (retVal != "") retVal += Environment.NewLine;
+                retVal += iModel.StatusMessage;
             }
 
-            iControl.RequestSetSelectedIds(selection);
+            return MakeReturn(marriage, retVal);
 
-            iControl.RequestSetUser(WebHelper.GetUser());
-            iControl.RequestSetRemoveSelectedFromDuplicateList();
-
-            return true;
         }
 
-        public bool MergeMarriage(string marriage)
+        public string MergeMarriage(string marriage)
         {
             MarriagesFilterModel iModel = new MarriagesFilterModel();
             MarriagesFilterControl iControl = new MarriagesFilterControl();
-            iControl.SetModel(iModel);
 
-            iControl.RequestSetSelectedId(marriage.ToGuid());
-            iControl.RequestSetUser(WebHelper.GetUser());
-            iControl.RequestSetMergeSources();
+            string retVal = "";
 
-            return true;
+            try
+            {
+                iControl.SetModel(iModel);
+
+                iControl.RequestSetSelectedId(marriage.ToGuid());
+                iControl.RequestSetUser(WebHelper.GetUser());
+                iControl.RequestSetMergeSources();
+
+            }
+            catch (Exception ex1)
+            {
+                retVal = ex1.Message;
+            }
+            finally
+            {
+                if (retVal != "") retVal += Environment.NewLine;
+                retVal += iModel.StatusMessage;
+            }
+
+            return MakeReturn(marriage, retVal);
         }
 
         public int GetMarriagesCount(string uniqref, string malecname, string malesname, string femalecname, string femalesname,

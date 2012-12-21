@@ -16,9 +16,16 @@ th.boolean {
 
 th.colBoolWidth
 {
-    width: 50px;
+    width: 30px;
     }
     
+    
+th.colIdWidth
+{
+    width: 30px;
+    }
+    
+        
 colDateWidth 
 {
     width: 100px;

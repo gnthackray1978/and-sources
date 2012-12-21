@@ -5,9 +5,10 @@ var JSMaster, QryStrUtils, AncUtils,Panels;
 
 $(document).ready(function () {
     var jsMaster = new JSMaster();
-    var ancMarriages = new AncMarriages();
+
 
     jsMaster.generateHeader('#1', function () {
+        var ancMarriages = new AncMarriages();
         ancMarriages.init();
 
     });
@@ -243,7 +244,7 @@ AncMarriages.prototype = {
 
     DeleteRecord: function () {
         this.postParams.url = '/Marriages/Delete';
-        this.postParams.data = { marriage: this.ancUtils.convertToCSV(this.selection) };
+        this.postParams.data = { marriageIds: this.ancUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
     },
 

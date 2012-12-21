@@ -2,72 +2,43 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title></title>
-    
-    <link href="../Styles/Gothic/colourSchemes.css" rel="stylesheet" type="text/css" id = "lnk_colourScheme"/>
-
-    <link href="../Styles/pager.css" rel="stylesheet" type="text/css" />
-    <link href="../Styles/fonts.css" rel="stylesheet" type="text/css" />
-    <link href="../Styles/buttons.css" rel="stylesheet" type="text/css" />
-    <link href="../Styles/common.css" rel="stylesheet" type="text/css" id = "lnk_common"/>
-    <link href="../Styles/editor_MainPage.css" rel="stylesheet" type="text/css" />
- 
- 
-     <link href="../Styles/subfilter.css" rel="stylesheet" type="text/css" />
+    <link href="../Styles/test.css" rel="stylesheet" type="text/css" />
+    <script src="../Scripts/jquery/jquery.js" type="text/javascript"></script>
 
 
+    <script type="text/javascript">
 
+        $(document).ready(function () {
+
+            var div = document.getElementById("target");
+            var input = document.createElement("textarea");
+            input.id = 'targetid';
+            input.name = "post";
+            input.maxLength = "5000";
+            input.cols = "80";
+            input.rows = "1";
+            input.value = "monkey";
+            div.appendChild(input); //appendChild
+
+
+
+
+            var result = $("#target textarea").val();
+            console.log(result);
+        });
+
+    </script>
 </head>
 <body>
 
-<div id="sourceselector">
-<div class="sf_shad sf_cont">
-<div class="sf_hed">
 
-<div><b>SOURCES</b>
-
-</div>
-
-</div>
-
-<div class="sf_pad-cont">
-
-<table border="0">
-
-<thead>
-<tr class="tophed"><td><a href="../Default.aspx" onclick="return false"><span>Ref</span></a></td><td></td></tr>
-</thead>
-
-<tbody id="search_hed">
-<tr id="a9ff60f8-2e2b-49c5-a2eb-000bf2a0fccc" class="selected_source"><td>Brandsby IGI M 17201858</td><td><a id="sr0" href=""><div> Remove </div></a></td></tr>
-</tbody>
-</table>
+<input id ='tinput' type="text" name="tinput" value="Mickey"/>
 
 
-<br>
-
-<div class="sf_bot"><div><b>Select From</b></div></div><div class="sf_mid-lab"><div class="sf_mlab-dlef"><input id="txtSourceRef" class="sf_txt" type="text"></div><div class="sf_mlab-drig"><a id="sb_refresh" href="" class="button"><span>R</span></a></div></div><br><br><div style="overflow:auto;height:300px;">
-
-<table>
-<thead>
-
-<tr class="bothed"><td><a href="../Default.aspx" onclick="return false"><span>Ref</span></a></td><td></td></tr>
-</thead>
-
-<tbody id="search_bdy">
-<tr><input type="hidden" name="source_id" id="source_id" value="a9ff60f8-2e2b-49c5-a2eb-000bf2a0fccc"><td><a href="../Forms/FrmEditSource.aspx?_parentId=&amp;active=1&amp;mcname=test&amp;msname=&amp;fcname=&amp;fsname=&amp;locat=&amp;ldrl=1700&amp;ldru=1800&amp;parid=&amp;id=b5bcd75f-12d4-4ede-9a68-246ce1ce9771&amp;source_ids=a9ff60f8-2e2b-49c5-a2eb-000bf2a0fccc&amp;id=a9ff60f8-2e2b-49c5-a2eb-000bf2a0fccc"><div>Brandsby IGI M 17201858</div></a></td><td><a id="cb0" href=""><div> Add </div></a></td></tr>
-<tr><input type="hidden" name="source_id" id="source_id" value="3dd94c45-074e-4306-8898-001729d8eea5"><td><a href="../Forms/FrmEditSource.aspx?_parentId=&amp;active=1&amp;mcname=test&amp;msname=&amp;fcname=&amp;fsname=&amp;locat=&amp;ldrl=1700&amp;ldru=1800&amp;parid=&amp;id=b5bcd75f-12d4-4ede-9a68-246ce1ce9771&amp;source_ids=a9ff60f8-2e2b-49c5-a2eb-000bf2a0fccc&amp;id=3dd94c45-074e-4306-8898-001729d8eea5"><div>South Anston IGI M 17071837</div></a></td><td><a id="cb1" href=""><div> Add </div></a></td></tr>
-<tr><input type="hidden" name="source_id" id="source_id" value="b4065df1-3fa5-4a71-9618-001a5992aa45"><td><a href="../Forms/FrmEditSource.aspx?_parentId=&amp;active=1&amp;mcname=test&amp;msname=&amp;fcname=&amp;fsname=&amp;locat=&amp;ldrl=1700&amp;ldru=1800&amp;parid=&amp;id=b5bcd75f-12d4-4ede-9a68-246ce1ce9771&amp;source_ids=a9ff60f8-2e2b-49c5-a2eb-000bf2a0fccc&amp;id=b4065df1-3fa5-4a71-9618-001a5992aa45"><div>Kirkby Wharfe IGI M 17101849</div></a></td><td><a id="cb2" href=""><div> Add </div></a></td></tr>
-<tr><input type="hidden" name="source_id" id="source_id" value="768c8d94-e407-4f8b-aabb-001d13023dec"><td><a href="../Forms/FrmEditSource.aspx?_parentId=&amp;active=1&amp;mcname=test&amp;msname=&amp;fcname=&amp;fsname=&amp;locat=&amp;ldrl=1700&amp;ldru=1800&amp;parid=&amp;id=b5bcd75f-12d4-4ede-9a68-246ce1ce9771&amp;source_ids=a9ff60f8-2e2b-49c5-a2eb-000bf2a0fccc&amp;id=768c8d94-e407-4f8b-aabb-001d13023dec"><div>Great ThirklebyJoiner</div></a></td><td><a id="cb3" href=""><div> Add </div></a></td></tr>
-<tr><input type="hidden" name="source_id" id="source_id" value="2cd16ede-ef53-44df-8486-0021f57875ad"><td><a href="../Forms/FrmEditSource.aspx?_parentId=&amp;active=1&amp;mcname=test&amp;msname=&amp;fcname=&amp;fsname=&amp;locat=&amp;ldrl=1700&amp;ldru=1800&amp;parid=&amp;id=b5bcd75f-12d4-4ede-9a68-246ce1ce9771&amp;source_ids=a9ff60f8-2e2b-49c5-a2eb-000bf2a0fccc&amp;id=2cd16ede-ef53-44df-8486-0021f57875ad"><div>Patrick Brompton IGI M 16631727</div></a></td><td><a id="cb4" href=""><div> Add </div></a></td></tr>
-<tr><input type="hidden" name="source_id" id="source_id" value="853ce5ca-3f1f-4ba4-b504-0037e7def200"><td><a href="../Forms/FrmEditSource.aspx?_parentId=&amp;active=1&amp;mcname=test&amp;msname=&amp;fcname=&amp;fsname=&amp;locat=&amp;ldrl=1700&amp;ldru=1800&amp;parid=&amp;id=b5bcd75f-12d4-4ede-9a68-246ce1ce9771&amp;source_ids=a9ff60f8-2e2b-49c5-a2eb-000bf2a0fccc&amp;id=853ce5ca-3f1f-4ba4-b504-0037e7def200"><div>FileyJoiner</div></a></td><td><a id="cb5" href=""><div> Add </div></a></td></tr>
-<tr><input type="hidden" name="source_id" id="source_id" value="61f14063-567a-448b-a2e6-003ae00244d1"><td><a href="../Forms/FrmEditSource.aspx?_parentId=&amp;active=1&amp;mcname=test&amp;msname=&amp;fcname=&amp;fsname=&amp;locat=&amp;ldrl=1700&amp;ldru=1800&amp;parid=&amp;id=b5bcd75f-12d4-4ede-9a68-246ce1ce9771&amp;source_ids=a9ff60f8-2e2b-49c5-a2eb-000bf2a0fccc&amp;id=61f14063-567a-448b-a2e6-003ae00244d1"><div>1841Census-Swine</div></a></td><td><a id="cb6" href=""><div> Add </div></a></td></tr>
-<tr><input type="hidden" name="source_id" id="source_id" value="4f31d528-c940-4240-b974-003b8bc81bd1"><td><a href="../Forms/FrmEditSource.aspx?_parentId=&amp;active=1&amp;mcname=test&amp;msname=&amp;fcname=&amp;fsname=&amp;locat=&amp;ldrl=1700&amp;ldru=1800&amp;parid=&amp;id=b5bcd75f-12d4-4ede-9a68-246ce1ce9771&amp;source_ids=a9ff60f8-2e2b-49c5-a2eb-000bf2a0fccc&amp;id=4f31d528-c940-4240-b974-003b8bc81bd1"><div>FORDHAM Boyd</div></a></td><td><a id="cb7" href=""><div> Add </div></a></td></tr>
-<tr><input type="hidden" name="source_id" id="source_id" value="68b87d87-3668-4f8a-a2d5-00407bc33458"><td><a href="../Forms/FrmEditSource.aspx?_parentId=&amp;active=1&amp;mcname=test&amp;msname=&amp;fcname=&amp;fsname=&amp;locat=&amp;ldrl=1700&amp;ldru=1800&amp;parid=&amp;id=b5bcd75f-12d4-4ede-9a68-246ce1ce9771&amp;source_ids=a9ff60f8-2e2b-49c5-a2eb-000bf2a0fccc&amp;id=68b87d87-3668-4f8a-a2d5-00407bc33458"><div>Skidby IGI M 17261832</div></a></td><td><a id="cb8" href=""><div> Add </div></a></td></tr>
-<tr><input type="hidden" name="source_id" id="source_id" value="7331f69f-3422-42bc-a3b2-00477d884fd5"><td><a href="../Forms/FrmEditSource.aspx?_parentId=&amp;active=1&amp;mcname=test&amp;msname=&amp;fcname=&amp;fsname=&amp;locat=&amp;ldrl=1700&amp;ldru=1800&amp;parid=&amp;id=b5bcd75f-12d4-4ede-9a68-246ce1ce9771&amp;source_ids=a9ff60f8-2e2b-49c5-a2eb-000bf2a0fccc&amp;id=7331f69f-3422-42bc-a3b2-00477d884fd5"><div>Halsham IGI M 17361835</div></a></td><td><a id="cb9" href=""><div> Add </div></a></td></tr>
-
-</tbody></table></div><div class="fltbrow"><div id="s_pager" class="pager"><a id="cp_0" href="" class="pagerlink_selected">1</a><a id="cp_1" href="" class="pagerlink">2</a><a id="cp_2" href="" class="pagerlink">3</a><a id="cp_3" href="" class="pagerlink">4</a><a id="cp_4" href="" class="pagerlink">5</a><a id="cp_6" href="" class="pagerlink">..</a><a id="cp_8745" href="" class="pagerlink">Last</a></div></div></div></div></div>
-
-
+<TEXTAREA NAME="Address" ROWS=1 COLS=90 > </TEXTAREA>
+<div id ='target'></div>
 
 </body>
+
+
 </html>

@@ -29,7 +29,7 @@ AncSelectorSources.prototype = {
         var params = {};
 
         if (selectorid != undefined) {
-            this.ancSelectorBase.createOutline(selectorid)
+            this.ancSelectorBase.createOutline(selectorid,this)
         }
 
         params[0] = '0';

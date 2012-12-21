@@ -66,7 +66,7 @@ namespace ANDServices
 
                 string token = WebOperationContext.Current.IncomingRequest.Headers["fb"];
 
-                if (token != null)
+                if (token != null && token.Length> 0)
                 {
 
                     Facebook.FacebookClient fbc = new FacebookClient(token);
@@ -91,7 +91,7 @@ namespace ANDServices
                 }
                 else
                 {
-                    retVal = "invalid token";
+                    retVal = "Token Not Received";
                 }
             }
             catch (Exception ex1)

@@ -339,20 +339,20 @@ namespace ANDServices
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = URIMappingsAND.DeleteMarriages, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
-        bool DeleteMarriages(string marriageIds);
+        string DeleteMarriages(string marriageIds);
 
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = URIMappingsAND.SetMarriageDuplicate, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
-        bool SetMarriageDuplicate(string marriages);
+        string SetMarriageDuplicate(string marriages);
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = URIMappingsAND.MergeMarriages, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
-        bool MergeMarriage(string marriage);
+        string MergeMarriage(string marriage);
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = URIMappingsAND.RemoveMarriageLinks, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
-        bool RemoveMarriageLink(string marriage);
+        string RemoveMarriageLink(string marriage);
 
 
         //combined events 

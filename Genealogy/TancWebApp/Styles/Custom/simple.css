@@ -4,7 +4,7 @@ body {
 }
 
 #wrap {
-	width: 850px;
+	width: 1170px;
 	margin-left:12px;
 }
 
@@ -63,6 +63,7 @@ table.testgrid
 
 table.testgrid tr {
 	border-bottom: 1px solid #DDD;
+	height:1em; 
 }
 
 table.testgrid>tbody tr:hover {
@@ -89,6 +90,8 @@ table.testgrid th {
 table.testgrid td {
 	padding: 5px;
 	border: 1px solid #E0E0E0;
+	overflow:hidden;
+	white-space:nowrap; 
 }
 
 
