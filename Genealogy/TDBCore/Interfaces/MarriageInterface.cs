@@ -349,6 +349,7 @@ namespace GedItter.MarriageRecords
    
         void SetSelectedDuplicateMarriage();
         void SetMergeSources();
+        void SetReorderDupes();
         #endregion
 
 
@@ -379,7 +380,7 @@ namespace GedItter.MarriageRecords
         void SetFilterDupeInterval(string interval);
         void RequestSetRemoveSelectedFromDuplicateList();
         void RequestSetMergeSources();
-
+        void RequestSetReorderDupes();
         void RequestSetShowDialogDupes(EventHandler paramEventHandler);
         void RequestSetShowDialogRels(EventHandler paramEventHandler);
 

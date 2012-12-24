@@ -26,16 +26,15 @@
           <EntitySet Name="Sources" EntityType="GeneralModel.Store.Sources" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SourceTypes" EntityType="GeneralModel.Store.SourceTypes" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="uvw_1841Census" EntityType="GeneralModel.Store.uvw_1841Census" store:Type="Views" store:Schema="dbo" store:Name="uvw_1841Census">
-            <DefiningQuery>
-              SELECT
-              [uvw_1841Census].[SourceId] AS [SourceId],
-              [uvw_1841Census].[SourceRef] AS [SourceRef],
-              [uvw_1841Census].[ParishName] AS [ParishName],
-              [uvw_1841Census].[ParishX] AS [ParishX],
-              [uvw_1841Census].[ParishY] AS [ParishY],
-              [uvw_1841Census].[SourceDescription] AS [SourceDescription],
-              [uvw_1841Census].[ParishId] AS [ParishId]
-              FROM [dbo].[uvw_1841Census] AS [uvw_1841Census]</DefiningQuery>
+            <DefiningQuery>SELECT 
+      [uvw_1841Census].[SourceId] AS [SourceId], 
+      [uvw_1841Census].[SourceRef] AS [SourceRef], 
+      [uvw_1841Census].[ParishName] AS [ParishName], 
+      [uvw_1841Census].[ParishX] AS [ParishX], 
+      [uvw_1841Census].[ParishY] AS [ParishY], 
+      [uvw_1841Census].[SourceDescription] AS [SourceDescription], 
+      [uvw_1841Census].[ParishId] AS [ParishId]
+      FROM [dbo].[uvw_1841Census] AS [uvw_1841Census]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="uvw_ParentMapChildren" EntityType="GeneralModel.Store.uvw_ParentMapChildren" store:Type="Views" store:Schema="dbo" store:Name="uvw_ParentMapChildren">
             <DefiningQuery>SELECT 
@@ -461,6 +460,7 @@
         <EntityType Name="uvw_1841Census">
           <Key>
             <PropertyRef Name="SourceId" />
+            
           </Key>
           <Property Name="SourceId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="SourceRef" Type="nvarchar" MaxLength="500" />
@@ -765,6 +765,9 @@
           </ReferentialConstraint>
         </Association>
         <Function Name="MarriageForLocation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="UpdateMarriageOrder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="marriageId" Type="uniqueidentifier" Mode="In" />
+        </Function>
         <Function Name="USP_DeleteOrphanRelations" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="USP_DeletePersonsForSource" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="sourceId" Type="uniqueidentifier" Mode="In" />
@@ -1100,6 +1103,9 @@
           <Parameter Name="sourceId" Mode="In" Type="Guid" />
           </FunctionImport>
           <EntitySet Name="uvw_1841Census" EntityType="GeneralModel.uvw_1841Census" />
+          <FunctionImport Name="ReorderMarriages" ReturnType="Collection(GeneralModel.ReorderMarriages_Result)">
+            <Parameter Name="marriageId" Mode="In" Type="Guid" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="Marriage">
           <Key>
@@ -1607,6 +1613,9 @@
           <Property Type="String" Name="SourceDescription" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Type="Guid" Name="ParishId" Nullable="false" />
         </EntityType>
+        <ComplexType Name="ReorderMarriages_Result">
+          <Property Type="Guid" Name="Column1" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2231,6 +2240,13 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="ReorderMarriages" FunctionName="GeneralModel.Store.UpdateMarriageOrder">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GeneralModel.ReorderMarriages_Result">
+                <ScalarProperty Name="Column1" ColumnName="Column1" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

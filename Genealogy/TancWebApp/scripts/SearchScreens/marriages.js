@@ -49,7 +49,7 @@ AncMarriages.prototype = {
 
         $("#add").live("click", $.proxy(function () { this.addMarriage('00000000-0000-0000-0000-000000000000'); return false; }, this));
         $("#delete").live("click", $.proxy(function () { this.DeleteRecord(); return false; }, this));
-        $("#print").live("click", $.proxy(function () { this.PrintableResults(); return false; }, this));
+        $("#reorder").live("click", $.proxy(function () { this.Reorder(); return false; }, this));
         $("#dupe").live("click", $.proxy(function () { this.SetDuplicates(); return false; }, this));
         $("#merge").live("click", $.proxy(function () { this.SetMergeMarriages(); return false; }, this));
         $("#remove").live("click", $.proxy(function () { this.SetRemoveLink(); return false; }, this));
@@ -259,7 +259,11 @@ AncMarriages.prototype = {
         this.postParams.data = { marriage: this.ancUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
     },
-
+    Reorder: function () {
+        this.postParams.url = '/Marriages/ReorderMarriages';
+        this.postParams.data = { marriage: this.ancUtils.convertToCSV(this.selection) };
+        this.ancUtils.twaPostJSON(this.postParams);
+    },
     SetMergeMarriages: function () {
         this.postParams.url = '/Marriages/MergeMarriages';
         this.postParams.data = { marriage: this.ancUtils.convertToCSV(this.selection) };

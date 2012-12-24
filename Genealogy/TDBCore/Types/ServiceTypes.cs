@@ -14,7 +14,7 @@ namespace TDBCore.Types
 
 
     //used with google maps
-    public class ServiceMapDisplaySource
+    public class ServiceMapDisplaySource :ServiceBase
     {
         public Guid SourceId { get; set; }
         public string SourceRef { get; set; }
@@ -29,7 +29,7 @@ namespace TDBCore.Types
         public int DisplayOrder { get; set; }
     }
 
-    public class ServiceFullSource
+    public class ServiceFullSource : ServiceBase
     {
 
 
@@ -60,7 +60,7 @@ namespace TDBCore.Types
 
     }
 
-    public class ServiceSource
+    public class ServiceSource : ServiceBase
     {
         public Guid SourceId { get; set; }
         public Guid DefaultPerson { get; set; }
@@ -72,7 +72,7 @@ namespace TDBCore.Types
 
     }
 
-    public class CensusPlace
+    public class CensusPlace : ServiceBase
     {
 
         public Guid ParishId { get; set; }
@@ -82,8 +82,7 @@ namespace TDBCore.Types
 
     }
 
-
-    public class CensusSource
+    public class CensusSource : ServiceBase
     {
         public Guid SourceId { get; set; }
         public List<CensusPerson> attachedPersons { get; set; }
@@ -104,7 +103,7 @@ namespace TDBCore.Types
 
     }
 
-    public class CensusPerson
+    public class CensusPerson : ServiceBase
     {
         public int BirthYear { get; set; }
         public string BirthCounty { get; set; }
@@ -113,10 +112,7 @@ namespace TDBCore.Types
 
     }
 
-
-
-
-    public class ServiceSourceObject
+    public class ServiceSourceObject : ServiceBase
     {
         public List<ServiceSource> serviceSources { get; set; }
         public int Batch { get; set; }
@@ -124,11 +120,7 @@ namespace TDBCore.Types
         public int BatchLength { get; set; }
     }
 
-
-
-
-
-    public class ServiceFileObject
+    public class ServiceFileObject : ServiceBase
     {
         public List<ServiceFile> serviceFiles { get; set; }
         public int Batch { get; set; }
@@ -136,16 +128,13 @@ namespace TDBCore.Types
         public int BatchLength { get; set; }
     }
 
-
-    public class ServiceFile
+    public class ServiceFile : ServiceBase
     {
         public Guid FileId { get; set; }
         public string FileDescription { get; set; }
         public string FileLocation { get; set; }
         public string FileThumbLocation { get; set; }
     }
-
-
 
     public class ServicePersonLookUp : ServiceBase
     {
@@ -188,9 +177,6 @@ namespace TDBCore.Types
        
 
     }
-
-
-
 
     public class ServiceMarriageLookup :ServiceBase
     {
@@ -257,9 +243,7 @@ namespace TDBCore.Types
         public int BatchLength { get; set; }
     }
 
-
-
-    public class ServiceSourceType
+    public class ServiceSourceType : ServiceBase
     {
         public int TypeId { get; set; }
         public int Order { get; set; }
@@ -268,15 +252,13 @@ namespace TDBCore.Types
 
     }
 
-    public class ServiceSourceTypeObject
+    public class ServiceSourceTypeObject : ServiceBase
     {
         public List<ServiceSourceType> serviceSources { get; set; }
         public int Batch { get; set; }
         public int Total { get; set; }
         public int BatchLength { get; set; }
     }
-
-
 
     public class ServicePersonObject : ServiceBase
     {
@@ -286,8 +268,7 @@ namespace TDBCore.Types
         public int BatchLength { get; set; }
     }
 
-
-    public class ServiceParish
+    public class ServiceParish : ServiceBase
     {
         public Guid ParishId { get; set; }
         public string ParishName { get; set; }
@@ -302,7 +283,7 @@ namespace TDBCore.Types
 
     }
 
-    public class ServiceSuperParish
+    public class ServiceSuperParish : ServiceBase
     {
         public Guid ParishId { get; set; }//public Guid ParishId;
         public string ParishName { get; set; }//public string Name;
@@ -315,14 +296,13 @@ namespace TDBCore.Types
         public string ParishGroupRef { get; set; }
     }
 
-    public class ServiceParishDataType
+    public class ServiceParishDataType : ServiceBase
     {
         public int DataTypeId { get; set; }
         public string Description { get; set; }
     }
 
-
-    public class ServiceParishObject
+    public class ServiceParishObject : ServiceBase
     {
         public List<ServiceParish> serviceParishs { get; set; }
         public int Batch { get; set; }
@@ -330,8 +310,7 @@ namespace TDBCore.Types
         public int BatchLength { get; set; }
     }
 
-
-    public class ServiceParishDetailObject
+    public class ServiceParishDetailObject : ServiceBase
     {
         public List<ServiceParishRecord> serviceParishRecords { get; set; }
         public List<ServiceParishTranscript> serviceParishTranscripts { get; set; }
@@ -343,10 +322,7 @@ namespace TDBCore.Types
 
     }
 
-
-
-
-    public class ServiceParishRecord
+    public class ServiceParishRecord : ServiceBase
     {
         public int StartYear { get; set; }
         public int EndYear { get; set; }
@@ -355,15 +331,13 @@ namespace TDBCore.Types
         public Guid ParishId { get; set; }
     }
 
-
-    public class ServiceParishTranscript
+    public class ServiceParishTranscript : ServiceBase
     {
         public Guid ParishId { get; set; }
         public string ParishTranscriptRecord { get; set; }
     }
 
-
-    public class ServiceSearchResult
+    public class ServiceSearchResult : ServiceBase
     {
         public Guid ParishId { get; set; }
         public bool IsBaptism { get; set; }
@@ -372,7 +346,7 @@ namespace TDBCore.Types
 
     }
 
-    public class ServiceParishCounter
+    public class ServiceParishCounter : ServiceBase
     {
         public int StartYear { get; set; }
         public int EndYear { get; set; }
@@ -385,8 +359,8 @@ namespace TDBCore.Types
         public decimal PX {get; set; }
         public decimal PY { get; set; }
     }
-    
-    public class ServiceEvent
+
+    public class ServiceEvent : ServiceBase
     {
         public int EventDate { get; set; }
 
@@ -402,8 +376,7 @@ namespace TDBCore.Types
         public int LinkTypeId { get; set; }
     }
 
-
-    public class ServiceEventObject
+    public class ServiceEventObject : ServiceBase
     {
         public List<ServiceEvent> serviceEvents { get; set; }
         public int Batch { get; set; }
@@ -414,16 +387,4 @@ namespace TDBCore.Types
 
 }
 
-
-
-//<asp:Label ID="lnkDate" runat="server" Text='<%# Eval("EventDate") %>'  />
-                         
-//<asp:LinkButton ID="lnkEventType" runat="server"  CommandArgument="Edit" CommandName="Edit"><%# GetEvent() %></asp:LinkButton>
-                        
-//<asp:Label ID="lblCName" runat="server" Text='<%# Eval("ChristianName") %>'  />
-                          
-//<asp:Label ID="lblSName" runat="server" Text='<%# Eval("Surname") %>' />
-                         
-//<asp:Label ID="lblLocation" runat="server" Text='<%# Eval("Location") %>'  />
-                       
-//<asp:Label ID="lblDescription" runat="server" Text='<%# Eval("Description") %>' />
+ 

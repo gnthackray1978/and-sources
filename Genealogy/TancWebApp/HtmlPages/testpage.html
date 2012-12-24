@@ -4,39 +4,27 @@
     <title></title>
     <link href="../Styles/test.css" rel="stylesheet" type="text/css" />
     <script src="../Scripts/jquery/jquery.js" type="text/javascript"></script>
-
+    <script src="http://malsup.github.com/jquery.form.js"></script> 
 
     <script type="text/javascript">
 
-        $(document).ready(function () {
-
-            var div = document.getElementById("target");
-            var input = document.createElement("textarea");
-            input.id = 'targetid';
-            input.name = "post";
-            input.maxLength = "5000";
-            input.cols = "80";
-            input.rows = "1";
-            input.value = "monkey";
-            div.appendChild(input); //appendChild
-
-
-
-
-            var result = $("#target textarea").val();
-            console.log(result);
+        $(function () {
+            $('#fileUploadForm').ajaxForm(
+            {
+                url: 'http://local.gnthackray.net:666/Uploadtest.txt',
+                type: 'post'
+            })
         });
 
     </script>
 </head>
 <body>
 
-
-<input id ='tinput' type="text" name="tinput" value="Mickey"/>
-
-
-<TEXTAREA NAME="Address" ROWS=1 COLS=90 > </TEXTAREA>
-<div id ='target'></div>
+<form id="fileUploadForm" name="fileUploadForm" method="post" action="http://local.gnthackray.net:666/Upload" enctype="multipart/form-data">
+  <input type="text" name="filename" />
+  <input type="file" id="postedFile" name="postedFile" />
+  <input type="submit" id="fileUploadSubmit" value="Do Upload" />
+</form>
 
 </body>
 

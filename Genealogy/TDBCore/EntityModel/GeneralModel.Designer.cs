@@ -2525,6 +2525,25 @@ namespace TDBCore.EntityModel
     
             return base.ExecuteFunction("DeleteTree", sourceIdParameter);
         }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        /// <param name="marriageId">No Metadata Documentation available.</param>
+        public ObjectResult<ReorderMarriages_Result> ReorderMarriages(Nullable<global::System.Guid> marriageId)
+        {
+            ObjectParameter marriageIdParameter;
+            if (marriageId.HasValue)
+            {
+                marriageIdParameter = new ObjectParameter("marriageId", marriageId);
+            }
+            else
+            {
+                marriageIdParameter = new ObjectParameter("marriageId", typeof(global::System.Guid));
+            }
+    
+            return base.ExecuteFunction<ReorderMarriages_Result>("ReorderMarriages", marriageIdParameter);
+        }
 
         #endregion
     }
@@ -11098,6 +11117,43 @@ namespace TDBCore.EntityModel
         private global::System.String _SourceRef;
         partial void OnSourceRefChanging(global::System.String value);
         partial void OnSourceRefChanged();
+
+        #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmComplexTypeAttribute(NamespaceName="GeneralModel", Name="ReorderMarriages_Result")]
+    [DataContractAttribute(IsReference=true)]
+    [Serializable()]
+    public partial class ReorderMarriages_Result : ComplexObject
+    {
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Guid> Column1
+        {
+            get
+            {
+                return _Column1;
+            }
+            set
+            {
+                OnColumn1Changing(value);
+                ReportPropertyChanging("Column1");
+                _Column1 = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Column1");
+                OnColumn1Changed();
+            }
+        }
+        private Nullable<global::System.Guid> _Column1;
+        partial void OnColumn1Changing(Nullable<global::System.Guid> value);
+        partial void OnColumn1Changed();
 
         #endregion
     }

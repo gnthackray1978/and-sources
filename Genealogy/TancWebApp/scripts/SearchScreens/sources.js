@@ -8,9 +8,10 @@ var JSMaster, QryStrUtils,AncUtils,Panels,SourceTypeLookup;
 
 $(document).ready(function () {
     var jsMaster = new JSMaster();
-    var ancSources = new AncSources();
+
 
     jsMaster.generateHeader('#1', function () {
+        var ancSources = new AncSources();
         ancSources.init();
 
     });

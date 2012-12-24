@@ -9,6 +9,7 @@ using System.ServiceModel.Activation;
 using TDBCore.Types;
 using TDBCore.ModelObjects;
 using ANDServices;
+using System.IO;
 
 
 namespace ANDServices
@@ -16,6 +17,14 @@ namespace ANDServices
     [ServiceContract]
     public interface IAnd
     {
+        //test
+        [OperationContract]
+        [WebGet(ResponseFormat = WebMessageFormat.Json, UriTemplate = URIMappingsAND.TestLogin)]
+        string TestLogin(string testParam);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = URIMappingsAND.UploadFile)]
+        void Upload(string fileName, Stream stream);
 
         //diags
 
@@ -54,9 +63,7 @@ namespace ANDServices
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = URIMappingsDiag.DeleteTree, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
         bool DeleteTree(string treeId);
 
-        [OperationContract]
-        [WebGet(ResponseFormat = WebMessageFormat.Json, UriTemplate = URIMappingsAND.TestLogin)]
-        string TestLogin(string testParam);
+
 
         //files
 
@@ -68,7 +75,7 @@ namespace ANDServices
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = URIMappingsAND.DeleteSourceTypes, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
-        bool DeleteSourceTypes(string sourceIds);
+        string DeleteSourceTypes(string sourceIds);
 
 
         [OperationContract]
@@ -134,7 +141,7 @@ namespace ANDServices
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = URIMappingsAND.DeleteSource, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
-        bool DeleteSource(string sourceId);
+        string DeleteSource(string sourceId);
 
 
 
@@ -353,6 +360,10 @@ namespace ANDServices
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = URIMappingsAND.RemoveMarriageLinks, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
         string RemoveMarriageLink(string marriage);
+        
+        [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = URIMappingsAND.ReorderMarriages, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
+        string ReorderMarriages(string marriage);
 
 
         //combined events 

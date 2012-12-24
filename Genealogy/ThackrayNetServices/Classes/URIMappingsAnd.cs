@@ -14,6 +14,7 @@ namespace ANDServices
 
 
         //files
+        public const string UploadFile = "/Upload{fileName}";
 
         public const string GetFilesForSource = "/Files/Select?0={sourceId}&1={page_number}&2={page_size}";
 
@@ -96,7 +97,7 @@ namespace ANDServices
         public const string SetMarriageDuplicate = "/Marriages/SetDuplicate";
         public const string MergeMarriages = "/Marriages/MergeMarriages";
         public const string RemoveMarriageLinks = "/Marriages/RemoveLinks";
-
+        public const string ReorderMarriages = "/Marriages/ReorderMarriages";
 
 
 

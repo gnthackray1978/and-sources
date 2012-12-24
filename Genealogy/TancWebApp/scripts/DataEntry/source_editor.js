@@ -3,10 +3,10 @@ var JSMaster, QryStrUtils, AncUtils,AncSelectorParishs,AncSelectorSourceTypes,Pa
 
 $(document).ready(function () {
     var jsMaster = new JSMaster();
-    var ancSourceEditor = new AncSourceEditor();
 
     jsMaster.generateHeader('#1', function () {
-        ancSourceEditor.init();
+        var ancSourceEditor = new AncSourceEditor();
+            ancSourceEditor.init();
 
     });
 
@@ -104,7 +104,7 @@ AncSourceEditor.prototype = {
         this.ancSelectorSourceTypes.getSourceTypes('#sourcetypeselector');
 
     },
-    GetSourceRecord:function (rowIdx) {
+   GetSourceRecord:function (rowIdx) {
         var data = {};
         //data.personId = getParameterByName('id');
 
@@ -123,5 +123,20 @@ AncSourceEditor.prototype = {
         data.sourceTypes = this.qryStrUtils.getParameterByName('stypes', '');
         data.fileIds = this.qryStrUtils.getParameterByName('fids', '');
         return data;
-    }
+    },
+
+   save: function () {
+        this.postParams.url = '/Sources/Add';
+        this.postParams.data = this.GetSourceRecord();
+        this.ancUtils.twaPostJSON(this.postParams);
+   },
+
+   saveReturn: function () {
+        this.postParams.refreshmethod = function () { 
+        window.location = '../HtmlPages/SourceSearch.html' + window.location.hash; };
+        this.postParams.url = '/Sources/Add';
+        this.postParams.data = this.GetSourceRecord();
+        this.ancUtils.twaPostJSON(this.postParams);
+   }
+
 };
