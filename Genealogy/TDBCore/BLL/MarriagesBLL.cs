@@ -68,7 +68,24 @@ namespace GedItter.MarriageRecords.BLL
         }
 
 
+
+        public Guid ReorderMarriages(Guid marriageId)
+        {
+            
+            var result = ModelContainer.ReorderMarriages(marriageId);
+            Guid retVal = Guid.Empty;
  
+
+            foreach (var _re in result.ToList())
+            {
+                string c1 = _re.Column1.ToString();
+
+                retVal = new Guid(c1);            
+            }
+            
+            return retVal;
+
+        }
 
 
         public void GetMarriageWitForProc()

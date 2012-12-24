@@ -309,8 +309,28 @@ namespace GedItter.MarriageRecords
                     this.isDataChanged = true;
                     this.Refresh();
                 }
+
             }
         }
+
+        public void SetReorderDupes()
+        {          
+            if (this.SelectedRecordId != Guid.Empty)
+            {
+                MarriageRecords.BLL.MarriagesBLL marriagesBLL = new GedItter.MarriageRecords.BLL.MarriagesBLL();
+                Guid retVal = Guid.Empty;
+
+                foreach (Guid _g in this.SelectedRecordIds)
+                { 
+                    retVal = marriagesBLL.ReorderMarriages(this.SelectedRecordId);          
+                }
+
+                if(retVal != Guid.Empty)
+                    this.SetSelectedRecordId(retVal);      
+
+            }                               
+        }
+
 
 
         #region set filters
@@ -1118,7 +1138,10 @@ namespace GedItter.MarriageRecords
         }
 
 
-        
+
+
+
+     
     }
 
     public enum MarriageFilterTypes

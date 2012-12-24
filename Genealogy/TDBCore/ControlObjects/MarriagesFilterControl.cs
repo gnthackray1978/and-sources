@@ -281,5 +281,16 @@ namespace GedItter.MarriageRecords
                 if (View != null) SetView();
             }
         }
+
+
+        public void RequestSetReorderDupes()
+        {
+            if (Model != null)
+            {
+                Model.SetReorderDupes();
+
+                if (View != null) SetView();
+            }
+        }
     }
 }
