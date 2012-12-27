@@ -3,8 +3,9 @@ var JSMaster, QryStrUtils, AncUtils,Panels;
 
 $(document).ready(function () {
     var jsMaster = new JSMaster();
-    var ancParishs = new AncParishs();
+
     jsMaster.generateHeader('#1', function () {
+        var ancParishs = new AncParishs();
         ancParishs.init();
     });
 });

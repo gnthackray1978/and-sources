@@ -4,9 +4,10 @@ var JSMaster,QryStrUtils,AncUtils,Panels;
 
 $(document).ready(function () {
     var jsMaster = new JSMaster();
-    var ancPersons = new AncPersons();
+
 
     jsMaster.generateHeader('#1', function () {
+        var ancPersons = new AncPersons();
         ancPersons.init();
 
     });

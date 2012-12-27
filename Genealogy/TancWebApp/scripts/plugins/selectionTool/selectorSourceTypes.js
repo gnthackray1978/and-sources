@@ -20,7 +20,8 @@ var AncSelectorSourceTypes = function () {
         sourceRefId: 'txtSourceTypeRef',
         title: 'SOURCE TYPES',
         refreshMethod: this.getSourceTypes,
-        parentContext: this
+        parentContext: this,
+        name: 'st'
     };
 
 }

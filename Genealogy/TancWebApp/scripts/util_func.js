@@ -352,7 +352,7 @@ var QryStrUtils = function () { }
 
 QryStrUtils.prototype = {
 
-    makeIdQryString: function(paramName,path) {
+    makeIdQryString: function (paramName, path) {
 
         var _loc = window.location.hash;
 
@@ -367,7 +367,7 @@ QryStrUtils.prototype = {
             }
         }
         else {
-            idParam = paramName +'=' + idParam;
+            idParam = paramName + '=' + idParam;
             _loc = _loc.replace(idParam, paramName + '=' + path);
         }
 
@@ -381,18 +381,17 @@ QryStrUtils.prototype = {
     updateQry: function (args) {
         // var myJSONObject = { "ircEvent": "PRIVMSG", "method": "newURI", "regex": "^http://.*" };
 
-         var workingQry = window.location.hash;
+        var workingQry = window.location.hash;
 
-         for (var prop in args) {
+        for (var prop in args) {
 
-//             if ($.type(args[prop]) == "string")
-//                workingQry = this.updateStrForQry(workingQry, prop, args[prop]);
-//             else
-//                workingQry = this.updateStrForQry(workingQry, prop, args[prop].val());
+            //             if ($.type(args[prop]) == "string")
+            //                workingQry = this.updateStrForQry(workingQry, prop, args[prop]);
+            //             else
+            //                workingQry = this.updateStrForQry(workingQry, prop, args[prop].val());
 
 
-            switch($.type(args[prop]))
-            {
+            switch ($.type(args[prop])) {
                 case "string":
                     workingQry = this.updateStrForQry(workingQry, prop, args[prop]);
                     break;
@@ -404,14 +403,17 @@ QryStrUtils.prototype = {
             }
 
 
-         }
+        }
 
         window.location.hash = workingQry;
-     },
+    },
 
-    updateQryPar: function (parname, parval) {   
+    updateQryPar: function (parname, parval) {
         var qry = window.location.hash;
-        if (qry.indexOf(parname) < 0) {
+        // parameters always should be followed by = 
+        // checking for this avoids screw ups where for example id is in the middle of another 
+        // param name like fids
+        if (qry.indexOf(parname+'=') < 0) {
             if (qry.indexOf('?') < 0) {
                 qry = '?' + parname + '=' + parval;
                 window.location.hash = qry;
@@ -425,7 +427,7 @@ QryStrUtils.prototype = {
             var oldVal = this.getParameterByName(parname, '');
             var pageQry = parname + '=' + oldVal;
             var replaceQry = parname + '=' + parval;
-            qry = qry.replace(pageQry, replaceQry);         
+            qry = qry.replace(pageQry, replaceQry);
             window.location.replace(qry);
         }
     },
@@ -456,10 +458,10 @@ QryStrUtils.prototype = {
     },
 
     //get parameter specify defvalue if you want a default value if it doesnt exist
-    getParameterByName: function(name, defvalue) { 
+    getParameterByName: function (name, defvalue) {
         var match = RegExp('[?&]' + name + '=([^&]*)')
                         .exec(window.location.href);
-
+ 
         if (defvalue != undefined && defvalue != null) {
             if (match != null)
                 return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
@@ -471,7 +473,7 @@ QryStrUtils.prototype = {
 
     },
 
-    getParameterByNameFromString: function(qry, name) {
+    getParameterByNameFromString: function (qry, name) {
         var match = RegExp('[?&]' + name + '=([^&]*)')
                         .exec(qry);
         return match && decodeURIComponent(match[1].replace(/\+/g, ' '));

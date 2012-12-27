@@ -175,7 +175,10 @@ BatchBirths.prototype.GetBirthRecord = function (rowIdx) {
     theData.christianName = this.editableGrid.getValueAt(rowIdx, 3); //name
     theData.surname = $('#txtSurname').val();
     theData.fatherchristianname = this.editableGrid.getValueAt(rowIdx, 5); //father name
+
     theData.fathersurname = $('#txtFatherSurname').val();
+    
+    
     theData.motherchristianname = this.editableGrid.getValueAt(rowIdx, 6); //mother name
     theData.mothersurname = this.editableGrid.getValueAt(rowIdx, 7); //mother surname
     theData.source = $('#txtSource').val();
@@ -213,7 +216,7 @@ BatchBirths.prototype.GetBirthRecord = function (rowIdx) {
 BatchBirths.prototype.GetDeathRecord = function (rowIdx) {
     var theData = {};
 
-    theData.personId = this.editableGrid.getValueAt(rowIdx, 1); 
+    theData.personId = this.editableGrid.getValueAt(rowIdx, 1);
 
     theData.birthparishId = this.qryStrUtils.getParameterByName('parl', '');
     theData.sources = this.qryStrUtils.getParameterByName('scs', '');
@@ -229,7 +232,12 @@ BatchBirths.prototype.GetDeathRecord = function (rowIdx) {
     theData.deathcounty = $('#txtDeathCounty').val();
 
     theData.fatherchristianname = this.editableGrid.getValueAt(rowIdx, 5); //father name
-    theData.fathersurname = $('#txtFatherSurname').val();
+
+    if (theData.fatherchristianname != '')
+        theData.fathersurname = $('#txtFatherSurname').val();
+    else
+        theData.fathersurname = '';
+
     theData.motherchristianname = this.editableGrid.getValueAt(rowIdx, 6); //mother name
     theData.mothersurname = this.editableGrid.getValueAt(rowIdx, 7); //mother surname
     theData.notes = this.editableGrid.getValueAt(rowIdx, 8); //notes

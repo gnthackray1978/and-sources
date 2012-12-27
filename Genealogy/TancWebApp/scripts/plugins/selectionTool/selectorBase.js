@@ -206,9 +206,9 @@ AncSelectorBase.prototype = {
                     _loc = _loc.replace('#', '');
 
                     tableBody += '<td><a href="' + that.context_data.editorUrl + _loc + '"><div>' + objValue.ref + '</div></a></td>';
-                    tableBody += '<td><a id= "cb' + _idx + '" href="" ><div> Add </div></a></td>';
+                    tableBody += '<td><a id= "cb' + that.context_data.name + _idx + '" href="" ><div> Add </div></a></td>';
 
-                    selectEvents.push({ key: 'cb' + _idx, value: objValue.id });
+                    selectEvents.push({ key: 'cb' + that.context_data.name + _idx, value: objValue.id });
 
                     tableBody += '</tr>';
 
