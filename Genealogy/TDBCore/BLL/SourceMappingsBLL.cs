@@ -245,11 +245,10 @@ namespace GedItter.BLL
 
 
             SourceBLL sourceBll = new SourceBLL();
-
-
+ 
             SourceMappingsBLL _SourceMappingsBLL2 = new GedItter.BLL.SourceMappingsBLL();
 
-            //  DsSources.SourcesDataTable 
+        
             IQueryable<SourceMapping> sourcesDataTable = null;
 
             
@@ -261,21 +260,28 @@ namespace GedItter.BLL
             //  other wise just delete the missing entries
             List<Guid> rowsToDelete = new List<Guid>();
 
-            if (workingList.Count == 0 && sourcesDataTable.Count() > 0)
+            // if there are any of these delete them 
+            // shouldnt be but sometimes things can get screwed up
+            // so if thats happened clean up
+            List<int> invalidmappings = sourcesDataTable.Where(o => o.File == null && o.Source == null && o.SourceType == null).Select(p => p.MappingId).ToList();
+
+
+            List<Guid> validSources = sourcesDataTable.Where(o => o.Source != null).Select(p => p.Source.SourceId).ToList();
+
+
+
+            if (workingList.Count == 0 && validSources.Count() > 0)
             {
-                foreach (var sRow in sourcesDataTable) rowsToDelete.Add(sRow.Source.SourceId);
+                validSources.ForEach(o => rowsToDelete.Add(o));                
             }
             else
             {
-
-
-
                 if (workingList.Count > 0)
                 {
-                    foreach (var sRow in sourcesDataTable)
+                    validSources.ForEach(o =>
                     {
-                        if (!workingList.Contains(sRow.Source.SourceId)) rowsToDelete.Add(sRow.Source.SourceId);
-                    }
+                        if (!workingList.Contains(o)) rowsToDelete.Add(o);
+                    });
                 }
 
                 // we dont want to perform any unnessecary writes to the db if we can help it
@@ -283,11 +289,11 @@ namespace GedItter.BLL
                 // of records that need to be written
                 if (workingList.Count > 0)
                 {
-                    foreach (var sRow in sourcesDataTable)
+                    foreach (var sRow in validSources)
                     {
-                        if (workingList.Contains(sRow.Source.SourceId))
+                        if (workingList.Contains(sRow))
                         {
-                            workingList.Remove(sRow.Source.SourceId);
+                            workingList.Remove(sRow);
                         }
                     }
                 }
@@ -296,8 +302,14 @@ namespace GedItter.BLL
 
             foreach (Guid deleteId in rowsToDelete)
             {
-                SourceMappingsBLL _SourceMappingsBLL = new GedItter.BLL.SourceMappingsBLL();
-                _SourceMappingsBLL.DeleteBySourceIdMarriageIdOrPersonId(deleteId, recordId);
+
+                _SourceMappingsBLL2.DeleteBySourceIdMarriageIdOrPersonId(deleteId, recordId);
+            }
+            
+            //delete the invalid mappings if they exist.
+            foreach (int mappingid in invalidmappings)
+            {
+                _SourceMappingsBLL2.DeleteByMappingId(mappingid);
             }
 
             // if we've got something to write
@@ -305,15 +317,15 @@ namespace GedItter.BLL
             // if i remember correctly!! 
             if (workingList.Count > 0)
             {
-                SourceMappingsBLL _SourceMappingsBLL = new GedItter.BLL.SourceMappingsBLL();
+               // SourceMappingsBLL _SourceMappingsBLL = new GedItter.BLL.SourceMappingsBLL();
 
                 foreach (Guid sourceId in workingList)
                 {
 
                     if (isMarriage)
-                        _SourceMappingsBLL.Insert(sourceId, null, recordId, userId, null, DateTime.Today.ToShortDateString(), null);
+                        _SourceMappingsBLL2.Insert(sourceId, null, recordId, userId, null, DateTime.Today.ToShortDateString(), null);
                     else
-                        _SourceMappingsBLL.Insert(sourceId, null, null, userId, recordId, DateTime.Today.ToShortDateString(), null);
+                        _SourceMappingsBLL2.Insert(sourceId, null, null, userId, recordId, DateTime.Today.ToShortDateString(), null);
 
                 }
 

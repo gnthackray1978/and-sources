@@ -18,8 +18,9 @@ var AncSelectorParishs = function () {
         pager: 'p_pager',
         sourceRefId: 'txtParishRef',
         title: 'PARISHS',
-        refreshMethod: this.getParishs,
-        parentContext: this
+        refreshMethod: this.init,
+        parentContext: this,
+        name: 'sp'
     };
 
 }

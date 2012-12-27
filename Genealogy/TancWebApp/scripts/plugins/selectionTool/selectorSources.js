@@ -18,7 +18,9 @@ var AncSelectorSources = function () {
         sourceRefId: 'txtSourceRef',
         title: 'SOURCES',
         refreshMethod: this.getSources,
-        parentContext : this
+        parentContext: this,
+        name: 'ss'
+
     };
 
 }

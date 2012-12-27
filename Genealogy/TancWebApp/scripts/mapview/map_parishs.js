@@ -1,99 +1,68 @@
 ﻿
 
 
-function loadParish(locats) {
-    // var url = getHost() + "/Parishs/GetParishsFromLocations";
 
-    var params = {};
+var MapParishs = function () {
+    this.qryStrUtils = new QryStrUtils();
+    this.ancUtils = new AncUtils();
+    this.parishTypes = null;
 
-    if (locats == '') {
-        params[0] = '53.957700,-1.082290,0.5,0.5';
-    }
-    else {
-        params[0] = locats;
-    }
-
-    twaGetJSON('/Parishs/GetParishsFromLocations', params, parishResults);
- 
 }
 
 
 
-function parishResults(data) {
+MapParishs.prototype = {
+    typeLookup: function (typeid) {
 
-    var tableBody = '';
-    var visibleRecords = new Array();
+        var retVal = '';
 
-
-    var parishId = getParameterByName('pid', '');
-    var parishName = getParameterByName('pname', '');
-    var parishMarker = null;
-
-    $.each(data, function (source, sourceInfo) {
-
-        if (displayedMarker.indexOf(sourceInfo.ParishName) < 0) {
-
-            var homeLatLng = new google.maps.LatLng(sourceInfo.ParishX, sourceInfo.ParishY);
-
-            var image = '../Images/icons/32x32/church_symbol2.png';
-            var marker = new google.maps.Marker({
-                position: homeLatLng,
-                map: map,
-                icon: image,
-                title: sourceInfo.ParishName
-            });
-
-            marker.set("id", sourceInfo.ParishId);
-
-            if (sourceInfo.ParishId == parishId) {
-                parishMarker = marker;
+        $.each(this.parishTypes, function (source, sourceInfo) {
+            if (typeid == sourceInfo.DataTypeId) {
+                retVal = sourceInfo.Description;
             }
+        });
 
-            google.maps.event.addListener(marker, 'click', function () {
 
-                createInfoWindowContent(sourceInfo.ParishId, sourceInfo.ParishName, marker);
+        return retVal;
+    },
+    loadParish: function (locats, resultFunc) {
+        // var url = getHost() + "/Parishs/GetParishsFromLocations";
 
-            }); //end click
+        var params = {};
 
-            markersArray.push(marker);
-            displayedMarker.push(sourceInfo.ParishName);
-
+        if (locats == '') {
+            params[0] = '53.957700,-1.082290,0.5,0.5';
         }
+        else {
+            params[0] = locats;
+        }
+      
+        this.ancUtils.twaGetJSON('/Parishs/GetParishDetails', params, resultFunc);
+    },
 
-    });    //end each
+    locateParish: function () {
 
+        var address = $('#txtLocation').val(); //  document.getElementById("address").value;
 
-    if (parishId != '' &&
-            parishId != null &&
-            parishMarker != null) {
+        address += ',' + $('#txtCounty').val();
 
-        createInfoWindowContent(parishId, parishName, parishMarker);
+        geocoder.geocode({ 'address': address }, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                map.setCenter(results[0].geometry.location);
+                map.setZoom(14);
+            } else {
+                alert("Geocode was not successful for the following reason: " + status);
+            }
+        });
 
     }
+  
+
 
 }
 
 
 
-
-
-
-function locateParish() {
-
-    var address = $('#txtLocation').val(); //  document.getElementById("address").value;
-
-    address += ',' + $('#txtCounty').val();
-
-    geocoder.geocode({ 'address': address }, function (results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-            map.setCenter(results[0].geometry.location);
-            map.setZoom(14);
-        } else {
-            alert("Geocode was not successful for the following reason: " + status);
-        }
-    });
-
-}
 
 
 
@@ -116,26 +85,21 @@ function getStatus() {
     //        $.getJSON(url, params, processSearchResults);
 
     twaGetJSON('/Parishs/GetSearchResults', params, processSearchResults);
+
+
 }
 
 
 function processSearchResults(data) {
 
-    var idx = 0;
-    //  alert(data.length);
-
-    $.each(data, function (source, sourceInfo) {
-        // markersArray[idx]
-
+    var idx = 0;   
+    $.each(data, function (source, sourceInfo) {        
         var markerIdx = 0;
-
         while (markerIdx < markersArray.length) {
             var _id = markersArray[markerIdx].get('id');
-
             if (_id == sourceInfo.ParishId) {
                 // markersArray[markerIdx].icon = '../Images/icons/icon_church.gif';
                 markersArray[markerIdx].setIcon('../Images/icons/icon_church.gif');
-
                 break;
             }
 
@@ -144,8 +108,6 @@ function processSearchResults(data) {
 
         idx++;
     });
-
-
 
 }
 

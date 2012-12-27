@@ -106,7 +106,7 @@ AncSourceEditor.prototype = {
     },
    GetSourceRecord:function (rowIdx) {
         var data = {};
-        //data.personId = getParameterByName('id');
+        data.sourceId = this.qryStrUtils.getParameterByName('id','');
 
         //data.sources = getParameterByName('source_ids');
 

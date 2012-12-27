@@ -1,3 +1,16 @@
+Array.prototype.ContainsRec = function (_rec) {
+
+    for (var i = 0; i < this.length; i++) {
+
+        if (this[i].latx == _rec.latx &&
+                 this[i].laty == _rec.laty &&
+                 this[i].boxlen == _rec.boxlen) {
+            return true;
+        }
+    }
+    return false;
+
+}
 
 
 
@@ -58,7 +71,6 @@ Function.prototype.debounce = function (threshold, execAsap) {
         timeout = setTimeout(delayed, threshold || 100);
     };
 }
-
 //remove invalid selections from an array
 Array.prototype.RemoveInvalid = function (selection) {
     var filteredArray = new Array();
@@ -72,9 +84,6 @@ Array.prototype.RemoveInvalid = function (selection) {
     }
     return filteredArray;
 }
-
-
-
 
 Array.prototype.LinkContainingPoint = function (mx,my) {
 
@@ -93,8 +102,6 @@ Array.prototype.LinkContainingPoint = function (mx,my) {
 
 };
 
-
-
 Array.prototype.ContainsPerson = function (value) {
 
     for (var i = 0; i < this.length; i++) {
@@ -109,7 +116,6 @@ Array.prototype.ContainsPerson = function (value) {
     return false;
 
 };
-
 
 Array.prototype.SortByGenIdx = function()
 {
