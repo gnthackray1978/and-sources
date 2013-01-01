@@ -1,0 +1,46 @@
+﻿body {
+}
+
+#mainbody
+{
+    height: 200px;
+    
+    margin:5px;
+}
+
+#answer
+{
+   
+  
+    margin:5px;
+}
+
+#title
+{
+    font-size: 20px;
+    text-align: center;
+    font-weight: bold;
+    margin-top:10px;
+}
+    
+    
+#count
+{
+   font-size: 20px;
+  font-weight: bold;
+   text-align:right;
+   margin-right:5px;
+    vertical-align: middle;
+}
+
+.displayPanel
+{
+    display: block;
+    
+}
+    
+.hidePanel
+{
+    display: none;
+        
+    }
