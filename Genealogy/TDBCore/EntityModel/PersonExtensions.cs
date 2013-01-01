@@ -78,7 +78,8 @@ namespace TDBCore.EntityModel
 
             }
 
-
+            if (newPerson.MotherSurname != "" && _person.MotherSurname == "")
+                _person.MotherSurname = newPerson.MotherSurname;
 
             if (newPerson.MotherChristianName != "" && _person.MotherChristianName == "")
                 _person.MotherChristianName = newPerson.MotherChristianName;

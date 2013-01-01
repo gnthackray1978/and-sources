@@ -78,6 +78,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bin\TancWebApp.dll" />
+    <Content Include="bin\TancWebApp.pdb" />
     <Content Include="HtmlPages\AncestorsTree.html" />
     <Content Include="HtmlPages\channel.html" />
     <Content Include="HtmlPages\DescendantsTree.html" />
@@ -86,7 +88,7 @@
     <Content Include="HtmlPages\MapViewCensus.html" />
     <Content Include="HtmlPages\MarriageEditor.html" />
     <Content Include="HtmlPages\MarriageSearch.html" />
-    <Content Include="HtmlPages\MobileTestPage.html" />
+    <Content Include="HtmlPages\tests\MobileTestPage.html" />
     <Content Include="HtmlPages\ParishEditor.html" />
     <Content Include="HtmlPages\ParishSearch.html" />
     <Content Include="HtmlPages\PersonEditor.html" />
@@ -96,7 +98,8 @@
     <Content Include="HtmlPages\SourceTypeEditor.html" />
     <Content Include="HtmlPages\SourceTypesSearch.html" />
     <Content Include="Default.html" />
-    <Content Include="HtmlPages\testpage.html" />
+    <Content Include="HtmlPages\tests\questionnaire.html" />
+    <Content Include="HtmlPages\tests\testpage.html" />
     <Content Include="HtmlPages\TreeSearch.html" />
     <Content Include="Images\backgrounds\back_hole_stone.jpg" />
     <Content Include="Images\backgrounds\back_stones.jpg" />
@@ -175,6 +178,9 @@
     <Content Include="Scripts\SearchScreens\sourceTypes.js" />
     <Content Include="Scripts\SearchScreens\trees.js" />
     <Content Include="Scripts\DataEntry\BatchEntry\batch_sources.js" />
+    <Content Include="Scripts\Tests\monkeyshit.js" />
+    <Content Include="Scripts\Tests\questionnaire.js" />
+    <Content Include="Scripts\Tests\treetest.js" />
     <Content Include="Scripts\TreeDiags\AncestorTree.js" />
     <Content Include="Scripts\TreeDiags\AncTreeDiag.js" />
     <Content Include="Scripts\TreeDiags\BaseTree.js" />
@@ -204,6 +210,7 @@
     <Content Include="Styles\mobile_tree.css" />
     <Content Include="Styles\pager.css" />
     <Content Include="Styles\test.css" />
+    <Content Include="Styles\test\questionnaire.css" />
     <Content Include="Styles\tree.css" />
     <Content Include="ash\Thumbnail.ashx" />
     <Content Include="ash\FileTransferHandler.ashx" />
@@ -272,6 +279,7 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
+    <None Include="HtmlPages\tests\questions.csv" />
     <None Include="Images\fonts\arded.eot" />
     <None Include="Images\fonts\IMFeENit29P.eot" />
     <None Include="Images\fonts\IMFeENit29P.ttf" />

@@ -29,7 +29,7 @@ using Facebook;
 using System.Xml.Linq;
 using GedItter.Interfaces;
 using GedItter;
-using AndServices.Classes;
+//using AndServices.Classes;
  
 
 namespace ANDServices
@@ -86,14 +86,14 @@ namespace ANDServices
         public void Upload(string fileName, Stream stream)
         {
 
-            MultipartParser parser = new MultipartParser(stream);
-            if (parser.Success)
-            {
-                // Save the file
-               // SaveFile(parser.Filename, parser.ContentType, parser.FileContents);
+            //MultipartParser parser = new MultipartParser(stream);
+            //if (parser.Success)
+            //{
+            //    // Save the file
+            //   // SaveFile(parser.Filename, parser.ContentType, parser.FileContents);
 
-               System.IO.File.WriteAllBytes("C:\\Temp\\" + fileName, parser.FileContents);
-            }
+            //   System.IO.File.WriteAllBytes("C:\\Temp\\" + fileName, parser.FileContents);
+            //}
 
             //FileStream fileToupload = new FileStream("C:\\Temp\\" + fileName, FileMode.Create);
 
