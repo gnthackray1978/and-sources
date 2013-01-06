@@ -5,17 +5,25 @@ var JSMaster, AncUtils,QryStrUtils,AncTree,Tree;
 //var _tree = null;
  
 //var _isMobile = false;
- 
- 
- 
- 
+
+
+
+
 $(document).ready(function () {
     var jsMaster = new JSMaster();
-    var decTreeDiag = new DecTreeDiag();
-    
-    jsMaster.connectfacebook(function () {        
+
+
+    jsMaster.connectfacebook(function () {
+        var decTreeDiag = new DecTreeDiag();
+
+       
+
         decTreeDiag.run();
-    });    
+
+
+    });
+
+
 });
 
 
@@ -28,6 +36,7 @@ var DecTreeDiag = function () {
     this.qryStrUtils = new QryStrUtils();
     this._moustQueue = [];
     this._mouseDown = false;
+
 };
 
 DecTreeDiag.prototype = {
@@ -90,7 +99,17 @@ DecTreeDiag.prototype = {
             if (that.ancTree !== null) {
                 that.ancTree.PerformClick(evt.clientX, evt.clientY);
                 if (that.ancTree.refreshData) {
-                    window.location.hash = that.ancTree.qryString;
+             
+                    window.location = '../HtmlPages/DescendantsTree.html#' + that.ancTree.qryString;
+
+                    _sourceId = that.qryStrUtils.getParameterByName('sid', '');
+                    _personId = that.qryStrUtils.getParameterByName('id', '');
+
+                    params[0] = _sourceId;
+                    params[1] = _personId;
+
+                    that.ancUtils.twaGetJSON('/Trees/GetTreeDiagPerson', params, $.proxy(that.processData, that));   
+
                 }
                 var _point = new Array(1000000, 1000000);
 

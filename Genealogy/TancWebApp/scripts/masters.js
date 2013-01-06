@@ -139,7 +139,7 @@ JSMaster.prototype = {
         headersection += '<div id = "usr_nam"></div>';
         headersection += '</div>';
 
-        headersection += '<div class = "mtrlog">Ancestry Notes Database</div>';
+        headersection += '<div class = "mtrlog">JS Family History</div>';
         headersection += '<div id="errorDialog" title="Error"></div>';
 
         headersection += '</div>';

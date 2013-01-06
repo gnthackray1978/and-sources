@@ -1984,18 +1984,23 @@ namespace ANDServices
         }
 
         public ServiceMarriageObject GetMarriages(string uniqref, string malecname, string malesname, string femalecname,
-            string femalesname, string location, string lowerDate, string upperDate, string sourceFilter, string parishFilter, string page_number, string page_size, string sort_col)
+            string femalesname, string location, string lowerDate, string upperDate, string sourceFilter, string parishFilter, string marriageWitness,
+            string page_number, string page_size, string sort_col)
         {
 
 
             ServiceMarriageObject serviceMarriageObject = new ServiceMarriageObject();
             ParishsBLL parishsBll = new ParishsBLL();
+           
+
             MarriagesFilterModel iModel = new MarriagesFilterModel();
             MarriagesFilterControl iControl = new MarriagesFilterControl();
             string retVal = "";
 
             try
             {
+                
+
                 iControl.SetModel(iModel);
 
                 iControl.RequestSetUser(WebHelper.GetUser());
@@ -2024,6 +2029,7 @@ namespace ANDServices
                     iControl.RequestSetFilterLocation(location ?? "");
                     iControl.RequestSetFilterMarriageBoundLower(lowerDate ?? "");
                     iControl.RequestSetFilterMarriageBoundUpper(upperDate ?? "");
+                    iControl.RequestSetFilterWitness(marriageWitness ?? "");
                 }
                 else
                 {

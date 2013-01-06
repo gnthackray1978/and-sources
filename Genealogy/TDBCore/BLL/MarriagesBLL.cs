@@ -389,7 +389,8 @@ namespace GedItter.MarriageRecords.BLL
                                                                 string MarriageLocation,
                                                                 string source,
                                                                 int yearIntLower,
-                                                                int yearIntUpper)
+                                                                int yearIntUpper,
+                                                                string marriageWitness)
         {
 
             // ok these cant be empty that will really really fuck things up! 
@@ -417,23 +418,29 @@ namespace GedItter.MarriageRecords.BLL
                 if (locations.Length > 4) MarriageLocation5 = locations[4];
             }
 
-            //(MaleCName LIKE '%' + @maleCName + '%') AND (MaleSName LIKE '%' + @maleSName + '%') AND (MaleLocation LIKE '%' + @maleLocation + '%')
-            //AND (MaleInfo LIKE '%' + @maleInfo + '%') AND (FemaleCName LIKE '%' + @femaleCName + '%') 
-            //AND (FemaleSName LIKE '%' + @femaleSName + '%') AND (FemaleLocation LIKE '%' + @femaleLocation + '%') AND 
-            //    (FemaleInfo LIKE '%' + @femaleInfo + '%') AND (MarriageLocation LIKE '%' + @marriageLocation + '%' OR 
-            //        MarriageLocation LIKE '%' + @marriageLocation2 + '%' OR MarriageLocation LIKE '%' + @marriageLocation3 + '%'
-            //OR MarriageLocation LIKE '%' + @marriageLocation4 + '%' OR MarriageLocation LIKE '%' + @marriageLocation5 + '%')
-            //AND (YearIntVal >= @yearLowerBound) AND (YearIntVal <= @yearUpperBound) AND (MarriageCounty LIKE N'%' + @marriageCounty + N'%')
-            //AND (Source LIKE N'%' + @source + N'%') AND (EventPriority = 0)
+            MarriageWitnessesBLL mwBll = new MarriageWitnessesBLL();
+            var temp = mwBll.GetMarriagesByWitnessName(marriageWitness);
 
-
-            return ModelContainer.Marriages.Where(m=>m.MaleCName.Contains(MaleCName) && m.MaleSName.Contains(MaleSName) && m.MaleLocation.Contains(MaleLocation) &&
-                m.MaleInfo.Contains(MaleInfo) && m.FemaleCName.Contains(FemaleCName) && m.FemaleSName.Contains(FemaleSName) && m.FemaleLocation.Contains(FemaleLocation) &&
-                m.FemaleInfo.Contains(FemaleInfo) && (
-                m.MarriageLocation.Contains(MarriageLocation) || m.MarriageLocation.Contains(MarriageLocation2) || m.MarriageLocation.Contains(MarriageLocation3) 
-                || m.MarriageLocation.Contains(MarriageLocation4) || m.MarriageLocation.Contains(MarriageLocation5))
-                && m.YearIntVal >= yearIntLower && m.YearIntVal <= yearIntUpper && m.MarriageCounty.Contains(MarriageCounty) &&
-                m.Source.Contains(source) && m.EventPriority ==0 && !m.IsDeleted.Value);
+            if (temp.Count > 0)
+            {
+                return ModelContainer.Marriages.Where(m => temp.Contains(m.Marriage_Id) && m.MaleCName.Contains(MaleCName) && m.MaleSName.Contains(MaleSName) && m.MaleLocation.Contains(MaleLocation) &&
+                    m.MaleInfo.Contains(MaleInfo) && m.FemaleCName.Contains(FemaleCName) && m.FemaleSName.Contains(FemaleSName) && m.FemaleLocation.Contains(FemaleLocation) &&
+                    m.FemaleInfo.Contains(FemaleInfo) && (
+                    m.MarriageLocation.Contains(MarriageLocation) || m.MarriageLocation.Contains(MarriageLocation2) || m.MarriageLocation.Contains(MarriageLocation3)
+                    || m.MarriageLocation.Contains(MarriageLocation4) || m.MarriageLocation.Contains(MarriageLocation5))
+                    && m.YearIntVal >= yearIntLower && m.YearIntVal <= yearIntUpper && m.MarriageCounty.Contains(MarriageCounty) &&
+                    m.Source.Contains(source) && m.EventPriority == 0 && !m.IsDeleted.Value);
+            }
+            else
+            {
+                return ModelContainer.Marriages.Where(m => m.MaleCName.Contains(MaleCName) && m.MaleSName.Contains(MaleSName) && m.MaleLocation.Contains(MaleLocation) &&
+                    m.MaleInfo.Contains(MaleInfo) && m.FemaleCName.Contains(FemaleCName) && m.FemaleSName.Contains(FemaleSName) && m.FemaleLocation.Contains(FemaleLocation) &&
+                    m.FemaleInfo.Contains(FemaleInfo) && (
+                    m.MarriageLocation.Contains(MarriageLocation) || m.MarriageLocation.Contains(MarriageLocation2) || m.MarriageLocation.Contains(MarriageLocation3)
+                    || m.MarriageLocation.Contains(MarriageLocation4) || m.MarriageLocation.Contains(MarriageLocation5))
+                    && m.YearIntVal >= yearIntLower && m.YearIntVal <= yearIntUpper && m.MarriageCounty.Contains(MarriageCounty) &&
+                    m.Source.Contains(source) && m.EventPriority == 0 && !m.IsDeleted.Value);
+            }
        
         }
 
@@ -451,7 +458,8 @@ namespace GedItter.MarriageRecords.BLL
                                                                 string MarriageLocation,
                                                                 string source,
                                                                 int yearIntLower,
-                                                                int yearIntUpper)
+                                                                int yearIntUpper,
+                                                                string marriageWitness)
         {
 
             // ok these cant be empty that will really really fuck things up! 

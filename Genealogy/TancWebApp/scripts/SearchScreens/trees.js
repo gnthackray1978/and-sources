@@ -4,9 +4,10 @@ var JSMaster, QryStrUtils,AncUtils,Panels;
 
 $(document).ready(function () {
     var jsMaster = new JSMaster();
-    var ancTreeSearch = new AncTreeSearch();
+
 
     jsMaster.generateHeader('#1', function () {
+        var ancTreeSearch = new AncTreeSearch();
         ancTreeSearch.init();
 
     });

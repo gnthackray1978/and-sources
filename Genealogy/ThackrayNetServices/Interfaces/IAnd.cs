@@ -325,6 +325,7 @@ namespace ANDServices
                                                 string upperDate,
                                                 string sourceFilter,
                                                 string parishFilter,
+                                                string marriageWitness,
                                                 string page_number,
                                                 string page_size,
                                                 string sort_col);

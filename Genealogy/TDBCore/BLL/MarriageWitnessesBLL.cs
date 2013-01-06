@@ -34,6 +34,11 @@ namespace TDBCore.BLL
             return string.Join(" ",ModelContainer.MarriageMapWitnesses.Where(m => m.Marriage.Marriage_Id == marriageId).Select(p => p.Person.ChristianName + " " + p.Person.Surname).ToArray());
         }
 
+        public List<Guid> GetMarriagesByWitnessName(string name)
+        {
+            return ModelContainer.MarriageMapWitnesses.Where(m => m.Person.Surname.Contains(name)).Select(p => p.Marriage.Marriage_Id).ToList();
+        }
+
         public void UpdateWitnessesForMarriage(int witnessForMarriageId, Guid personId, Guid MarriageId)
         {
             MarriageMapWitness mmw = ModelContainer.MarriageMapWitnesses.Where(m => m.MarriageMapWitnessIndex == witnessForMarriageId).FirstOrDefault();

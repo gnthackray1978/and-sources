@@ -306,6 +306,32 @@ left: 0;
 }    
     
     
+ .line_def
+{
+    position: absolute;    
+    
+    border-width: thin;
+    border-color: #000000;
+
+    width: 840px;
+    border-bottom-style: solid;
+    top: 50px;
+    left: 180px;
+}
+.squiggle_def
+{
+    /*background-position: center center;*/
+    position: absolute;
+    top: 39px;
+    left: 565px;
+    width: 100px;
+    height: 50px;
+    background-image: url('../Images/squiggle.png');
+    background-repeat: no-repeat;
+    z-index : 20;
+}    
+
+
 
 
 
