@@ -81,7 +81,7 @@ namespace GedItter.MarriageRecords
                 {
                     if ((filterMaleCName == "" && filterFemaleCName == "" && filterMaleSName == "" && filterFemaleSName == "" &&
                         filterLocationCounty == "" && filterLocation == "" && filterMaleLocation == "" && filterMaleLocation == "" &&
-                        filterFemaleLocation == "" && filterSource == "") || (filterUpperMarriage == 0 && filterLowerMarriage == 0))
+                        filterFemaleLocation == "" && filterSource == "" && filterWitness == "") || (filterUpperMarriage == 0 && filterLowerMarriage == 0))
                     {
                         return false;
                     }
@@ -603,7 +603,7 @@ namespace GedItter.MarriageRecords
                                     this.filterMaleSName,
                                     this.filterLocationCounty,
                                     this.filterLocation,
-                                    this.SourceGuidListAsString, this.filterLowerMarriage, this.filterUpperMarriage).Select(selectPred).OrderBy(o=>o.MarriageYear).ToList();
+                                    this.SourceGuidListAsString, this.filterLowerMarriage, this.filterUpperMarriage, this.FilterWitness).Select(selectPred).OrderBy(o => o.MarriageYear).ToList();
                             }
                             else
                             {
@@ -613,7 +613,7 @@ namespace GedItter.MarriageRecords
                                       this.filterMaleSName,
                                       this.filterLocationCounty,
                                       this.filterLocation,
-                                      this.SourceGuidListAsString, this.filterLowerMarriage, this.filterUpperMarriage).Select(selectPred).OrderBy(o => o.MarriageYear).ToList();
+                                      this.SourceGuidListAsString, this.filterLowerMarriage, this.filterUpperMarriage,this.FilterWitness).Select(selectPred).OrderBy(o => o.MarriageYear).ToList();
 
                             }
 

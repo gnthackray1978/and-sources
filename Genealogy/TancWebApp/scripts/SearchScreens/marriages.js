@@ -71,7 +71,7 @@ AncMarriages.prototype = {
             $('#txtFemaleCName').val(this.qryStrUtils.getParameterByName('fcname', ''));
             $('#txtFemaleSName').val(this.qryStrUtils.getParameterByName('fsname', ''));
             $('#txtLocation').val(this.qryStrUtils.getParameterByName('locat', ''));
-
+            $('#txtWitnessName').val(this.qryStrUtils.getParameterByName('wit', ''));
             $('#txtLowerDateRangeLower').val(this.qryStrUtils.getParameterByName('ldrl', ''));
             $('#txtLowerDateRangeUpper').val(this.qryStrUtils.getParameterByName('ldru', ''));
 
@@ -94,6 +94,7 @@ AncMarriages.prototype = {
             "locat": $('#txtLocation'),
             "ldrl": $('#txtLowerDateRangeLower'),
             "ldru": $('#txtLowerDateRangeUpper'),
+            "wit": $('#txtWitnessName'),
             "parid": this.parishId
         };
 
@@ -123,9 +124,10 @@ AncMarriages.prototype = {
         params[7] = String($('#txtLowerDateRangeUpper').val());
         params[8] = '';
         params[9] = this.qryStrUtils.getParameterByName('parid', '');
-        params[10] = String(this.qryStrUtils.getParameterByName('page', 0));
-        params[11] = '30';
-        params[12] = this.qryStrUtils.getParameterByName('sort_col', 'MarriageDate');
+        params[10] = String($('#txtWitnessName').val());
+        params[11] = String(this.qryStrUtils.getParameterByName('page', 0));
+        params[12] = '30';
+        params[13] = this.qryStrUtils.getParameterByName('sort_col', 'MarriageDate');
 
         this.ancUtils.twaGetJSON('/Marriages/GetMarriages/Select', params, $.proxy(this.marriageResult, this));
 
