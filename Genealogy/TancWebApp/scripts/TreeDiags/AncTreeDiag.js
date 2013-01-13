@@ -59,7 +59,18 @@ AncTreeDiag.prototype = {
             if (that.ancTree !== null) {
                 that.ancTree.PerformClick(evt.clientX, evt.clientY);
                 if (that.ancTree.refreshData) {
-                    window.location = '../HtmlPages/DescendantsTree.html#' + that.ancTree.qryString;    
+                    //window.location = '../HtmlPages/DescendantsTree.html#' + that.ancTree.qryString;    
+
+                    window.location = '../HtmlPages/DescendantsTree.html#' + that.ancTree.qryString;
+
+                    _sourceId = that.qryStrUtils.getParameterByName('sid', '');
+                    _personId = that.qryStrUtils.getParameterByName('id', '');
+
+                    params[0] = _sourceId;
+                    params[1] = _personId;
+
+                    that.ancUtils.twaGetJSON('/Trees/GetTreeDiagPerson', params, $.proxy(that.processData, that));   
+
                 }        
                 var _point = new Array(1000000, 1000000);
                 that._moustQueue[that._moustQueue.length] = _point;

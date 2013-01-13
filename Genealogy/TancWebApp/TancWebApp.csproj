@@ -99,6 +99,7 @@
     <Content Include="HtmlPages\SourceTypesSearch.html" />
     <Content Include="Default.html" />
     <Content Include="HtmlPages\tests\questionnaire.html" />
+    <Content Include="HtmlPages\tests\fileupload.html" />
     <Content Include="HtmlPages\tests\testpage.html" />
     <Content Include="HtmlPages\TreeSearch.html" />
     <Content Include="Images\backgrounds\back_hole_stone.jpg" />
