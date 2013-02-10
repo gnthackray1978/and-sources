@@ -163,6 +163,7 @@ EditableGrid.prototype.init = function (name, config) {
     this.currentContainerid = null;
     this.currentClassName = null;
     this.currentTableid = null;
+    
 
     if (this.enableSort) {
         this.sortUpImage = new Image();
@@ -188,6 +189,8 @@ EditableGrid.prototype.rowSelected = function(oldRowIndex, newRowIndex) {};
 EditableGrid.prototype.isHeaderEditable = function(rowIndex, columnIndex) { return false; };
 EditableGrid.prototype.isEditable =function(rowIndex, columnIndex) { return true; };
 EditableGrid.prototype.readonlyWarning = function() {};
+EditableGrid.prototype.islocked = false;
+
 
 /**
  * Load metadata and/or data from an XML url

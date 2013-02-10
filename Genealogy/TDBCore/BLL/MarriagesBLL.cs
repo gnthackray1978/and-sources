@@ -419,7 +419,12 @@ namespace GedItter.MarriageRecords.BLL
             }
 
             MarriageWitnessesBLL mwBll = new MarriageWitnessesBLL();
-            var temp = mwBll.GetMarriagesByWitnessName(marriageWitness);
+            
+            
+            List<Guid> temp = new List<Guid>();
+            
+            if(marriageWitness.Length >0)
+                temp = mwBll.GetMarriagesByWitnessName(marriageWitness);
 
             if (temp.Count > 0)
             {

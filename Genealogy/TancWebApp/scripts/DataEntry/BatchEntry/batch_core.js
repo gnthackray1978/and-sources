@@ -24,7 +24,7 @@ var BatchCore = function () {
     this.ancUtils = new AncUtils();
     this.qryStrUtils = new QryStrUtils();
     this.batchBirths = new BatchBirths(this.editableGrid, this);
-    this.batchReferences = new BatchReferences(this.editableGrid);
+    this.batchReferences = new BatchReferences(this.editableGrid, this);
 
     this.parishparam = 'parl';
     this.sourceparam = 'scs';
@@ -33,6 +33,7 @@ var BatchCore = function () {
     this.includeDeathsId = '#chkIncludeDeaths';
     this.includeRefsId = '#chkIncludeRefs';
     this.rowsId = '#txtRows';
+
     this._isValidSources = false;
     this._isValidParishs = false;
 
@@ -64,12 +65,7 @@ BatchCore.prototype = {
         $('#txtFatherSurname').val(this.qryStrUtils.getParameterByName('fsurname', ''));
         $('#txtSource').val(this.qryStrUtils.getParameterByName('source', ''));
 
-        if (this.qryStrUtils.getParameterByName('ibirt', '') == 'false') {
-            $('#chkIncludeBirths').prop('checked', false);
-        }
-        else {
-            $('#chkIncludeBirths').prop('checked', true);
-        }
+
 
 
         if (this.qryStrUtils.getParameterByName('ideath', '') == 'false') {
@@ -87,7 +83,33 @@ BatchCore.prototype = {
             $('#chkIncludeRefs').prop('checked', true);
         }
 
+        if (this.qryStrUtils.getParameterByName('ibirt', '') == 'false') {
+            $('#chkIncludeBirths').prop('checked', false);
+        }
+        else {
+            $('#chkIncludeBirths').prop('checked', true);
+        }
 
+
+        $(':radio').change(function() {
+              
+              var chkRefs = $('#chkIncludeRefs').prop('checked');
+
+              if(chkRefs)
+              {
+                 $("#selsource").removeClass("displayPanel").addClass("hidePanel");
+                 $("#standcol").removeClass("displayPanel").addClass("hidePanel");
+
+
+              }
+              else
+              {
+
+
+                 $("#selsource").removeClass("hidePanel").addClass("displayPanel");
+                 $("#standcol").removeClass("hidePanel").addClass("displayPanel");
+              }
+        });
 
 
 
@@ -112,19 +134,29 @@ BatchCore.prototype = {
 
         while (idx < rows.length) {
 
-            var colIdx = this.editableGrid.currentCellY;
+            var colIdx = this.editableGrid.currentCellY ;
 
             var cols = rows[idx].split('\x09');
 
             var cidx = 0;
 
+
+
             if (rowIdx < this.editableGrid.data.length) {
 
-                while (cidx < cols.length) {
+
+                cidx =  cols.length-1;
+                colIdx += cidx;
+
+
+                while (cidx >=0 ) {
                     var _value = cols[cidx];
+
+                    var element = this.editableGrid.getCell(rowIdx, colIdx);
+                    element.isEditing =false;
                     this.editableGrid.setValueAt(rowIdx, colIdx, _value);
-                    colIdx++;
-                    cidx++;
+                    colIdx--;
+                    cidx--;
                 }
             }
             rowIdx++;
@@ -172,7 +204,7 @@ BatchCore.prototype = {
 
             var isValidRow = false;
 
-            var personRecord = that.batchBirths.GetBirthRecord(rowIdx);
+            // var personRecord = that.batchBirths.GetBirthRecord(rowIdx);
 
             if (chkBirths) {
                 isValidRow = that.batchBirths.ValidateBirths(rowIdx);
@@ -181,6 +213,11 @@ BatchCore.prototype = {
             if (chkDeaths) {
                 isValidRow = that.batchBirths.ValidateDeaths(rowIdx);
             }
+
+            if (chkRefs) {
+                isValidRow = that.batchReferences.ValidateReferences(rowIdx);
+            }
+
 
 
             if (isValidRow && that._isValidParishs && that._isValidSources)
@@ -203,15 +240,24 @@ BatchCore.prototype = {
         // var test = test123();
 
 
-        this._isValidSources = this.bs.isValidSources();
-        this._isValidParishs = this.bp.isValidParishs();
+
+
 
         var chkBirths = $(this.includeBirthsId).prop('checked');
         var chkDeaths = $(this.includeDeathsId).prop('checked');
         var chkRefs = $(this.includeRefsId).prop('checked');
         var rowsreq = $(this.rowsId).val();
 
-        this.createQryString();
+        if (!chkRefs) {
+            this._isValidSources = this.bs.isValidSources();
+            this._isValidParishs = this.bp.isValidParishs();
+        }
+        else {
+            this._isValidSources = true;
+            this._isValidParishs = true;
+        }
+
+   
 
         if (this._isValidSources && this._isValidParishs && (chkBirths || chkDeaths || chkRefs)) {
 
@@ -227,7 +273,7 @@ BatchCore.prototype = {
             }
 
             if (chkRefs) {
-                displayReferences(displayData);
+                this.batchReferences.displayReferences(rowsreq, displayData);
             }
 
 
@@ -287,7 +333,7 @@ BatchCore.prototype = {
                         this.batchBirths.saveDeath(rowIdx);
                         break;
                     case 'references':
-                        saveReference();
+                        this.batchReferences.saveReference(rowIdx);
                         break;
                 }
             }
@@ -305,25 +351,7 @@ BatchCore.prototype = {
         this.editableGrid.setValueAt(rowidx.rowid, 1, result);
     },
 
-    createQryString: function () {
 
-        var args = {
-
-            "bcount": $('#txtBirthCounty'),
-            "dcount": $('#txtDeathCounty'),
-            "surname": $('#txtSurname'),
-            "fsurname": $('#txtFatherSurname'),
-            "source": $('#txtSource'),
-
-            "ibirt": $('#chkIncludeBirths').prop('checked'),
-            "ideath": $('#chkIncludeDeaths').prop('checked'),
-            "iref": $('#chkIncludeRefs').prop('checked')
-
-        };
-
-
-        this.qryStrUtils.updateQry(args);
-    }
 
 }
 

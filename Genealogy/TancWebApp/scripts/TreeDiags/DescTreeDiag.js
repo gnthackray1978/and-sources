@@ -77,6 +77,7 @@ DecTreeDiag.prototype = {
 
 
         $("#myCanvas").mousedown(function (evt) {
+            evt.preventDefault();
             if (that.ancTree !== null) {
                 evt.originalEvent.preventDefault();
                 that._mouseDown = true;
@@ -86,6 +87,7 @@ DecTreeDiag.prototype = {
 
 
         $("#myCanvas").mouseup(function (evt) {
+            evt.preventDefault();
             if (that.ancTree !== null) {
                 that._mouseDown = false;
 

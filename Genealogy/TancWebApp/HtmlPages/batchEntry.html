@@ -28,11 +28,7 @@
 		<script src="../scripts/plugins/editablegrid/editablegrid_utils.js" type="text/javascript"></script>
 		<script src="../scripts/plugins/editablegrid/editablegrid_charts.js" type="text/javascript"></script>
         
-        
-
-        
-
-	
+             	
         <script src="../scripts/util_func.js" type="text/javascript"></script>
         <script src="../Scripts/visiblePanels.js" type="text/javascript"></script>
         <script src="../scripts/masters.js" type="text/javascript"></script>
@@ -71,7 +67,7 @@
                 <input id="chkIncludeDeaths" type="checkbox"/>Deaths<br />
                 <input id="chkIncludeRefs" type="checkbox"/>References<br />   -->              
 
-                <input id="chkIncludeBirths" type="radio" name="recType" value="births" />Births<br />
+                <input id="chkIncludeBirths" type="radio" name="recType" value="births" checked="checked"/>Births<br />
                 <input id="chkIncludeDeaths" type="radio" name="recType" value="deaths" />Deaths<br /> 
                 <input id="chkIncludeRefs" type="radio" name="recType" value="references" />References<br />
 
@@ -88,7 +84,8 @@
 
         
         <div id="middle">
-             <div class = "flt_gen" >
+
+             <div id = 'standcol' class = "flt_gen displayPanel" >
                 <span >Standard Columns</span>
                 <br />
                 <span >Birth County</span>
@@ -118,7 +115,7 @@
 
         <div id="right">
 
-                <div class = "flt_gen" >
+                <div id = 'selsource' class = "flt_gen displayPanel" >
                     <span >Selected Sources</span>
                     <br />
                     <a id = 'selectsource' href ='' > Select </a>
