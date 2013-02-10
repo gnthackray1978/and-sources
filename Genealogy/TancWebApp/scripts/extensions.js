@@ -15,7 +15,7 @@ Array.prototype.ContainsRec = function (_rec) {
 
 
 $.fn.pasteEvents = function (delay) {
-    if (delay == undefined) delay = 20;
+    if (delay == undefined) delay = 1000;
     return $(this).each(function () {
         var $el = $(this);
         $el.on("paste", function () {

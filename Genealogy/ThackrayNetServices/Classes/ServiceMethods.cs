@@ -525,10 +525,10 @@ namespace ANDServices
             List<Guid> parishsList = new List<Guid>();
             List<int> sourceTypeList = new List<int>();
 
-            if (parishs != null)
+            if (parishs != null && parishs != "")
                 parishs.Split(',').Where(s => s != null).ToList().ForEach(s => parishsList.Add(s.ToGuid()));
 
-            if (sourceTypes != null)
+            if (sourceTypes != null && sourceTypes != "")
                 sourceTypes.Split(',').Where(s => s != null).ToList().ForEach(s => sourceTypeList.Add(s.ToInt32()));
 
             try

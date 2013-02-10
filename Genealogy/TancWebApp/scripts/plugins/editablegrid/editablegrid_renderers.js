@@ -13,23 +13,52 @@ CellRenderer.prototype.init = function(config)
 	for (var p in config) this[p] = config[p];
 };
 
-CellRenderer.prototype._render = function(rowIndex, columnIndex, element, value) 
-{
-	// remember all the things we need
-	element.rowIndex = rowIndex; 
-	element.columnIndex = columnIndex;
+CellRenderer.prototype._render = function (rowIndex, columnIndex, element, value) {
+    // remember all the things we need
 
-	// remove existing content	
-	while (element.hasChildNodes()) element.removeChild(element.firstChild);
+    console.log('start rendering');
 
-	// always apply the number style to numerical cells and column headers
-	if (this.column.isNumerical()) EditableGrid.prototype.addClassName(element, "number");
+//    while (EditableGrid.prototype.islocked) { 
+//    }
 
-	// always apply the boolean style to boolean column headers
-	if (this.column.datatype == 'boolean') EditableGrid.prototype.addClassName(element, "boolean");
-		
-	// call the specialized render method
-	return this.render(element, typeof value == 'string' && this.column.datatype != "html" ? htmlspecialchars(value, 'ENT_NOQUOTES').replace(/\s\s/g, '&nbsp; ') : value);
+
+//    EditableGrid.prototype.islocked = true;
+//    
+//    //set a timeout on this.
+//    setTimeout(function () {
+//        EditableGrid.prototype.islocked = false;
+//    }, 3000);
+
+    element.rowIndex = rowIndex;
+    element.columnIndex = columnIndex;
+
+
+
+
+    $(element).empty();
+
+
+
+    // always apply the number style to numerical cells and column headers
+    if (this.column.isNumerical()) EditableGrid.prototype.addClassName(element, "number");
+
+    // always apply the boolean style to boolean column headers
+    if (this.column.datatype == 'boolean') EditableGrid.prototype.addClassName(element, "boolean");
+
+    // call the specialized render method
+
+
+    this.render(element, typeof value == 'string' && this.column.datatype != "html" ? htmlspecialchars(value, 'ENT_NOQUOTES').replace(/\s\s/g, '&nbsp; ') : value);
+
+
+    //EditableGrid.prototype.islocked = false;
+
+    console.log('end rendering');
+
+    //return this.render(element, typeof value == 'string' && this.column.datatype != "html" ? htmlspecialchars(value, 'ENT_NOQUOTES').replace(/\s\s/g, '&nbsp; ') : value);
+
+
+
 };
 
 CellRenderer.prototype.render = function(element, value) 

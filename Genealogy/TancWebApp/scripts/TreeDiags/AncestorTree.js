@@ -36,7 +36,7 @@ AncTree.prototype = {
            var _personIdx = 0;
 
 
-           var treeUI = new TreeUI(this.screenWidth, this.screenHeight, this.boxWidth, this.boxHeight);
+           var treeUI = new TreeUI(this.screenWidth, this.screenHeight, this.boxWidth, this.boxHeight,1);
 
            this.links = [];
 

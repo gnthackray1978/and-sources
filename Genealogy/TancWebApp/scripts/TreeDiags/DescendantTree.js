@@ -78,7 +78,7 @@ Tree.prototype = {
         var _personIdx = 0;
         //this.generations.length
 
-        var treeUI = new TreeUI(this.screenWidth, this.screenHeight, this.boxWidth, this.boxHeight);
+        var treeUI = new TreeUI(this.screenWidth, this.screenHeight, this.boxWidth, this.boxHeight, 0);
 
         this.links = [];
         this.buttonLinks = [];
@@ -99,11 +99,12 @@ Tree.prototype = {
                 if (personLink !== null)
                     this.links.push(personLink);
 
-                var buttonLink = treeUI.DrawButton(_person, this.GetChildDisplayStatus(_person));
+                if (_person.GenerationIdx != 0) {
+                    var buttonLink = treeUI.DrawButton(_person, this.GetChildDisplayStatus(_person));
 
-                if (buttonLink !== null)
-                    this.buttonLinks.push(buttonLink);
-
+                    if (buttonLink !== null)
+                        this.buttonLinks.push(buttonLink);
+                }
 
                 _personIdx++;
             }
@@ -120,8 +121,8 @@ Tree.prototype = {
             while (_fslInner < this.familySpanLines[_fslOuter].length) {
 
                 //if (_fslOuter == 7 && _fslInner == 15) {
-                    treeUI.DrawLine(this.familySpanLines[_fslOuter][_fslInner]);
-               // }
+                treeUI.DrawLine(this.familySpanLines[_fslOuter][_fslInner]);
+                // }
                 _fslInner++;
 
 
@@ -130,6 +131,14 @@ Tree.prototype = {
             _fslOuter++;
         } // end this.familySpanLines.length
 
+
+        _fslOuter = 0;
+        while (_fslOuter < this.childlessMarriages.length) {
+
+            treeUI.DrawLine(this.childlessMarriages[_fslOuter]);
+
+            _fslOuter++;
+        }
 
     },
 
@@ -225,24 +234,25 @@ Tree.prototype = {
 
 
 
-                        if (genPerson.SpouseIdxLst.length > 0 && genPerson.ChildCount === 0) {
+                        if (genPerson.SpouseIdxLst.length > 0 && genPerson.ChildCount === 0 && !_isSpouse) {
                             var spouseIdx = genPerson.SpouseIdxLst[0];
                             var tp = this.generations[_genIdx][spouseIdx].X1;
 
                             if (Math.abs(spouseIdx - _personIdx) <= 2) {
                                 if (this.generations[_genIdx][spouseIdx].ChildCount === 0) {
 
-                                    var myArray = new Array((genPerson.X1 + this.halfBox), (_current_gen_upper_y + this.boxHeight));
-                                    this.childlessMarriages[this.childlessMarriages.length] = myArray;
+                                    var marriagePoints = new Array();
 
+                                    var myArray = new Array((genPerson.X1 + this.halfBox), (_current_gen_upper_y + this.boxHeight));                                   
+                                    marriagePoints.push(myArray);
                                     myArray = new Array((genPerson.X1 + this.halfBox), (_current_gen_upper_y + this.boxHeight + this.topSpan));
-                                    this.childlessMarriages[this.childlessMarriages.length] = myArray;
-
+                                    marriagePoints.push(myArray);
                                     myArray = new Array((tp + this.halfBox), (_current_gen_upper_y + this.boxHeight + this.topSpan));
-                                    this.childlessMarriages[this.childlessMarriages.length] = myArray;
-
+                                    marriagePoints.push(myArray);
                                     myArray = new Array((tp + this.halfBox), (_current_gen_upper_y + this.boxHeight));
-                                    this.childlessMarriages[this.childlessMarriages.length] = myArray;
+                                    marriagePoints.push(myArray);
+
+                                    this.childlessMarriages.push(marriagePoints);
                                 }
                             }
 

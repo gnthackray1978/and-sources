@@ -46,12 +46,12 @@ var TreeBase = function () {
     this.mouse_x = 0; //int
     this.mouse_y = 0; //int
 
-    this.initial_mouse_x = 0; //int
-    this.initial_mouse_y = 0; //int
+//    this.initial_mouse_x = 0; //int
+//    this.initial_mouse_y = 0; //int
 
 
-    this.xFromCentre = 0.0;
-    this.yFromCentre = 0.0;
+  //  this.xFromCentre = 0.0;
+  //  this.yFromCentre = 0.0;
 
     this.drawingX1 = 0.0;
     this.drawingX2 = 0.0;
@@ -310,32 +310,34 @@ TreeBase.prototype = {
         }
 
     },
+   
     SetMouse: function (x, y, mousestate) {
         this.mouse_x = x;
         this.mouse_y = y;
         if (mousestate == undefined) mousestate = false;
 
-        if (this.initial_mouse_x === 0) {
-            this.initial_mouse_x = this.mouse_x;
-        }
+//        if (this.initial_mouse_x === 0) {
+//            this.initial_mouse_x = this.mouse_x;
+//        }
 
-        if (this.initial_mouse_y === 0) {
-            this.initial_mouse_y = this.mouse_y;
-        }
+//        if (this.initial_mouse_y === 0) {
+//            this.initial_mouse_y = this.mouse_y;
+//        }
 
-        if (this.mouse_x < this.centrePoint) {
-            this.xFromCentre = this.centrePoint - this.mouse_x;
-        }
-        else {
-            if (this.centrePoint < 0) {
-                this.xFromCentre = this.mouse_x + Math.abs(this.centrePoint);
-            }
-            else {
-                this.xFromCentre = this.mouse_x - this.centrePoint;
-            }
 
-            this.xFromCentre = this.xFromCentre - (this.xFromCentre * 2);
-        }
+//        if (this.mouse_x < this.centrePoint) {
+//            this.xFromCentre = this.centrePoint - this.mouse_x;
+//        }
+//        else {
+//            if (this.centrePoint < 0) {
+//                this.xFromCentre = this.mouse_x + Math.abs(this.centrePoint);
+//            }
+//            else {
+//                this.xFromCentre = this.mouse_x - this.centrePoint;
+//            }
+
+//            this.xFromCentre = this.xFromCentre - (this.xFromCentre * 2);
+//        }
 
         var mouseLink = this.links.LinkContainingPoint(this.mouse_x, this.mouse_y);
 
@@ -623,38 +625,57 @@ TreeBase.prototype = {
         var idx = 0;
         var u = new AncUtils();
 
-        //        while (this.generations.length > idx) {
+        while (this.generations.length > idx) {
 
 
 
-        //            var cid = 0;
-        //            var cife = 0;
-        //            var cipl = 0;
-        //            var cifs = 0;
-        //            var cihl = 0;
+            var cid = 0;
+            var cife = 0;
+            var cipl = 0;
+            var cifs = 0;
+            var cihl = 0;
 
-        //            var personidx = 0;
+            var personidx = 0;
 
-        //            while (this.generations[idx].length > personidx) {
+            while (this.generations[idx].length > personidx) {
 
-        //                if (this.generations[idx][personidx].IsDisplayed == true) cid++;
+                if (this.generations[idx][personidx].Name == "Jane Thackray") {
+                    console.log("Jane Thackray X1 Y2");
+                    console.log(this.generations[idx][personidx].X1);
+                    console.log(this.generations[idx][personidx].Y1);
 
-        //                if (this.generations[idx][personidx].IsFamilyEnd == true) cife++;
+                }
 
-        //                if (this.generations[idx][personidx].IsParentalLink == true) cipl++;
+                if (this.generations[idx][personidx].Name == "William Talbot") {
+                    console.log("William Talbot X1 Y2");
+                    console.log(this.generations[idx][personidx].X1);
+                    console.log(this.generations[idx][personidx].Y1);
+                }
 
-        //                if (this.generations[idx][personidx].IsFamilyStart == true) cifs++;
 
-        //                if (this.generations[idx][personidx].IsHtmlLink == true) cihl++;
 
-        //                personidx++;
-        //            }
+                personidx++;
+            }
 
-        //            console.log(idx + ":" + u.pad(this.generations[idx].length, 3) + " IsDisplayed :" + u.pad(cid, 3) + " IsFamilyEnd: " + u.pad(cife, 3) + " IsParentalLink: " + u.pad(cipl, 3) + " IsFamilyStart: " + u.pad(cifs, 3) + " IsHtmlLink: " + u.pad(cihl, 3));
 
-        //            idx++;
-        //        }
 
+            idx++;
+        }
+
+
+
+        var _fslOuter = 0;
+        while (_fslOuter < this.childlessMarriages.length) {
+            var _fslInner = 0;
+            
+            console.log(" marriage: " + _fslOuter);
+
+           
+                console.log(" x " + this.childlessMarriages[_fslOuter][0] + " y " + this.childlessMarriages[_fslOuter][1]);
+
+             
+            _fslOuter++;
+        }
 
         //        idx = 0;
 
@@ -677,10 +698,14 @@ TreeBase.prototype = {
 
 
 
+
+
+
+
         //        console.log(idx + " 7 - 12 :" + u.pad(this.familySpanLines[7][12].length, 3));
         //        console.log(idx + " 7 - 13 :" + u.pad(this.familySpanLines[7][13].length, 3));
         //        console.log(idx + " 7 - 14 :" + u.pad(this.familySpanLines[7][14].length, 3));
-        console.log(idx + " 7 - 15 :" + u.pad(this.familySpanLines[7][15].length, 3));
+        //console.log(idx + " 7 - 15 :" + u.pad(this.familySpanLines[7][15].length, 3));
         //        console.log(idx + " 7 - 16 :" + u.pad(this.familySpanLines[7][16].length, 3));
         //        console.log(idx + " 7 - 17 :" + u.pad(this.familySpanLines[7][17].length, 3));
         //        console.log(idx + " 7 - 18 :" + u.pad(this.familySpanLines[7][18].length, 3));
