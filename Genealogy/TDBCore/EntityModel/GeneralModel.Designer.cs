@@ -4189,6 +4189,54 @@ namespace TDBCore.EntityModel
         private global::System.Int32 _MarriageMapWitnessIndex;
         partial void OnMarriageMapWitnessIndexChanging(global::System.Int32 value);
         partial void OnMarriageMapWitnessIndexChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String WitnessNote
+        {
+            get
+            {
+                return _WitnessNote;
+            }
+            set
+            {
+                OnWitnessNoteChanging(value);
+                ReportPropertyChanging("WitnessNote");
+                _WitnessNote = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("WitnessNote");
+                OnWitnessNoteChanged();
+            }
+        }
+        private global::System.String _WitnessNote;
+        partial void OnWitnessNoteChanging(global::System.String value);
+        partial void OnWitnessNoteChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> DateAdded
+        {
+            get
+            {
+                return _DateAdded;
+            }
+            set
+            {
+                OnDateAddedChanging(value);
+                ReportPropertyChanging("DateAdded");
+                _DateAdded = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("DateAdded");
+                OnDateAddedChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _DateAdded;
+        partial void OnDateAddedChanging(Nullable<global::System.DateTime> value);
+        partial void OnDateAddedChanged();
 
         #endregion
     

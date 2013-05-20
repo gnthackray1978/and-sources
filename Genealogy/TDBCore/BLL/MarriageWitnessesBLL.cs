@@ -1,37 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using GedItter.MarriageRecords;
 using TDBCore.EntityModel;
-using TDBCore.Types;
 
 namespace TDBCore.BLL
 {
-    public class MarriageWitnessesBLL : BaseBLL
+    public class MarriageWitnessesBll : BaseBLL
     {
-        public MarriageWitnessesBLL()
-        { 
-            
-        }
 
         public void MarkWitnessesAsDeleted(Guid marriageId)
         {
-            foreach (Person _person in ModelContainer.MarriageMapWitnesses.Where(m => m.Marriage.Marriage_Id == marriageId).Select(p => p.Person))
+            foreach (Person person in ModelContainer.MarriageMapWitnesses.Where(m => m.Marriage.Marriage_Id == marriageId).Select(p => p.Person))
             {
-                _person.IsDeleted = true;
+                person.IsDeleted = true;
             }
             
             ModelContainer.SaveChanges();
         }
 
-        public List<Person> GetWitnessesForMarriage(Guid marriageId)
+        public List<marriageWitness> GetWitnessesForMarriage(Guid marriageId)
         {
-            return ModelContainer.MarriageMapWitnesses.Where(m => m.Marriage.Marriage_Id == marriageId).Select(p => p.Person).ToList();
+            return ModelContainer.MarriageMapWitnesses.Where(m => m.Marriage.Marriage_Id == marriageId).Select(p => new marriageWitness { Description = p.WitnessNote, Person = p.Person }).ToList();           
         }
 
         public string GetWitnesseStringForMarriage(Guid marriageId)
         {           
-            return string.Join(" ",ModelContainer.MarriageMapWitnesses.Where(m => m.Marriage.Marriage_Id == marriageId).Select(p => p.Person.ChristianName + " " + p.Person.Surname).ToArray());
+            return string.Join(" ",ModelContainer.MarriageMapWitnesses.Where(m => m.Marriage.Marriage_Id == marriageId).Select(p => p.Person.Surname).ToArray());
         }
 
         public List<Guid> GetMarriagesByWitnessName(string name)
@@ -39,49 +34,40 @@ namespace TDBCore.BLL
             return ModelContainer.MarriageMapWitnesses.Where(m => m.Person.Surname.Contains(name)).Select(p => p.Marriage.Marriage_Id).ToList();
         }
 
-        public void UpdateWitnessesForMarriage(int witnessForMarriageId, Guid personId, Guid MarriageId)
+        public void UpdateWitnessesForMarriage(int witnessForMarriageId, Guid personId, Guid marriageId)
         {
-            MarriageMapWitness mmw = ModelContainer.MarriageMapWitnesses.Where(m => m.MarriageMapWitnessIndex == witnessForMarriageId).FirstOrDefault();
+            MarriageMapWitness mmw = ModelContainer.MarriageMapWitnesses.FirstOrDefault(m => m.MarriageMapWitnessIndex == witnessForMarriageId);
 
-            Marriage mToUpDate = ModelContainer.Marriages.Where(m => m.Marriage_Id == MarriageId).FirstOrDefault();
+            Marriage mToUpDate = ModelContainer.Marriages.FirstOrDefault(m => m.Marriage_Id == marriageId);
 
-            Person pToUpdate = ModelContainer.Persons.Where(p => p.Person_id == personId).FirstOrDefault();
+            Person pToUpdate = ModelContainer.Persons.FirstOrDefault(p => p.Person_id == personId);
 
             if (mmw != null && mToUpDate!= null && pToUpdate != null)
             {
                 mmw.Marriage = mToUpDate;
                 mmw.Person = pToUpdate;
-
+                
             }
 
             ModelContainer.SaveChanges();
         }
 
-        public void InsertWitnessesForMarriage(Guid marriageId, IList<Person> persons)
+        public void InsertWitnessesForMarriage(Guid marriageId, IList<marriageWitness> persons)
         {
-            Marriage mToUpDate = ModelContainer.Marriages.Where(m => m.Marriage_Id == marriageId).FirstOrDefault();
+            Marriage mToUpDate = ModelContainer.Marriages.FirstOrDefault(m => m.Marriage_Id == marriageId);
 
             DeleteWitnessesForMarriage(marriageId);
 
             foreach (var dupePerson in persons.RemoveDuplicateReferences())
-            {
-               // Console.WriteLine(dupePerson.ChristianName + " " + dupePerson.Surname);
-
-                ModelContainer.Persons.DeleteObject(dupePerson);
-
+            {            
+                ModelContainer.Persons.DeleteObject(dupePerson.Person);
             }
-
-            foreach (Person _person in persons)
+           
+            foreach (var person in persons)
             {
-                MarriageMapWitness newMMW = new MarriageMapWitness();
-                newMMW.Marriage = mToUpDate;
-                newMMW.Person = _person;
-
-                ModelContainer.MarriageMapWitnesses.AddObject(newMMW);
-
+                ModelContainer.MarriageMapWitnesses.AddObject(new MarriageMapWitness { Person = person.Person, Marriage = mToUpDate, WitnessNote = person.Description });
             }
-
-
+             
             ModelContainer.SaveChanges();
 
         }
@@ -89,12 +75,14 @@ namespace TDBCore.BLL
         public void DeleteWitnessesForMarriage(Guid marriageId)
         {
             foreach (var mmw in ModelContainer.MarriageMapWitnesses.Where(m => m.Marriage.Marriage_Id == marriageId).ToList())
-            {
-                Person _person = mmw.Person;
+            {       
                 ModelContainer.MarriageMapWitnesses.DeleteObject(mmw);
 
-                if(ModelContainer.MarriageMapWitnesses.Where(o=>o.Person.Person_id == _person.Person_id ).Count() == 0)
-                    ModelContainer.Persons.DeleteObject(_person);
+                if (mmw.Person != null)
+                {
+                    if (ModelContainer.MarriageMapWitnesses.Count(o => o.Person.Person_id == mmw.Person.Person_id) == 0)
+                        ModelContainer.Persons.DeleteObject(mmw.Person);
+                }
             }
             
             ModelContainer.SaveChanges();
@@ -116,24 +104,17 @@ namespace TDBCore.BLL
 
         public string GetWitnessMarriageDesc(Guid personId, out Guid marriageId)
         {
-
-
             Marriage _m = ModelContainer.MarriageMapWitnesses.Where(m => m.Person.Person_id == personId).Select(s => s.Marriage).FirstOrDefault();
 
-            
 
             if (_m != null)
             {
                 marriageId = _m.Marriage_Id;
                 return _m.ToGeneralDescription();
             }
-            else
-            {
-                Guid returnId = Guid.Empty;
-                marriageId = returnId;
-                return "";
-            }
-
+            Guid returnId = Guid.Empty;
+            marriageId = returnId;
+            return "";
         }
 
 

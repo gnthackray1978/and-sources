@@ -3,8 +3,9 @@ var JSMaster, QryStrUtils, AncUtils,Panels;
 
 $(document).ready(function () {
     var jsMaster = new JSMaster();
-    var ancSourceTypes = new AncSourceTypes();
+
     jsMaster.generateHeader('#1', function () {
+        var ancSourceTypes = new AncSourceTypes();
         ancSourceTypes.init();
     });
 });
@@ -155,7 +156,7 @@ AncSourceTypes.prototype = {
         this.postParams.data = { sourceIds: this.ancUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
     },
-    AddParish: function () {
+    AddSourceType: function () {
         window.location.href = '../HtmlPages/SourceTypeEditor.html#' + this.qryStrUtils.makeIdQryString('id', '0');
     }
 

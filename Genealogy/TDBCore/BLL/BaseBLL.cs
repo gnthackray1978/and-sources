@@ -30,6 +30,21 @@ namespace TDBCore.BLL
         }
 
 
+        public void Reset()
+        {
+            System.Data.EntityClient.EntityConnection connStr = this.GetConn();//new System.Data.EntityClient.EntityConnection(@"metadata=res://*/CustomSearches.csdl|res://*/CustomSearches.ssdl|res://*/CustomSearches.msl;provider=System.Data.SqlClient;provider connection string="";Data Source=GRN-P005718\;Initial Catalog=ThackrayDB;Integrated Security=True;MultipleActiveResultSets=True"";");
+
+            if (BaseBLL.generalModelContainer == null)
+            {
+                Debug.WriteLine("Created new entity container: " + connStr);
+                BaseBLL.generalModelContainer = new GeneralModelContainer(connStr);
+            }
+
+
+            connectionString = TDBCore.Properties.Settings.Default.ThackrayDBConnectionString;
+
+        }
+
         public TDBCore.EntityModel.GeneralModelContainer ModelContainer
         {
             get

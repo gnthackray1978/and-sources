@@ -155,7 +155,7 @@ text boxs  **********************************
 	
 	float:left;
 	margin-left: 10px;
-	width: 100px;
+	width: 150px;
 }
 
 
@@ -279,6 +279,19 @@ DIVIDED INTO 2 SUB COLUMNS ********************
 	 
 }
 
+#col2i_marriage
+{
+	position: absolute;
+	left: 40%;
+	width: 50%;
+    top: 48px;
+	 
+}
+
+
+
+
+
 /*SECOND COLUMN CONTAINING THE THE SOURCE MAPPINGS CONTROL*/
 #col2 {
 	position:absolute;	
@@ -367,3 +380,7 @@ DIVIDED INTO 2 SUB COLUMNS ********************
 	text-align: right;
 	
 }
+
+
+
+

@@ -20,17 +20,58 @@ namespace GedItter.MarriageRecords
 {
 
 
+
+    public class WitnessDto
+    {
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public string Description { get; set; }
+        public int Year { get; set; }
+        public string Date { get; set; }
+        public string Location { get; set; }
+        public Guid LocationId { get; set; }
+    }
+
+    public class marriageWitness
+    {
+        public Person Person { get; set; }
+        public string Description { get; set; }
+     
+        public static List<marriageWitness> AddWitnesses(List<WitnessDto> witnessDtos)
+        {
+            var witnesses = new List<marriageWitness>();
+
+            foreach (WitnessDto witnessDto in witnessDtos)
+            {
+                Person witPers3 = new Person();
+                marriageWitness nMarriageWitness = new marriageWitness();
+
+                witPers3.ReferenceDateInt = witnessDto.Year;
+                witPers3.ReferenceDateStr = witnessDto.Date;
+                witPers3.ReferenceLocation = witnessDto.Location;
+                witPers3.ReferenceLocationId = witnessDto.LocationId;
+                witPers3.ChristianName = witnessDto.Name;
+                witPers3.Surname = witnessDto.Surname;
+                nMarriageWitness.Description = witnessDto.Description;
+                nMarriageWitness.Person = witPers3;
+                witnesses.Add(nMarriageWitness);
+            }
+
+            return witnesses;
+
+        }
+
+    }
+
+
+
+
     public class MarriagesEditorModel : EditorBaseModel<Guid>, IMarriageEditorModel
     {
         #region variables
-        private string witness1 = "";
-        private string witness2 = "";
-        private string witness3 = "";
-        private string witness4 = "";
-        private string witness1CName = "";
-        private string witness2CName = "";
-        private string witness3CName = "";
-        private string witness4CName = "";
+
+        private List<marriageWitness> marriageWitnesses = new List<marriageWitness>();
+
         private string maleBirthYearStr = "";
         private string femaleBirthYearStr = "";
 
@@ -43,6 +84,11 @@ namespace GedItter.MarriageRecords
         #region properties
 
         #region validation fields
+
+        public bool IsValidWitnesses
+        {
+            get { return marriageWitnesses.Count > 0; }
+        }
 
         public bool IsValidMaleSurname
         {
@@ -116,69 +162,7 @@ namespace GedItter.MarriageRecords
             }
         }
 
-        public bool IsValidWitnessSName1
-        {
-            get
-            {
-                return this._marriageValidation.IsValidWitnessSName1 ;
-            }
-        }
-
-        public bool IsValidWitnessSName2
-        {
-            get
-            {
-                return this._marriageValidation.IsValidWitnessSName2 ;
-            }
-        }
-
-        public bool IsValidWitnessSName3
-        {
-            get
-            {
-                return this._marriageValidation.IsValidWitnessSName3 ;
-            }
-        }
-
-        public bool IsValidWitnessSName4
-        {
-            get
-            {
-                return this._marriageValidation.IsValidWitnessSName4 ;
-            }
-        }
-
-        public bool IsValidWitnessCName1
-        {
-            get
-            {
-                return this._marriageValidation.IsValidWitnessCName1 ;
-            }
-        }
-
-        public bool IsValidWitnessCName2
-        {
-            get
-            {
-                return this._marriageValidation.IsValidWitnessCName2 ;
-            }
-        }
-
-        public bool IsValidWitnessCName3
-        {
-            get
-            {
-                return this._marriageValidation.IsValidWitnessCName3 ;
-            }
-        }
-
-        public bool IsValidWitnessCName4
-        {
-            get
-            {
-                return this._marriageValidation.IsValidWitnessCName4 ;
-            }
-        }
+     
 
         public bool IsValidMaleOccupation
         {
@@ -435,69 +419,11 @@ namespace GedItter.MarriageRecords
             }
         }
 
-        public string EditorWitness1
+        public List<marriageWitness> EditorWitnesses
         {
             get
             {
-                return witness1;
-            }
-        }
-
-        public string EditorWitness2
-        {
-            get
-            {
-                return witness2;
-            }
-        }
-
-        public string EditorWitness3
-        {
-            get
-            {
-                return witness3;
-            }
-        }
-
-        public string EditorWitness4
-        {
-            get
-            {
-                return witness4;
-            }
-        }
-
-
-
-        public string EditorWitnessCName1
-        {
-            get
-            {
-                return this.witness1CName;
-            }
-        }
-
-        public string EditorWitnessCName2
-        {
-            get
-            {
-                return this.witness2CName;
-            }
-        }
-
-        public string EditorWitnessCName3
-        {
-            get
-            {
-                return this.witness3CName;
-            }
-        }
-
-        public string EditorWitnessCName4
-        {
-            get
-            {
-                return this.witness4CName;
+                return this.marriageWitnesses;
             }
         }
 
@@ -576,7 +502,13 @@ namespace GedItter.MarriageRecords
                 return this._marriage.IsBanns.GetValueOrDefault();
             }
         }
-        
+
+        public int EditorMarriageYear
+        {
+            get {
+                return this._marriage.YearIntVal; 
+            }
+        }
 
         #endregion
 
@@ -619,14 +551,9 @@ namespace GedItter.MarriageRecords
             this.SetEditorMaleId(Guid.Empty);
             this.SetEditorOrigMaleName("");
             this.SetEditorOrigFemaleName("");
-            this.SetEditorWitness1CName("");
-            this.SetEditorWitness1("");
-            this.SetEditorWitness2CName("");
-            this.SetEditorWitness2("");
-            this.SetEditorWitness3CName("");
-            this.SetEditorWitness3("");
-            this.SetEditorWitness4CName("");
-            this.SetEditorWitness4("");
+          
+            this.SetEditorWitness1(new List<marriageWitness>());
+          
         }
 
         public override void Refresh()
@@ -635,7 +562,7 @@ namespace GedItter.MarriageRecords
             if (!IsvalidSelect()) return;
 
             BLL.MarriagesBLL marriagesBLL = new GedItter.MarriageRecords.BLL.MarriagesBLL();
-            MarriageWitnessesBLL _marriageWitnessBLL = new MarriageWitnessesBLL();
+            MarriageWitnessesBll _marriageWitnessBLL = new MarriageWitnessesBll();
 
             var marriageRecord = 
                 marriagesBLL.GetMarriageById2(this.SelectedRecordId).FirstOrDefault();
@@ -677,33 +604,8 @@ namespace GedItter.MarriageRecords
 
 
                 //get wits
-
-                List<Person> witnessesList = _marriageWitnessBLL.GetWitnessesForMarriage(this.SelectedRecordId);
-
-                if (witnessesList.Count > 0)
-                {
-                    this.SetEditorWitness1CName(witnessesList[0].ChristianName);
-                    this.SetEditorWitness1(witnessesList[0].Surname);
-                }
-
-                if (witnessesList.Count > 1)
-                {
-                    this.SetEditorWitness2CName(witnessesList[1].ChristianName);
-                    this.SetEditorWitness2(witnessesList[1].Surname);
-                }
-
-
-                if (witnessesList.Count > 2)
-                {
-                    this.SetEditorWitness3CName(witnessesList[2].ChristianName);
-                    this.SetEditorWitness3(witnessesList[2].Surname);
-                }
-
-                if (witnessesList.Count > 3)
-                {
-                    this.SetEditorWitness4CName(witnessesList[3].ChristianName);
-                    this.SetEditorWitness4(witnessesList[3].Surname);
-                }
+ 
+                this.SetEditorWitness1(_marriageWitnessBLL.GetWitnessesForMarriage(this.SelectedRecordId));
 
                 if (this.SelectedRecordId != Guid.Empty)
                 {
@@ -732,7 +634,7 @@ namespace GedItter.MarriageRecords
                 marriageBLL.DeleteMarriageTemp2(this.SelectedRecordId);
 
 
-                MarriageWitnessesBLL mwits = new MarriageWitnessesBLL();
+                MarriageWitnessesBll mwits = new MarriageWitnessesBll();
 
                 mwits.MarkWitnessesAsDeleted(this.SelectedRecordId);
 
@@ -819,68 +721,17 @@ namespace GedItter.MarriageRecords
 
         private void SetWitnesses()
         {
-            MarriageWitnessesBLL mwits = new MarriageWitnessesBLL();
-            DeathsBirthsBLL _deathsBirthsBll = new DeathsBirthsBLL();
+            var mwits = new MarriageWitnessesBll();
+            var deathsBirthsBll = new DeathsBirthsBLL();
             //delete existing entries
             mwits.DeleteWitnessesForMarriage(this.SelectedRecordId);
 
-            List<Person> witnessesToAdd = new List<Person>();
-
-            //readd or add 
-            if (witness1 != "" || witness1CName != "")
+            foreach (var marriages in marriageWitnesses)
             {
-                Person witPers1 = new Person();
-                witPers1.ReferenceDateInt = this._marriage.YearIntVal;
-                witPers1.ReferenceDateStr = this._marriage.Date;
-                witPers1.ReferenceLocation = this._marriage.MarriageLocation;
-                witPers1.ReferenceLocationId = this._marriage.MarriageLocationId.GetValueOrDefault();
-                witPers1.ChristianName = this.witness1CName;
-                witPers1.Surname = this.witness1;
-                _deathsBirthsBll.InsertPerson(witPers1);
-                witnessesToAdd.Add(witPers1);
+                deathsBirthsBll.InsertPerson(marriages.Person);
             }
 
-            if (witness2 != "" || witness2CName != "")
-            {
-                Person witPers2 = new Person();
-                witPers2.ReferenceDateInt = this._marriage.YearIntVal;
-                witPers2.ReferenceDateStr = this._marriage.Date;
-                witPers2.ReferenceLocation = this._marriage.MarriageLocation;
-                witPers2.ReferenceLocationId = this._marriage.MarriageLocationId.GetValueOrDefault();
-                witPers2.ChristianName = this.witness2CName;
-                witPers2.Surname = this.witness2;
-                _deathsBirthsBll.InsertPerson(witPers2);
-                witnessesToAdd.Add(witPers2);
-            }
-
-            if (witness3 != "" || witness3CName != "")
-            {
-                Person witPers3 = new Person();
-                witPers3.ReferenceDateInt = this._marriage.YearIntVal;
-                witPers3.ReferenceDateStr = this._marriage.Date;
-                witPers3.ReferenceLocation = this._marriage.MarriageLocation;
-                witPers3.ReferenceLocationId = this._marriage.MarriageLocationId.GetValueOrDefault();
-                witPers3.ChristianName = this.witness3CName;
-                witPers3.Surname = this.witness3;
-                _deathsBirthsBll.InsertPerson(witPers3);
-                witnessesToAdd.Add(witPers3);
-            }
-
-            if (witness4 != "" || witness4CName != "")
-            {
-                Person witPers4 = new Person();
-                witPers4.ReferenceDateInt = this._marriage.YearIntVal;
-                witPers4.ReferenceDateStr = this._marriage.Date;
-                witPers4.ReferenceLocation = this._marriage.MarriageLocation;
-                witPers4.ReferenceLocationId = this._marriage.MarriageLocationId.GetValueOrDefault();
-                witPers4.ChristianName = this.witness4CName;
-                witPers4.Surname = this.witness4;
-                _deathsBirthsBll.InsertPerson(witPers4);
-                witnessesToAdd.Add(witPers4);
-            }
-
-
-            mwits.InsertWitnessesForMarriage(this.SelectedRecordId, witnessesToAdd);
+            mwits.InsertWitnessesForMarriage(this.SelectedRecordId, marriageWitnesses);
 
         }
 
@@ -959,151 +810,23 @@ namespace GedItter.MarriageRecords
 
         #region set fields 
 
-        public void SetEditorWitness1CName(string witness1)
+        public void SetEditorWitness1(List<marriageWitness> witnesses)
         {
-            if ( witness1 != this.witness1CName)
+            if (witnesses != null)
             {
-                if (witness1 != null && witness1.Length >= 0 && witness1.Length <= 150)
-                {
-                    this._marriageValidation.IsValidWitnessCName1 = true;
-                }
-                else
-                {
-                    this._marriageValidation.IsValidWitnessCName1 = false;
-                }
-
-                this.witness1CName = witness1;
-                SetModelStatusFields();
+                this.marriageWitnesses = witnesses;
+                this._marriageValidation.IsValidWitnesses = true;
             }
+            else
+            {
+                this._marriageValidation.IsValidWitnesses = false;
+            }
+
+
+
+            SetModelStatusFields();
         }
 
-        public void SetEditorWitness2CName(string witness2)
-        {
-            if (witness2 != this.witness2CName)
-            {
-
-                if (witness2 != null && witness2.Length >= 0 && witness2.Length <= 150)
-                {
-                    this._marriageValidation.IsValidWitnessCName2 = true;
-                }
-                else
-                {
-                    this._marriageValidation.IsValidWitnessCName2 = false;
-                }
-
-                this.witness2CName = witness2;
-                SetModelStatusFields();
-            }
-        }
-
-        public void SetEditorWitness3CName(string witness3)
-        {
-            if (witness3 != this.witness3CName)
-            {
-                if (witness3 != null && witness3.Length >= 0 && witness3.Length <= 150)
-                {
-                    this._marriageValidation.IsValidWitnessCName3 = true;
-                }
-                else
-                {
-                    this._marriageValidation.IsValidWitnessCName3 = false;
-                }
-
-                this.witness3CName = witness3;
-                SetModelStatusFields();
-            }
-        }
-
-        public void SetEditorWitness4CName(string witness4)
-        {
-            if (witness4 != this.witness4CName)
-            {
-
-                if (witness4 != null && witness4.Length >= 0 && witness4.Length <= 150)
-                {
-                    this._marriageValidation.IsValidWitnessCName4 = true;
-                }
-                else
-                {
-                    this._marriageValidation.IsValidWitnessCName4 = false;
-                }
-
-                this.witness4CName = witness4;
-                SetModelStatusFields();
-            }
-        }
-
-        public void SetEditorWitness1(string witness1)
-        {
-            if (this.witness1 != witness1)
-            {
-                if (witness1 != null && witness1.Length >= 0 && witness1.Length <= 150)
-                {
-                    this._marriageValidation.IsValidWitnessSName1 = true;
-                }
-                else
-                {
-                    this._marriageValidation.IsValidWitnessSName1 = false;
-                }
-
-                this.witness1 = witness1;
-                SetModelStatusFields();
-            }
-        }
-
-        public void SetEditorWitness2(string witness2)
-        {
-            if (this.witness2 != witness2)
-            {
-                if (witness2 != null && witness2.Length >= 0 && witness2.Length <= 150)
-                {
-                    this._marriageValidation.IsValidWitnessSName2 = true;
-                }
-                else
-                {
-                    this._marriageValidation.IsValidWitnessSName2 = false;
-                }
-
-                this.witness2 = witness2;
-                SetModelStatusFields();
-            }
-        }
-
-        public void SetEditorWitness3(string witness3)
-        {
-            if (this.witness3 != witness3)
-            {
-                if (witness3 != null && witness3.Length >= 0 && witness3.Length <= 150)
-                {
-                    this._marriageValidation.IsValidWitnessSName3 = true;
-                }
-                else
-                {
-                    this._marriageValidation.IsValidWitnessSName3 = false;
-                }
-
-                this.witness3 = witness3;
-                SetModelStatusFields();
-            }
-        }
-
-        public void SetEditorWitness4(string witness4)
-        {
-            if (this.witness4 != witness4)
-            {
-                if (witness4 != null && witness4.Length >= 0 && witness4.Length <= 150)
-                {
-                    this._marriageValidation.IsValidWitnessSName4 = true;
-                }
-                else
-                {
-                    this._marriageValidation.IsValidWitnessSName4 = false;
-                }
-
-                this.witness4 = witness4;
-                SetModelStatusFields();
-            }
-        }
 
 
         public void SetMarriageLocationId(Guid param)
@@ -1599,14 +1322,7 @@ namespace GedItter.MarriageRecords
            // this.Refresh();
 
         }
- 
 
 
-
-
-
-
-
-       
     }
 }

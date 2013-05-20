@@ -77,17 +77,46 @@ AncMarriageEditor.prototype = {
         $('#txtParish').val(data.MarriageLocation);
         $('#txtCounty').val(data.LocationCounty);
 
+
+
+
         $('#txtWit1c').val(data.Witness1ChristianName);
         $('#txtWit1').val(data.Witness1Surname);
+        $('#txtWitDesc1').val(data.Witness1Description);
 
         $('#txtWit2c').val(data.Witness2ChristianName);
         $('#txtWit2').val(data.Witness2Surname);
+        $('#txtWitDesc2').val(data.Witness2Description);
 
         $('#txtWit3c').val(data.Witness3ChristianName);
         $('#txtWit3').val(data.Witness3Surname);
+        $('#txtWitDesc3').val(data.Witness3Description);
 
         $('#txtWit4c').val(data.Witness4ChristianName);
         $('#txtWit4').val(data.Witness4Surname);
+        $('#txtWitDesc4').val(data.Witness4Description);
+
+
+
+        $('#txtWit5c').val(data.Witness5ChristianName);
+        $('#txtWit5').val(data.Witness5Surname);
+        $('#txtWitDesc5').val(data.Witness5Description);
+
+        $('#txtWit6c').val(data.Witness6ChristianName);
+        $('#txtWit6').val(data.Witness6Surname);
+        $('#txtWitDesc6').val(data.Witness6Description);
+
+        $('#txtWit7c').val(data.Witness7ChristianName);
+        $('#txtWit7').val(data.Witness7Surname);
+        $('#txtWitDesc7').val(data.Witness7Description);
+
+        $('#txtWit8c').val(data.Witness8ChristianName);
+        $('#txtWit8').val(data.Witness8Surname);
+        $('#txtWitDesc8').val(data.Witness8Description);
+        
+
+
+
 
         $('#txtMaleLoc').val(data.MaleLocation);
         $('#txtFemaleLoc').val(data.FemaleLocation);
@@ -140,7 +169,7 @@ AncMarriageEditor.prototype = {
         var ancSelectorSources = new AncSelectorSources();
 
         ancSelectorSources.getSources('#sourceselector');
-        
+
         console.log('marriage editor requested source data');
     },
 
@@ -173,14 +202,40 @@ AncMarriageEditor.prototype = {
         record.MarriageDate = $('#txtMDate').val();
         record.MarriageLocation = $('#txtParish').val();
 
-        record.Witness1ChristianName = $('#txtWit1c').val();
-        record.Witness1Surname = $('#txtWit1').val();
-        record.Witness2ChristianName = $('#txtWit2c').val();
-        record.Witness2Surname = $('#txtWit2').val();
-        record.Witness3ChristianName = $('#txtWit3c').val();
-        record.Witness3Surname = $('#txtWit3').val();
-        record.Witness4ChristianName = $('#txtWit4c').val();
-        record.Witness4Surname = $('#txtWit4').val();
+
+
+
+        //        var _obj = [
+        //                { name: 'john', surname: 'smith', description: 'witness' },
+        //                { name: 'chris', surname: 'jones', description: 'witness' },
+        //                { name: 'allen', surname: 'bond', description: 'vicar' }        
+        //                ];
+
+
+        var _obj = [];
+
+        var idx = 1;
+
+        while (idx < 9) {
+            var cname = '#txtWit' + idx + 'c';
+            var sname = '#txtWit' + idx;
+            var description = '#txtWitDesc' + idx;
+
+            if ($(cname).val() != '' || $(sname).val() != '' || $(description).val() != '') {
+                _obj.push({ name: $(cname).val(), surname: $(sname).val(), description: $(description).val() });
+            }
+            idx++;
+        }
+
+        record.MarriageWitnesses = JSON.stringify(_obj);
+        //        record.Witness1ChristianName = $('#txtWit1c').val();
+        //        record.Witness1Surname = $('#txtWit1').val();
+        //        record.Witness2ChristianName = $('#txtWit2c').val();
+        //        record.Witness2Surname = $('#txtWit2').val();
+        //        record.Witness3ChristianName = $('#txtWit3c').val();
+        //        record.Witness3Surname = $('#txtWit3').val();
+        //        record.Witness4ChristianName = $('#txtWit4c').val();
+        //        record.Witness4Surname = $('#txtWit4').val();
 
         return record;
     },

@@ -84,6 +84,7 @@
     <Content Include="HtmlPages\channel.html" />
     <Content Include="HtmlPages\DescendantsTree.html" />
     <Content Include="HtmlPages\Events.html" />
+    <Content Include="HtmlPages\ForceTreeDiagram.html" />
     <Content Include="HtmlPages\MapView.html" />
     <Content Include="HtmlPages\MapViewCensus.html" />
     <Content Include="HtmlPages\MarriageEditor.html" />
@@ -132,6 +133,18 @@
     <Content Include="Scripts\default.js" />
     <Content Include="Scripts\encoding.js" />
     <Content Include="Scripts\extensions.js" />
+    <Content Include="Scripts\ForceDirect\map_combined_renderer.js" />
+    <Content Include="Scripts\ForceDirect\map_current_tree.js" />
+    <Content Include="Scripts\ForceDirect\map_edge.js" />
+    <Content Include="Scripts\ForceDirect\map_element.js" />
+    <Content Include="Scripts\ForceDirect\map_graph.js" />
+    <Content Include="Scripts\ForceDirect\map_handler.js" />
+    <Content Include="Scripts\ForceDirect\map_layout.js" />
+    <Content Include="Scripts\ForceDirect\map_main.js" />
+    <Content Include="Scripts\ForceDirect\map_renderer.js" />
+    <Content Include="Scripts\ForceDirect\map_settings.js" />
+    <Content Include="Scripts\ForceDirect\map_utils.js" />
+    <Content Include="Scripts\ForceDirect\map_vector.js" />
     <Content Include="Scripts\jquery\jquery-1.7.2-vsdoc.js" />
     <Content Include="Scripts\jquery\jquery-1.7.2.js" />
     <Content Include="Scripts\jquery\jquery-1.7.2.min.js" />

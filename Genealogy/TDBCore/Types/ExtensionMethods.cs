@@ -12,6 +12,8 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 using System.Diagnostics;
+using System.Web.Script.Serialization;
+using GedItter.MarriageRecords;
 using TDBCore.Types;
 
 #if! SILVERLIGHT
@@ -99,6 +101,24 @@ namespace TDBCore.Types
             return idx;
         }
 
+        public static List<WitnessDto> DeserializeToMarriageWitnesses(this JavaScriptSerializer serializer, string marriageWitnesses, int Year,
+          string Date,
+          string Location,
+          Guid LocationId )
+        {
+            List<WitnessDto> view = serializer.Deserialize<List<WitnessDto>>(marriageWitnesses);
+
+            foreach(var witness in view)
+            {
+                witness.Date = Date;
+                witness.Location = Location;
+                witness.LocationId = LocationId;
+                witness.Year = Year;
+
+            }
+
+            return view;
+        }
 
         public static int FirstIndexOfPerson(this List<TreePerson> treeList, Guid personId)
         {
@@ -124,7 +144,26 @@ namespace TDBCore.Types
             return idx;
         }
 
+        public static string GetXName(this List<marriageWitness> witnesses, int position)
+        {
+            return witnesses.Count > position && witnesses[position].Person != null
+                       ? witnesses[position].Person.ChristianName
+                       : "";
+        }
 
+        public static string GetXSurname(this List<marriageWitness> witnesses, int position)
+        {
+            return witnesses.Count > position && witnesses[position].Person != null
+                       ? witnesses[position].Person.Surname
+                       : "";
+        }
+
+        public static string GetXDescription(this List<marriageWitness> witnesses, int position)
+        {
+            return witnesses.Count > position
+                       ? witnesses[position].Description
+                       : "";
+        }
 
 
         public static int ParseToInt32(this IDictionary<string, string> str, string key, int defaultValue =0)
@@ -426,7 +465,8 @@ namespace TDBCore.Types
                 Surname = p.Surname,
                 XREF = p.UniqueRef.ToString(),
                 Events = p.TotalEvents.ToString(),
-                Spouse = p.SpouseName
+                Spouse = p.SpouseName,
+                LinkedTrees = p.OrigMotherSurname
             }).ToList();
 
 

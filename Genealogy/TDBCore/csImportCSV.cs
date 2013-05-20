@@ -4348,7 +4348,7 @@ namespace GedItter
             string witness1, string witness2, string witness3, string witness4,
             string witness1C, string witness2C, string witness3C, string witness4C)
         {
-            MarriageWitnessesBLL mwits = new MarriageWitnessesBLL();
+            MarriageWitnessesBll mwits = new MarriageWitnessesBll();
             DeathsBirthsBLL _deathsBirthsBll = new DeathsBirthsBLL();
             //delete existing entries
             mwits.DeleteWitnessesForMarriage(marriageId);

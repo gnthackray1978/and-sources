@@ -77,23 +77,8 @@ namespace GedItter.MarriageRecords
 
 
 
-        bool IsValidWitnessSName1 { get; }
-        string EditorWitness1 { get; }
-        bool IsValidWitnessSName2 { get; }
-        string EditorWitness2 { get; }
-        bool IsValidWitnessSName3 { get; }
-        string EditorWitness3 { get; }
-        bool IsValidWitnessSName4 { get; }
-        string EditorWitness4 { get; }
-
-        bool IsValidWitnessCName1 { get; }
-        string EditorWitnessCName1 { get; }
-        bool IsValidWitnessCName2 { get; }
-        string EditorWitnessCName2 { get; }
-        bool IsValidWitnessCName3 { get; }
-        string EditorWitnessCName3 { get; }
-        bool IsValidWitnessCName4 { get; }
-        string EditorWitnessCName4 { get; }
+        bool IsValidWitnesses { get; }
+        List<marriageWitness> EditorWitnesses { get; }
 
 
         bool IsValidMaleOccupation { get; }
@@ -131,8 +116,8 @@ namespace GedItter.MarriageRecords
         Guid EditorMarriageLocationId { get; }
         Guid EditorMaleLocationId { get; }
         Guid EditorFemaleLocationId { get; }
-  
 
+        int EditorMarriageYear { get; }
 
         // set editor values
 
@@ -158,7 +143,7 @@ namespace GedItter.MarriageRecords
         void SetEditorUniqueRef ( Guid param);
         void SetEditorTotalEvents ( int param );
         void SetEditorEventPriority(int param);
-
+        
         void SetEditorMarriageDate(string date);
         void SetEditorLocation(string location);
         void SetEditorMaleLocation(string maleLocation);
@@ -166,15 +151,8 @@ namespace GedItter.MarriageRecords
         void SetEditorMarriageCounty(string marriageCounty);
         void SetEditorSource(string source);
 
-        void SetEditorWitness1(string witness1);
-        void SetEditorWitness2(string witness2);
-        void SetEditorWitness3(string witness3);
-        void SetEditorWitness4(string witness4);
+        void SetEditorWitness1(List<marriageWitness> witnesses);
 
-        void SetEditorWitness1CName(string witness1);
-        void SetEditorWitness2CName(string witness2);
-        void SetEditorWitness3CName(string witness3);
-        void SetEditorWitness4CName(string witness4);
 
         void SetEditorFemaleInfo(string finfo);
         void SetEditorMaleInfo(string minfo);
@@ -188,7 +166,8 @@ namespace GedItter.MarriageRecords
 
         void SetEditorFemaleBirthYear(string param);
         void SetEditorMaleBirthYear(string param);
-
+ 
+   
 
         //void AddObserver(IMarriageEditorView paramView);
         //void RemoveObserver(IMarriageEditorView paramView);
@@ -217,16 +196,9 @@ namespace GedItter.MarriageRecords
         void RequestSetEditorFemaleLocation(string femaleLocation);
         void RequestSetEditorMarriageCounty(string marriageCounty);
         void RequestSetEditorSource(string source);
-        
-        void RequestSetEditorWitness1(string witness);
-        void RequestSetEditorWitness2(string witness);
-        void RequestSetEditorWitness3(string witness);
-        void RequestSetEditorWitness4(string witness);
 
-        void RequestSetEditorWitness1CName(string witness);
-        void RequestSetEditorWitness2CName(string witness);
-        void RequestSetEditorWitness3CName(string witness);
-        void RequestSetEditorWitness4CName(string witness);
+
+        void RequestSetEditorWitnesses(List<marriageWitness> param);
 
         void RequestSetEditorMaleInfo(string minfo);
         void RequestSetEditorFemaleInfo(string finfo);
@@ -258,14 +230,8 @@ namespace GedItter.MarriageRecords
         void ShowInvalidFemaleInfo(bool valid);
         void ShowInvalidMarriageCounty(bool valid);
         void ShowInvalidSource(bool valid);
-        void ShowInvalidWitnessSName1(bool valid);
-        void ShowInvalidWitnessSName2(bool valid);
-        void ShowInvalidWitnessSName3(bool valid);
-        void ShowInvalidWitnessSName4(bool valid);
-        void ShowInvalidWitnessCName1(bool valid);
-        void ShowInvalidWitnessCName2(bool valid);
-        void ShowInvalidWitnessCName3(bool valid);
-        void ShowInvalidWitnessCName4(bool valid);
+        void ShowInvalidWitnesses(bool valid);
+   
 
         void ShowInvalidMaleOccupation(bool valid);
         void ShowInvalidFemaleOccupation(bool valid);

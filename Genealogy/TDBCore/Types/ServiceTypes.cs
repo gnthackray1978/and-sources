@@ -153,6 +153,7 @@ namespace TDBCore.Types
         public string Sources { get; set; }
         public string Events { get; set; }
         public string Spouse { get; set; }
+        public string LinkedTrees { get; set; }
     }
 
     public class ServicePerson : ServicePersonLookUp
@@ -200,15 +201,36 @@ namespace TDBCore.Types
 
         public string Witness1ChristianName { get; set; }
         public string Witness1Surname { get; set; }
+        public string Witness1Description { get; set; }
 
         public string Witness2ChristianName { get; set; }
         public string Witness2Surname { get; set; }
+        public string Witness2Description { get; set; }
 
         public string Witness3ChristianName { get; set; }
         public string Witness3Surname { get; set; }
+        public string Witness3Description { get; set; }
 
         public string Witness4ChristianName { get; set; }
         public string Witness4Surname { get; set; }
+        public string Witness4Description { get; set; }
+
+        public string Witness5ChristianName { get; set; }
+        public string Witness5Surname { get; set; }
+        public string Witness5Description { get; set; }
+
+        public string Witness6ChristianName { get; set; }
+        public string Witness6Surname { get; set; }
+        public string Witness6Description { get; set; }
+
+        public string Witness7ChristianName { get; set; }
+        public string Witness7Surname { get; set; }
+        public string Witness7Description { get; set; }
+
+        public string Witness8ChristianName { get; set; }
+        public string Witness8Surname { get; set; }
+        public string Witness8Description { get; set; }
+
 
         public string LocationCounty { get; set; }
         public string LocationId { get; set; }

@@ -89,5 +89,8 @@ namespace TDBCore.Types
        // public int zoom;
         public int zoom { get; set; }
         //public bool isVis
+
+
+        public int DescendentCount { get; set; }
     }
 }

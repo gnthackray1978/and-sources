@@ -219,12 +219,20 @@ AncPersons.prototype = {
             tableBody += '<td><a id= "s' + _idx + '" href="" ><div>' + sourceInfo.ChristianName + '</div></a></td>';
             selectEvents.push({ key: 's' + _idx, value: sourceInfo.PersonId });
 
-            tableBody += '<td><div>' + sourceInfo.Surname + '</div></td>';
+
+            if (sourceInfo.LinkedTrees !== '')
+                tableBody += '<td><div class = "associatedTrees" title="' + sourceInfo.LinkedTrees + '">' + sourceInfo.Surname + '</div></td>';
+            else
+                tableBody += '<td><div>' + sourceInfo.Surname + '</div></td>';
+            
+
 
             if (sourceInfo.Spouse === '')
                 tableBody += '<td><div class = "parent">' + sourceInfo.FatherChristianName + '</div></td>';
             else
                 tableBody += '<td><div class = "spouse">' + sourceInfo.Spouse + '</div></td>';
+
+
 
 
             tableBody += '<td><div>' + sourceInfo.MotherChristianName + '</div></td>';

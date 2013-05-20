@@ -2512,6 +2512,9 @@ namespace TDBCore.ModelObjects
 
             }
 
+
+
+
             //System.Xml.Serialization.XmlSerializer x = new System.Xml.Serialization.XmlSerializer(generations.GetType());
 
             //System.IO.StringWriter writeStr = new StringWriter();
@@ -2519,11 +2522,57 @@ namespace TDBCore.ModelObjects
             //x.Serialize(writeStr, generations);
 
 
-
+          
 #endif
+            var genIdx = 0;
+
+            foreach (var generation in this.generations)
+            {
+                var personIdx = 0;
+                foreach (var person in generation)
+                {
+                    person.DescendentCount = this.CountDescendants(genIdx, personIdx);
+                    personIdx++;
+                }
+                genIdx++;
+            }
+
 
         }
 
+        private int CountDescendants(int genIdx, int personIdx)
+        { 
+            //this.generations[genIdx][personIdx].
+
+          
+             
+            int descendantCount = 0;
+
+ 
+
+            Stack<TreePerson> stack = new Stack<TreePerson>();
+            var tp = this.generations[genIdx][personIdx];
+
+            stack.Push(tp);
+
+            while (stack.Count > 0)
+            {
+                var current = stack.Pop();
+
+                descendantCount++;
+
+                if (current.GenerationIdx + 1 <  this.generations.Count )
+                {
+                    foreach (var control in this.generations[current.GenerationIdx + 1].Where(o => o.FatherId == current.PersonId))
+                    {
+                        stack.Push(control);
+                    }
+                }
+            }
+
+
+            return descendantCount;
+        }
 
         private void ValidateDescendantTree(List<List<TreePerson>> testTree)
         {

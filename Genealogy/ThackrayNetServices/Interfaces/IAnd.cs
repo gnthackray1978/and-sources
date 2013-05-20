@@ -298,15 +298,15 @@ namespace ANDServices
                     string MaleSName,
                     string MarriageDate,
                     string MarriageLocation,
-
-                    string Witness1ChristianName,
-                    string Witness1Surname,
-                    string Witness2ChristianName,
-                    string Witness2Surname,
-                    string Witness3ChristianName,
-                    string Witness3Surname,
-                    string Witness4ChristianName,
-                    string Witness4Surname
+                    string MarriageWitnesses
+                    //string Witness1ChristianName,
+                    //string Witness1Surname,
+                    //string Witness2ChristianName,
+                    //string Witness2Surname,
+                    //string Witness3ChristianName,
+                    //string Witness3Surname,
+                    //string Witness4ChristianName,
+                    //string Witness4Surname    
             );
 
         [OperationContract]

@@ -563,7 +563,7 @@ namespace GedItter.MarriageRecords
             if (!IsvalidSelect()) return;
 
             MarriageRecords.BLL.MarriagesBLL marriagesBLL = new GedItter.MarriageRecords.BLL.MarriagesBLL();
-            MarriageWitnessesBLL mwb = new MarriageWitnessesBLL (); 
+            MarriageWitnessesBll mwb = new MarriageWitnessesBll (); 
 
             if (this.IsValidEntry && isDataChanged)
             {
@@ -806,9 +806,9 @@ namespace GedItter.MarriageRecords
             MarriagesBLL marriagesBLL = new MarriagesBLL();
             SourceBLL sourceBll = new SourceBLL();
             SourceMappingsBLL sourceMappingsBll = new SourceMappingsBLL();
-            MarriageWitnessesBLL marriageWitBll = new MarriageWitnessesBLL();
+            MarriageWitnessesBll marriageWitBll = new MarriageWitnessesBll();
             List<Guid> sourceList = new List<Guid>();
-            List<Person> witnessList = new List<Person>();
+            List<marriageWitness> witnessList = new List<marriageWitness>();
 
             witnessList.AddRange(marriageWitBll.GetWitnessesForMarriage(newMarriage.Marriage_Id));
 

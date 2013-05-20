@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Activation;
-using GedItter.BirthDeathRecords.BLL;
+using System.Web.Script.Serialization;
 using GedItter.BLL;
-using GedItter.Tools;
 using TDBCore.EntityModel;
 using TDBCore.Types;
 using TDBCore.BLL;
@@ -19,17 +16,12 @@ using GedItter.MarriageRecords;
 using TDBCore.ModelObjects;
 using System.Web.Security;
 using System.ServiceModel.Web;
-using System.ServiceModel.Channels;
-using System.ServiceModel.Description;
 using System.Diagnostics;
 using System.Reflection;
-
-using System.Web;
 using Facebook;
-using System.Xml.Linq;
 using GedItter.Interfaces;
 using GedItter;
-//using AndServices.Classes;
+ 
  
 
 namespace ANDServices
@@ -1969,14 +1961,34 @@ namespace ANDServices
                 MarriageLocation = iModel.EditorLocation,
                 Sources = iModel.SourceGuidListAsString,
                 SourceDescription = iModel.EditorSource,
-                Witness1ChristianName = iModel.EditorWitnessCName1,
-                Witness1Surname = iModel.EditorWitness1,
-                Witness2ChristianName = iModel.EditorWitnessCName2,
-                Witness2Surname = iModel.EditorWitness2,
-                Witness3ChristianName = iModel.EditorWitnessCName3,
-                Witness3Surname = iModel.EditorWitness3,
-                Witness4ChristianName = iModel.EditorWitnessCName4,
-                Witness4Surname = iModel.EditorWitness4
+                Witness1ChristianName = iModel.EditorWitnesses.GetXName(0),
+                Witness1Surname = iModel.EditorWitnesses.GetXSurname(0),
+                Witness1Description = iModel.EditorWitnesses.GetXDescription(0),
+                Witness2ChristianName = iModel.EditorWitnesses.GetXName(1),
+                Witness2Surname = iModel.EditorWitnesses.GetXSurname(1),
+                Witness2Description = iModel.EditorWitnesses.GetXDescription(1),
+                Witness3ChristianName = iModel.EditorWitnesses.GetXName(2),
+                Witness3Surname = iModel.EditorWitnesses.GetXSurname(2),
+                Witness3Description = iModel.EditorWitnesses.GetXDescription(2),
+                Witness4ChristianName = iModel.EditorWitnesses.GetXName(3),
+                Witness4Surname = iModel.EditorWitnesses.GetXSurname(3),
+                Witness4Description = iModel.EditorWitnesses.GetXDescription(3),
+                Witness5ChristianName = iModel.EditorWitnesses.GetXName(4),
+                Witness5Surname = iModel.EditorWitnesses.GetXSurname(4),
+                Witness5Description = iModel.EditorWitnesses.GetXDescription(4),
+                Witness6ChristianName = iModel.EditorWitnesses.GetXName(5),
+                Witness6Surname = iModel.EditorWitnesses.GetXSurname(5),
+                Witness6Description = iModel.EditorWitnesses.GetXDescription(5),
+                Witness7ChristianName = iModel.EditorWitnesses.GetXName(6),
+                Witness7Surname = iModel.EditorWitnesses.GetXSurname(6),
+                Witness7Description = iModel.EditorWitnesses.GetXDescription(6),
+                Witness8ChristianName = iModel.EditorWitnesses.GetXName(7),
+                Witness8Surname = iModel.EditorWitnesses.GetXSurname(7),
+                Witness8Description = iModel.EditorWitnesses.GetXDescription(7)
+
+
+
+
             };
 
             serviceMarriage.ErrorStatus = retVal;
@@ -2366,22 +2378,25 @@ namespace ANDServices
             return iModel.MarriagesTable.Count;
         }
 
+
+
+
+
         public string AddMarriage(
                     string FemaleLocationId, string LocationId, string MaleLocationId, string SourceDescription, string Sources, string MarriageId, string IsBanns, string IsLicense, string IsWidow, string IsWidower,
                     string FemaleBirthYear, string FemaleCName, string FemaleLocation, string FemaleNotes, string FemaleOccupation, string FemaleSName, string LocationCounty, string MaleBirthYear, string MaleCName,
-                    string MaleLocation, string MaleNotes, string MaleOccupation, string MaleSName, string MarriageDate, string MarriageLocation,
-                    string Witness1ChristianName, string Witness1Surname, string Witness2ChristianName, string Witness2Surname, string Witness3ChristianName, string Witness3Surname, string Witness4ChristianName, string Witness4Surname)
+                    string MaleLocation, string MaleNotes, string MaleOccupation, string MaleSName, string MarriageDate, string MarriageLocation, string MarriageWitnesses)
         {
 
 
             WriteParams(FemaleLocationId, LocationId, MaleLocationId, SourceDescription, Sources, MarriageId, IsBanns, IsLicense, IsWidow, IsWidower,
                      FemaleBirthYear, FemaleCName, FemaleLocation, FemaleNotes, FemaleOccupation, FemaleSName, LocationCounty, MaleBirthYear, MaleCName,
-                     MaleLocation, MaleNotes, MaleOccupation, MaleSName, MarriageDate, MarriageLocation,
-                     Witness1ChristianName, Witness1Surname, Witness2ChristianName, Witness2Surname, Witness3ChristianName, Witness3Surname, Witness4ChristianName, Witness4Surname);
+                     MaleLocation, MaleNotes, MaleOccupation, MaleSName, MarriageDate, MarriageLocation);
 
             string retVal = "";
             IMarriageEditorModel iModel = new MarriagesEditorModel();
             IMarriageEditorControl iControl = new MarriagesEditorControl();
+   
 
             try
             {
@@ -2392,6 +2407,16 @@ namespace ANDServices
 
                 if (Sources != null)
                     Sources.Split(',').ToList().ForEach(s => sourceList.Add(s.ToGuid()));
+
+                var witnesses = new List<marriageWitness>();
+
+              //  string example = @"[{""name"":""john"",""surname"":""smith"",""description"":""witness""},{""name"":""chris"",""surname"":""jones"",""description"":""witness""},{""name"":""allen"",""surname"":""bond"",""description"":""vicar""}]";
+
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+
+                // Deserialize
+
+             
 
                 iControl.RequestSetUser(WebHelper.GetUser());
 
@@ -2407,31 +2432,35 @@ namespace ANDServices
                 iControl.RequestSetEditorMaleInfo(MaleNotes);
                 iControl.RequestSetEditorFemaleInfo(FemaleNotes);
                 iControl.RequestSetEditorLocation(MarriageLocation);
+                iControl.RequestSetEditorMarriageLocationId(LocationId.ToGuid());
                 iControl.RequestSetEditorMarriageCounty(LocationCounty);
                 iControl.RequestSetEditorMaleLocation(MaleLocation);
                 iControl.RequestSetEditorFemaleLocation(FemaleLocation);
-
-                iControl.RequestSetEditorWitness1(Witness1Surname);
-                iControl.RequestSetEditorWitness1CName(Witness1ChristianName);
-
-                iControl.RequestSetEditorWitness2(Witness2Surname);
-                iControl.RequestSetEditorWitness2CName(Witness2ChristianName);
-
-                iControl.RequestSetEditorWitness3(Witness3Surname);
-                iControl.RequestSetEditorWitness3CName(Witness3ChristianName);
-
-                iControl.RequestSetEditorWitness4(Witness4Surname);
-                iControl.RequestSetEditorWitness4CName(Witness4ChristianName);
+                //iControl.RequestSetEditorWitnesses();
+                
+          
 
                 iControl.RequestSetEditorIsWidow(IsWidow.ToBool());
                 iControl.RequestSetEditorIsWidower(IsWidower.ToBool());
                 iControl.RequestSetEditorIsBanns(IsBanns.ToBool());
                 iControl.RequestSetEditorIsLicence(IsLicense.ToBool());
 
+                
+
                 iControl.RequestSetEditorMaleOccupation(MaleOccupation);
                 iControl.RequestSetEditorFemaleOccupation(FemaleOccupation);
                 iControl.RequestSetEditorMaleBirthYear(MaleBirthYear);
                 iControl.RequestSetEditorFemaleBirthYear(FemaleBirthYear);
+
+
+                 
+                var marriages = serializer.DeserializeToMarriageWitnesses(MarriageWitnesses, iModel.EditorMarriageYear, iModel.EditorDateMarriageString,
+                                                          iModel.EditorLocation, iModel.EditorMarriageLocationId);
+
+
+
+                iControl.RequestSetEditorWitnesses(marriageWitness.AddWitnesses(marriages));
+
                 iControl.RequestUpdate();
 
             }

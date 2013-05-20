@@ -19,14 +19,7 @@ namespace TDBCore.Types
         public bool IsValidFemaleInfo { get; set; }
         public bool IsValidMarriageCounty { get; set; }
         public bool IsValidSource { get; set; }
-        public bool IsValidWitnessSName1 { get; set; }
-        public bool IsValidWitnessSName2 { get; set; }
-        public bool IsValidWitnessSName3 { get; set; }
-        public bool IsValidWitnessSName4 { get; set; }
-        public bool IsValidWitnessCName1 { get; set; }
-        public bool IsValidWitnessCName2 { get; set; }
-        public bool IsValidWitnessCName3 { get; set; }
-        public bool IsValidWitnessCName4 { get; set; }
+        public bool IsValidWitnesses { get; set; }
 
         public bool IsValidMaleOccupation { get; set; }
         public bool IsValidFemaleOccupation { get; set; }
