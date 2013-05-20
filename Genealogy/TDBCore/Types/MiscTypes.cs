@@ -75,7 +75,7 @@ namespace TDBCore.Types
         public void PopulateData()
         {
  
-            MarriageWitnessesBLL mWits = new MarriageWitnessesBLL();
+            MarriageWitnessesBll mWits = new MarriageWitnessesBll();
             Person _person = null;
             Marriage _marriage = null;
             SourceBLL _sources = new SourceBLL();

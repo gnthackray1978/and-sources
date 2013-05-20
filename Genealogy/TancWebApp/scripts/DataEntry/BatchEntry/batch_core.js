@@ -123,14 +123,30 @@ BatchCore.prototype = {
         var result = $("#tablecontent textarea").val();
         //  editableGrid.getCell(editableGrid.currentCellX, editableGrid.currentCellY);
 
+
+
+        console.log('paste event triggered');
+
         var idx = 0;
         var rowIdx = this.editableGrid.currentCellX;
         var columnIndex = this.editableGrid.currentCellY;
+
+        // try to get the paste value like this.
+        if(result == undefined)
+        {
+            var rowid = (rowIdx+1);
+            $( "#DemoGrid_"+rowid+" td" ).each(function( index ) {        
+               if(index == columnIndex) 
+                result = $(this).text() ;
+            });
+
+        }
 
         $("#txtSource").focus();
 
         var rows = result.split('\x0A');
 
+        console.log('rows length: ' + result.length);
 
         while (idx < rows.length) {
 
@@ -155,6 +171,7 @@ BatchCore.prototype = {
                     var element = this.editableGrid.getCell(rowIdx, colIdx);
                     element.isEditing =false;
                     this.editableGrid.setValueAt(rowIdx, colIdx, _value);
+                    console.log('setting val: ' + rowIdx + ' ' + colIdx + ' ' + _value);
                     colIdx--;
                     cidx--;
                 }

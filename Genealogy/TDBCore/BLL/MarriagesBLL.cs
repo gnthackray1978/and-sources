@@ -88,147 +88,79 @@ namespace GedItter.MarriageRecords.BLL
         }
 
 
-        public void GetMarriageWitForProc()
-        {
+        //public void GetMarriageWitForProc()
+        //{
 
-            MarriageWitnessesBLL mwitnessBll = new MarriageWitnessesBLL();
+        //    MarriageWitnessesBll mwitnessBll = new MarriageWitnessesBll();
 
-            foreach (var marriage in ModelContainer.Marriages.Where(m => m.Witness1 != "" || m.Witness2 != "" || m.Witness3 != "" || m.Witness4 != "").ToList())
-            {
-                List<string> witnessParts = new List<string>();
-                Person newPerson = new Person();
-                List<Person> witnesses = new List<Person>();
-                if (marriage.Witness1 != "")
-                {
-                     // just incase i got careless and entered the data a bit wrong
-                     marriage.Witness1 = marriage.Witness1.Replace("  ", " ");
-                     marriage.Witness1 = marriage.Witness1.Replace("   ", " ");
+        //    foreach (var marriage in ModelContainer.Marriages.Where(m => m.Witness1 != "" || m.Witness2 != "" || m.Witness3 != "" || m.Witness4 != "").ToList())
+        //    {
+        //        List<string> witnessParts = new List<string>();
+        //        Person newPerson = new Person();
+        //        List<Person> witnesses = new List<Person>();
+        //        if (marriage.Witness1 != "")
+        //        {
+        //             // just incase i got careless and entered the data a bit wrong
+        //             marriage.Witness1 = marriage.Witness1.Replace("  ", " ");
+        //             marriage.Witness1 = marriage.Witness1.Replace("   ", " ");
 
-                     witnessParts = Regex.Split(marriage.Witness1, " ").ToList();
+        //             witnessParts = Regex.Split(marriage.Witness1, " ").ToList();
 
-                     newPerson = _ProcessWitness(marriage, witnessParts);
+        //             newPerson = _ProcessWitness(marriage, witnessParts);
                      
-                    if(newPerson!= null)
-                         witnesses.Add(newPerson);
-                }
-                if (marriage.Witness2 != "")
-                {
-                    // just incase i got careless and entered the data a bit wrong
-                    marriage.Witness2 = marriage.Witness2.Replace("  ", " ");
-                    marriage.Witness2 = marriage.Witness2.Replace("   ", " ");
+        //            if(newPerson!= null)
+        //                 witnesses.Add(newPerson);
+        //        }
+        //        if (marriage.Witness2 != "")
+        //        {
+        //            // just incase i got careless and entered the data a bit wrong
+        //            marriage.Witness2 = marriage.Witness2.Replace("  ", " ");
+        //            marriage.Witness2 = marriage.Witness2.Replace("   ", " ");
 
-                    witnessParts = Regex.Split(marriage.Witness2, " ").ToList();
-                    newPerson = _ProcessWitness(marriage, witnessParts);
+        //            witnessParts = Regex.Split(marriage.Witness2, " ").ToList();
+        //            newPerson = _ProcessWitness(marriage, witnessParts);
                     
-                    if(newPerson!= null)
-                         witnesses.Add(newPerson);
-                }
+        //            if(newPerson!= null)
+        //                 witnesses.Add(newPerson);
+        //        }
 
-                if (marriage.Witness3 != "")
-                {
-                    // just incase i got careless and entered the data a bit wrong
-                    marriage.Witness3 = marriage.Witness3.Replace("  ", " ");
-                    marriage.Witness3 = marriage.Witness3.Replace("   ", " ");
+        //        if (marriage.Witness3 != "")
+        //        {
+        //            // just incase i got careless and entered the data a bit wrong
+        //            marriage.Witness3 = marriage.Witness3.Replace("  ", " ");
+        //            marriage.Witness3 = marriage.Witness3.Replace("   ", " ");
 
-                    witnessParts = Regex.Split(marriage.Witness3, " ").ToList();
-                    newPerson = _ProcessWitness(marriage, witnessParts);
+        //            witnessParts = Regex.Split(marriage.Witness3, " ").ToList();
+        //            newPerson = _ProcessWitness(marriage, witnessParts);
                    
-                    if(newPerson!= null)
-                         witnesses.Add(newPerson);
-                }
+        //            if(newPerson!= null)
+        //                 witnesses.Add(newPerson);
+        //        }
 
-                if (marriage.Witness4 != "")
-                {
-                    // just incase i got careless and entered the data a bit wrong
-                    marriage.Witness4 = marriage.Witness4.Replace("  ", " ");
-                    marriage.Witness4 = marriage.Witness4.Replace("   ", " ");
+        //        if (marriage.Witness4 != "")
+        //        {
+        //            // just incase i got careless and entered the data a bit wrong
+        //            marriage.Witness4 = marriage.Witness4.Replace("  ", " ");
+        //            marriage.Witness4 = marriage.Witness4.Replace("   ", " ");
 
-                    witnessParts = Regex.Split(marriage.Witness4, " ").ToList();
-                    newPerson = _ProcessWitness(marriage, witnessParts);    
+        //            witnessParts = Regex.Split(marriage.Witness4, " ").ToList();
+        //            newPerson = _ProcessWitness(marriage, witnessParts);    
                    
-                    if(newPerson!= null)
-                         witnesses.Add(newPerson);
-                }
+        //            if(newPerson!= null)
+        //                 witnesses.Add(newPerson);
+        //        }
 
-                mwitnessBll.InsertWitnessesForMarriage(marriage.Marriage_Id,witnesses);
+        //        mwitnessBll.InsertWitnessesForMarriage(marriage.Marriage_Id,witnesses);
 
-            }
-
-
-        }
+        //    }
 
 
+        //}
 
 
-        public  void ImportMarriageWits(string marriageId, string wit1, string wit2, string wit3, string wit4)
-        {
-
-            Guid marriageGuid = new Guid(marriageId);
-            MarriageWitnessesBLL mwitnessBll = new MarriageWitnessesBLL();
-
-           // MarriagesBLL _marriagesbll = new MarriagesBLL ();
-
-            Marriage marriage = GetMarriageById2(marriageGuid).FirstOrDefault();
-
-            List<string> witnessParts = new List<string>();
-            Person newPerson = new Person();
-            List<Person> witnesses = new List<Person>();
-            if (wit1 != "")
-            {
-                // just incase i got careless and entered the data a bit wrong
-                wit1 = wit1.Replace("  ", " ");
-                wit1 = wit1.Replace("   ", " ");
-
-                witnessParts = Regex.Split(wit1, " ").ToList();
-
-                newPerson = _ProcessWitness(marriage, witnessParts);
-
-                if (newPerson != null)
-                    witnesses.Add(newPerson);
-            }
-            if (wit2 != "")
-            {
-                // just incase i got careless and entered the data a bit wrong
-                wit2 = wit2.Replace("  ", " ");
-                wit2 = wit2.Replace("   ", " ");
-
-                witnessParts = Regex.Split(wit2, " ").ToList();
-                newPerson = _ProcessWitness(marriage, witnessParts);
-
-                if (newPerson != null)
-                    witnesses.Add(newPerson);
-            }
-
-            if (wit3 != "")
-            {
-                // just incase i got careless and entered the data a bit wrong
-                wit3 = wit3.Replace("  ", " ");
-                wit3 = wit3.Replace("   ", " ");
-
-                witnessParts = Regex.Split(wit3, " ").ToList();
-                newPerson = _ProcessWitness(marriage, witnessParts);
-
-                if (newPerson != null)
-                    witnesses.Add(newPerson);
-            }
-
-            if (wit4 != "")
-            {
-                // just incase i got careless and entered the data a bit wrong
-                wit4 = wit4.Replace("  ", " ");
-                wit4 = wit4.Replace("   ", " ");
-
-                witnessParts = Regex.Split(wit4, " ").ToList();
-                newPerson = _ProcessWitness(marriage, witnessParts);
-
-                if (newPerson != null)
-                    witnesses.Add(newPerson);
-            }
-
-            mwitnessBll.InsertWitnessesForMarriage(marriage.Marriage_Id, witnesses);
-        }
 
 
+      
         private static Person _ProcessWitness(Marriage marriage, List<string> witnessParts)
         {
           //  witnessParts.Remove(s=>s.
@@ -418,7 +350,7 @@ namespace GedItter.MarriageRecords.BLL
                 if (locations.Length > 4) MarriageLocation5 = locations[4];
             }
 
-            MarriageWitnessesBLL mwBll = new MarriageWitnessesBLL();
+            MarriageWitnessesBll mwBll = new MarriageWitnessesBll();
             
             
             List<Guid> temp = new List<Guid>();
@@ -560,8 +492,12 @@ namespace GedItter.MarriageRecords.BLL
             string wit2 = "";
             string wit3 = "";
             string wit4 = "";
+            
+            this.Reset();
 
             Marriage _marriage = new Marriage();
+
+            if(uniqueRef == Guid.Empty) uniqueRef = Guid.NewGuid();
 
             _marriage.MaleCName = MaleCName;
             _marriage.MaleSName = MaleSName;
@@ -607,7 +543,12 @@ namespace GedItter.MarriageRecords.BLL
             _marriage.OrigMaleSurname = origMaleName;
 
             ModelContainer.Marriages.AddObject(_marriage);
+
+          
+
             ModelContainer.SaveChanges();
+
+            ModelContainer.Detach(_marriage);
 
             return _marriage.Marriage_Id;
         }

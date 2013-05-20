@@ -120,41 +120,8 @@ namespace GedItter.MarriageRecords
             }
         }
 
-        public void RequestSetEditorWitness1(string witness)
-        {
-            if (Model != null)
-            {
-                Model.SetEditorWitness1(witness);
-                if (View != null) SetView();
-            }
-        }
+       
 
-        public void RequestSetEditorWitness2(string witness)
-        {
-            if (Model != null)
-            {
-                Model.SetEditorWitness2(witness);
-                if (View != null) SetView();
-            }
-        }
-
-        public void RequestSetEditorWitness3(string witness)
-        {
-            if (Model != null)
-            {
-                Model.SetEditorWitness3(witness);
-                if (View != null) SetView();
-            }
-        }
-
-        public void RequestSetEditorWitness4(string witness)
-        {
-            if (Model != null)
-            {
-                Model.SetEditorWitness4(witness);
-                if (View != null) SetView();
-            }
-        }
 
         public void RequestSetEditorMaleInfo(string minfo)
         {
@@ -225,14 +192,8 @@ namespace GedItter.MarriageRecords
                 View.ShowInvalidOriginalFemaleName(Model.IsValidOriginalFemaleName);
                 View.ShowInvalidOriginalName(Model.IsValidOriginalName);
                 View.ShowInvalidSource(Model.IsValidSource);
-                View.ShowInvalidWitnessCName1(Model.IsValidWitnessCName1);
-                View.ShowInvalidWitnessCName2(Model.IsValidWitnessCName2);
-                View.ShowInvalidWitnessCName3(Model.IsValidWitnessCName3);
-                View.ShowInvalidWitnessCName4(Model.IsValidWitnessCName4);
-                View.ShowInvalidWitnessSName1(Model.IsValidWitnessSName1);
-                View.ShowInvalidWitnessSName2(Model.IsValidWitnessSName2);
-                View.ShowInvalidWitnessSName3(Model.IsValidWitnessSName3);
-                View.ShowInvalidWitnessSName4(Model.IsValidWitnessSName4);
+                View.ShowInvalidWitnesses(Model.IsValidWitnesses);
+         
                 //View.DisableAddition(Model.IsDataInserted);
                 //View.DisableUpdating(Model.IsDataUpdated);
             }
@@ -355,51 +316,14 @@ namespace GedItter.MarriageRecords
             }
         }
 
-
-
-        
-
-
-        public void RequestSetEditorWitness1CName(string witness)
+        public void RequestSetEditorWitnesses(List<marriageWitness> param)
         {
             if (Model != null)
             {
-                Model.SetEditorWitness1CName(witness);
+                Model.SetEditorWitness1(param);
 
                 if (View != null) SetView();
             }
         }
-
-        public void RequestSetEditorWitness2CName(string witness)
-        {
-            if (Model != null)
-            {
-                Model.SetEditorWitness2CName(witness);
-
-                if (View != null) SetView();
-            }
-        }
-
-        public void RequestSetEditorWitness3CName(string witness)
-        {
-            if (Model != null)
-            {
-                Model.SetEditorWitness3CName(witness);
-
-                if (View != null) SetView();
-            }
-        }
-
-        public void RequestSetEditorWitness4CName(string witness)
-        {
-            if (Model != null)
-            {
-                Model.SetEditorWitness4CName(witness);
-
-                if (View != null) SetView();
-            }
-        }
-
-       
     }
 }

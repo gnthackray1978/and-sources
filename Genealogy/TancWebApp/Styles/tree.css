@@ -1,5 +1,28 @@
-﻿body {
+﻿body 
+{
+   background-color:Black;
 }
+
+
+#map_message
+{
+    position: absolute;
+    left: 10px;
+    top: 5px;
+}
+
+
+.map_year
+{
+  
+    color: #00FF00;
+    font-size: large;
+    width: 150px;
+}
+
+
+
+
 
 .tree_Links
 {

@@ -66,32 +66,41 @@ namespace ANDServices
 
                 string token = WebOperationContext.Current.IncomingRequest.Headers["fb"];
 
-                if (token != null && token.Length> 0)
+
+                if (!WebOperationContext.Current.IncomingRequest.UriTemplateMatch.BaseUri.Host.Contains("local.gnthackray.net"))
                 {
 
-                    Facebook.FacebookClient fbc = new FacebookClient(token);
-
-                    var me2 = (IDictionary<string, object>)fbc.Get("/me");
-
-
-                    if (me2.ContainsKey("name"))
+                    if (token != null && token.Length > 0)
                     {
-                        retVal = (string)me2["name"];
 
+                        Facebook.FacebookClient fbc = new FacebookClient(token);
+
+                        var me2 = (IDictionary<string, object>) fbc.Get("/me");
+
+
+                        if (me2.ContainsKey("name"))
+                        {
+                            retVal = (string) me2["name"];
+
+                        }
+
+                        if (me2.ContainsKey("id"))
+                        {
+                            idVal = (string) me2["id"];
+
+                        }
+
+
+                        retVal = idVal; // userGuid.ToString();
                     }
-
-                    if (me2.ContainsKey("id"))
+                    else
                     {
-                        idVal = (string)me2["id"];
-
+                        throw new Exception("Token Not Received");
                     }
-
-
-                    retVal = idVal;// userGuid.ToString();
                 }
                 else
                 {
-                    throw new Exception("Token Not Received");
+                    retVal = "localaccess";
                 }
             }
             catch (Exception ex1)

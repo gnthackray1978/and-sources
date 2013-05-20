@@ -136,7 +136,7 @@ namespace TDBCore.EntityModel
             if (_marriage.IsLicence.Value)
                 description += " lic ";
 
-            MarriageWitnessesBLL marriageWitBll = new MarriageWitnessesBLL();
+            MarriageWitnessesBll marriageWitBll = new MarriageWitnessesBll();
 
             description += " wit: " + marriageWitBll.GetWitnesseStringForMarriage(_marriage.Marriage_Id);
 
@@ -167,7 +167,7 @@ namespace TDBCore.EntityModel
                 description += " lic ";
 
 
-            MarriageWitnessesBLL marriageWitBll = new MarriageWitnessesBLL();
+            MarriageWitnessesBll marriageWitBll = new MarriageWitnessesBll();
 
             description += " wit: " + marriageWitBll.GetWitnesseStringForMarriage(_marriage.Marriage_Id);
 
@@ -201,7 +201,7 @@ namespace TDBCore.EntityModel
             if (_marriage.Witness1 != "" || _marriage.Witness2 != "" || _marriage.Witness3 != "" || _marriage.Witness4 != "")
                 description += " wit: " + _marriage.Witness1 + " " + _marriage.Witness2 + " " + _marriage.Witness3 + " " + _marriage.Witness4;
 
-            MarriageWitnessesBLL marriageWitBll = new MarriageWitnessesBLL();
+            MarriageWitnessesBll marriageWitBll = new MarriageWitnessesBll();
 
             description += " wit: " + marriageWitBll.GetWitnesseStringForMarriage(_marriage.Marriage_Id);
 

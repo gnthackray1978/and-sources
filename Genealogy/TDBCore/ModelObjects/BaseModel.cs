@@ -133,7 +133,10 @@ namespace GedItter.ModelObjects
 
             UserBLL users = new UserBLL();
          //   users.GetUserRole(this.user);
-            if (users.GetUserRole(this.user) == 1)
+
+            var role = users.GetUserRole(this.user);
+
+            if (role == 1 || role == 2)
             {
                 this.permissionState = "";
                 return true;
@@ -179,7 +182,10 @@ namespace GedItter.ModelObjects
 
             UserBLL users = new UserBLL();
         //    users.GetUserRole(this.user);
-            if (users.GetUserRole(this.user) == 1)
+
+            var role = users.GetUserRole(this.user);
+
+            if (role == 1 || role == 2)
             {
                 this.permissionState = "";
                 return true;
@@ -221,8 +227,8 @@ namespace GedItter.ModelObjects
             //}
 
             UserBLL users = new UserBLL();
-         //   users.GetUserRole(this.user);
-            if (users.GetUserRole(this.user) == 1)
+            int userId = users.GetUserRole(this.user);
+            if ( userId == 1 || userId == 2)
             {
                 this.permissionState = "";
                 return true;
@@ -746,7 +752,9 @@ namespace GedItter.ModelObjects
         {
             if (this.errorState != param)
             {
-                this.errorState = param;
+
+                if(this.errorState.Length < 200)
+                    this.errorState += " " +  param;
 
                // SetModelStatusFields();
             }

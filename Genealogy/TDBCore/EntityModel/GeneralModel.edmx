@@ -202,6 +202,8 @@
           <Property Name="MarriageMapWitnessIndex" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="MarriageId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="WitnessId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="WitnessNote" Type="varchar(max)" />
+          <Property Name="DateAdded" Type="datetime" />
         </EntityType>
         <EntityType Name="MarriageRelations">
           <Key>
@@ -1104,7 +1106,7 @@
           </FunctionImport>
           <EntitySet Name="uvw_1841Census" EntityType="GeneralModel.uvw_1841Census" />
           <FunctionImport Name="ReorderMarriages" ReturnType="Collection(GeneralModel.ReorderMarriages_Result)">
-            <Parameter Name="marriageId" Mode="In" Type="Guid" />
+          <Parameter Name="marriageId" Mode="In" Type="Guid" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="Marriage">
@@ -1522,6 +1524,8 @@
           <Property Type="Int32" Name="MarriageMapWitnessIndex" Nullable="false" a:StoreGeneratedPattern="Identity" xmlns:a="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <NavigationProperty Name="Marriage" Relationship="GeneralModel.FK_MarriageMapWitness_Marriages" FromRole="MarriageMapWitness" ToRole="Marriage" />
           <NavigationProperty Name="Person" Relationship="GeneralModel.FK_MarriageMapWitness_Persons" FromRole="MarriageMapWitness" ToRole="Person" />
+          <Property Type="String" Name="WitnessNote" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="DateAdded" />
         </EntityType>
         <Association Name="FK_MarriageMapWitness_Marriages">
           <End Type="GeneralModel.Marriage" Role="Marriage" Multiplicity="1" />
@@ -2107,6 +2111,8 @@
           <EntitySetMapping Name="MarriageMapWitnesses">
             <EntityTypeMapping TypeName="GeneralModel.MarriageMapWitness">
               <MappingFragment StoreEntitySet="MarriageMapWitness">
+                <ScalarProperty Name="DateAdded" ColumnName="DateAdded" />
+                <ScalarProperty Name="WitnessNote" ColumnName="WitnessNote" />
                 <ScalarProperty Name="MarriageMapWitnessIndex" ColumnName="MarriageMapWitnessIndex" />
               </MappingFragment>
             </EntityTypeMapping>

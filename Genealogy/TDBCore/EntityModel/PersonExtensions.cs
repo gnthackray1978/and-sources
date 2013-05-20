@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GedItter.MarriageRecords;
 using TDBCore.BLL;
 using TDBCore.Types;
 using GedItter.BLL;
@@ -151,6 +152,40 @@ namespace TDBCore.EntityModel
 
         }
 
+        public static IEnumerable<marriageWitness> RemoveDuplicateReferences(this IList<marriageWitness> list)
+        {
+            TDBCore.Types.EqualityComparer<marriageWitness> ec_p = new TDBCore.Types.EqualityComparer<marriageWitness>((o1, o2) => o1.Person.ChristianName == o2.Person.ChristianName
+                && o1.Person.Surname == o2.Person.Surname
+                && o1.Person.ReferenceDateStr == o2.Person.ReferenceDateStr,
+                o => (o.Person.ReferenceDateStr.GetHashCode() + o.Person.Surname.GetHashCode() + o.Person.ChristianName.GetHashCode()));
+
+            IList<marriageWitness> p = new List<marriageWitness>();
+            IList<marriageWitness> dupes = new List<marriageWitness>();
+
+            int idx = 0;
+
+            while (idx < list.Count)
+            {
+
+                if (!p.Contains(list[idx], ec_p))
+                {
+                    p.Add(list[idx]);
+                    idx++;
+                }
+                else
+                {
+                    dupes.Add(list[idx]);
+                    list.Remove(list[idx]);
+
+                }
+
+
+            }
+
+            return dupes;
+
+        }
+
         public static IEnumerable<Person> RemoveDuplicateReferences(this IList<Person> list)
         {
             TDBCore.Types.EqualityComparer<Person> ec_p = new TDBCore.Types.EqualityComparer<Person>((o1, o2) => o1.ChristianName == o2.ChristianName
@@ -271,7 +306,7 @@ namespace TDBCore.EntityModel
         {
             string description = "";
 
-            MarriageWitnessesBLL mwitbll = new MarriageWitnessesBLL();
+            MarriageWitnessesBll mwitbll = new MarriageWitnessesBll();
 
             description = mwitbll.GetWitnessMarriageDesc(_person.Person_id,out marriageId);
 
