@@ -1,21 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
- 
-////using TDBCore.Datasets;
+﻿using System.Linq;
 using TDBCore.EntityModel;
-using System.Diagnostics;
-using System.Data.Objects.DataClasses;
-using System.Data.Objects;
-using System.Data;
 
 namespace TDBCore.BLL
 {
-    public class CountyDictionaryBLL : BaseBLL
+    public class CountyDictionaryBll : BaseBll
     {
 
-        public CountyDictionaryBLL()
+        public CountyDictionaryBll()
         {
 
         }

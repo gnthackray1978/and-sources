@@ -1,33 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using TDBCore.Types.DTOs;
+using TDBCore.Types.filters;
+
 //using TDBCore.Datasets.DsSourceTypesTableAdapters;
 //using TDBCore.Datasets;
-using TDBCore.BLL;
 
-namespace GedItter.BLL
+namespace TDBCore.BLL
 {
-    public class SourceTypesBLL : BaseBLL
+    public class SourceTypesBll : BaseBll
     {
-       
+        
+
         public void DeleteSourceType(int sourceTypeId)
         {
-            var record = this.ModelContainer.SourceTypes.Where(o => o.SourceTypeId == sourceTypeId).FirstOrDefault();
+            var record = this.ModelContainer.SourceTypes.FirstOrDefault(o => o.SourceTypeId == sourceTypeId);
 
-            if (record != null)
+            if (record == null) return;
+
+            this.ModelContainer.SourceTypes.DeleteObject(record);
+
+            this.ModelContainer.SaveChanges();
+        }
+
+
+        public void DeleteSourceTypes(List<int> sourceTypeIds)
+        {
+            foreach (var record in sourceTypeIds.Select(sourceTypeId => this.ModelContainer.SourceTypes.FirstOrDefault(o => o.SourceTypeId == sourceTypeId)).Where(record => record != null))
             {
                 this.ModelContainer.SourceTypes.DeleteObject(record);
-
-                this.ModelContainer.SaveChanges();
             }
 
+            this.ModelContainer.SaveChanges();
         }
- 
+
         public int InsertSourceType(string sourceTypeDesc, int userId, int sourceTypeOrder)
         {
 
-            TDBCore.EntityModel.SourceType sourceType = new TDBCore.EntityModel.SourceType();
+            var sourceType = new TDBCore.EntityModel.SourceType();
 
             sourceType.SourceDateAdded = DateTime.Today.ToShortDateString();
             sourceType.SourceTypeDesc = sourceTypeDesc;
@@ -74,7 +85,26 @@ namespace GedItter.BLL
 
             return sourceTypesDataTable;
         }
-         
+
+
+        //ServiceSourceType
+        public ServiceSourceType GetSourceTypeById(int sourceTypeId)
+        {
+          
+            ServiceSourceType sourceTypesDataTable =
+                ModelContainer.SourceTypes.Where(o => o.SourceTypeId == sourceTypeId)
+                    .Select(p => new ServiceSourceType()
+                        {
+                            Description = p.SourceTypeDesc,
+                            Order = p.SourceTypeOrder,
+                            TypeId = p.SourceTypeId
+                        }).FirstOrDefault();
+
+            return sourceTypesDataTable;
+
+
+        }
+
         public IQueryable<TDBCore.EntityModel.SourceType> GetSourceTypeById2(int sourceTypeId)
         {
             IQueryable<TDBCore.EntityModel.SourceType> sourceTypesDataTable = null;
@@ -100,7 +130,15 @@ namespace GedItter.BLL
             return sourceTypesDataTable;
             
         }
-         
+
+        public List<int> GetSourceTypeIds(Guid sourceId)
+        {
+            var sourceTypesDataTable =  ModelContainer.SourceTypes.Where(p => p.SourceMappings.Any(o => o.Source.SourceId == sourceId))
+                                                      .Select(s => s.SourceTypeId)
+                                                      .ToList();            
+            return sourceTypesDataTable;
+
+        }
 
         public IQueryable<TDBCore.EntityModel.SourceType> GetSourceTypeByFilter2(string desc, int userId)
         {
@@ -118,6 +156,50 @@ namespace GedItter.BLL
             return sourceTypesDataTable;
         }
 
+        public List<ServiceSourceType> GetSourceTypeByFilter(SourceTypeSearchFilter sourceTypeSearchFilter)
+        {
+            List<ServiceSourceType> sourceTypesDataTable = null;
+
+
+
+            if (sourceTypeSearchFilter.Description.Trim() == "%")
+            {              
+                sourceTypesDataTable = ModelContainer.SourceTypes.OrderBy(s => s.SourceTypeOrder).Select(p=> new ServiceSourceType()
+                    {
+                        Description = p.SourceTypeDesc,
+                        TypeId = p.SourceTypeId,
+                        Order = p.SourceTypeOrder,
+                        UserId = p.SourceUserAdded
+                    }).ToList();
+
+            }
+            else
+            {
+                if (sourceTypeSearchFilter.SourceTypeIds.Count > 0)
+                {
+                    sourceTypesDataTable = ModelContainer.SourceTypes.Where(s => sourceTypeSearchFilter.SourceTypeIds.Contains(s.SourceTypeId)).OrderBy(s => s.SourceTypeOrder).Select(p => new ServiceSourceType()
+                    {
+                        Description = p.SourceTypeDesc,
+                        TypeId = p.SourceTypeId,
+                        Order = p.SourceTypeOrder,
+                        UserId = p.SourceUserAdded
+                    }).ToList();     
+                }
+                else
+                {
+                    sourceTypesDataTable = ModelContainer.SourceTypes.Where(o => o.SourceTypeDesc.Contains(sourceTypeSearchFilter.Description)).OrderBy(s => s.SourceTypeOrder).Select(p => new ServiceSourceType()
+                    {
+                        Description = p.SourceTypeDesc,
+                        TypeId = p.SourceTypeId,
+                        Order = p.SourceTypeOrder,
+                        UserId = p.SourceUserAdded
+                    }).ToList();                    
+                }
+
+            }
+
+            return sourceTypesDataTable;
+        }
 
         public List<string> GetSourceTypesFromIdList(List<int> typeIdList)
         {
@@ -135,6 +217,42 @@ namespace GedItter.BLL
 
             return returnList;
         }
-    
+
+
+        public void UpdateSourceType(ServiceSourceType serviceSourceType)
+        {
+            //Adapter.Update(sourceTypeDesc, DateTime.Today, userId, sourceTypeId);
+
+            var stype = this.ModelContainer.SourceTypes.FirstOrDefault(o => o.SourceTypeId == serviceSourceType.TypeId);
+
+            if (stype != null)
+            {
+                stype.SourceTypeDesc = serviceSourceType.Description;
+                stype.SourceUserAdded = 1;
+                stype.SourceTypeOrder = serviceSourceType.Order;
+            }
+
+            this.ModelContainer.SaveChanges();
+
+        }
+
+        public int InsertSourceType(ServiceSourceType serviceSourceType)
+        {
+
+            var sourceType = new TDBCore.EntityModel.SourceType();
+
+            sourceType.SourceDateAdded = DateTime.Today.ToShortDateString();
+            sourceType.SourceTypeDesc = serviceSourceType.Description;
+            sourceType.SourceUserAdded = 1;
+            sourceType.SourceTypeOrder = serviceSourceType.Order;
+
+            this.ModelContainer.SourceTypes.AddObject(sourceType);
+
+            this.ModelContainer.SaveChanges();
+            
+            return sourceType.SourceTypeId;
+        }
+
+
     }
 }

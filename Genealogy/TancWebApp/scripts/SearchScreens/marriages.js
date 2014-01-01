@@ -42,25 +42,25 @@ AncMarriages.prototype = {
 
 
 
-        $("#main").live("click", $.proxy(function () { panels.sourcesShowPanel('1'); return false; }, panels));
-        $("#more").live("click", $.proxy(function () { panels.sourcesShowPanel('2'); return false; }, panels));
+        $('body').on("click", "#main", $.proxy(function () { panels.sourcesShowPanel('1'); return false; }, panels));
+        $('body').on("click", "#more", $.proxy(function () { panels.sourcesShowPanel('2'); return false; }, panels));
 
-        $("#refresh").live("click", $.proxy(function () { this.getMarriages("0"); return false; }, this));
+        $('body').on("click", "#refresh", $.proxy(function () { this.getMarriages("0"); return false; }, this));
 
-        $("#add").live("click", $.proxy(function () { this.addMarriage('00000000-0000-0000-0000-000000000000'); return false; }, this));
-        $("#delete").live("click", $.proxy(function () { this.DeleteRecord(); return false; }, this));
-        $("#reorder").live("click", $.proxy(function () { this.Reorder(); return false; }, this));
-        $("#dupe").live("click", $.proxy(function () { this.SetDuplicates(); return false; }, this));
-        $("#merge").live("click", $.proxy(function () { this.SetMergeMarriages(); return false; }, this));
-        $("#remove").live("click", $.proxy(function () { this.SetRemoveLink(); return false; }, this));
+        $('body').on("click", "#add", $.proxy(function () { this.addMarriage('00000000-0000-0000-0000-000000000000'); return false; }, this));
+        $('body').on("click", "#delete", $.proxy(function () { this.DeleteRecord(); return false; }, this));
+        $('body').on("click", "#reorder", $.proxy(function () { this.Reorder(); return false; }, this));
+        $('body').on("click", "#dupe", $.proxy(function () { this.SetDuplicates(); return false; }, this));
+        $('body').on("click", "#merge", $.proxy(function () { this.SetMergeMarriages(); return false; }, this));
+        $('body').on("click", "#remove", $.proxy(function () { this.SetRemoveLink(); return false; }, this));
 
-        $("#year_hed").live("click", $.proxy(function () { this.sort('MarriageDate'); return false; }, this));
-        $("#mcname_hed").live("click", $.proxy(function () { this.sort('MaleCName'); return false; }, this));
-        $("#msname_hed").live("click", $.proxy(function () { this.sort('MaleSName'); return false; }, this));
-        $("#fcname_hed").live("click", $.proxy(function () { this.sort('FemaleCName'); return false; }, this));
-        $("#fsname_hed").live("click", $.proxy(function () { this.sort('FemaleSName'); return false; }, this));
+        $('body').on("click", "#year_hed", $.proxy(function () { this.sort('MarriageDate'); return false; }, this));
+        $('body').on("click", "#mcname_hed", $.proxy(function () { this.sort('MaleCName'); return false; }, this));
+        $('body').on("click", "#msname_hed", $.proxy(function () { this.sort('MaleSName'); return false; }, this));
+        $('body').on("click", "#fcname_hed", $.proxy(function () { this.sort('FemaleCName'); return false; }, this));
+        $('body').on("click", "#fsname_hed", $.proxy(function () { this.sort('FemaleSName'); return false; }, this));
 
-        $("#locat_hed").live("click", $.proxy(function () { this.sort('MarriageLocation'); return false; }, this));
+        $('body').on("click","#locat_hed", $.proxy(function () { this.sort('MarriageLocation'); return false; }, this));
 
 
 
@@ -129,7 +129,7 @@ AncMarriages.prototype = {
         params[12] = '30';
         params[13] = this.qryStrUtils.getParameterByName('sort_col', 'MarriageDate');
 
-        this.ancUtils.twaGetJSON('/Marriages/GetMarriages/Select', params, $.proxy(this.marriageResult, this));
+        this.ancUtils.twaGetJSON('/MarriageService/Get/Select', params, $.proxy(this.marriageResult, this));
 
         this.createQryString();
 
@@ -154,7 +154,7 @@ AncMarriages.prototype = {
         $.each(data.serviceMarriages, function (source, sourceInfo) {
 
             var hidPID = '<input type="hidden" name="MarriageId" id="MarriageId" value ="' + sourceInfo.MarriageId + '"/>';
-            var hidParID = '<input type="hidden" name="parent_id" id="parent_id" value ="' + sourceInfo.XREF + '"/>';
+            var hidParID = '<input type="hidden" name="parent_id" id="parent_id" value ="' + sourceInfo.UniqueRef + '"/>';
 
             var arIdx = jQuery.inArray(sourceInfo.MarriageId, that.selection);
 
@@ -168,8 +168,8 @@ AncMarriages.prototype = {
             var _loc = window.location.hash;
             _loc = that.qryStrUtils.updateStrForQry(_loc, 'id', sourceInfo.MarriageId);
 
-            tableBody += '<td><a id= "d' + _idx + '" href=""><div>' + sourceInfo.Events + '</div></a></td>';
-            dupeEvents.push({ key: 'd' + _idx, value: sourceInfo.XREF });
+            tableBody += '<td><a id= "d' + _idx + '" href=""><div>' + sourceInfo.TotalEvents + '</div></a></td>';
+            dupeEvents.push({ key: 'd' + _idx, value: sourceInfo.UniqueRef });
 
             tableBody += '<td><a id= "s' + _idx + '" href=""><div>' + sourceInfo.MarriageDate + '</div></a></td>';
             selectEvents.push({ key: 's' + _idx, value: sourceInfo.MarriageId });
@@ -177,7 +177,14 @@ AncMarriages.prototype = {
             tableBody += '<td><a href="../HtmlPages/MarriageEditor.html' + _loc + '"><div> Edit </div></a></td>';
 
             tableBody += '<td><div>' + sourceInfo.MaleCName + '</div></td>';
-            tableBody += '<td><div>' + sourceInfo.MaleSName + '</div></td>';
+            
+     //       tableBody += '<td><div>' + sourceInfo.MaleSName + '</div></td>';
+
+            if (sourceInfo.LinkedTrees !== '')
+                tableBody += '<td><div class = "associatedTrees" title="' + sourceInfo.LinkedTrees + '">' + sourceInfo.MaleSName + '</div></td>';
+            else
+                tableBody += '<td><div>' + sourceInfo.MaleSName + '</div></td>';
+
             tableBody += '<td><div>' + sourceInfo.FemaleCName + '</div></td>';
             tableBody += '<td><div>' + sourceInfo.FemaleSName + '</div></td>';
             tableBody += '<td><div>' + sourceInfo.MarriageLocation + '</div></td>';
@@ -231,6 +238,7 @@ AncMarriages.prototype = {
     },
 
     processSelect: function (evt) {
+        console.log('processSelect');
         this.ancUtils.handleSelection(evt, this.selection, '#search_bdy tr', "#MarriageId");
     },
 
@@ -245,29 +253,29 @@ AncMarriages.prototype = {
     },
 
     DeleteRecord: function () {
-        this.postParams.url = '/Marriages/Delete';
+        this.postParams.url = '/MarriageService/Delete';
         this.postParams.data = { marriageIds: this.ancUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
     },
 
     SetDuplicates: function () {
-        this.postParams.url = '/Marriages/SetDuplicate';
+        this.postParams.url = '/MarriageService/SetDuplicate';
         this.postParams.data = { marriages: this.ancUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
     },
 
     SetRemoveLink: function () {
-        this.postParams.url = '/Marriages/RemoveLinks';
+        this.postParams.url = '/MarriageService/RemoveLinks';
         this.postParams.data = { marriage: this.ancUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
     },
     Reorder: function () {
-        this.postParams.url = '/Marriages/ReorderMarriages';
+        this.postParams.url = '/MarriageService/ReorderMarriages';
         this.postParams.data = { marriage: this.ancUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
     },
     SetMergeMarriages: function () {
-        this.postParams.url = '/Marriages/MergeMarriages';
+        this.postParams.url = '/MarriageService/MergeMarriages';
         this.postParams.data = { marriage: this.ancUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
     },

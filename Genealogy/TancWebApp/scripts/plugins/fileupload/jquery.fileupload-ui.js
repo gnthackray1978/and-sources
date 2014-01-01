@@ -80,7 +80,7 @@
                 }
                 if (data.context && data.dataType &&
                         data.dataType.substr(0, 6) === 'iframe') {
-                    // Iframe Transport does not support progress events.
+                    // Iframe Transport does not support progress TotalEvents.
                     // In lack of an indeterminate progress bar, we set
                     // the progress to 100%, showing the full animated bar:
                     data.context.find('.ui-progressbar').progressbar(
@@ -153,7 +153,7 @@
                         }).data('data', data);
                 }
             },
-            // Callback for upload progress events:
+            // Callback for upload progress TotalEvents:
             progress: function (e, data) {
                 if (data.context) {
                     data.context.find('.ui-progressbar').progressbar(
@@ -162,7 +162,7 @@
                     );
                 }
             },
-            // Callback for global upload progress events:
+            // Callback for global upload progress TotalEvents:
             progressall: function (e, data) {
                 $(this).find('.fileupload-progressbar').progressbar(
                     'value',

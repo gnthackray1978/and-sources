@@ -4,7 +4,7 @@ var AncSelectorSources = function () {
     this.qryStrUtils = new QryStrUtils();
     this.ancUtils = new AncUtils();
     this.ancSelectorBase = new AncSelectorBase ()
-    this.url = "/GetSources/Select"; // getHost() + 
+    this.url = "/Sources/Select"; // getHost() + 
 
 
     this.ancSelectorBase.context_data = {

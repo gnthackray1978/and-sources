@@ -15,7 +15,7 @@ var JSMaster = function () {
 
     //Window.prototype.facebookReady = readyfunction;
 
-    this.backgrounds = ['photo4', 'waterfall', 'gard_tree', 'stone_tree', 'back_trees', 'back_stones', 'back_hole_stone', 'back_trees_bw'];
+    this.backgrounds = [ 'stone_tree', 'back_trees', 'back_stones', 'back_hole_stone', 'back_trees_bw'];
     this.imgIdx = 4;
   //  this.urlroot = 'https://c9.io/gnthackray1978/and-sources/workspace/Genealogy/TancWebApp';
     this.urlroot = '..';  
@@ -103,8 +103,8 @@ JSMaster.prototype = {
         headersection += '<div id="panelB" class = "hidePanel">';
         headersection += '<div class = "mtrlnk">';
         headersection += '<a id="lnk_parishs"       href=\'' + this.urlroot + '/HtmlPages/ParishSearch.html\'><span>Parishs</span></a>';
-        headersection += '<a id="lnk_events"        href=\'' + this.urlroot + '/HtmlPages/Events.html\'><span>Events</span></a>';
-        headersection += '<a id="lnk_batchevents"   href=\'' + this.urlroot + '/HtmlPages/batchEntry.html\'><span>Batch Entry</span></a>';
+        headersection += '<a id="lnk_TotalEvents"        href=\'' + this.urlroot + '/HtmlPages/Events.html\'><span>Events</span></a>';
+        headersection += '<a id="lnk_batchTotalEvents"   href=\'' + this.urlroot + '/HtmlPages/batchEntry.html\'><span>Batch Entry</span></a>';
         headersection += '<a id="lnk_files"         href=\'' + this.urlroot + '/Forms/FrmFiles.aspx\'><span>Files</span></a>';
         headersection += '<a id="lnk_sourcetypes"   href=\'' + this.urlroot + '/HtmlPages/SourceTypesSearch.html\'><span>Source Types</span></a>';
         headersection += '</div>';
@@ -155,13 +155,13 @@ JSMaster.prototype = {
         var panels = new Panels();
 
 
-        $("#lnk_mainoptions").live("click", $.proxy(function () { panels.masterShowTab(1); return false; }, panels));
-        $("#lnk_alongwith").live("click", $.proxy(function () { panels.masterShowTab(2); return false; }, panels));
-        $("#lnk_tools").live("click", $.proxy(function () { panels.masterShowTab(3); return false; }, panels));
-        $("#lnk_settings").live("click", $.proxy(function () { panels.masterShowTab(4); return false; }, panels));
+        $('body').on("click", "#lnk_mainoptions", $.proxy(function () { panels.masterShowTab(1); return false; }, panels));
+        $('body').on("click", "#lnk_alongwith", $.proxy(function () { panels.masterShowTab(2); return false; }, panels));
+        $('body').on("click", "#lnk_tools", $.proxy(function () { panels.masterShowTab(3); return false; }, panels));
+        $('body').on("click", "#lnk_settings", $.proxy(function () { panels.masterShowTab(4); return false; }, panels));
 
-        $("#lnk_prevback").live("click", $.proxy(function () { this.prevBackground(); return false; }, this));
-        $("#lnk_nextback").live("click", $.proxy(function () { this.nextBackground(); return false; }, this));
+        $('body').on("click", "#lnk_prevback", $.proxy(function () { this.prevBackground(); return false; }, this));
+        $('body').on("click", "#lnk_nextback", $.proxy(function () { this.nextBackground(); return false; }, this));
 
 
     },
@@ -304,9 +304,9 @@ JSMaster.prototype = {
 
         var imgArray = new Array();
 
-        imgArray.push(this.makeImageData('photo4', 2592, 1936));
-        imgArray.push(this.makeImageData('waterfall', 1424, 951));
-        imgArray.push(this.makeImageData('gard_tree', 800, 600));
+     //   imgArray.push(this.makeImageData('photo4', 2592, 1936));
+     //   imgArray.push(this.makeImageData('waterfall', 1424, 951));
+      //  imgArray.push(this.makeImageData('gard_tree', 800, 600));
         imgArray.push(this.makeImageData('stone_tree', 640, 800));
         imgArray.push(this.makeImageData('back_trees', 640, 800));
         imgArray.push(this.makeImageData('back_stones', 640, 800));

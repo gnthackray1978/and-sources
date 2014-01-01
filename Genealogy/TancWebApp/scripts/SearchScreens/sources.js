@@ -45,20 +45,20 @@ AncSources.prototype = {
 
         var panels = new Panels();
 
-        $("#main").live("click", $.proxy(function () { panels.sourcesShowPanel('1'); return false; }, panels));
-        $("#more").live("click", $.proxy(function () { panels.sourcesShowPanel('2'); return false; }, panels));
-        $("#additional").live("click", $.proxy(function () { panels.sourcesShowPanel('3'); return false; }, panels));
-        $("#refresh").live("click", $.proxy(function () { this.getSources(); return false; }, this));
+        $("body").on("click", "#main", $.proxy(function () { panels.sourcesShowPanel('1'); return false; }, panels));
+        $("body").on("click", "#more", $.proxy(function () { panels.sourcesShowPanel('2'); return false; }, panels));
+        $("body").on("click", "#additional", $.proxy(function () { panels.sourcesShowPanel('3'); return false; }, panels));
+        $("body").on("click", "#refresh", $.proxy(function () { this.getSources(); return false; }, this));
 
 
-        $("#add").live("click", $.proxy(function () { this.addSource('00000000-0000-0000-0000-000000000000'); return false; }, this));
-        $("#delete").live("click", $.proxy(function () { this.deleteSources(); return false; }, this));
-        $("#print").live("click", $.proxy(function () { this.printableSources(); return false; }, this));
-        $("#select_return").live("click", $.proxy(function () { this.returnselection(); return false; }, this));
+        $("body").on("click", "#add", $.proxy(function () { this.addSource('00000000-0000-0000-0000-000000000000'); return false; }, this));
+        $("body").on("click", "#delete", $.proxy(function () { this.deleteSources(); return false; }, this));
+        $("body").on("click", "#print", $.proxy(function () { this.printableSources(); return false; }, this));
+        $("body").on("click", "#select_return", $.proxy(function () { this.returnselection(); return false; }, this));
 
-        $("#sdate").live("click", $.proxy(function () { this.sort("SourceDate"); return false; }, this));
-        $("#sref").live("click", $.proxy(function () { this.sort("SourceRef"); return false; }, this));
-        $("#sdesc").live("click", $.proxy(function () { this.sort("SourceDescription"); return false; }, this));
+        $("body").on("click", "#sdate", $.proxy(function () { this.sort("SourceDate"); return false; }, this));
+        $("body").on("click", "#sref", $.proxy(function () { this.sort("SourceRef"); return false; }, this));
+        $("body").on("click", "#sdesc", $.proxy(function () { this.sort("SourceDescription"); return false; }, this));
 
 
 
@@ -119,7 +119,7 @@ AncSources.prototype = {
         params[14] = '30';
         params[15] = this.qryStrUtils.getParameterByName('sort_col', 'sdate');
     
-        this.ancUtils.twaGetJSON('/GetSources/Select', params, $.proxy(this.processData, this));
+        this.ancUtils.twaGetJSON('/Sources/Select', params, $.proxy(this.processData, this));
 
         this.createQryString();
         return false;
@@ -247,7 +247,7 @@ AncSources.prototype = {
         window.location.href = '../HtmlPages/SourceEditor.html#' + this.qryStrUtils.makeIdQryString('id', path);
     },
     deleteSources: function () {
-        this.postParams.url = '/Source/Delete';
+        this.postParams.url = '/Sources/Delete';
         this.postParams.data = { sourceId: this.ancUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
     },

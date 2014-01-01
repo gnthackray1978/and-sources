@@ -54,6 +54,12 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.0.2\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.0.2\lib\net40\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Gedcom, Version=1.0.3480.40193, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Resources\Gedcom.dll</HintPath>
@@ -67,6 +73,7 @@
       <HintPath>..\Resources\GedLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -98,7 +105,6 @@
     <Compile Include="BLL\CountyDictionaryBLL.cs" />
     <Compile Include="BLL\DeathsBirthsBLL.cs" />
     <Compile Include="BLL\FilesBLL.cs" />
-    <Compile Include="BLL\GedditterBLL.cs" />
     <Compile Include="BLL\LocationDictionaryBLL.cs" />
     <Compile Include="BLL\MarriageRelationsBLL.cs" />
     <Compile Include="BLL\MarriagesBLL.cs" />
@@ -112,33 +118,7 @@
     <Compile Include="BLL\SourceMappingParishsBLL.cs" />
     <Compile Include="BLL\SourceMappingsBLL.cs" />
     <Compile Include="BLL\SourceTypesBLL.cs" />
-    <Compile Include="BLL\TreeBLL.cs" />
     <Compile Include="BLL\UserBLL.cs" />
-    <Compile Include="ControlObjects\CombinedEventSearchControl.cs" />
-    <Compile Include="ControlObjects\DeathBirthEditorControl.cs" />
-    <Compile Include="ControlObjects\DeathBirthFilterControl.cs" />
-    <Compile Include="ControlObjects\FileControl.cs" />
-    <Compile Include="ControlObjects\FileFilterControl.cs" />
-    <Compile Include="ControlObjects\FileMappingControl.cs" />
-    <Compile Include="ControlObjects\MarriagesEditorControl.cs" />
-    <Compile Include="ControlObjects\MarriagesFilterControl.cs" />
-    <Compile Include="ControlObjects\MissingRecordsFilterControl.cs" />
-    <Compile Include="ControlObjects\ParishEditorControl.cs" />
-    <Compile Include="ControlObjects\ParishsFilterControl.cs" />
-    <Compile Include="ControlObjects\SourceEditorControl.cs" />
-    <Compile Include="ControlObjects\SourceFilterControl.cs" />
-    <Compile Include="ControlObjects\SourceMappingControl.cs" />
-    <Compile Include="ControlObjects\SourceMappingParishsControl.cs" />
-    <Compile Include="ControlObjects\SourceTypeEditorControl.cs" />
-    <Compile Include="ControlObjects\SourceTypeFilterControl.cs" />
-    <Compile Include="ControlObjects\SourceTypeMappingControl.cs" />
-    <Compile Include="ControlObjects\TreeControl.cs" />
-    <Compile Include="csDoubleMetaphone.cs" />
-    <Compile Include="csFileFormatHelper.cs" />
-    <Compile Include="csImportCSV.cs" />
-    <Compile Include="csImportGed.cs" />
-    <Compile Include="csLists.cs" />
-    <Compile Include="csUtils.cs" />
     <Compile Include="EntityModel\GeneralModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -146,70 +126,102 @@
     </Compile>
     <Compile Include="EntityModel\MarriageExtensions.cs" />
     <Compile Include="EntityModel\PersonExtensions.cs" />
-    <Compile Include="Interfaces\DeathBirthInterfaces.cs" />
-    <Compile Include="Interfaces\IAncestor.cs" />
-    <Compile Include="Interfaces\IAncestorTree.cs" />
-    <Compile Include="Interfaces\ICombinedEventInterfaces.cs" />
-    <Compile Include="Interfaces\IDBRecord.cs" />
-    <Compile Include="Interfaces\IFileInterface.cs" />
-    <Compile Include="Interfaces\IMissingRecords.cs" />
-    <Compile Include="Interfaces\IParishRecords.cs" />
-    <Compile Include="Interfaces\IParishs.cs" />
-    <Compile Include="Interfaces\IPersonControl.cs" />
-    <Compile Include="Interfaces\IPersonModal.cs" />
-    <Compile Include="Interfaces\IPersonView.cs" />
-    <Compile Include="Interfaces\ITree.cs" />
-    <Compile Include="Interfaces\MarriageInterface.cs" />
-    <Compile Include="Interfaces\SourceInterfaces.cs" />
-    <Compile Include="Interfaces\SourceTypeInterfaces.cs" />
-    <Compile Include="ModelObjects\AncestorModel.cs" />
-    <Compile Include="ModelObjects\BaseModel.cs" />
-    <Compile Include="ModelObjects\CombinedEventSearchModel.cs" />
-    <Compile Include="ModelObjects\DeathBirthEditorModel.cs" />
-    <Compile Include="ModelObjects\DeathBirthFilterModel.cs" />
-    <Compile Include="ModelObjects\FileFilterModel.cs" />
-    <Compile Include="ModelObjects\FileMappingModel.cs" />
-    <Compile Include="ModelObjects\FileModel.cs" />
-    <Compile Include="ModelObjects\MarriagesEditorModel.cs" />
-    <Compile Include="ModelObjects\MarriagesFilterModel.cs" />
-    <Compile Include="ModelObjects\MissingRecordsFilterModel.cs" />
-    <Compile Include="ModelObjects\ParishRecordsModel.cs" />
-    <Compile Include="ModelObjects\ParishsEditorModel.cs" />
-    <Compile Include="ModelObjects\ParishsFilterModel.cs" />
-    <Compile Include="ModelObjects\SourceEditorModel.cs" />
-    <Compile Include="ModelObjects\SourceFilterModel.cs" />
-    <Compile Include="ModelObjects\SourceMappingModel.cs" />
-    <Compile Include="ModelObjects\SourceMappingParishsModel.cs" />
-    <Compile Include="ModelObjects\SourceTypeEditorModel.cs" />
-    <Compile Include="ModelObjects\SourceTypeFilterModel.cs" />
-    <Compile Include="ModelObjects\SourceTypeMappingModel.cs" />
-    <Compile Include="ModelObjects\TreeModel.cs" />
-    <Compile Include="ModelObjects\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Services\TreeServices.cs" />
-    <Compile Include="Types\Comparer.cs" />
-    <Compile Include="Types\DoublePoint.cs" />
-    <Compile Include="Types\Dynamic.cs" />
-    <Compile Include="Types\ExportToHtml.cs" />
-    <Compile Include="Types\ExtensionMethods.cs" />
-    <Compile Include="Types\ImportTypes.cs" />
-    <Compile Include="Types\MarriageResult.cs" />
-    <Compile Include="Types\MarriageValidation.cs" />
-    <Compile Include="Types\MiscTypes.cs" />
-    <Compile Include="Types\Parish.cs" />
-    <Compile Include="Types\ParishDataTypes.cs" />
-    <Compile Include="Types\ParishRecord.cs" />
-    <Compile Include="Types\PersonValidation.cs" />
-    <Compile Include="Types\Post.cs" />
-    <Compile Include="Types\RectangleD.cs" />
-    <Compile Include="Types\ServiceTypes.cs" />
-    <Compile Include="Types\TreePoint.cs" />
-    <Compile Include="Types\TreePerson.cs" />
+    <Compile Include="Types\domain\CombinedSearch.cs" />
+    <Compile Include="Types\domain\MapDataSources.cs" />
+    <Compile Include="Types\domain\MarriageSearch.cs" />
+    <Compile Include="Types\domain\ParishSearch.cs" />
+    <Compile Include="Types\domain\PersonSearch.cs" />
+    <Compile Include="Types\domain\SourceSearch.cs" />
+    <Compile Include="Types\domain\SourceTypeSearch.cs" />
+    <Compile Include="Types\DTOs\CensusPerson.cs" />
+    <Compile Include="Types\DTOs\CensusPlace.cs" />
+    <Compile Include="Types\DTOs\CensusSource.cs" />
+    <Compile Include="Types\DTOs\CombinedSearchOption.cs" />
+    <Compile Include="Types\DTOs\CombinedSearchResult.cs" />
+    <Compile Include="Types\DTOs\FileBasicInfo.cs" />
+    <Compile Include="Types\DTOs\MarriageResult.cs" />
+    <Compile Include="Types\DTOs\MarriageWitness.cs" />
+    <Compile Include="Types\DTOs\ParishCollection.cs" />
+    <Compile Include="Types\DTOs\ParishDataType.cs" />
+    <Compile Include="Types\DTOs\ParishRecord.cs" />
+    <Compile Include="Types\DTOs\ParishTranscript.cs" />
+    <Compile Include="Types\DTOs\RelationDto.cs" />
+    <Compile Include="Types\DTOs\SearchResult.cs" />
+    <Compile Include="Types\DTOs\ServiceBase.cs" />
+    <Compile Include="Types\DTOs\ServiceEvent.cs" />
+    <Compile Include="Types\DTOs\ServiceEventObject.cs" />
+    <Compile Include="Types\DTOs\ServiceFile.cs" />
+    <Compile Include="Types\DTOs\ServiceFileObject.cs" />
+    <Compile Include="Types\DTOs\Source.cs" />
+    <Compile Include="Types\DTOs\SourceAjaxDto.cs" />
+    <Compile Include="Types\DTOs\ServiceMapDisplaySource.cs" />
+    <Compile Include="Types\DTOs\ServiceMarriage.cs" />
+    <Compile Include="Types\DTOs\ServiceMarriageLookup.cs" />
+    <Compile Include="Types\DTOs\ServiceMarriageObject.cs" />
+    <Compile Include="Types\DTOs\ServiceParish.cs" />
+    <Compile Include="Types\DTOs\ServiceParishCounter.cs" />
+    <Compile Include="Types\DTOs\ServiceParishDataType.cs" />
+    <Compile Include="Types\DTOs\ServiceParishDetailObject.cs" />
+    <Compile Include="Types\DTOs\ServiceParishObject.cs" />
+    <Compile Include="Types\DTOs\ServiceParishRecord.cs" />
+    <Compile Include="Types\DTOs\ServiceParishTranscript.cs" />
+    <Compile Include="Types\DTOs\ServicePerson.cs" />
+    <Compile Include="Types\DTOs\ServicePersonLookUp.cs" />
+    <Compile Include="Types\DTOs\ServicePersonObject.cs" />
+    <Compile Include="Types\DTOs\ServiceSearchResult.cs" />
+    <Compile Include="Types\DTOs\ServiceSource.cs" />
+    <Compile Include="Types\DTOs\ServiceSourceObject.cs" />
+    <Compile Include="Types\DTOs\ServiceSourceType.cs" />
+    <Compile Include="Types\DTOs\ServiceSourceTypeObject.cs" />
+    <Compile Include="Types\DTOs\ServiceSuperParish.cs" />
+    <Compile Include="Types\DTOs\SilverParish.cs" />
+    <Compile Include="Types\DTOs\SourceRecord.cs" />
+    <Compile Include="Types\DTOs\TreePerson.cs" />
+    <Compile Include="Types\DTOs\TreePoint.cs" />
+    <Compile Include="Types\DTOs\WitnessDto.cs" />
+    <Compile Include="Types\enums\MarriageSearchTypes.cs" />
+    <Compile Include="Types\enums\PersonSearchTypes.cs" />
+    <Compile Include="Types\enums\SearchEventLink.cs" />
+    <Compile Include="Types\enums\SearchEventType.cs" />
+    <Compile Include="Types\enums\SourceSearchTypes.cs" />
+    <Compile Include="Types\filters\MarriageSearchFilter.cs" />
+    <Compile Include="Types\filters\ParishSearchFilter.cs" />
+    <Compile Include="Types\filters\SourceSearchFilter.cs" />
+    <Compile Include="Types\filters\SourceTypeSearchFilter.cs" />
+    <Compile Include="Types\libs\Comparer.cs" />
+    <Compile Include="Types\libs\CsImportCsv.cs" />
+    <Compile Include="Types\libs\CsUtils.cs" />
+    <Compile Include="Types\libs\DataShaping.cs" />
+    <Compile Include="Types\libs\DateTools.cs" />
+    <Compile Include="Types\libs\DoubleMetaphoneStringExtension.cs" />
+    <Compile Include="Types\libs\EqualityComparer.cs" />
+    <Compile Include="Types\libs\MyExtensions.cs" />
+    <Compile Include="Types\libs\RectangleD.cs" />
+    <Compile Include="Types\libs\SimpleTimer.cs" />
+    <Compile Include="Types\libs\YearRange.cs" />
+    <Compile Include="Types\filters\PersonSearchFilter.cs" />
+    <Compile Include="Types\security\ISecurity.cs" />
+    <Compile Include="Types\security\NoSecurity.cs" />
+    <Compile Include="Types\security\Security.cs" />
+    <Compile Include="Types\validators\IValidator.cs" />
+    <Compile Include="Types\validators\MarriageSearchValidator.cs" />
+    <Compile Include="Types\validators\MarriageValidation.cs" />
+    <Compile Include="Types\validators\MarriageValidator.cs" />
+    <Compile Include="Types\validators\ParishValidator.cs" />
+    <Compile Include="Types\validators\PersonSearchValidator.cs" />
+    <Compile Include="Types\validators\PersonValidation.cs" />
+    <Compile Include="Types\validators\PersonValidator.cs" />
+    <Compile Include="Types\validators\SourceSearchValidator.cs" />
+    <Compile Include="Types\validators\SourceTypeSearchValidator.cs" />
+    <Compile Include="Types\validators\SourceTypeValidator.cs" />
+    <Compile Include="Types\validators\SourceValidator.cs" />
+    <Compile Include="Types\validators\Validator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -220,6 +232,7 @@
       <LastGenOutput>GeneralModel.Designer.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EntityDeploy>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -243,7 +256,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ControlObjects\Silverlight.js" />
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Model\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

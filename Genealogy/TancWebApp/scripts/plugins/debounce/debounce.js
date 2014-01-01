@@ -74,7 +74,7 @@
     // Method: jQuery.throttle
     // 
     // Throttle execution of a function. Especially useful for rate limiting
-    // execution of handlers on events like resize and scroll. If you want to
+    // execution of handlers on TotalEvents like resize and scroll. If you want to
     // rate-limit execution of a function to a single time, see the
     // <jQuery.debounce> method.
     // 

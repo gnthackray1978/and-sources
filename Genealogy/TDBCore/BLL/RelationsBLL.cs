@@ -1,25 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Diagnostics;
-using System.Data.Objects.DataClasses;
-using System.Data.Objects;
-using System.Data;
-
-using TDBCore.BLL;
+using TDBCore.Types;
 using TDBCore.EntityModel;
+using TDBCore.Types.DTOs;
+using TDBCore.Types.libs;
+
 
 namespace TDBCore.BLL
 {
-    public class RelationsBLL : BaseBLL
+    public class RelationsBll : BaseBll
     {
 
 
 
 
-        #region uvw_ParentMapChildren
-
+     
 
         public List<GetAncestors_Result> GetAncestors(Guid personId)
         {
@@ -45,37 +41,19 @@ namespace TDBCore.BLL
             List<GetDescendantSpouses_Result> descendants = ModelContainer.GetDescendantSpouses(personId).ToList();
 
             if (descendants == null) descendants = new List<GetDescendantSpouses_Result>();
-
+       //     uvw_ParentMapChildren
             return descendants;
         }
 
-        public IQueryable<uvw_ParentMapChildren> GetRelationsWithPerson2()
-        {
-            ModelContainer.uvw_ParentMapChildren.MergeOption = MergeOption.OverwriteChanges;
-
-            return ModelContainer.uvw_ParentMapChildren;
-            
-            
-        }
-
-
-    
-
-        public IQueryable<uvw_ParentMapChildren> GetRelationsWithPerson2(Guid parentId)
-        {
-          //  ModelContainer.Refresh(RefreshMode.StoreWins
-            ModelContainer.uvw_ParentMapChildren.MergeOption = MergeOption.OverwriteChanges;
-
-            return ModelContainer.uvw_ParentMapChildren.Where(o => o.ParentId == parentId);
-        }
-        #endregion
+ 
+     
 
 
         public void DeleteRelationMapping(List<Guid> SelectedRecordIds)
         {
             if (SelectedRecordIds.Count > 0)
             {
-                RelationsBLL relationsBll = new RelationsBLL();
+                RelationsBll relationsBll = new RelationsBll();
 
                 Guid personA = SelectedRecordIds[0];
 
@@ -107,7 +85,28 @@ namespace TDBCore.BLL
 
 
 
+        public List<RelationDto> GetRelationsByMapId(List<Guid> ids, int relationTypeId, int userId)
+        {
 
+            var relationDtos = new List<RelationDto>();
+
+
+            if (relationTypeId == 1 && !ids.IsNullOrBelowMinSize(2))
+            {
+                foreach (int relMapId in InsertRelations(ids, relationTypeId, userId))
+                {
+                    relationDtos.AddRange(GetRelationsById2(relMapId).ToList().Select(rrow => new RelationDto() {PersonA = rrow.PersonA.Person_id, PersonB = rrow.PersonB.Person_id}));
+                }
+            }
+
+            return relationDtos;
+        }
+ 
+
+        public List<int> InsertRelations(List<Guid> ids, int relationTypeId, int userId)
+        {
+            return ids.IsNullOrEmpty() ? new List<int>() : ids.Select(t => InsertRelation(ids[0], t, relationTypeId, userId)).ToList();
+        }
 
 
         public IQueryable<RelationType> GetRelationTypes2()

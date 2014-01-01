@@ -1,0 +1,119 @@
+﻿/***************************************************************/
+/****************2 table Selection control*************************/
+/***************************************************************/
+
+a.specialLink {
+    display:inline-block;
+    overflow:hidden;
+    white-space:nowrap;
+    width: 10em;
+}
+    
+
+.sf_shad
+{
+    border-bottom-style: solid;
+    border-bottom-width: thin;
+    border-right-style: solid;
+    border-right-width: thin;
+    border-right-color: #AB9C82;
+    border-bottom-color: #AB9C82;
+    width: 252px; /*   background-color: #000000;*/
+}
+
+.sf_cont
+{
+    
+    border-width: thick;
+  /*  margin: 3px;*/
+    border-style: solid;
+    width: 240px;
+    font-size :15px;
+}
+
+.sf_hed
+{
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: bold;
+    height: 20px;
+  
+}
+
+.sf_hed div {
+ 
+	height: 20px;	
+}
+
+/*filter box label*/
+.sf_bot
+{
+	position: relative;	
+	left: 7px;
+}
+.sf_bot div {}
+
+
+
+/* labels in middle of control*/
+.sf_mid-lab
+{
+	
+	position: relative;
+	clear: both;
+	
+}
+.sf_mlab-dlef
+{
+	margin-left: 7px;
+	float: left;
+	
+}
+.sf_mlab-drig
+{
+	margin-left: 15px;
+	float: left;
+	
+}
+
+
+
+/*filter text box*/
+.sf_txt
+{
+	/*position: relative;	*/
+	left: 7px;
+	
+	width: 130px;
+	margin-top:1px;
+	margin-bottom: 0px;
+
+}
+
+.sf_pad-cont
+{
+	padding: 5px;	
+}
+
+
+
+.sf_pad-cont tr a
+{
+	/*color: #000000;*/
+	text-decoration: none;
+}
+
+
+.sf_pad-cont tr.tophed a
+{
+	font-family: 'Arial Narrow';
+	color: #0000FF;
+}
+
+.sf_pad-cont tr.bothed a
+{
+	font-family: 'Arial Narrow';
+	color: #0000FF;
+}
+

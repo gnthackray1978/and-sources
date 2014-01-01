@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Map View</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+
+
+
+    <link href="../Styles/maps.css" rel="stylesheet" type="text/css" />
+    <link href="../Styles/buttons.css" rel="stylesheet" type="text/css" /> 
+    <link href="../Styles/html_search_screen.css" rel="stylesheet" type="text/css" />
+
+
+       <link href="../Scripts/jquery/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css" />
+
+    <script src="../scripts/jquery/jquery.js" type="text/javascript"></script>
+    <script src="../scripts/jquery/jquery-ui-1.8.16.custom.min.js" type="text/javascript"></script>   
+
+
+
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAC-3WMAEL15Dq3zY2B--gZ0m4EdFNkSy0&sensor=false" type="text/javascript"  ></script>
+
+ 
+    <script src="../scripts/extensions.js" type="text/javascript"></script>
+    <script src="../Scripts/visiblePanels.js" type="text/javascript"></script>
+    <script src="../scripts/masters.js" type="text/javascript"></script> 
+    <script src="../scripts/util_func.js" type="text/javascript"></script>
+    
+    <script src="../scripts/mapview/map_core.js" type="text/javascript"></script>
+    <script src="../scripts/mapview/map_parishs.js" type="text/javascript"></script>
+    <script src="../scripts/mapview/map_sources.js" type="text/javascript"></script>
+
+   
+
+ 
+</head>
+
+
+<body  >
+   
+   
+   <div id = "1"></div>
+
+   <div id = "map_canvas" class = "map_pos"></div>
+   
+   <div class="parish_history"> <div>test</div> </div>
+
+   <div id = "controls" class = "con_pos"> 
+   <div class = "flt_gen" >
+  
+   <br />
+   <span>Options</span>
+   <br />
+   <span>Year Range</span>
+
+   <div class ="filterbardatetext">
+    <input id="txtDateLower" type="text" value = "1700" />
+    <input id="txtDateUpper" type="text" value = "1800" />                    
+   </div>
+
+   </div>
+
+   <div class="findButton">
+        <a id = 'getStatus' href='' class="button" ><span>Refresh</span></a>   
+   </div>
+   
+   <div class="flt_gen">
+    <span>Locate Parish: </span>
+    <input id="txtLocation" type="text" value = "" />
+    <input id="txtCounty" class = "add_prefix" type="text" value = "Yorkshire, UK" />
+
+   </div>
+
+   <div class="searchButton">
+   <a id= 'locateParish' href='' class="button" ><span>Find</span></a>
+   </div>
+   </div>
+
+</body>
+</html>
+
+

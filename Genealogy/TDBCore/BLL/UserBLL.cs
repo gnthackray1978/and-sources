@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Data.SqlClient;
 using System.Data;
 
@@ -13,7 +11,7 @@ namespace TDBCore.BLL
         public int roleId { get; set; }
     }
 
-    public class UserBLL : BaseBLL
+    public class UserBll : BaseBll
     {
 
 
@@ -50,6 +48,7 @@ namespace TDBCore.BLL
             if (role != null)
                 returnVal = role.roleId;
 
+        
 
             return returnVal;
 

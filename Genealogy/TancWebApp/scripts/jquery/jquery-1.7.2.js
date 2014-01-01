@@ -3,13 +3,13 @@
  * http://jquery.com/
  *
  * Copyright 2011, John Resig
- * Dual licensed under the MIT or GPL Version 2 licenses.
+ * Dual licensed unDeSerializeWitnessesr the MIT or GPL Version 2 licenses.
  * http://jquery.org/license
  *
- * Includes Sizzle.js
+ * IncluDeSerializeWitnessess Sizzle.js
  * http://sizzlejs.com/
  * Copyright 2011, The Dojo Foundation
- * Released under the MIT, BSD, and GPL Licenses.
+ * Released unDeSerializeWitnessesr the MIT, BSD, and GPL Licenses.
  *
  * Date: Wed Mar 21 12:46:34 2012 -0700
  */
@@ -77,7 +77,7 @@ var jQuery = function( selector, context ) {
 	// For matching the engine and version of the browser
 	browserMatch,
 
-	// The deferred used on DOM ready
+	// The DeSerializeWitnessesferred used on DOM ready
 	readyList,
 
 	// The ready event handler
@@ -99,7 +99,7 @@ jQuery.fn = jQuery.prototype = {
 	init: function( selector, context, rootjQuery ) {
 		var match, elem, ret, doc;
 
-		// Handle $(""), $(null), or $(undefined)
+		// Handle $(""), $(null), or $(unDeSerializeWitnessesfined)
 		if ( !selector ) {
 			return this;
 		}
@@ -122,7 +122,7 @@ jQuery.fn = jQuery.prototype = {
 
 		// Handle HTML strings
 		if ( typeof selector === "string" ) {
-			// Are we dealing with HTML string or an ID?
+			// Are we DeSerializeWitnessesaling with HTML string or an ID?
 			if ( selector.charAt(0) === "<" && selector.charAt( selector.length - 1 ) === ">" && selector.length >= 3 ) {
 				// Assume that strings that start and end with <> are HTML and skip the regex check
 				match = [ null, selector, null ];
@@ -163,8 +163,8 @@ jQuery.fn = jQuery.prototype = {
 				} else {
 					elem = document.getElementById( match[2] );
 
-					// Check parentNode to catch when Blackberry 4.6 returns
-					// nodes that are no longer in the document #6963
+					// Check parentNoDeSerializeWitnesses to catch when Blackberry 4.6 returns
+					// noDeSerializeWitnessess that are no longer in the document #6963
 					if ( elem && elem.parentNode ) {
 						// Handle the case where IE and Opera return items
 						// by name instead of ID
@@ -212,7 +212,7 @@ jQuery.fn = jQuery.prototype = {
 	// The current version of jQuery being used
 	jquery: "1.7.2",
 
-	// The default length of a jQuery object is 0
+	// The DeSerializeWitnessesfault length of a jQuery object is 0
 	length: 0,
 
 	// The number of elements contained in the matched element set
@@ -328,7 +328,7 @@ jQuery.extend = jQuery.fn.extend = function() {
 		length = arguments.length,
 		deep = false;
 
-	// Handle a deep copy situation
+	// Handle a DeSerializeWitnessesep copy situation
 	if ( typeof target === "boolean" ) {
 		deep = target;
 		target = arguments[1] || {};
@@ -336,7 +336,7 @@ jQuery.extend = jQuery.fn.extend = function() {
 		i = 2;
 	}
 
-	// Handle case when target is a string or something (possible in deep copy)
+	// Handle case when target is a string or something (possible in DeSerializeWitnessesep copy)
 	if ( typeof target !== "object" && !jQuery.isFunction(target) ) {
 		target = {};
 	}
@@ -348,7 +348,7 @@ jQuery.extend = jQuery.fn.extend = function() {
 	}
 
 	for ( ; i < length; i++ ) {
-		// Only deal with non-null/undefined values
+		// Only DeSerializeWitnessesal with non-null/unDeSerializeWitnessesfined values
 		if ( (options = arguments[ i ]) != null ) {
 			// Extend the base object
 			for ( name in options ) {
@@ -373,7 +373,7 @@ jQuery.extend = jQuery.fn.extend = function() {
 					// Never move original objects, clone them
 					target[ name ] = jQuery.extend( deep, clone, copy );
 
-				// Don't bring in undefined values
+				// Don't bring in unDeSerializeWitnessesfined values
 				} else if ( copy !== undefined ) {
 					target[ name ] = copy;
 				}
@@ -426,7 +426,7 @@ jQuery.extend({
 			// Remember that the DOM is ready
 			jQuery.isReady = true;
 
-			// If a normal DOM Ready event fired, decrement, and wait if need be
+			// If a normal DOM Ready event fired, DeSerializeWitnessescrement, and wait if need be
 			if ( wait !== true && --jQuery.readyWait > 0 ) {
 				return;
 			}
@@ -434,7 +434,7 @@ jQuery.extend({
 			// If there are functions bound, to execute
 			readyList.fireWith( document, [ jQuery ] );
 
-			// Trigger any bound ready events
+			// Trigger any bound ready TotalEvents
 			if ( jQuery.fn.trigger ) {
 				jQuery( document ).trigger( "ready" ).off( "ready" );
 			}
@@ -451,19 +451,19 @@ jQuery.extend({
 		// Catch cases where $(document).ready() is called after the
 		// browser event has already occurred.
 		if ( document.readyState === "complete" ) {
-			// Handle it asynchronously to allow scripts the opportunity to delay ready
+			// Handle it asynchronously to allow scripts the opportunity to DeSerializeWitnesseslay ready
 			return setTimeout( jQuery.ready, 1 );
 		}
 
 		// Mozilla, Opera and webkit nightlies currently support this event
 		if ( document.addEventListener ) {
 			// Use the handy event callback
-			document.addEventListener( "DOMContentLoaded", DOMContentLoaded, false );
+			document.addEventListener( "DOMContentLoaDeSerializeWitnessesd", DOMContentLoaded, false );
 
 			// A fallback to window.onload, that will always work
 			window.addEventListener( "load", jQuery.ready, false );
 
-		// If IE event model is used
+		// If IE event moDeSerializeWitnessesl is used
 		} else if ( document.attachEvent ) {
 			// ensure firing before onload,
 			// maybe late but safe also for iframes
@@ -486,7 +486,7 @@ jQuery.extend({
 		}
 	},
 
-	// See test/unit/core.js for details concerning isFunction.
+	// See test/unit/core.js for DeSerializeWitnessestails concerning isFunction.
 	// Since version 1.3, DOM methods and functions like alert
 	// aren't supported. They return false on IE (#2968).
 	isFunction: function( obj ) {
@@ -514,7 +514,7 @@ jQuery.extend({
 	isPlainObject: function( obj ) {
 		// Must be an Object.
 		// Because of IE, we also have to check the presence of the constructor property.
-		// Make sure that DOM nodes and window objects don't pass through, as well
+		// Make sure that DOM noDeSerializeWitnessess and window objects don't pass through, as well
 		if ( !obj || jQuery.type(obj) !== "object" || obj.nodeType || jQuery.isWindow( obj ) ) {
 			return false;
 		}
@@ -804,8 +804,8 @@ jQuery.extend({
 			fn = tmp;
 		}
 
-		// Quick check to determine if target is callable, in the spec
-		// this throws a TypeError, but we will just return undefined.
+		// Quick check to DeSerializeWitnessestermine if target is callable, in the spec
+		// this throws a TypeError, but we will just return unDeSerializeWitnessesfined.
 		if ( !jQuery.isFunction( fn ) ) {
 			return undefined;
 		}
@@ -880,7 +880,7 @@ jQuery.extend({
 	},
 
 	// Use of jQuery.browser is frowned upon.
-	// More details: http://docs.jquery.com/Utilities/jQuery.browser
+	// More DeSerializeWitnessestails: http://docs.jquery.com/Utilities/jQuery.browser
 	uaMatch: function( ua ) {
 		ua = ua.toLowerCase();
 
@@ -945,7 +945,7 @@ rootjQuery = jQuery(document);
 // Cleanup functions for the document ready method
 if ( document.addEventListener ) {
 	DOMContentLoaded = function() {
-		document.removeEventListener( "DOMContentLoaded", DOMContentLoaded, false );
+		document.removeEventListener( "DOMContentLoaDeSerializeWitnessesd", DOMContentLoaded, false );
 		jQuery.ready();
 	};
 
@@ -967,7 +967,7 @@ function doScrollCheck() {
 
 	try {
 		// If IE is used, use the trick by Diego Perini
-		// http://javascript.nwbox.com/IEContentLoaded/
+		// http://javascript.nwbox.com/IEContentLoaDeSerializeWitnessesd/
 		document.documentElement.doScroll("left");
 	} catch(e) {
 		setTimeout( doScrollCheck, 1 );
@@ -1003,18 +1003,18 @@ function createFlags( flags ) {
  *	flags:	an optional list of space-separated flags that will change how
  *			the callback list behaves
  *
- * By default a callback list will act like an event callback list and can be
+ * By DeSerializeWitnessesfault a callback list will act like an event callback list and can be
  * "fired" multiple times.
  *
  * Possible flags:
  *
  *	once:			will ensure the callback list can only be fired once (like a Deferred)
  *
- *	memory:			will keep track of previous values and will call any callback added
+ *	memory:			will keep track of previous values and will call any callback adDeSerializeWitnessesd
  *					after the list has been fired right away with the latest "memorized"
  *					values (like a Deferred)
  *
- *	unique:			will ensure a callback can only be added once (no duplicate in the list)
+ *	unique:			will ensure a callback can only be adDeSerializeWitnessesd once (no duplicate in the list)
  *
  *	stopOnFalse:	interrupt callings when a callback returns false
  *
@@ -1039,7 +1039,7 @@ jQuery.Callbacks = function( flags ) {
 		firingStart,
 		// End of the loop when firing
 		firingLength,
-		// Index of currently firing callback (modified by remove if needed)
+		// InDeSerializeWitnessesx of currently firing callback (modified by remove if neeDeSerializeWitnessesd)
 		firingIndex,
 		// Add one or several callbacks to the list
 		add = function( args ) {
@@ -1055,7 +1055,7 @@ jQuery.Callbacks = function( flags ) {
 					// Inspect recursively
 					add( elem );
 				} else if ( type === "function" ) {
-					// Add if not in unique mode and callback is not in
+					// Add if not in unique moDeSerializeWitnesses and callback is not in
 					if ( !flags.unique || !self.has( elem ) ) {
 						list.push( elem );
 					}
@@ -1121,7 +1121,7 @@ jQuery.Callbacks = function( flags ) {
 					for ( ; argIndex < argLength ; argIndex++ ) {
 						for ( var i = 0; i < list.length; i++ ) {
 							if ( args[ argIndex ] === list[ i ] ) {
-								// Handle firingIndex and firingLength
+								// Handle firingInDeSerializeWitnessesx and firingLength
 								if ( firing ) {
 									if ( i <= firingLength ) {
 										firingLength--;
@@ -1273,8 +1273,8 @@ jQuery.extend({
 						});
 					}).promise();
 				},
-				// Get a promise for this deferred
-				// If obj is provided, the promise aspect is added to the object
+				// Get a promise for this DeSerializeWitnessesferred
+				// If obj is proviDeSerializeWitnessesd, the promise aspect is adDeSerializeWitnessesd to the object
 				promise: function( obj ) {
 					if ( obj == null ) {
 						obj = promise;
@@ -1408,7 +1408,7 @@ jQuery.support = (function() {
 		style: /top/.test( a.getAttribute("style") ),
 
 		// Make sure that URLs aren't manipulated
-		// (IE normalizes it by default)
+		// (IE normalizes it by DeSerializeWitnessesfault)
 		hrefNormalized: ( a.getAttribute("href") === "/a" ),
 
 		// Make sure that element opacity exists
@@ -1421,12 +1421,12 @@ jQuery.support = (function() {
 		cssFloat: !!a.style.cssFloat,
 
 		// Make sure that if no value is specified for a checkbox
-		// that it defaults to "on".
-		// (WebKit defaults to "" instead)
+		// that it DeSerializeWitnessesfaults to "on".
+		// (WebKit DeSerializeWitnessesfaults to "" instead)
 		checkOn: ( input.value === "on" ),
 
-		// Make sure that a selected-by-default option has a working selected property.
-		// (WebKit defaults to false instead of true, IE too, if it's in an optgroup)
+		// Make sure that a selected-by-DeSerializeWitnessesfault option has a working selected property.
+		// (WebKit DeSerializeWitnessesfaults to false instead of true, IE too, if it's in an optgroup)
 		optSelected: opt.selected,
 
 		// Test setAttribute on camelCase class. If it works, we need attrFixes when doing get/setAttribute (ie6/7)
@@ -1436,10 +1436,10 @@ jQuery.support = (function() {
 		enctype: !!document.createElement("form").enctype,
 
 		// Makes sure cloning an html5 element does not cause problems
-		// Where outerHTML is undefined, this still works
+		// Where outerHTML is unDeSerializeWitnessesfined, this still works
 		html5Clone: document.createElement("nav").cloneNode( true ).outerHTML !== "<:nav></:nav>",
 
-		// Will be defined later
+		// Will be DeSerializeWitnessesfined later
 		submitBubbles: true,
 		changeBubbles: true,
 		focusinBubbles: false,
@@ -1451,19 +1451,19 @@ jQuery.support = (function() {
 		pixelMargin: true
 	};
 
-	// jQuery.boxModel DEPRECATED in 1.3, use jQuery.support.boxModel instead
+	// jQuery.boxMoDeSerializeWitnessesl DEPRECATED in 1.3, use jQuery.support.boxMoDeSerializeWitnessesl instead
 	jQuery.boxModel = support.boxModel = (document.compatMode === "CSS1Compat");
 
 	// Make sure checked status is properly cloned
 	input.checked = true;
 	support.noCloneChecked = input.cloneNode( true ).checked;
 
-	// Make sure that the options inside disabled selects aren't marked as disabled
+	// Make sure that the options insiDeSerializeWitnesses disabled selects aren't marked as disabled
 	// (WebKit marks them as disabled)
 	select.disabled = true;
 	support.optDisabled = !opt.disabled;
 
-	// Test to see if it's possible to delete an expando from an element
+	// Test to see if it's possible to DeSerializeWitnesseslete an expando from an element
 	// Fails in Internet Explorer
 	try {
 		delete div.test;
@@ -1473,7 +1473,7 @@ jQuery.support = (function() {
 
 	if ( !div.addEventListener && div.attachEvent && div.fireEvent ) {
 		div.attachEvent( "onclick", function() {
-			// Cloning a node shouldn't copy over any
+			// Cloning a noDeSerializeWitnesses shouldn't copy over any
 			// bound event handlers (IE does this)
 			support.noCloneEvent = false;
 		});
@@ -1481,7 +1481,7 @@ jQuery.support = (function() {
 	}
 
 	// Check if a radio maintains its value
-	// after being appended to the DOM
+	// after being appenDeSerializeWitnessesd to the DOM
 	input = document.createElement("input");
 	input.value = "t";
 	input.setAttribute("type", "radio");
@@ -1500,18 +1500,18 @@ jQuery.support = (function() {
 	support.checkClone = fragment.cloneNode( true ).cloneNode( true ).lastChild.checked;
 
 	// Check if a disconnected checkbox will retain its checked
-	// value of true after appended to the DOM (IE6/7)
+	// value of true after appenDeSerializeWitnessesd to the DOM (IE6/7)
 	support.appendChecked = input.checked;
 
 	fragment.removeChild( input );
 	fragment.appendChild( div );
 
 	// Technique from Juriy Zaytsev
-	// http://perfectionkills.com/detecting-event-support-without-browser-sniffing/
+	// http://perfectionkills.com/DeSerializeWitnessestecting-event-support-without-browser-sniffing/
 	// We only care about the case where non-standard event systems
 	// are used, namely in IE. Short-circuiting here helps us to
 	// avoid an eval call (in setAttribute) which can cause CSP
-	// to go haywire. See: https://developer.mozilla.org/en/Security/CSP
+	// to go haywire. See: https://DeSerializeWitnessesveloper.mozilla.org/en/Security/CSP
 	if ( div.attachEvent ) {
 		for ( i in {
 			submit: 1,
@@ -1546,11 +1546,11 @@ jQuery.support = (function() {
 		}
 
 		conMarginTop = 1;
-		paddingMarginBorder = "padding:0;margin:0;border:";
+		paddingMarginBorder = "padding:0;margin:0;borDeSerializeWitnessesr:";
 		positionTopLeftWidthHeight = "position:absolute;top:0;left:0;width:1px;height:1px;";
-		paddingMarginBorderVisibility = paddingMarginBorder + "0;visibility:hidden;";
+		paddingMarginBorderVisibility = paddingMarginBorder + "0;visibility:hidDeSerializeWitnessesn;";
 		style = "style='" + positionTopLeftWidthHeight + paddingMarginBorder + "5px solid #000;";
-		html = "<div " + style + "display:block;'><div style='" + paddingMarginBorder + "0;display:block;overflow:hidden;'></div></div>" +
+		html = "<div " + style + "display:block;'><div style='" + paddingMarginBorder + "0;display:block;overflow:hidDeSerializeWitnessesn;'></div></div>" +
 			"<table " + style + "' cellpadding='0' cellspacing='0'>" +
 			"<tr><td></td></tr></table>";
 
@@ -1565,9 +1565,9 @@ jQuery.support = (function() {
 		// Check if table cells still have offsetWidth/Height when they are set
 		// to display:none and there are still other visible table cells in a
 		// table row; if so, offsetWidth/Height are not reliable for use when
-		// determining if an element has been hidden directly using
+		// DeSerializeWitnessestermining if an element has been hidDeSerializeWitnessesn directly using
 		// display:none (it is still safe to use offsets if a parent element is
-		// hidden; don safety goggles and see bug #4512 for more information).
+		// hidDeSerializeWitnessesn; don safety goggles and see bug #4512 for more information).
 		// (only IE 8 fails this test)
 		div.innerHTML = "<table><tr><td style='" + paddingMarginBorder + "0;display:none'></td><td>t</td></tr></table>";
 		tds = div.getElementsByTagName( "td" );
@@ -1596,7 +1596,7 @@ jQuery.support = (function() {
 				( parseInt( ( window.getComputedStyle( marginDiv, null ) || { marginRight: 0 } ).marginRight, 10 ) || 0 ) === 0;
 		}
 
-		if ( typeof div.style.zoom !== "undefined" ) {
+		if ( typeof div.style.zoom !== "unDeSerializeWitnessesfined" ) {
 			// Check if natively block-level elements act like inline-block
 			// elements when setting their display to 'inline' and giving
 			// them layout
@@ -1604,7 +1604,7 @@ jQuery.support = (function() {
 			div.innerHTML = "";
 			div.style.width = div.style.padding = "1px";
 			div.style.border = 0;
-			div.style.overflow = "hidden";
+			div.style.overflow = "hidDeSerializeWitnessesn";
 			div.style.display = "inline";
 			div.style.zoom = 1;
 			support.inlineBlockNeedsLayout = ( div.offsetWidth === 3 );
@@ -1632,11 +1632,11 @@ jQuery.support = (function() {
 		inner.style.position = "fixed";
 		inner.style.top = "20px";
 
-		// safari subtracts parent border width here which is 5px
+		// safari subtracts parent borDeSerializeWitnessesr width here which is 5px
 		offsetSupport.fixedPosition = ( inner.offsetTop === 20 || inner.offsetTop === 15 );
 		inner.style.position = inner.style.top = "";
 
-		outer.style.overflow = "hidden";
+		outer.style.overflow = "hidDeSerializeWitnessesn";
 		outer.style.position = "relative";
 
 		offsetSupport.subtractsBorderForOverflowNotVisible = ( inner.offsetTop === -5 );
@@ -1647,7 +1647,7 @@ jQuery.support = (function() {
 			support.pixelMargin = ( window.getComputedStyle( div, null ) || { marginTop: 0 } ).marginTop !== "1%";
 		}
 
-		if ( typeof container.style.zoom !== "undefined" ) {
+		if ( typeof container.style.zoom !== "unDeSerializeWitnessesfined" ) {
 			container.style.zoom = 1;
 		}
 
@@ -1699,18 +1699,18 @@ jQuery.extend({
 			internalKey = jQuery.expando,
 			getByName = typeof name === "string",
 
-			// We have to handle DOM nodes and JS objects differently because IE6-7
+			// We have to handle DOM noDeSerializeWitnessess and JS objects differently because IE6-7
 			// can't GC object references properly across the DOM-JS boundary
 			isNode = elem.nodeType,
 
-			// Only DOM nodes need the global jQuery cache; JS object data is
+			// Only DOM noDeSerializeWitnessess need the global jQuery cache; JS object data is
 			// attached directly to the object so GC can occur automatically
 			cache = isNode ? jQuery.cache : elem,
 
-			// Only defining an ID for JS objects if its cache already exists allows
-			// the code to shortcut on the same path as a DOM node with no cache
+			// Only DeSerializeWitnessesfining an ID for JS objects if its cache already exists allows
+			// the coDeSerializeWitnesses to shortcut on the same path as a DOM noDeSerializeWitnesses with no cache
 			id = isNode ? elem[ internalKey ] : elem[ internalKey ] && internalKey,
-			isEvents = name === "events";
+			isEvents = name === "TotalEvents";
 
 		// Avoid doing any more work than we need to when trying to get data on an
 		// object that has no data at all
@@ -1719,7 +1719,7 @@ jQuery.extend({
 		}
 
 		if ( !id ) {
-			// Only DOM nodes need a new unique ID for each element since their data
+			// Only DOM noDeSerializeWitnessess need a new unique ID for each element since their data
 			// ends up in the global cache
 			if ( isNode ) {
 				elem[ internalKey ] = id = ++jQuery.uuid;
@@ -1750,8 +1750,8 @@ jQuery.extend({
 
 		privateCache = thisCache = cache[ id ];
 
-		// jQuery data() is stored in a separate object inside the object's internal data
-		// cache in order to avoid key collisions between internal data and user-defined
+		// jQuery data() is stored in a separate object insiDeSerializeWitnesses the object's internal data
+		// cache in orDeSerializeWitnessesr to avoid key collisions between internal data and user-DeSerializeWitnessesfined
 		// data.
 		if ( !pvt ) {
 			if ( !thisCache.data ) {
@@ -1765,7 +1765,7 @@ jQuery.extend({
 			thisCache[ jQuery.camelCase( name ) ] = data;
 		}
 
-		// Users should not attempt to inspect the internal events object using jQuery.data,
+		// Users should not attempt to inspect the internal TotalEvents object using jQuery.data,
 		// it is undocumented and subject to change. But does anyone listen? No.
 		if ( isEvents && !thisCache[ name ] ) {
 			return privateCache.events;
@@ -1778,7 +1778,7 @@ jQuery.extend({
 			// First Try to find as-is property data
 			ret = thisCache[ name ];
 
-			// Test for null|undefined property data
+			// Test for null|unDeSerializeWitnessesfined property data
 			if ( ret == null ) {
 
 				// Try to find the camelCased property
@@ -1844,7 +1844,7 @@ jQuery.extend({
 				}
 
 				// If there is no data left in the cache, we want to continue
-				// and let the cache object itself get destroyed
+				// and let the cache object itself get DeSerializeWitnessesstroyed
 				if ( !( pvt ? isEmptyDataObject : jQuery.isEmptyObject )( thisCache ) ) {
 					return;
 				}
@@ -1855,14 +1855,14 @@ jQuery.extend({
 		if ( !pvt ) {
 			delete cache[ id ].data;
 
-			// Don't destroy the parent cache unless the internal data object
+			// Don't DeSerializeWitnessesstroy the parent cache unless the internal data object
 			// had been the only thing left in it
 			if ( !isEmptyDataObject(cache[ id ]) ) {
 				return;
 			}
 		}
 
-		// Browsers that fail expando deletion also refuse to delete expandos on
+		// Browsers that fail expando DeSerializeWitnessesletion also refuse to DeSerializeWitnesseslete expandos on
 		// the window, but it will allow it on all other JS objects; other browsers
 		// don't care
 		// Ensure that `cache` is not a window object #10080
@@ -1872,11 +1872,11 @@ jQuery.extend({
 			cache[ id ] = null;
 		}
 
-		// We destroyed the cache and need to eliminate the expando on the node to avoid
+		// We DeSerializeWitnessesstroyed the cache and need to eliminate the expando on the noDeSerializeWitnesses to avoid
 		// false lookups in the cache for entries that no longer exist
 		if ( isNode ) {
-			// IE does not allow us to delete expando properties from nodes,
-			// nor does it have a removeAttribute function on Document nodes;
+			// IE does not allow us to DeSerializeWitnesseslete expando properties from noDeSerializeWitnessess,
+			// nor does it have a removeAttribute function on Document noDeSerializeWitnessess;
 			// we must handle all of these cases
 			if ( jQuery.support.deleteExpando ) {
 				delete elem[ internalKey ];
@@ -1893,7 +1893,7 @@ jQuery.extend({
 		return jQuery.data( elem, name, data, true );
 	},
 
-	// A method for determining if a DOM node can handle the data expando
+	// A method for DeSerializeWitnessestermining if a DOM noDeSerializeWitnesses can handle the data expando
 	acceptData: function( elem ) {
 		if ( elem.nodeName ) {
 			var match = jQuery.noData[ elem.nodeName.toLowerCase() ];
@@ -2032,14 +2032,14 @@ function isEmptyDataObject( obj ) {
 
 
 function handleQueueMarkDefer( elem, type, src ) {
-	var deferDataKey = type + "defer",
+	var deferDataKey = type + "DeSerializeWitnessesfer",
 		queueDataKey = type + "queue",
 		markDataKey = type + "mark",
 		defer = jQuery._data( elem, deferDataKey );
 	if ( defer &&
 		( src === "queue" || !jQuery._data(elem, queueDataKey) ) &&
 		( src === "mark" || !jQuery._data(elem, markDataKey) ) ) {
-		// Give room for hard-coded callbacks to fire first
+		// Give room for hard-coDeSerializeWitnessesd callbacks to fire first
 		// and eventually mark/queue something else on the element
 		setTimeout( function() {
 			if ( !jQuery._data( elem, queueDataKey ) &&
@@ -2085,7 +2085,7 @@ jQuery.extend({
 			type = ( type || "fx" ) + "queue";
 			q = jQuery._data( elem, type );
 
-			// Speed up dequeue by getting out quickly if this is just a lookup
+			// Speed up DeSerializeWitnessesqueue by getting out quickly if this is just a lookup
 			if ( data ) {
 				if ( !q || jQuery.isArray(data) ) {
 					q = jQuery._data( elem, type, jQuery.makeArray(data) );
@@ -2104,14 +2104,14 @@ jQuery.extend({
 			fn = queue.shift(),
 			hooks = {};
 
-		// If the fx queue is dequeued, always remove the progress sentinel
+		// If the fx queue is DeSerializeWitnessesqueued, always remove the progress sentinel
 		if ( fn === "inprogress" ) {
 			fn = queue.shift();
 		}
 
 		if ( fn ) {
 			// Add a progress sentinel to prevent the fx queue from being
-			// automatically dequeued
+			// automatically DeSerializeWitnessesqueued
 			if ( type === "fx" ) {
 				queue.unshift( "inprogress" );
 			}
@@ -2159,7 +2159,7 @@ jQuery.fn.extend({
 		});
 	},
 	// Based off of the plugin by Clint Helfers, with permission.
-	// http://blindsignals.com/index.php/2009/07/jquery-delay/
+	// http://blindsignals.com/inDeSerializeWitnessesx.php/2009/07/jquery-DeSerializeWitnesseslay/
 	delay: function( time, type ) {
 		time = jQuery.fx ? jQuery.fx.speeds[ time ] || time : time;
 		type = type || "fx";
@@ -2175,7 +2175,7 @@ jQuery.fn.extend({
 		return this.queue( type || "fx", [] );
 	},
 	// Get a promise resolved when queues of a certain type
-	// are emptied (fx is the type by default)
+	// are emptied (fx is the type by DeSerializeWitnessesfault)
 	promise: function( type, object ) {
 		if ( typeof type !== "string" ) {
 			object = type;
@@ -2186,7 +2186,7 @@ jQuery.fn.extend({
 			elements = this,
 			i = elements.length,
 			count = 1,
-			deferDataKey = type + "defer",
+			deferDataKey = type + "DeSerializeWitnessesfer",
 			queueDataKey = type + "queue",
 			markDataKey = type + "mark",
 			tmp;
@@ -2218,7 +2218,7 @@ var rclass = /[\n\t\r]/g,
 	rtype = /^(?:button|input)$/i,
 	rfocusable = /^(?:button|input|object|select|textarea)$/i,
 	rclickable = /^a(?:rea)?$/i,
-	rboolean = /^(?:autofocus|autoplay|async|checked|controls|defer|disabled|hidden|loop|multiple|open|readonly|required|scoped|selected)$/i,
+	rboolean = /^(?:autofocus|autoplay|async|checked|controls|DeSerializeWitnessesfer|disabled|hidDeSerializeWitnessesn|loop|multiple|open|readonly|required|scoped|selected)$/i,
 	getSetAttribute = jQuery.support.getSetAttribute,
 	nodeHook, boolHook, fixSpecified;
 
@@ -2343,7 +2343,7 @@ jQuery.fn.extend({
 					self[ state ? "addClass" : "removeClass" ]( className );
 				}
 
-			} else if ( type === "undefined" || type === "boolean" ) {
+			} else if ( type === "unDeSerializeWitnessesfined" || type === "boolean" ) {
 				if ( this.className ) {
 					// store className if set
 					jQuery._data( this, "__className__", this.className );
@@ -2385,7 +2385,7 @@ jQuery.fn.extend({
 				return typeof ret === "string" ?
 					// handle most common string cases
 					ret.replace(rreturn, "") :
-					// handle cases where value is null/undef or number
+					// handle cases where value is null/unDeSerializeWitnessesf or number
 					ret == null ? "" : ret;
 			}
 
@@ -2407,7 +2407,7 @@ jQuery.fn.extend({
 				val = value;
 			}
 
-			// Treat null/undefined as ""; convert numbers to string
+			// Treat null/unDeSerializeWitnessesfined as ""; convert numbers to string
 			if ( val == null ) {
 				val = "";
 			} else if ( typeof val === "number" ) {
@@ -2420,7 +2420,7 @@ jQuery.fn.extend({
 
 			hooks = jQuery.valHooks[ this.type ] || jQuery.valHooks[ this.nodeName.toLowerCase() ];
 
-			// If set returns undefined, fall back to normal setting
+			// If set returns unDeSerializeWitnessesfined, fall back to normal setting
 			if ( !hooks || !("set" in hooks) || hooks.set( this, val, "value" ) === undefined ) {
 				this.value = val;
 			}
@@ -2432,7 +2432,7 @@ jQuery.extend({
 	valHooks: {
 		option: {
 			get: function( elem ) {
-				// attributes.value is undefined in Blackberry 4.7 but
+				// attributes.value is unDeSerializeWitnessesfined in Blackberry 4.7 but
 				// uses .value. See #6932
 				var val = elem.attributes.value;
 				return !val || val.specified ? elem.value : elem.text;
@@ -2512,7 +2512,7 @@ jQuery.extend({
 		var ret, hooks, notxml,
 			nType = elem.nodeType;
 
-		// don't get/set attributes on text, comment and attribute nodes
+		// don't get/set attributes on text, comment and attribute noDeSerializeWitnessess
 		if ( !elem || nType === 3 || nType === 8 || nType === 2 ) {
 			return;
 		}
@@ -2522,14 +2522,14 @@ jQuery.extend({
 		}
 
 		// Fallback to prop when attributes are not supported
-		if ( typeof elem.getAttribute === "undefined" ) {
+		if ( typeof elem.getAttribute === "unDeSerializeWitnessesfined" ) {
 			return jQuery.prop( elem, name, value );
 		}
 
 		notxml = nType !== 1 || !jQuery.isXMLDoc( elem );
 
 		// All attributes are lowercase
-		// Grab necessary hook if one is defined
+		// Grab necessary hook if one is DeSerializeWitnessesfined
 		if ( notxml ) {
 			name = name.toLowerCase();
 			hooks = jQuery.attrHooks[ name ] || ( rboolean.test( name ) ? boolHook : nodeHook );
@@ -2556,7 +2556,7 @@ jQuery.extend({
 
 			ret = elem.getAttribute( name );
 
-			// Non-existent attributes return null, we normalize to undefined
+			// Non-existent attributes return null, we normalize to unDeSerializeWitnessesfined
 			return ret === null ?
 				undefined :
 				ret;
@@ -2602,7 +2602,7 @@ jQuery.extend({
 					jQuery.error( "type property can't be changed" );
 				} else if ( !jQuery.support.radioValue && value === "radio" && jQuery.nodeName(elem, "input") ) {
 					// Setting the type on a radio button after the value resets the value in IE6-9
-					// Reset value to it's default in case type is set after value
+					// Reset value to it's DeSerializeWitnessesfault in case type is set after value
 					// This is for element creation
 					var val = elem.value;
 					elem.setAttribute( "type", value );
@@ -2614,7 +2614,7 @@ jQuery.extend({
 			}
 		},
 		// Use the value property for back compat
-		// Use the nodeHook for button elements in IE6/7 (#1954)
+		// Use the noDeSerializeWitnessesHook for button elements in IE6/7 (#1954)
 		value: {
 			get: function( elem, name ) {
 				if ( nodeHook && jQuery.nodeName( elem, "button" ) ) {
@@ -2635,7 +2635,7 @@ jQuery.extend({
 	},
 
 	propFix: {
-		tabindex: "tabIndex",
+		tabindex: "tabInDeSerializeWitnessesx",
 		readonly: "readOnly",
 		"for": "htmlFor",
 		"class": "className",
@@ -2645,7 +2645,7 @@ jQuery.extend({
 		rowspan: "rowSpan",
 		colspan: "colSpan",
 		usemap: "useMap",
-		frameborder: "frameBorder",
+		frameborder: "frameBorDeSerializeWitnessesr",
 		contenteditable: "contentEditable"
 	},
 
@@ -2653,7 +2653,7 @@ jQuery.extend({
 		var ret, hooks, notxml,
 			nType = elem.nodeType;
 
-		// don't get/set properties on text, comment and attribute nodes
+		// don't get/set properties on text, comment and attribute noDeSerializeWitnessess
 		if ( !elem || nType === 3 || nType === 8 || nType === 2 ) {
 			return;
 		}
@@ -2687,9 +2687,9 @@ jQuery.extend({
 	propHooks: {
 		tabIndex: {
 			get: function( elem ) {
-				// elem.tabIndex doesn't always return the correct value when it hasn't been explicitly set
-				// http://fluidproject.org/blog/2008/01/09/getting-setting-and-removing-tabindex-values-with-javascript/
-				var attributeNode = elem.getAttributeNode("tabindex");
+				// elem.tabInDeSerializeWitnessesx doesn't always return the correct value when it hasn't been explicitly set
+				// http://fluidproject.org/blog/2008/01/09/getting-setting-and-removing-tabinDeSerializeWitnessesx-values-with-javascript/
+				var attributeNode = elem.getAttributeNode("tabinDeSerializeWitnessesx");
 
 				return attributeNode && attributeNode.specified ?
 					parseInt( attributeNode.value, 10 ) :
@@ -2701,7 +2701,7 @@ jQuery.extend({
 	}
 });
 
-// Add the tabIndex propHook to attrHooks for back-compat (different case is intentional)
+// Add the tabInDeSerializeWitnessesx propHook to attrHooks for back-compat (different case is intentional)
 jQuery.attrHooks.tabindex = jQuery.propHooks.tabIndex;
 
 // Hook for boolean attributes
@@ -2755,7 +2755,7 @@ if ( !getSetAttribute ) {
 				undefined;
 		},
 		set: function( elem, value, name ) {
-			// Set the existing or create a new attribute node
+			// Set the existing or create a new attribute noDeSerializeWitnesses
 			var ret = elem.getAttributeNode( name );
 			if ( !ret ) {
 				ret = document.createAttribute( name );
@@ -2765,7 +2765,7 @@ if ( !getSetAttribute ) {
 		}
 	};
 
-	// Apply the nodeHook to tabindex
+	// Apply the noDeSerializeWitnessesHook to tabinDeSerializeWitnessesx
 	jQuery.attrHooks.tabindex.set = nodeHook.set;
 
 	// Set width and height to auto instead of 0 on empty string( Bug #8150 )
@@ -2810,7 +2810,7 @@ if ( !jQuery.support.hrefNormalized ) {
 if ( !jQuery.support.style ) {
 	jQuery.attrHooks.style = {
 		get: function( elem ) {
-			// Return undefined in the case of empty string
+			// Return unDeSerializeWitnessesfined in the case of empty string
 			// Normalize to lowercase since IE uppercases css property names
 			return elem.style.cssText.toLowerCase() || undefined;
 		},
@@ -2820,8 +2820,8 @@ if ( !jQuery.support.style ) {
 	};
 }
 
-// Safari mis-reports the default selected property of an option
-// Accessing the parent's selectedIndex property fixes it
+// Safari mis-reports the DeSerializeWitnessesfault selected property of an option
+// Accessing the parent's selectedInDeSerializeWitnessesx property fixes it
 if ( !jQuery.support.optSelected ) {
 	jQuery.propHooks.selected = jQuery.extend( jQuery.propHooks.selected, {
 		get: function( elem ) {
@@ -2899,8 +2899,8 @@ var rformElems = /^(?:textarea|input|select)$/i,
 	};
 
 /*
- * Helper functions for managing events -- not part of the public interface.
- * Props to Dean Edwards' addEvent library for many of the ideas.
+ * Helper functions for managing TotalEvents -- not part of the public interface.
+ * Props to Dean Edwards' addEvent library for many of the iDeSerializeWitnessesas.
  */
 jQuery.event = {
 
@@ -2910,7 +2910,7 @@ jQuery.event = {
 			t, tns, type, namespaces, handleObj,
 			handleObjIn, quick, handlers, special;
 
-		// Don't attach events to noData or text/comment nodes (allow plain objects tho)
+		// Don't attach TotalEvents to noData or text/comment noDeSerializeWitnessess (allow plain objects tho)
 		if ( elem.nodeType === 3 || elem.nodeType === 8 || !types || !handler || !(elemData = jQuery._data( elem )) ) {
 			return;
 		}
@@ -2936,16 +2936,16 @@ jQuery.event = {
 		if ( !eventHandle ) {
 			elemData.handle = eventHandle = function( e ) {
 				// Discard the second event of a jQuery.event.trigger() and
-				// when an event is called after a page has unloaded
-				return typeof jQuery !== "undefined" && (!e || jQuery.event.triggered !== e.type) ?
+				// when an event is called after a page has unloaDeSerializeWitnessesd
+				return typeof jQuery !== "unDeSerializeWitnessesfined" && (!e || jQuery.event.triggered !== e.type) ?
 					jQuery.event.dispatch.apply( eventHandle.elem, arguments ) :
 					undefined;
 			};
-			// Add elem as a property of the handle fn to prevent a memory leak with IE non-native events
+			// Add elem as a property of the handle fn to prevent a memory leak with IE non-native TotalEvents
 			eventHandle.elem = elem;
 		}
 
-		// Handle multiple events separated by a space
+		// Handle multiple TotalEvents separated by a space
 		// jQuery(...).bind("mouseover mouseout", fn);
 		types = jQuery.trim( hoverHack(types) ).split( " " );
 		for ( t = 0; t < types.length; t++ ) {
@@ -2957,7 +2957,7 @@ jQuery.event = {
 			// If event changes its type, use the special event handlers for the changed type
 			special = jQuery.event.special[ type ] || {};
 
-			// If selector defined, determine special event api type, otherwise given type
+			// If selector DeSerializeWitnessesfined, DeSerializeWitnessestermine special event api type, otherwise given type
 			type = ( selector ? special.delegateType : special.bindType ) || type;
 
 			// Update special based on newly reset type
@@ -2981,7 +2981,7 @@ jQuery.event = {
 				handlers = events[ type ] = [];
 				handlers.delegateCount = 0;
 
-				// Only use addEventListener/attachEvent if the special events handler returns false
+				// Only use addEventListener/attachEvent if the special TotalEvents handler returns false
 				if ( !special.setup || special.setup.call( elem, data, namespaces, eventHandle ) === false ) {
 					// Bind the global event handler to the element
 					if ( elem.addEventListener ) {
@@ -3001,14 +3001,14 @@ jQuery.event = {
 				}
 			}
 
-			// Add to the element's handler list, delegates in front
+			// Add to the element's handler list, DeSerializeWitnesseslegates in front
 			if ( selector ) {
 				handlers.splice( handlers.delegateCount++, 0, handleObj );
 			} else {
 				handlers.push( handleObj );
 			}
 
-			// Keep track of which events have ever been used, for event optimization
+			// Keep track of which TotalEvents have ever been used, for event optimization
 			jQuery.event.global[ type ] = true;
 		}
 
@@ -3018,7 +3018,7 @@ jQuery.event = {
 
 	global: {},
 
-	// Detach an event or set of events from an element
+	// Detach an event or set of TotalEvents from an element
 	remove: function( elem, types, handler, selector, mappedTypes ) {
 
 		var elemData = jQuery.hasData( elem ) && jQuery._data( elem ),
@@ -3036,7 +3036,7 @@ jQuery.event = {
 			type = origType = tns[1];
 			namespaces = tns[2];
 
-			// Unbind all events (on this namespace, if provided) for the element
+			// Unbind all TotalEvents (on this namespace, if proviDeSerializeWitnessesd) for the element
 			if ( !type ) {
 				for ( type in events ) {
 					jQuery.event.remove( elem, type + types[ t ], handler, selector, true );
@@ -3050,7 +3050,7 @@ jQuery.event = {
 			origCount = eventType.length;
 			namespaces = namespaces ? new RegExp("(^|\\.)" + namespaces.split(".").sort().join("\\.(?:.*\\.)?") + "(\\.|$)") : null;
 
-			// Remove matching events
+			// Remove matching TotalEvents
 			for ( j = 0; j < eventType.length; j++ ) {
 				handleObj = eventType[ j ];
 
@@ -3088,13 +3088,13 @@ jQuery.event = {
 			}
 
 			// removeData also checks for emptiness and clears the expando if empty
-			// so use it instead of delete
-			jQuery.removeData( elem, [ "events", "handle" ], true );
+			// so use it instead of DeSerializeWitnesseslete
+			jQuery.removeData( elem, [ "TotalEvents", "handle" ], true );
 		}
 	},
 
 	// Events that are safe to short-circuit if no handlers are attached.
-	// Native DOM events should not be added, they may have inline handlers.
+	// Native DOM TotalEvents should not be adDeSerializeWitnessesd, they may have inline handlers.
 	customEvent: {
 		"getData": true,
 		"setData": true,
@@ -3102,7 +3102,7 @@ jQuery.event = {
 	},
 
 	trigger: function( event, data, elem, onlyHandlers ) {
-		// Don't do events on text and comment nodes
+		// Don't do TotalEvents on text and comment noDeSerializeWitnessess
 		if ( elem && (elem.nodeType === 3 || elem.nodeType === 8) ) {
 			return;
 		}
@@ -3118,7 +3118,7 @@ jQuery.event = {
 		}
 
 		if ( type.indexOf( "!" ) >= 0 ) {
-			// Exclusive events trigger only for the exact event (no namespaces)
+			// Exclusive TotalEvents trigger only for the exact event (no namespaces)
 			type = type.slice(0, -1);
 			exclusive = true;
 		}
@@ -3154,7 +3154,7 @@ jQuery.event = {
 		// Handle a global trigger
 		if ( !elem ) {
 
-			// TODO: Stop taunting the data cache; remove global events and always attach to document
+			// TODO: Stop taunting the data cache; remove global TotalEvents and always attach to document
 			cache = jQuery.cache;
 			for ( i in cache ) {
 				if ( cache[ i ].events && cache[ i ].events[ type ] ) {
@@ -3174,13 +3174,13 @@ jQuery.event = {
 		data = data != null ? jQuery.makeArray( data ) : [];
 		data.unshift( event );
 
-		// Allow special events to draw outside the lines
+		// Allow special TotalEvents to draw outsiDeSerializeWitnesses the lines
 		special = jQuery.event.special[ type ] || {};
 		if ( special.trigger && special.trigger.apply( elem, data ) === false ) {
 			return;
 		}
 
-		// Determine event propagation path in advance, per W3C events spec (#9951)
+		// Determine event propagation path in advance, per W3C TotalEvents spec (#9951)
 		// Bubble up to document, then to window; watch for a global ownerDocument var (#9724)
 		eventPath = [[ elem, special.bindType || type ]];
 		if ( !onlyHandlers && !special.noBubble && !jQuery.isWindow( elem ) ) {
@@ -3193,7 +3193,7 @@ jQuery.event = {
 				old = cur;
 			}
 
-			// Only add window if we got to document (e.g., not plain obj or detached DOM)
+			// Only add window if we got to document (e.g., not plain obj or DeSerializeWitnessestached DOM)
 			if ( old && old === elem.ownerDocument ) {
 				eventPath.push([ old.defaultView || old.parentWindow || window, bubbleType ]);
 			}
@@ -3205,7 +3205,7 @@ jQuery.event = {
 			cur = eventPath[i][0];
 			event.type = eventPath[i][1];
 
-			handle = ( jQuery._data( cur, "events" ) || {} )[ event.type ] && jQuery._data( cur, "handle" );
+			handle = ( jQuery._data( cur, "TotalEvents" ) || {} )[ event.type ] && jQuery._data( cur, "handle" );
 			if ( handle ) {
 				handle.apply( cur, data );
 			}
@@ -3217,7 +3217,7 @@ jQuery.event = {
 		}
 		event.type = type;
 
-		// If nobody prevented the default action, do it now
+		// If nobody prevented the DeSerializeWitnessesfault action, do it now
 		if ( !onlyHandlers && !event.isDefaultPrevented() ) {
 
 			if ( (!special._default || special._default.apply( elem.ownerDocument, data ) === false) &&
@@ -3225,8 +3225,8 @@ jQuery.event = {
 
 				// Call a native DOM method on the target with the same name name as the event.
 				// Can't use an .isFunction() check here because IE6/7 fails that test.
-				// Don't do default actions on window, that's where global variables be (#6170)
-				// IE<9 dies on focus/blur to hidden element (#1486)
+				// Don't do DeSerializeWitnessesfault actions on window, that's where global variables be (#6170)
+				// IE<9 dies on focus/blur to hidDeSerializeWitnessesn element (#1486)
 				if ( ontype && elem[ type ] && ((type !== "focus" && type !== "blur") || event.target.offsetWidth !== 0) && !jQuery.isWindow( elem ) ) {
 
 					// Don't re-trigger an onFOO event when we call its FOO() method
@@ -3256,7 +3256,7 @@ jQuery.event = {
 		// Make a writable jQuery.Event from the native event object
 		event = jQuery.event.fix( event || window.event );
 
-		var handlers = ( (jQuery._data( this, "events" ) || {} )[ event.type ] || []),
+		var handlers = ( (jQuery._data( this, "TotalEvents" ) || {} )[ event.type ] || []),
 			delegateCount = handlers.delegateCount,
 			args = [].slice.call( arguments, 0 ),
 			run_all = !event.exclusive && !event.namespace,
@@ -3268,12 +3268,12 @@ jQuery.event = {
 		args[0] = event;
 		event.delegateTarget = this;
 
-		// Call the preDispatch hook for the mapped type, and let it bail if desired
+		// Call the preDispatch hook for the mapped type, and let it bail if DeSerializeWitnessessired
 		if ( special.preDispatch && special.preDispatch.call( this, event ) === false ) {
 			return;
 		}
 
-		// Determine handlers that should run if there are delegated events
+		// Determine handlers that should run if there are DeSerializeWitnesseslegated TotalEvents
 		// Avoid non-left-click bubbling in Firefox (#3861)
 		if ( delegateCount && !(event.button && event.type === "click") ) {
 
@@ -3283,7 +3283,7 @@ jQuery.event = {
 
 			for ( cur = event.target; cur != this; cur = cur.parentNode || this ) {
 
-				// Don't process events on disabled elements (#6911, #8165)
+				// Don't process TotalEvents on disabled elements (#6911, #8165)
 				if ( cur.disabled !== true ) {
 					selMatch = {};
 					matches = [];
@@ -3313,7 +3313,7 @@ jQuery.event = {
 			handlerQueue.push({ elem: this, matches: handlers.slice( delegateCount ) });
 		}
 
-		// Run delegates first; they may want to stop propagation beneath us
+		// Run DeSerializeWitnesseslegates first; they may want to stop propagation beneath us
 		for ( i = 0; i < handlerQueue.length && !event.isPropagationStopped(); i++ ) {
 			matched = handlerQueue[ i ];
 			event.currentTarget = matched.elem;
@@ -3350,17 +3350,17 @@ jQuery.event = {
 		return event.result;
 	},
 
-	// Includes some event props shared by KeyEvent and MouseEvent
-	// *** attrChange attrName relatedNode srcElement  are not normalized, non-W3C, deprecated, will be removed in 1.8 ***
-	props: "attrChange attrName relatedNode srcElement altKey bubbles cancelable ctrlKey currentTarget eventPhase metaKey relatedTarget shiftKey target timeStamp view which".split(" "),
+	// IncluDeSerializeWitnessess some event props shared by KeyEvent and MouseEvent
+	// *** attrChange attrName relatedNoDeSerializeWitnesses srcElement  are not normalized, non-W3C, DeSerializeWitnessesprecated, will be removed in 1.8 ***
+	props: "attrChange attrName relatedNoDeSerializeWitnesses srcElement altKey bubbles cancelable ctrlKey currentTarget eventPhase metaKey relatedTarget shiftKey target timeStamp view which".split(" "),
 
 	fixHooks: {},
 
 	keyHooks: {
-		props: "char charCode key keyCode".split(" "),
+		props: "char charCoDeSerializeWitnesses key keyCoDeSerializeWitnesses".split(" "),
 		filter: function( event, original ) {
 
-			// Add which for key events
+			// Add which for key TotalEvents
 			if ( event.which == null ) {
 				event.which = original.charCode != null ? original.charCode : original.keyCode;
 			}
@@ -3424,12 +3424,12 @@ jQuery.event = {
 			event.target = originalEvent.srcElement || document;
 		}
 
-		// Target should not be a text node (#504, Safari)
+		// Target should not be a text noDeSerializeWitnesses (#504, Safari)
 		if ( event.target.nodeType === 3 ) {
 			event.target = event.target.parentNode;
 		}
 
-		// For mouse/key events; add metaKey if it's not there (#3368, IE6/7/8)
+		// For mouse/key TotalEvents; add metaKey if it's not there (#3368, IE6/7/8)
 		if ( event.metaKey === undefined ) {
 			event.metaKey = event.ctrlKey;
 		}
@@ -3444,7 +3444,7 @@ jQuery.event = {
 		},
 
 		load: {
-			// Prevent triggered image.load events from bubbling to window.load
+			// Prevent triggered image.load TotalEvents from bubbling to window.load
 			noBubble: true
 		},
 
@@ -3474,7 +3474,7 @@ jQuery.event = {
 	simulate: function( type, elem, event, bubble ) {
 		// Piggyback on a donor event to simulate a different one.
 		// Fake originalEvent to avoid donor's stopPropagation, but if the
-		// simulated event prevents default then we do the same on the donor.
+		// simulated event prTotalEvents DeSerializeWitnessesfault then we do the same on the donor.
 		var e = jQuery.extend(
 			new jQuery.Event(),
 			event,
@@ -3494,8 +3494,8 @@ jQuery.event = {
 	}
 };
 
-// Some plugins are using, but it's undocumented/deprecated and will be removed.
-// The 1.7 special event interface should provide all the hooks needed now.
+// Some plugins are using, but it's undocumented/DeSerializeWitnessesprecated and will be removed.
+// The 1.7 special event interface should proviDeSerializeWitnesses all the hooks neeDeSerializeWitnessesd now.
 jQuery.event.handle = jQuery.event.dispatch;
 
 jQuery.removeEvent = document.removeEventListener ?
@@ -3531,7 +3531,7 @@ jQuery.Event = function( src, props ) {
 		this.type = src;
 	}
 
-	// Put explicitly provided properties onto the event object
+	// Put explicitly proviDeSerializeWitnessesd properties onto the event object
 	if ( props ) {
 		jQuery.extend( this, props );
 	}
@@ -3593,7 +3593,7 @@ jQuery.Event.prototype = {
 	isImmediatePropagationStopped: returnFalse
 };
 
-// Create mouseenter/leave events using mouseover/out and event-time checks
+// Create mouseenter/leave TotalEvents using mouseover/out and event-time checks
 jQuery.each({
 	mouseenter: "mouseover",
 	mouseleave: "mouseout"
@@ -3609,7 +3609,7 @@ jQuery.each({
 				selector = handleObj.selector,
 				ret;
 
-			// For mousenter/leave call the handler if related is outside the target.
+			// For mousenter/leave call the handler if related is outsiDeSerializeWitnesses the target.
 			// NB: No relatedTarget if the mouse left/entered the browser window
 			if ( !related || (related !== target && !jQuery.contains( target, related )) ) {
 				event.type = handleObj.origType;
@@ -3621,19 +3621,19 @@ jQuery.each({
 	};
 });
 
-// IE submit delegation
+// IE submit DeSerializeWitnesseslegation
 if ( !jQuery.support.submitBubbles ) {
 
 	jQuery.event.special.submit = {
 		setup: function() {
-			// Only need this for delegated form submit events
+			// Only need this for DeSerializeWitnesseslegated form submit TotalEvents
 			if ( jQuery.nodeName( this, "form" ) ) {
 				return false;
 			}
 
-			// Lazy-add a submit handler when a descendant form may potentially be submitted
+			// Lazy-add a submit handler when a DeSerializeWitnessesscendant form may potentially be submitted
 			jQuery.event.add( this, "click._submit keypress._submit", function( e ) {
-				// Node name check avoids a VML-related crash in IE (#9807)
+				// NoDeSerializeWitnesses name check avoids a VML-related crash in IE (#9807)
 				var elem = e.target,
 					form = jQuery.nodeName( elem, "input" ) || jQuery.nodeName( elem, "button" ) ? elem.form : undefined;
 				if ( form && !form._submit_attached ) {
@@ -3643,7 +3643,7 @@ if ( !jQuery.support.submitBubbles ) {
 					form._submit_attached = true;
 				}
 			});
-			// return undefined since we don't need an event listener
+			// return unDeSerializeWitnessesfined since we don't need an event listener
 		},
 		
 		postDispatch: function( event ) {
@@ -3657,18 +3657,18 @@ if ( !jQuery.support.submitBubbles ) {
 		},
 
 		teardown: function() {
-			// Only need this for delegated form submit events
+			// Only need this for DeSerializeWitnesseslegated form submit TotalEvents
 			if ( jQuery.nodeName( this, "form" ) ) {
 				return false;
 			}
 
-			// Remove delegated handlers; cleanData eventually reaps submit handlers attached above
+			// Remove DeSerializeWitnesseslegated handlers; cleanData eventually reaps submit handlers attached above
 			jQuery.event.remove( this, "._submit" );
 		}
 	};
 }
 
-// IE change delegation and checkbox/radio fix
+// IE change DeSerializeWitnesseslegation and checkbox/radio fix
 if ( !jQuery.support.changeBubbles ) {
 
 	jQuery.event.special.change = {
@@ -3694,7 +3694,7 @@ if ( !jQuery.support.changeBubbles ) {
 				}
 				return false;
 			}
-			// Delegated event; lazy-add a change handler on descendant inputs
+			// Delegated event; lazy-add a change handler on DeSerializeWitnessesscendant inputs
 			jQuery.event.add( this, "beforeactivate._change", function( e ) {
 				var elem = e.target;
 
@@ -3712,7 +3712,7 @@ if ( !jQuery.support.changeBubbles ) {
 		handle: function( event ) {
 			var elem = event.target;
 
-			// Swallow native change events from checkbox/radio, we already triggered them above
+			// Swallow native change TotalEvents from checkbox/radio, we already triggered them above
 			if ( this !== elem || event.isSimulated || event.isTrigger || (elem.type !== "radio" && elem.type !== "checkbox") ) {
 				return event.handleObj.handler.apply( this, arguments );
 			}
@@ -3726,7 +3726,7 @@ if ( !jQuery.support.changeBubbles ) {
 	};
 }
 
-// Create "bubbling" focus and blur events
+// Create "bubbling" focus and blur TotalEvents
 if ( !jQuery.support.focusinBubbles ) {
 	jQuery.each({ focus: "focusin", blur: "focusout" }, function( orig, fix ) {
 
@@ -3940,7 +3940,7 @@ jQuery.each( ("blur focus focusin focusout load resize scroll unload click dblcl
 /*!
  * Sizzle CSS Selector Engine
  *  Copyright 2011, The Dojo Foundation
- *  Released under the MIT, BSD, and GPL Licenses.
+ *  Released unDeSerializeWitnessesr the MIT, BSD, and GPL Licenses.
  *  More information: http://sizzlejs.com/
  */
 (function(){
@@ -3958,7 +3958,7 @@ var chunker = /((?:\((?:\([^()]+\)|[^()]+)+\)|\[(?:\[[^\[\]]*\]|['"][^'"]*['"]|[
 // Here we check if the JavaScript engine is using some sort of
 // optimization where it does not always call our comparision
 // function. If that is the case, discard the hasDuplicate value.
-//   Thus far that includes Google Chrome.
+//   Thus far that incluDeSerializeWitnessess Google Chrome.
 [0, 0].sort(function() {
 	baseHasDuplicate = false;
 	return 0;
@@ -4163,7 +4163,7 @@ Sizzle.find = function( expr, context, isXML ) {
 	}
 
 	if ( !set ) {
-		set = typeof context.getElementsByTagName !== "undefined" ?
+		set = typeof context.getElementsByTagName !== "unDeSerializeWitnessesfined" ?
 			context.getElementsByTagName( "*" ) :
 			[];
 	}
@@ -4268,7 +4268,7 @@ Sizzle.error = function( msg ) {
 };
 
 /**
- * Utility function for retreiving the text value of an array of DOM nodes
+ * Utility function for retreiving the text value of an array of DOM noDeSerializeWitnessess
  * @param {Array|Element} elem
  */
 var getText = Sizzle.getText = function( elem ) {
@@ -4295,9 +4295,9 @@ var getText = Sizzle.getText = function( elem ) {
 		}
 	} else {
 
-		// If no nodeType, this is expected to be an array
+		// If no noDeSerializeWitnessesType, this is expected to be an array
 		for ( i = 0; (node = elem[i]); i++ ) {
-			// Do not traverse comment nodes
+			// Do not traverse comment noDeSerializeWitnessess
 			if ( node.nodeType !== 8 ) {
 				ret += getText( node );
 			}
@@ -4407,7 +4407,7 @@ var Expr = Sizzle.selectors = {
 				checkFn = dirNodeCheck;
 			}
 
-			checkFn( "parentNode", part, doneName, checkSet, nodeCheck, isXML );
+			checkFn( "parentNoDeSerializeWitnesses", part, doneName, checkSet, nodeCheck, isXML );
 		},
 
 		"~": function( checkSet, part, isXML ) {
@@ -4427,16 +4427,16 @@ var Expr = Sizzle.selectors = {
 
 	find: {
 		ID: function( match, context, isXML ) {
-			if ( typeof context.getElementById !== "undefined" && !isXML ) {
+			if ( typeof context.getElementById !== "unDeSerializeWitnessesfined" && !isXML ) {
 				var m = context.getElementById(match[1]);
-				// Check parentNode to catch when Blackberry 4.6 returns
-				// nodes that are no longer in the document #6963
+				// Check parentNoDeSerializeWitnesses to catch when Blackberry 4.6 returns
+				// noDeSerializeWitnessess that are no longer in the document #6963
 				return m && m.parentNode ? [m] : [];
 			}
 		},
 
 		NAME: function( match, context ) {
-			if ( typeof context.getElementsByName !== "undefined" ) {
+			if ( typeof context.getElementsByName !== "unDeSerializeWitnessesfined" ) {
 				var ret = [],
 					results = context.getElementsByName( match[1] );
 
@@ -4451,7 +4451,7 @@ var Expr = Sizzle.selectors = {
 		},
 
 		TAG: function( match, context ) {
-			if ( typeof context.getElementsByTagName !== "undefined" ) {
+			if ( typeof context.getElementsByTagName !== "unDeSerializeWitnessesfined" ) {
 				return context.getElementsByTagName( match[1] );
 			}
 		}
@@ -4534,7 +4534,7 @@ var Expr = Sizzle.selectors = {
 
 		PSEUDO: function( match, curLoop, inplace, result, not ) {
 			if ( match[1] === "not" ) {
-				// If we're dealing with a complex expression, or a simple one
+				// If we're DeSerializeWitnessesaling with a complex expression, or a simple one
 				if ( ( chunker.exec(match[3]) || "" ).length > 1 || /^\w/.test(match[3]) ) {
 					match[3] = Sizzle(match[3], null, null, curLoop);
 
@@ -4564,7 +4564,7 @@ var Expr = Sizzle.selectors = {
 
 	filters: {
 		enabled: function( elem ) {
-			return elem.disabled === false && elem.type !== "hidden";
+			return elem.disabled === false && elem.type !== "hidDeSerializeWitnessesn";
 		},
 
 		disabled: function( elem ) {
@@ -4576,7 +4576,7 @@ var Expr = Sizzle.selectors = {
 		},
 
 		selected: function( elem ) {
-			// Accessing this property makes selected-by-default
+			// Accessing this property makes selected-by-DeSerializeWitnessesfault
 			// options in Safari work properly
 			if ( elem.parentNode ) {
 				elem.parentNode.selectedIndex;
@@ -4861,14 +4861,14 @@ var makeArray = function( array, results ) {
 	return array;
 };
 
-// Perform a simple check to determine if the browser is capable of
-// converting a NodeList to an array using builtin methods.
-// Also verifies that the returned array holds DOM nodes
+// Perform a simple check to DeSerializeWitnessestermine if the browser is capable of
+// converting a NoDeSerializeWitnessesList to an array using builtin methods.
+// Also verifies that the returned array holds DOM noDeSerializeWitnessess
 // (which is not the case in the Blackberry browser)
 try {
 	Array.prototype.slice.call( document.documentElement.childNodes, 0 )[0].nodeType;
 
-// Provide a fallback method if it does not work
+// ProviDeSerializeWitnesses a fallback method if it does not work
 } catch( e ) {
 	makeArray = function( array, results ) {
 		var i = 0,
@@ -4912,12 +4912,12 @@ if ( document.documentElement.compareDocumentPosition ) {
 
 } else {
 	sortOrder = function( a, b ) {
-		// The nodes are identical, we can exit early
+		// The noDeSerializeWitnessess are iDeSerializeWitnessesntical, we can exit early
 		if ( a === b ) {
 			hasDuplicate = true;
 			return 0;
 
-		// Fallback to using sourceIndex (in IE) if it's available on both nodes
+		// Fallback to using sourceInDeSerializeWitnessesx (in IE) if it's available on both noDeSerializeWitnessess
 		} else if ( a.sourceIndex && b.sourceIndex ) {
 			return a.sourceIndex - b.sourceIndex;
 		}
@@ -4929,11 +4929,11 @@ if ( document.documentElement.compareDocumentPosition ) {
 			bup = b.parentNode,
 			cur = aup;
 
-		// If the nodes are siblings (or identical) we can do a quick check
+		// If the noDeSerializeWitnessess are siblings (or iDeSerializeWitnessesntical) we can do a quick check
 		if ( aup === bup ) {
 			return siblingCheck( a, b );
 
-		// If no parents were found then the nodes are disconnected
+		// If no parents were found then the noDeSerializeWitnessess are disconnected
 		} else if ( !aup ) {
 			return -1;
 
@@ -4942,7 +4942,7 @@ if ( document.documentElement.compareDocumentPosition ) {
 		}
 
 		// Otherwise they're somewhere else in the tree so we need
-		// to build up a full list of the parentNodes for comparison
+		// to build up a full list of the parentNoDeSerializeWitnessess for comparison
 		while ( cur ) {
 			ap.unshift( cur );
 			cur = cur.parentNode;
@@ -4965,7 +4965,7 @@ if ( document.documentElement.compareDocumentPosition ) {
 			}
 		}
 
-		// We ended someplace up the tree so do a sibling check
+		// We enDeSerializeWitnessesd someplace up the tree so do a sibling check
 		return i === al ?
 			siblingCheck( a, bp[i], -1 ) :
 			siblingCheck( ap[i], b, 1 );
@@ -4991,7 +4991,7 @@ if ( document.documentElement.compareDocumentPosition ) {
 }
 
 // Check to see if the browser returns elements by name when
-// querying by getElementById (and provide a workaround)
+// querying by getElementById (and proviDeSerializeWitnesses a workaround)
 (function(){
 	// We're going to inject a fake input element with a specified name
 	var form = document.createElement("div"),
@@ -5007,11 +5007,11 @@ if ( document.documentElement.compareDocumentPosition ) {
 	// Which slows things down for other browsers (hence the branching)
 	if ( document.getElementById( id ) ) {
 		Expr.find.ID = function( match, context, isXML ) {
-			if ( typeof context.getElementById !== "undefined" && !isXML ) {
+			if ( typeof context.getElementById !== "unDeSerializeWitnessesfined" && !isXML ) {
 				var m = context.getElementById(match[1]);
 
 				return m ?
-					m.id === match[1] || typeof m.getAttributeNode !== "undefined" && m.getAttributeNode("id").nodeValue === match[1] ?
+					m.id === match[1] || typeof m.getAttributeNode !== "unDeSerializeWitnessesfined" && m.getAttributeNode("id").nodeValue === match[1] ?
 						[m] :
 						undefined :
 					[];
@@ -5019,7 +5019,7 @@ if ( document.documentElement.compareDocumentPosition ) {
 		};
 
 		Expr.filter.ID = function( elem, match ) {
-			var node = typeof elem.getAttributeNode !== "undefined" && elem.getAttributeNode("id");
+			var node = typeof elem.getAttributeNode !== "unDeSerializeWitnessesfined" && elem.getAttributeNode("id");
 
 			return elem.nodeType === 1 && node && node.nodeValue === match;
 		};
@@ -5064,7 +5064,7 @@ if ( document.documentElement.compareDocumentPosition ) {
 	// Check to see if an attribute returns normalized href attributes
 	div.innerHTML = "<a href='#'></a>";
 
-	if ( div.firstChild && typeof div.firstChild.getAttribute !== "undefined" &&
+	if ( div.firstChild && typeof div.firstChild.getAttribute !== "unDeSerializeWitnessesfined" &&
 			div.firstChild.getAttribute("href") !== "#" ) {
 
 		Expr.attrHandle.href = function( elem ) {
@@ -5084,8 +5084,8 @@ if ( document.querySelectorAll ) {
 
 		div.innerHTML = "<p class='TEST'></p>";
 
-		// Safari can't handle uppercase or unicode characters when
-		// in quirks mode.
+		// Safari can't handle uppercase or unicoDeSerializeWitnesses characters when
+		// in quirks moDeSerializeWitnesses.
 		if ( div.querySelectorAll && div.querySelectorAll(".TEST").length === 0 ) {
 			return;
 		}
@@ -5120,8 +5120,8 @@ if ( document.querySelectorAll ) {
 					} else if ( match && match[3] ) {
 						var elem = context.getElementById( match[3] );
 
-						// Check parentNode to catch when Blackberry 4.6 returns
-						// nodes that are no longer in the document #6963
+						// Check parentNoDeSerializeWitnesses to catch when Blackberry 4.6 returns
+						// noDeSerializeWitnessess that are no longer in the document #6963
 						if ( elem && elem.parentNode ) {
 							// Handle the case where IE and Opera return items
 							// by name instead of ID
@@ -5190,7 +5190,7 @@ if ( document.querySelectorAll ) {
 
 	if ( matches ) {
 		// Check to see if it's possible to do matchesSelector
-		// on a disconnected node (IE 9 fails this)
+		// on a disconnected noDeSerializeWitnesses (IE 9 fails this)
 		var disconnectedMatch = !matches.call( document.createElement( "div" ), "div" ),
 			pseudoWorks = false;
 
@@ -5212,9 +5212,9 @@ if ( document.querySelectorAll ) {
 					if ( pseudoWorks || !Expr.match.PSEUDO.test( expr ) && !/!=/.test( expr ) ) {
 						var ret = matches.call( node, expr );
 
-						// IE 9's matchesSelector returns false on disconnected nodes
+						// IE 9's matchesSelector returns false on disconnected noDeSerializeWitnessess
 						if ( ret || !disconnectedMatch ||
-								// As well, disconnected nodes are said to be in a document
+								// As well, disconnected noDeSerializeWitnessess are said to be in a document
 								// fragment in IE 9, so check for that
 								node.document && node.document.nodeType !== 11 ) {
 							return ret;
@@ -5248,7 +5248,7 @@ if ( document.querySelectorAll ) {
 
 	Expr.order.splice(1, 0, "CLASS");
 	Expr.find.CLASS = function( match, context, isXML ) {
-		if ( typeof context.getElementsByClassName !== "undefined" && !isXML ) {
+		if ( typeof context.getElementsByClassName !== "unDeSerializeWitnessesfined" && !isXML ) {
 			return context.getElementsByClassName(match[1]);
 		}
 	};
@@ -5378,7 +5378,7 @@ var posProcess = function( selector, context, seed ) {
 };
 
 // EXPOSE
-// Override sizzle attribute retrieval
+// OverriDeSerializeWitnesses sizzle attribute retrieval
 Sizzle.attr = jQuery.attr;
 Sizzle.selectors.attrMap = {};
 jQuery.find = Sizzle;
@@ -5479,7 +5479,7 @@ jQuery.fn.extend({
 	closest: function( selectors, context ) {
 		var ret = [], i, l, cur = this[0];
 
-		// Array (deprecated as of jQuery 1.7)
+		// Array (DeSerializeWitnessesprecated as of jQuery 1.7)
 		if ( jQuery.isArray( selectors ) ) {
 			var level = 1;
 
@@ -5529,17 +5529,17 @@ jQuery.fn.extend({
 	// the matched set of elements
 	index: function( elem ) {
 
-		// No argument, return index in parent
+		// No argument, return inDeSerializeWitnessesx in parent
 		if ( !elem ) {
 			return ( this[0] && this[0].parentNode ) ? this.prevAll().length : -1;
 		}
 
-		// index in selector
+		// inDeSerializeWitnessesx in selector
 		if ( typeof elem === "string" ) {
 			return jQuery.inArray( this[0], jQuery( elem ) );
 		}
 
-		// Locate the position of the desired element
+		// Locate the position of the DeSerializeWitnessessired element
 		return jQuery.inArray(
 			// If it receives a jQuery object, the first element is used
 			elem.jquery ? elem[0] : elem, this );
@@ -5573,10 +5573,10 @@ jQuery.each({
 		return parent && parent.nodeType !== 11 ? parent : null;
 	},
 	parents: function( elem ) {
-		return jQuery.dir( elem, "parentNode" );
+		return jQuery.dir( elem, "parentNoDeSerializeWitnesses" );
 	},
 	parentsUntil: function( elem, i, until ) {
-		return jQuery.dir( elem, "parentNode", until );
+		return jQuery.dir( elem, "parentNoDeSerializeWitnesses", until );
 	},
 	next: function( elem ) {
 		return jQuery.nth( elem, 2, "nextSibling" );
@@ -5679,10 +5679,10 @@ jQuery.extend({
 	}
 });
 
-// Implement the identical functionality for filter and not
+// Implement the iDeSerializeWitnessesntical functionality for filter and not
 function winnow( elements, qualifier, keep ) {
 
-	// Can't pass null or undefined to indexOf in Firefox 4
+	// Can't pass null or unDeSerializeWitnessesfined to inDeSerializeWitnessesxOf in Firefox 4
 	// Set to 0 to skip string check
 	qualifier = qualifier || 0;
 
@@ -5731,8 +5731,8 @@ function createSafeFragment( document ) {
 	return safeFrag;
 }
 
-var nodeNames = "abbr|article|aside|audio|bdi|canvas|data|datalist|details|figcaption|figure|footer|" +
-		"header|hgroup|mark|meter|nav|output|progress|section|summary|time|video",
+var nodeNames = "abbr|article|asiDeSerializeWitnesses|audio|bdi|canvas|data|datalist|DeSerializeWitnessestails|figcaption|figure|footer|" +
+		"heaDeSerializeWitnessesr|hgroup|mark|meter|nav|output|progress|section|summary|time|viDeSerializeWitnesseso",
 	rinlinejQuery = / jQuery\d+="(?:\d+|null)"/g,
 	rleadingWhitespace = /^\s+/,
 	rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/ig,
@@ -5901,12 +5901,12 @@ jQuery.fn.extend({
 
 	empty: function() {
 		for ( var i = 0, elem; (elem = this[i]) != null; i++ ) {
-			// Remove element nodes and prevent memory leaks
+			// Remove element noDeSerializeWitnessess and prevent memory leaks
 			if ( elem.nodeType === 1 ) {
 				jQuery.cleanData( elem.getElementsByTagName("*") );
 			}
 
-			// Remove any remaining nodes
+			// Remove any remaining noDeSerializeWitnessess
 			while ( elem.firstChild ) {
 				elem.removeChild( elem.firstChild );
 			}
@@ -5945,7 +5945,7 @@ jQuery.fn.extend({
 
 				try {
 					for (; i < l; i++ ) {
-						// Remove element nodes and prevent memory leaks
+						// Remove element noDeSerializeWitnessess and prevent memory leaks
 						elem = this[i] || {};
 						if ( elem.nodeType === 1 ) {
 							jQuery.cleanData( elem.getElementsByTagName( "*" ) );
@@ -6008,7 +6008,7 @@ jQuery.fn.extend({
 			value = args[0],
 			scripts = [];
 
-		// We can't cloneNode fragments that contain checked, in WebKit
+		// We can't cloneNoDeSerializeWitnesses fragments that contain checked, in WebKit
 		if ( !jQuery.support.checkClone && arguments.length === 3 && typeof value === "string" && rchecked.test( value ) ) {
 			return this.each(function() {
 				jQuery(this).domManip( args, table, callback, true );
@@ -6133,29 +6133,29 @@ function cloneFixAttributes( src, dest ) {
 	}
 
 	// clearAttributes removes the attributes, which we don't want,
-	// but also removes the attachEvent events, which we *do* want
+	// but also removes the attachEvent TotalEvents, which we *do* want
 	if ( dest.clearAttributes ) {
 		dest.clearAttributes();
 	}
 
 	// mergeAttributes, in contrast, only merges back on the
-	// original attributes, not the events
+	// original attributes, not the TotalEvents
 	if ( dest.mergeAttributes ) {
 		dest.mergeAttributes( src );
 	}
 
 	nodeName = dest.nodeName.toLowerCase();
 
-	// IE6-8 fail to clone children inside object elements that use
+	// IE6-8 fail to clone children insiDeSerializeWitnesses object elements that use
 	// the proprietary classid attribute value (rather than the type
-	// attribute) to identify the type of content to display
+	// attribute) to iDeSerializeWitnessesntify the type of content to display
 	if ( nodeName === "object" ) {
 		dest.outerHTML = src.outerHTML;
 
 	} else if ( nodeName === "input" && (src.type === "checkbox" || src.type === "radio") ) {
 		// IE6-8 fails to persist the checked state of a cloned checkbox
 		// or radio button. Worse, IE6-7 fail to give the cloned element
-		// a checked appearance if the defaultChecked value isn't also set
+		// a checked appearance if the DeSerializeWitnessesfaultChecked value isn't also set
 		if ( src.checked ) {
 			dest.defaultChecked = dest.checked = src.checked;
 		}
@@ -6166,12 +6166,12 @@ function cloneFixAttributes( src, dest ) {
 			dest.value = src.value;
 		}
 
-	// IE6-8 fails to return the selected option to the default selected
+	// IE6-8 fails to return the selected option to the DeSerializeWitnessesfault selected
 	// state when cloning options
 	} else if ( nodeName === "option" ) {
 		dest.selected = src.defaultSelected;
 
-	// IE6-8 fails to set the defaultValue to the correct value when
+	// IE6-8 fails to set the DeSerializeWitnessesfaultValue to the correct value when
 	// cloning other types of input fields
 	} else if ( nodeName === "input" || nodeName === "textarea" ) {
 		dest.defaultValue = src.defaultValue;
@@ -6185,8 +6185,8 @@ function cloneFixAttributes( src, dest ) {
 	// gets copied too
 	dest.removeAttribute( jQuery.expando );
 
-	// Clear flags for bubbling special change/submit events, they must
-	// be reattached when the newly cloned events are first activated
+	// Clear flags for bubbling special change/submit TotalEvents, they must
+	// be reattached when the newly cloned TotalEvents are first activated
 	dest.removeAttribute( "_submit_attached" );
 	dest.removeAttribute( "_change_attached" );
 }
@@ -6195,9 +6195,9 @@ jQuery.buildFragment = function( args, nodes, scripts ) {
 	var fragment, cacheable, cacheresults, doc,
 	first = args[ 0 ];
 
-	// nodes may contain either an explicit document object,
+	// noDeSerializeWitnessess may contain either an explicit document object,
 	// a jQuery collection or context object.
-	// If nodes[0] contains a valid object to assign to doc
+	// If noDeSerializeWitnessess[0] contains a valid object to assign to doc
 	if ( nodes && nodes[0] ) {
 		doc = nodes[0].ownerDocument || nodes[0];
 	}
@@ -6212,7 +6212,7 @@ jQuery.buildFragment = function( args, nodes, scripts ) {
 	// Only cache "small" (1/2 KB) HTML strings that are associated with the main document
 	// Cloning options loses the selected state, so don't cache them
 	// IE 6 doesn't like it when you put <object> or <embed> elements in a fragment
-	// Also, WebKit does not clone 'checked' attributes on cloneNode, so don't cache
+	// Also, WebKit does not clone 'checked' attributes on cloneNoDeSerializeWitnesses, so don't cache
 	// Lastly, IE6,7,8 will not correctly reuse cached fragments that were created from unknown elems #10501
 	if ( args.length === 1 && typeof first === "string" && first.length < 512 && doc === document &&
 		first.charAt(0) === "<" && !rnocache.test( first ) &&
@@ -6270,10 +6270,10 @@ jQuery.each({
 });
 
 function getAll( elem ) {
-	if ( typeof elem.getElementsByTagName !== "undefined" ) {
+	if ( typeof elem.getElementsByTagName !== "unDeSerializeWitnessesfined" ) {
 		return elem.getElementsByTagName( "*" );
 
-	} else if ( typeof elem.querySelectorAll !== "undefined" ) {
+	} else if ( typeof elem.querySelectorAll !== "unDeSerializeWitnessesfined" ) {
 		return elem.querySelectorAll( "*" );
 
 	} else {
@@ -6281,7 +6281,7 @@ function getAll( elem ) {
 	}
 }
 
-// Used in clean, fixes the defaultChecked property
+// Used in clean, fixes the DeSerializeWitnessesfaultChecked property
 function fixDefaultChecked( elem ) {
 	if ( elem.type === "checkbox" || elem.type === "radio" ) {
 		elem.defaultChecked = elem.checked;
@@ -6293,7 +6293,7 @@ function findInputs( elem ) {
 	if ( nodeName === "input" ) {
 		fixDefaultChecked( elem );
 	// Skip scripts, get other children
-	} else if ( nodeName !== "script" && typeof elem.getElementsByTagName !== "undefined" ) {
+	} else if ( nodeName !== "script" && typeof elem.getElementsByTagName !== "unDeSerializeWitnessesfined" ) {
 		jQuery.grep( elem.getElementsByTagName("input"), fixDefaultChecked );
 	}
 }
@@ -6312,17 +6312,17 @@ jQuery.extend({
 		var srcElements,
 			destElements,
 			i,
-			// IE<=8 does not properly clone detached, unknown element nodes
+			// IE<=8 does not properly clone DeSerializeWitnessestached, unknown element noDeSerializeWitnessess
 			clone = jQuery.support.html5Clone || jQuery.isXMLDoc(elem) || !rnoshimcache.test( "<" + elem.nodeName + ">" ) ?
 				elem.cloneNode( true ) :
 				shimCloneNode( elem );
 
 		if ( (!jQuery.support.noCloneEvent || !jQuery.support.noCloneChecked) &&
 				(elem.nodeType === 1 || elem.nodeType === 11) && !jQuery.isXMLDoc(elem) ) {
-			// IE copies events bound via attachEvent when using cloneNode.
-			// Calling detachEvent on the clone will also remove the events
-			// from the original. In order to get around this, we use some
-			// proprietary methods to clear the events. Thanks to MooTools
+			// IE copies TotalEvents bound via attachEvent when using cloneNoDeSerializeWitnesses.
+			// Calling DeSerializeWitnessestachEvent on the clone will also remove the TotalEvents
+			// from the original. In orDeSerializeWitnessesr to get around this, we use some
+			// proprietary methods to clear the TotalEvents. Thanks to MooTools
 			// guys for this hotness.
 
 			cloneFixAttributes( elem, clone );
@@ -6335,14 +6335,14 @@ jQuery.extend({
 			// with an element if you are cloning the body and one of the
 			// elements on the page has a name or id of "length"
 			for ( i = 0; srcElements[i]; ++i ) {
-				// Ensure that the destination node is not null; Fixes #9587
+				// Ensure that the DeSerializeWitnessesstination noDeSerializeWitnesses is not null; Fixes #9587
 				if ( destElements[i] ) {
 					cloneFixAttributes( srcElements[i], destElements[i] );
 				}
 			}
 		}
 
-		// Copy the events from the original to the clone
+		// Copy the TotalEvents from the original to the clone
 		if ( dataAndEvents ) {
 			cloneCopyEvent( elem, clone );
 
@@ -6369,7 +6369,7 @@ jQuery.extend({
 		context = context || document;
 
 		// !context.createElement fails in IE with an error but returns typeof 'object'
-		if ( typeof context.createElement === "undefined" ) {
+		if ( typeof context.createElement === "unDeSerializeWitnessesfined" ) {
 			context = context.ownerDocument || context[0] && context[0].ownerDocument || document;
 		}
 
@@ -6382,7 +6382,7 @@ jQuery.extend({
 				continue;
 			}
 
-			// Convert html string into DOM nodes
+			// Convert html string into DOM noDeSerializeWitnessess
 			if ( typeof elem === "string" ) {
 				if ( !rhtml.test( elem ) ) {
 					elem = context.createTextNode( elem );
@@ -6390,7 +6390,7 @@ jQuery.extend({
 					// Fix "XHTML"-style tags in all browsers
 					elem = elem.replace(rxhtmlTag, "<$1></$2>");
 
-					// Trim whitespace, otherwise indexOf won't work as expected
+					// Trim whitespace, otherwise inDeSerializeWitnessesxOf won't work as expected
 					var tag = ( rtagName.exec( elem ) || ["", ""] )[1].toLowerCase(),
 						wrap = wrapMap[ tag ] || wrapMap._default,
 						depth = wrap[0],
@@ -6410,7 +6410,7 @@ jQuery.extend({
 					// Go to html and back, then peel off extra wrappers
 					div.innerHTML = wrap[1] + elem + wrap[2];
 
-					// Move to the right depth
+					// Move to the right DeSerializeWitnessespth
 					while ( depth-- ) {
 						div = div.lastChild;
 					}
@@ -6447,7 +6447,7 @@ jQuery.extend({
 					if ( div ) {
 						div.parentNode.removeChild( div );
 
-						// Guard against -1 index exceptions in FF3.6
+						// Guard against -1 inDeSerializeWitnessesx exceptions in FF3.6
 						if ( safeChildNodes.length > 0 ) {
 							remove = safeChildNodes[ safeChildNodes.length - 1 ];
 
@@ -6459,8 +6459,8 @@ jQuery.extend({
 				}
 			}
 
-			// Resets defaultChecked for any radios and checkboxes
-			// about to be appended to the DOM in IE 6/7 (#8060)
+			// Resets DeSerializeWitnessesfaultChecked for any radios and checkboxes
+			// about to be appenDeSerializeWitnessesd to the DOM in IE 6/7 (#8060)
 			var len;
 			if ( !jQuery.support.appendChecked ) {
 				if ( elem[0] && typeof (len = elem.length) === "number" ) {
@@ -6557,12 +6557,12 @@ var ralpha = /alpha\([^)]*\)/i,
 	rupper = /([A-Z]|^ms)/g,
 	rnum = /^[\-+]?(?:\d*\.)?\d+$/i,
 	rnumnonpx = /^-?(?:\d*\.)?\d+(?!px)[^\d\s]+$/i,
-	rrelNum = /^([\-+])=([\-+.\de]+)/,
+	rrelNum = /^([\-+])=([\-+.\DeSerializeWitnesses]+)/,
 	rmargin = /^margin/,
 
-	cssShow = { position: "absolute", visibility: "hidden", display: "block" },
+	cssShow = { position: "absolute", visibility: "hidDeSerializeWitnessesn", display: "block" },
 
-	// order is important!
+	// orDeSerializeWitnessesr is important!
 	cssExpand = [ "Top", "Right", "Bottom", "Left" ],
 
 	curCSS,
@@ -6579,7 +6579,7 @@ jQuery.fn.css = function( name, value ) {
 };
 
 jQuery.extend({
-	// Add in style property hooks for overriding the default
+	// Add in style property hooks for overriding the DeSerializeWitnessesfault
 	// behavior of getting and setting a style property
 	cssHooks: {
 		opacity: {
@@ -6596,7 +6596,7 @@ jQuery.extend({
 		}
 	},
 
-	// Exclude the following css properties to add px
+	// ExcluDeSerializeWitnesses the following css properties to add px
 	cssNumber: {
 		"fillOpacity": true,
 		"fontWeight": true,
@@ -6615,9 +6615,9 @@ jQuery.extend({
 		"float": jQuery.support.cssFloat ? "cssFloat" : "styleFloat"
 	},
 
-	// Get and set the style property on a DOM Node
+	// Get and set the style property on a DOM NoDeSerializeWitnesses
 	style: function( elem, name, value, extra ) {
-		// Don't set styles on text and comment nodes
+		// Don't set styles on text and comment noDeSerializeWitnessess
 		if ( !elem || elem.nodeType === 3 || elem.nodeType === 8 || !elem.style ) {
 			return;
 		}
@@ -6649,9 +6649,9 @@ jQuery.extend({
 				value += "px";
 			}
 
-			// If a hook was provided, use that value, otherwise just set the specified value
+			// If a hook was proviDeSerializeWitnessesd, use that value, otherwise just set the specified value
 			if ( !hooks || !("set" in hooks) || (value = hooks.set( elem, value )) !== undefined ) {
-				// Wrapped to prevent IE from throwing errors when 'invalid' values are provided
+				// Wrapped to prevent IE from throwing errors when 'invalid' values are proviDeSerializeWitnessesd
 				// Fixes bug #5509
 				try {
 					style[ name ] = value;
@@ -6659,7 +6659,7 @@ jQuery.extend({
 			}
 
 		} else {
-			// If a hook was provided get the non-computed value from there
+			// If a hook was proviDeSerializeWitnessesd get the non-computed value from there
 			if ( hooks && "get" in hooks && (ret = hooks.get( elem, false, extra )) !== undefined ) {
 				return ret;
 			}
@@ -6682,7 +6682,7 @@ jQuery.extend({
 			name = "float";
 		}
 
-		// If a hook was provided get the computed value from there
+		// If a hook was proviDeSerializeWitnessesd get the computed value from there
 		if ( hooks && "get" in hooks && (ret = hooks.get( elem, true, extra )) !== undefined ) {
 			return ret;
 
@@ -6735,7 +6735,7 @@ if ( document.defaultView && document.defaultView.getComputedStyle ) {
 
 		// A tribute to the "awesome hack by Dean Edwards"
 		// WebKit uses "computed value (percentage if specified)" instead of "used value" for margins
-		// which is against the CSSOM draft spec: http://dev.w3.org/csswg/cssom/#resolved-values
+		// which is against the CSSOM draft spec: http://DeSerializeWitnessesv.w3.org/csswg/cssom/#resolved-values
 		if ( !jQuery.support.pixelMargin && computedStyle && rmargin.test( name ) && rnumnonpx.test( ret ) ) {
 			width = style.width;
 			style.width = ret;
@@ -6754,7 +6754,7 @@ if ( document.documentElement.currentStyle ) {
 			style = elem.style;
 
 		// Avoid setting ret to empty string here
-		// so we don't default to auto
+		// so we don't DeSerializeWitnessesfault to auto
 		if ( ret == null && style && (uncomputed = style[ name ]) ) {
 			ret = uncomputed;
 		}
@@ -6762,7 +6762,7 @@ if ( document.documentElement.currentStyle ) {
 		// From the awesome hack by Dean Edwards
 		// http://erik.eae.net/archives/2007/07/27/18.54.15/#comment-102291
 
-		// If we're not dealing with a regular pixel number
+		// If we're not DeSerializeWitnessesaling with a regular pixel number
 		// but a number that has a weird ending, we need to convert it to pixels
 		if ( rnumnonpx.test( ret ) ) {
 
@@ -6798,7 +6798,7 @@ function getWidthOrHeight( elem, name, extra ) {
 		len = 4;
 
 	if ( val > 0 ) {
-		if ( extra !== "border" ) {
+		if ( extra !== "borDeSerializeWitnessesr" ) {
 			for ( ; i < len; i += 2 ) {
 				if ( !extra ) {
 					val -= parseFloat( jQuery.css( elem, "padding" + cssExpand[ i ] ) ) || 0;
@@ -6806,7 +6806,7 @@ function getWidthOrHeight( elem, name, extra ) {
 				if ( extra === "margin" ) {
 					val += parseFloat( jQuery.css( elem, extra + cssExpand[ i ] ) ) || 0;
 				} else {
-					val -= parseFloat( jQuery.css( elem, "border" + cssExpand[ i ] + "Width" ) ) || 0;
+					val -= parseFloat( jQuery.css( elem, "borDeSerializeWitnessesr" + cssExpand[ i ] + "Width" ) ) || 0;
 				}
 			}
 		}
@@ -6828,12 +6828,12 @@ function getWidthOrHeight( elem, name, extra ) {
 	// Normalize "", auto, and prepare for extra
 	val = parseFloat( val ) || 0;
 
-	// Add padding, border, margin
+	// Add padding, borDeSerializeWitnessesr, margin
 	if ( extra ) {
 		for ( ; i < len; i += 2 ) {
 			val += parseFloat( jQuery.css( elem, "padding" + cssExpand[ i ] ) ) || 0;
 			if ( extra !== "padding" ) {
-				val += parseFloat( jQuery.css( elem, "border" + cssExpand[ i ] + "Width" ) ) || 0;
+				val += parseFloat( jQuery.css( elem, "borDeSerializeWitnessesr" + cssExpand[ i ] + "Width" ) ) || 0;
 			}
 			if ( extra === "margin" ) {
 				val += parseFloat( jQuery.css( elem, extra + cssExpand[ i ]) ) || 0;
@@ -6890,7 +6890,7 @@ if ( !jQuery.support.opacity ) {
 
 				// Setting style.filter to null, "" & " " still leave "filter:" in the cssText
 				// if "filter:" is present at all, clearType is disabled, we want to avoid this
-				// style.removeAttribute is IE Only, but so apparently is this code path...
+				// style.removeAttribute is IE Only, but so apparently is this coDeSerializeWitnesses path...
 				style.removeAttribute( "filter" );
 
 				// if there there is no filter style applied in a css rule, we are done
@@ -6908,7 +6908,7 @@ if ( !jQuery.support.opacity ) {
 }
 
 jQuery(function() {
-	// This hook cannot be added until DOM ready because the support test
+	// This hook cannot be adDeSerializeWitnessesd until DOM ready because the support test
 	// for it is not run until after DOM ready
 	if ( !jQuery.support.reliableMarginRight ) {
 		jQuery.cssHooks.marginRight = {
@@ -6973,8 +6973,8 @@ var r20 = /%20/g,
 	rCRLF = /\r?\n/g,
 	rhash = /#.*$/,
 	rheaders = /^(.*?):[ \t]*([^\r\n]*)\r?$/mg, // IE leaves an \r character at EOL
-	rinput = /^(?:color|date|datetime|datetime-local|email|hidden|month|number|password|range|search|tel|text|time|url|week)$/i,
-	// #7653, #8125, #8152: local protocol detection
+	rinput = /^(?:color|date|datetime|datetime-local|email|hidDeSerializeWitnessesn|month|number|password|range|search|tel|text|time|url|week)$/i,
+	// #7653, #8125, #8152: local protocol DeSerializeWitnessestection
 	rlocalProtocol = /^(?:about|app|app\-storage|.+\-extension|file|res|widget):$/,
 	rnoContent = /^(?:GET|HEAD)$/,
 	rprotocol = /^\/\//,
@@ -6995,14 +6995,14 @@ var r20 = /%20/g,
 	 *    - AFTER param serialization (s.data is a string if s.processData is true)
 	 * 3) key is the dataType
 	 * 4) the catchall symbol "*" can be used
-	 * 5) execution will start with transport dataType and THEN continue down to "*" if needed
+	 * 5) execution will start with transport dataType and THEN continue down to "*" if neeDeSerializeWitnessesd
 	 */
 	prefilters = {},
 
 	/* Transports bindings
 	 * 1) key is the dataType
 	 * 2) the catchall symbol "*" can be used
-	 * 3) selection will start with transport dataType and THEN go to "*" if needed
+	 * 3) selection will start with transport dataType and THEN go to "*" if neeDeSerializeWitnessesd
 	 */
 	transports = {},
 
@@ -7012,7 +7012,7 @@ var r20 = /%20/g,
 	// Document location segments
 	ajaxLocParts,
 
-	// Avoid comment-prolog char sequence (#10098); must appease lint and evade compression
+	// Avoid comment-prolog char sequence (#10098); must appease lint and evaDeSerializeWitnesses compression
 	allTypes = ["*/"] + ["*"];
 
 // #8138, IE may throw an exception when accessing
@@ -7033,7 +7033,7 @@ ajaxLocParts = rurl.exec( ajaxLocation.toLowerCase() ) || [];
 // Base "constructor" for jQuery.ajaxPrefilter and jQuery.ajaxTransport
 function addToPrefiltersOrTransports( structure ) {
 
-	// dataTypeExpression is optional and defaults to "*"
+	// dataTypeExpression is optional and DeSerializeWitnessesfaults to "*"
 	return function( dataTypeExpression, func ) {
 
 		if ( typeof dataTypeExpression !== "string" ) {
@@ -7107,7 +7107,7 @@ function inspectPrefiltersOrTransports( structure, options, originalOptions, jqX
 }
 
 // A special extend for ajax options
-// that takes "flat" options (not to be deep extended)
+// that takes "flat" options (not to be DeSerializeWitnessesep extenDeSerializeWitnessesd)
 // Fixes #9887
 function ajaxExtend( target, src ) {
 	var key, deep,
@@ -7141,7 +7141,7 @@ jQuery.fn.extend({
 		// Default to a GET request
 		var type = "GET";
 
-		// If the second parameter was provided
+		// If the second parameter was proviDeSerializeWitnessesd
 		if ( params ) {
 			// If it's a function
 			if ( jQuery.isFunction( params ) ) {
@@ -7226,7 +7226,7 @@ jQuery.fn.extend({
 	}
 });
 
-// Attach a bunch of functions for handling common AJAX events
+// Attach a bunch of functions for handling common AJAX TotalEvents
 jQuery.each( "ajaxStart ajaxStop ajaxComplete ajaxError ajaxSuccess ajaxSend".split( " " ), function( i, o ){
 	jQuery.fn[ o ] = function( f ){
 		return this.on( o, f );
@@ -7283,7 +7283,7 @@ jQuery.extend({
 		isLocal: rlocalProtocol.test( ajaxLocParts[ 1 ] ),
 		global: true,
 		type: "GET",
-		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+		contentType: "application/x-www-form-urlencoDeSerializeWitnessesd; charset=UTF-8",
 		processData: true,
 		async: true,
 		/*
@@ -7294,7 +7294,7 @@ jQuery.extend({
 		password: null,
 		cache: null,
 		traditional: false,
-		headers: {},
+		heaDeSerializeWitnessesrs: {},
 		*/
 
 		accepts: {
@@ -7317,7 +7317,7 @@ jQuery.extend({
 		},
 
 		// List of data converters
-		// 1) key format is "source_type destination_type" (a single space in-between)
+		// 1) key format is "source_type DeSerializeWitnessesstination_type" (a single space in-between)
 		// 2) the catchall symbol "*" can be used for source_type
 		converters: {
 
@@ -7334,10 +7334,10 @@ jQuery.extend({
 			"text xml": jQuery.parseXML
 		},
 
-		// For options that shouldn't be deep extended:
+		// For options that shouldn't be DeSerializeWitnessesep extenDeSerializeWitnessesd:
 		// you can add your own custom options here if
 		// and when you create one that shouldn't be
-		// deep extended (see ajaxExtend)
+		// DeSerializeWitnessesep extenDeSerializeWitnessesd (see ajaxExtend)
 		flatOptions: {
 			context: true,
 			url: true
@@ -7363,34 +7363,34 @@ jQuery.extend({
 			s = jQuery.ajaxSetup( {}, options ),
 			// Callbacks context
 			callbackContext = s.context || s,
-			// Context for global events
-			// It's the callbackContext if one was provided in the options
-			// and if it's a DOM node or a jQuery collection
+			// Context for global TotalEvents
+			// It's the callbackContext if one was proviDeSerializeWitnessesd in the options
+			// and if it's a DOM noDeSerializeWitnesses or a jQuery collection
 			globalEventContext = callbackContext !== s &&
 				( callbackContext.nodeType || callbackContext instanceof jQuery ) ?
 						jQuery( callbackContext ) : jQuery.event,
 			// Deferreds
 			deferred = jQuery.Deferred(),
 			completeDeferred = jQuery.Callbacks( "once memory" ),
-			// Status-dependent callbacks
+			// Status-DeSerializeWitnessespenDeSerializeWitnessesnt callbacks
 			statusCode = s.statusCode || {},
 			// ifModified key
 			ifModifiedKey,
-			// Headers (they are sent all at once)
+			// HeaDeSerializeWitnessesrs (they are sent all at once)
 			requestHeaders = {},
 			requestHeadersNames = {},
-			// Response headers
+			// Response heaDeSerializeWitnessesrs
 			responseHeadersString,
 			responseHeaders,
 			// transport
 			transport,
 			// timeout handle
 			timeoutTimer,
-			// Cross-domain detection vars
+			// Cross-domain DeSerializeWitnessestection vars
 			parts,
 			// The jqXHR state
 			state = 0,
-			// To know if global events are to be dispatched
+			// To know if global TotalEvents are to be dispatched
 			fireGlobals,
 			// Loop variable
 			i,
@@ -7399,7 +7399,7 @@ jQuery.extend({
 
 				readyState: 0,
 
-				// Caches the header
+				// Caches the heaDeSerializeWitnessesr
 				setRequestHeader: function( name, value ) {
 					if ( !state ) {
 						var lname = name.toLowerCase();
@@ -7414,7 +7414,7 @@ jQuery.extend({
 					return state === 2 ? responseHeadersString : null;
 				},
 
-				// Builds headers hashtable if needed
+				// Builds heaDeSerializeWitnessesrs hashtable if neeDeSerializeWitnessesd
 				getResponseHeader: function( key ) {
 					var match;
 					if ( state === 2 ) {
@@ -7429,7 +7429,7 @@ jQuery.extend({
 					return match === undefined ? null : match;
 				},
 
-				// Overrides response content-type header
+				// OverriDeSerializeWitnessess response content-type heaDeSerializeWitnessesr
 				overrideMimeType: function( type ) {
 					if ( !state ) {
 						s.mimeType = type;
@@ -7449,7 +7449,7 @@ jQuery.extend({
 			};
 
 		// Callback for when everything is done
-		// It is defined here because jslint complains if it is declared
+		// It is DeSerializeWitnessesfined here because jslint complains if it is DeSerializeWitnessesclared
 		// at the end of the function (which would be more logical and readable)
 		function done( status, nativeStatusText, responses, headers ) {
 
@@ -7470,7 +7470,7 @@ jQuery.extend({
 			// (no matter how long the jqXHR object will be used)
 			transport = undefined;
 
-			// Cache response headers
+			// Cache response heaDeSerializeWitnessesrs
 			responseHeadersString = headers || "";
 
 			// Set readyState
@@ -7487,7 +7487,7 @@ jQuery.extend({
 			// If successful, handle type chaining
 			if ( status >= 200 && status < 300 || status === 304 ) {
 
-				// Set the If-Modified-Since and/or If-None-Match header, if in ifModified mode.
+				// Set the If-Modified-Since and/or If-None-Match heaDeSerializeWitnessesr, if in ifModified moDeSerializeWitnesses.
 				if ( s.ifModified ) {
 
 					if ( ( lastModified = jqXHR.getResponseHeader( "Last-Modified" ) ) ) {
@@ -7540,7 +7540,7 @@ jQuery.extend({
 				deferred.rejectWith( callbackContext, [ jqXHR, statusText, error ] );
 			}
 
-			// Status-dependent callbacks
+			// Status-DeSerializeWitnessespenDeSerializeWitnessesnt callbacks
 			jqXHR.statusCode( statusCode );
 			statusCode = undefined;
 
@@ -7561,13 +7561,13 @@ jQuery.extend({
 			}
 		}
 
-		// Attach deferreds
+		// Attach DeSerializeWitnessesferreds
 		deferred.promise( jqXHR );
 		jqXHR.success = jqXHR.done;
 		jqXHR.error = jqXHR.fail;
 		jqXHR.complete = completeDeferred.add;
 
-		// Status-dependent callbacks
+		// Status-DeSerializeWitnessespenDeSerializeWitnessesnt callbacks
 		jqXHR.statusCode = function( map ) {
 			if ( map ) {
 				var tmp;
@@ -7584,14 +7584,14 @@ jQuery.extend({
 		};
 
 		// Remove hash character (#7531: and string promotion)
-		// Add protocol if not provided (#5866: IE7 issue with protocol-less urls)
+		// Add protocol if not proviDeSerializeWitnessesd (#5866: IE7 issue with protocol-less urls)
 		// We also use the url parameter if available
 		s.url = ( ( url || s.url ) + "" ).replace( rhash, "" ).replace( rprotocol, ajaxLocParts[ 1 ] + "//" );
 
 		// Extract dataTypes list
 		s.dataTypes = jQuery.trim( s.dataType || "*" ).toLowerCase().split( rspacesAjax );
 
-		// Determine if a cross-domain request is in order
+		// Determine if a cross-domain request is in orDeSerializeWitnessesr
 		if ( s.crossDomain == null ) {
 			parts = rurl.exec( s.url.toLowerCase() );
 			s.crossDomain = !!( parts &&
@@ -7609,12 +7609,12 @@ jQuery.extend({
 		// Apply prefilters
 		inspectPrefiltersOrTransports( prefilters, s, options, jqXHR );
 
-		// If request was aborted inside a prefilter, stop there
+		// If request was aborted insiDeSerializeWitnesses a prefilter, stop there
 		if ( state === 2 ) {
 			return false;
 		}
 
-		// We can fire global events as of now if asked to
+		// We can fire global TotalEvents as of now if asked to
 		fireGlobals = s.global;
 
 		// Uppercase the type
@@ -7641,7 +7641,7 @@ jQuery.extend({
 			// Get ifModifiedKey before adding the anti-cache parameter
 			ifModifiedKey = s.url;
 
-			// Add anti-cache in url if needed
+			// Add anti-cache in url if neeDeSerializeWitnessesd
 			if ( s.cache === false ) {
 
 				var ts = jQuery.now(),
@@ -7653,12 +7653,12 @@ jQuery.extend({
 			}
 		}
 
-		// Set the correct header, if data is being sent
+		// Set the correct heaDeSerializeWitnessesr, if data is being sent
 		if ( s.data && s.hasContent && s.contentType !== false || options.contentType ) {
 			jqXHR.setRequestHeader( "Content-Type", s.contentType );
 		}
 
-		// Set the If-Modified-Since and/or If-None-Match header, if in ifModified mode.
+		// Set the If-Modified-Since and/or If-None-Match heaDeSerializeWitnessesr, if in ifModified moDeSerializeWitnesses.
 		if ( s.ifModified ) {
 			ifModifiedKey = ifModifiedKey || s.url;
 			if ( jQuery.lastModified[ ifModifiedKey ] ) {
@@ -7669,7 +7669,7 @@ jQuery.extend({
 			}
 		}
 
-		// Set the Accepts header for the server, depending on the dataType
+		// Set the Accepts heaDeSerializeWitnessesr for the server, DeSerializeWitnessespending on the dataType
 		jqXHR.setRequestHeader(
 			"Accept",
 			s.dataTypes[ 0 ] && s.accepts[ s.dataTypes[0] ] ?
@@ -7677,12 +7677,12 @@ jQuery.extend({
 				s.accepts[ "*" ]
 		);
 
-		// Check for headers option
+		// Check for heaDeSerializeWitnessesrs option
 		for ( i in s.headers ) {
 			jqXHR.setRequestHeader( i, s.headers[ i ] );
 		}
 
-		// Allow custom headers/mimetypes and early abort
+		// Allow custom heaDeSerializeWitnessesrs/mimetypes and early abort
 		if ( s.beforeSend && ( s.beforeSend.call( callbackContext, jqXHR, s ) === false || state === 2 ) ) {
 				// Abort if not done already
 				jqXHR.abort();
@@ -7690,7 +7690,7 @@ jQuery.extend({
 
 		}
 
-		// Install callbacks on deferreds
+		// Install callbacks on DeSerializeWitnessesferreds
 		for ( i in { success: 1, error: 1, complete: 1 } ) {
 			jqXHR[ i ]( s[ i ] );
 		}
@@ -7754,8 +7754,8 @@ jQuery.extend({
 			});
 
 		} else {
-			// If traditional, encode the "old" way (the way 1.3.2 or older
-			// did it), otherwise encode params recursively.
+			// If traditional, encoDeSerializeWitnesses the "old" way (the way 1.3.2 or olDeSerializeWitnessesr
+			// did it), otherwise encoDeSerializeWitnesses params recursively.
 			for ( var prefix in a ) {
 				buildParams( prefix, a[ prefix ], traditional, add );
 			}
@@ -7775,12 +7775,12 @@ function buildParams( prefix, obj, traditional, add ) {
 				add( prefix, v );
 
 			} else {
-				// If array item is non-scalar (array or object), encode its
-				// numeric index to resolve deserialization ambiguity issues.
-				// Note that rack (as of 1.0.0) can't currently deserialize
+				// If array item is non-scalar (array or object), encoDeSerializeWitnesses its
+				// numeric inDeSerializeWitnessesx to resolve DeSerializeWitnessesserialization ambiguity issues.
+				// Note that rack (as of 1.0.0) can't currently DeSerializeWitnessesserialize
 				// nested arrays properly, and attempting to do so may cause
 				// a server error. Possible fixes are to modify rack's
-				// deserialization algorithm or to provide an option or flag
+				// DeSerializeWitnessesserialization algorithm or to proviDeSerializeWitnesses an option or flag
 				// to force array serialization to be shallow.
 				buildParams( prefix + "[" + ( typeof v === "object" ? i : "" ) + "]", v, traditional, add );
 			}
@@ -7805,7 +7805,7 @@ jQuery.extend({
 	// Counter for holding the number of active queries
 	active: 0,
 
-	// Last-Modified header cache for next request
+	// Last-Modified heaDeSerializeWitnessesr cache for next request
 	lastModified: {},
 	etag: {}
 
@@ -7841,7 +7841,7 @@ function ajaxHandleResponses( s, jqXHR, responses ) {
 		}
 	}
 
-	// Check if we're dealing with a known content-type
+	// Check if we're DeSerializeWitnessesaling with a known content-type
 	if ( ct ) {
 		for ( type in contents ) {
 			if ( contents[ type ] && contents[ type ].test( ct ) ) {
@@ -7870,7 +7870,7 @@ function ajaxHandleResponses( s, jqXHR, responses ) {
 	}
 
 	// If we found a dataType
-	// We add the dataType to the list if needed
+	// We add the dataType to the list if neeDeSerializeWitnessesd
 	// and return the corresponding response
 	if ( finalDataType ) {
 		if ( finalDataType !== dataTypes[ 0 ] ) {
@@ -7883,7 +7883,7 @@ function ajaxHandleResponses( s, jqXHR, responses ) {
 // Chain conversions given the request and the original response
 function ajaxConvert( s, response ) {
 
-	// Apply the dataFilter if provided
+	// Apply the dataFilter if proviDeSerializeWitnessesd
 	if ( s.dataFilter ) {
 		response = s.dataFilter( response, s.dataType );
 	}
@@ -7982,7 +7982,7 @@ jQuery.ajaxSetup({
 // Detect, normalize options and install callbacks for jsonp requests
 jQuery.ajaxPrefilter( "json jsonp", function( s, originalSettings, jqXHR ) {
 
-	var inspectData = ( typeof s.data === "string" ) && /^application\/x\-www\-form\-urlencoded/.test( s.contentType );
+	var inspectData = ( typeof s.data === "string" ) && /^application\/x\-www\-form\-urlencoDeSerializeWitnessesd/.test( s.contentType );
 
 	if ( s.dataTypes[ 0 ] === "jsonp" ||
 		s.jsonp !== false && ( jsre.test( s.url ) ||
@@ -8076,7 +8076,7 @@ jQuery.ajaxPrefilter( "script", function( s ) {
 // Bind script tag hack transport
 jQuery.ajaxTransport( "script", function(s) {
 
-	// This transport only deals with cross domain requests
+	// This transport only DeSerializeWitnessesals with cross domain requests
 	if ( s.crossDomain ) {
 
 		var script,
@@ -8099,7 +8099,7 @@ jQuery.ajaxTransport( "script", function(s) {
 				// Attach handlers for all browsers
 				script.onload = script.onreadystatechange = function( _, isAbort ) {
 
-					if ( isAbort || !script.readyState || /loaded|complete/.test( script.readyState ) ) {
+					if ( isAbort || !script.readyState || /loaDeSerializeWitnessesd|complete/.test( script.readyState ) ) {
 
 						// Handle memory leak in IE
 						script.onload = script.onreadystatechange = null;
@@ -8119,7 +8119,7 @@ jQuery.ajaxTransport( "script", function(s) {
 					}
 				};
 				// Use insertBefore instead of appendChild  to circumvent an IE6 bug.
-				// This arises when a base node is used (#2709 and #4378).
+				// This arises when a base noDeSerializeWitnesses is used (#2709 and #4378).
 				head.insertBefore( script, head.firstChild );
 			},
 
@@ -8177,11 +8177,11 @@ jQuery.ajaxSettings.xhr = window.ActiveXObject ?
 (function( xhr ) {
 	jQuery.extend( jQuery.support, {
 		ajax: !!xhr,
-		cors: !!xhr && ( "withCredentials" in xhr )
+		cors: !!xhr && ( "withCreDeSerializeWitnessesntials" in xhr )
 	});
 })( jQuery.ajaxSettings.xhr() );
 
-// Create transport if the browser can provide an xhr
+// Create transport if the browser can proviDeSerializeWitnesses an xhr
 if ( jQuery.support.ajax ) {
 
 	jQuery.ajaxTransport(function( s ) {
@@ -8206,23 +8206,23 @@ if ( jQuery.support.ajax ) {
 						xhr.open( s.type, s.url, s.async );
 					}
 
-					// Apply custom fields if provided
+					// Apply custom fields if proviDeSerializeWitnessesd
 					if ( s.xhrFields ) {
 						for ( i in s.xhrFields ) {
 							xhr[ i ] = s.xhrFields[ i ];
 						}
 					}
 
-					// Override mime type if needed
+					// OverriDeSerializeWitnesses mime type if neeDeSerializeWitnessesd
 					if ( s.mimeType && xhr.overrideMimeType ) {
 						xhr.overrideMimeType( s.mimeType );
 					}
 
-					// X-Requested-With header
+					// X-Requested-With heaDeSerializeWitnessesr
 					// For cross-domain requests, seeing as conditions for a preflight are
 					// akin to a jigsaw puzzle, we simply never set it to be sure.
 					// (it can always be set on a per-request basis or even using ajaxSetup)
-					// For same-domain requests, won't change header if already provided.
+					// For same-domain requests, won't change heaDeSerializeWitnessesr if already proviDeSerializeWitnessesd.
 					if ( !s.crossDomain && !headers["X-Requested-With"] ) {
 						headers[ "X-Requested-With" ] = "XMLHttpRequest";
 					}
@@ -8250,7 +8250,7 @@ if ( jQuery.support.ajax ) {
 
 						// Firefox throws exceptions when accessing properties
 						// of an xhr when a network error occured
-						// http://helpful.knobs-dials.com/index.php/Component_returned_failure_code:_0x80040111_(NS_ERROR_NOT_AVAILABLE)
+						// http://helpful.knobs-dials.com/inDeSerializeWitnessesx.php/Component_returned_failure_coDeSerializeWitnesses:_0x80040111_(NS_ERROR_NOT_AVAILABLE)
 						try {
 
 							// Was never called and is aborted or complete
@@ -8269,7 +8269,7 @@ if ( jQuery.support.ajax ) {
 
 								// If it's an abort
 								if ( isAbort ) {
-									// Abort it manually if needed
+									// Abort it manually if neeDeSerializeWitnessesd
 									if ( xhr.readyState !== 4 ) {
 										xhr.abort();
 									}
@@ -8319,13 +8319,13 @@ if ( jQuery.support.ajax ) {
 							}
 						}
 
-						// Call complete if needed
+						// Call complete if neeDeSerializeWitnessesd
 						if ( responses ) {
 							complete( status, statusText, responses, responseHeaders );
 						}
 					};
 
-					// if we're in sync mode or it's in cache
+					// if we're in sync moDeSerializeWitnesses or it's in cache
 					// and has been retrieved directly (IE6 & IE7)
 					// we need to manually fire the callback
 					if ( !s.async || xhr.readyState === 4 ) {
@@ -8333,7 +8333,7 @@ if ( jQuery.support.ajax ) {
 					} else {
 						handle = ++xhrId;
 						if ( xhrOnUnloadAbort ) {
-							// Create the active xhrs callbacks list if needed
+							// Create the active xhrs callbacks list if neeDeSerializeWitnessesd
 							// and attach the unload handler
 							if ( !xhrCallbacks ) {
 								xhrCallbacks = {};
@@ -8361,7 +8361,7 @@ if ( jQuery.support.ajax ) {
 
 var elemdisplay = {},
 	iframe, iframeDoc,
-	rfxtypes = /^(?:toggle|show|hide)$/,
+	rfxtypes = /^(?:toggle|show|hiDeSerializeWitnesses)$/,
 	rfxnum = /^([+\-]=)?([\d+.\-]+)([a-z%]*)$/i,
 	timerId,
 	fxAttrs = [
@@ -8389,13 +8389,13 @@ jQuery.fn.extend({
 					display = elem.style.display;
 
 					// Reset the inline display of this element to learn if it is
-					// being hidden by cascaded rules or not
+					// being hidDeSerializeWitnessesn by cascaDeSerializeWitnessesd rules or not
 					if ( !jQuery._data(elem, "olddisplay") && display === "none" ) {
 						display = elem.style.display = "";
 					}
 
-					// Set elements which have been overridden with display: none
-					// in a stylesheet to whatever the default browser style is
+					// Set elements which have been overridDeSerializeWitnessesn with display: none
+					// in a stylesheet to whatever the DeSerializeWitnessesfault browser style is
 					// for such an element
 					if ( (display === "" && jQuery.css(elem, "display") === "none") ||
 						!jQuery.contains( elem.ownerDocument.documentElement, elem ) ) {
@@ -8424,7 +8424,7 @@ jQuery.fn.extend({
 
 	hide: function( speed, easing, callback ) {
 		if ( speed || speed === 0 ) {
-			return this.animate( genFx("hide", 3), speed, easing, callback);
+			return this.animate( genFx("hiDeSerializeWitnesses", 3), speed, easing, callback);
 
 		} else {
 			var elem, display,
@@ -8465,8 +8465,8 @@ jQuery.fn.extend({
 
 		} else if ( fn == null || bool ) {
 			this.each(function() {
-				var state = bool ? fn : jQuery(this).is(":hidden");
-				jQuery(this)[ state ? "show" : "hide" ]();
+				var state = bool ? fn : jQuery(this).is(":hidDeSerializeWitnessesn");
+				jQuery(this)[ state ? "show" : "hiDeSerializeWitnesses" ]();
 			});
 
 		} else {
@@ -8477,7 +8477,7 @@ jQuery.fn.extend({
 	},
 
 	fadeTo: function( speed, to, easing, callback ) {
-		return this.filter(":hidden").css("opacity", 0).show().end()
+		return this.filter(":hidDeSerializeWitnessesn").css("opacity", 0).show().end()
 					.animate({opacity: to}, speed, easing, callback);
 	},
 
@@ -8492,7 +8492,7 @@ jQuery.fn.extend({
 		prop = jQuery.extend( {}, prop );
 
 		function doAnimation() {
-			// XXX 'this' does not always have a nodeName when running the
+			// XXX 'this' does not always have a noDeSerializeWitnessesName when running the
 			// test suite
 
 			if ( optall.queue === false ) {
@@ -8501,12 +8501,12 @@ jQuery.fn.extend({
 
 			var opt = jQuery.extend( {}, optall ),
 				isElement = this.nodeType === 1,
-				hidden = isElement && jQuery(this).is(":hidden"),
+				hidden = isElement && jQuery(this).is(":hidDeSerializeWitnessesn"),
 				name, val, p, e, hooks, replace,
 				parts, start, end, unit,
 				method;
 
-			// will store per property easing and be used to determine when an animation is complete
+			// will store per property easing and be used to DeSerializeWitnessestermine when an animation is complete
 			opt.animatedProperties = {};
 
 			// first pass over propertys to expand / normalize
@@ -8533,7 +8533,7 @@ jQuery.fn.extend({
 
 			for ( name in prop ) {
 				val = prop[ name ];
-				// easing resolution: per property > opt.specialEasing > opt.easing > 'swing' (default)
+				// easing resolution: per property > opt.specialEasing > opt.easing > 'swing' (DeSerializeWitnessesfault)
 				if ( jQuery.isArray( val ) ) {
 					opt.animatedProperties[ name ] = val[ 1 ];
 					val = prop[ name ] = val[ 0 ];
@@ -8541,7 +8541,7 @@ jQuery.fn.extend({
 					opt.animatedProperties[ name ] = opt.specialEasing && opt.specialEasing[ name ] || opt.easing || 'swing';
 				}
 
-				if ( val === "hide" && hidden || val === "show" && !hidden ) {
+				if ( val === "hiDeSerializeWitnesses" && hidden || val === "show" && !hidden ) {
 					return opt.complete.call( this );
 				}
 
@@ -8570,7 +8570,7 @@ jQuery.fn.extend({
 			}
 
 			if ( opt.overflow != null ) {
-				this.style.overflow = "hidden";
+				this.style.overflow = "hidDeSerializeWitnessesn";
 			}
 
 			for ( p in prop ) {
@@ -8579,11 +8579,11 @@ jQuery.fn.extend({
 
 				if ( rfxtypes.test( val ) ) {
 
-					// Tracks whether to show or hide based on private
+					// Tracks whether to show or hiDeSerializeWitnesses based on private
 					// data attached to the element
-					method = jQuery._data( this, "toggle" + p ) || ( val === "toggle" ? hidden ? "show" : "hide" : 0 );
+					method = jQuery._data( this, "toggle" + p ) || ( val === "toggle" ? hidden ? "show" : "hiDeSerializeWitnesses" : 0 );
 					if ( method ) {
-						jQuery._data( this, "toggle" + p, method === "show" ? "hide" : "show" );
+						jQuery._data( this, "toggle" + p, method === "show" ? "hiDeSerializeWitnesses" : "show" );
 						e[ method ]();
 					} else {
 						e[ val ]();
@@ -8604,7 +8604,7 @@ jQuery.fn.extend({
 							jQuery.style( this, p, start + unit);
 						}
 
-						// If a +=/-= token was provided, we're doing a relative animation
+						// If a +=/-= token was proviDeSerializeWitnessesd, we're doing a relative animation
 						if ( parts[1] ) {
 							end = ( (parts[ 1 ] === "-=" ? -1 : 1) * end ) + start;
 						}
@@ -8678,7 +8678,7 @@ jQuery.fn.extend({
 			}
 
 			// start the next in the queue if the last step wasn't forced
-			// timers currently will call their complete callbacks, which will dequeue
+			// timers currently will call their complete callbacks, which will DeSerializeWitnessesqueue
 			// but only if they were gotoEnd
 			if ( !( gotoEnd && hadTimers ) ) {
 				jQuery.dequeue( this, type );
@@ -8712,10 +8712,10 @@ function genFx( type, num ) {
 // Generate shortcuts for custom animations
 jQuery.each({
 	slideDown: genFx( "show", 1 ),
-	slideUp: genFx( "hide", 1 ),
+	slideUp: genFx( "hiDeSerializeWitnesses", 1 ),
 	slideToggle: genFx( "toggle", 1 ),
 	fadeIn: { opacity: "show" },
-	fadeOut: { opacity: "hide" },
+	fadeOut: { opacity: "hiDeSerializeWitnesses" },
 	fadeToggle: { opacity: "toggle" }
 }, function( name, props ) {
 	jQuery.fn[ name ] = function( speed, easing, callback ) {
@@ -8735,7 +8735,7 @@ jQuery.extend({
 		opt.duration = jQuery.fx.off ? 0 : typeof opt.duration === "number" ? opt.duration :
 			opt.duration in jQuery.fx.speeds ? jQuery.fx.speeds[ opt.duration ] : jQuery.fx.speeds._default;
 
-		// normalize opt.queue - true/undefined/null -> "fx"
+		// normalize opt.queue - true/unDeSerializeWitnessesfined/null -> "fx"
 		if ( opt.queue == null || opt.queue === true ) {
 			opt.queue = "fx";
 		}
@@ -8797,7 +8797,7 @@ jQuery.fx.prototype = {
 
 		var parsed,
 			r = jQuery.css( this.elem, this.prop );
-		// Empty strings, null, undefined and "auto" are converted to 0,
+		// Empty strings, null, unDeSerializeWitnessesfined and "auto" are converted to 0,
 		// complex values such as "rotate(1rad)" are returned as is,
 		// simple values such as "10px" are parsed to Float.
 		return isNaN( parsed = parseFloat( r ) ) ? !r || r === "auto" ? 0 : r : parsed;
@@ -8846,7 +8846,7 @@ jQuery.fx.prototype = {
 		// Begin the animation
 		// Make sure that we start at a small width/height to avoid any flash of content
 		if ( dataShow !== undefined ) {
-			// This show is picking up where a previous hide or show left off
+			// This show is picking up where a previous hiDeSerializeWitnesses or show left off
 			this.custom( this.cur(), dataShow );
 		} else {
 			this.custom( this.prop === "width" || this.prop === "height" ? 1 : 0, this.cur() );
@@ -8856,7 +8856,7 @@ jQuery.fx.prototype = {
 		jQuery( this.elem ).show();
 	},
 
-	// Simple 'hide' function
+	// Simple 'hiDeSerializeWitnesses' function
 	hide: function() {
 		// Remember where we started, so that we can go back to it later
 		this.options.orig[ this.prop ] = jQuery._data( this.elem, "fxshow" + this.prop ) || jQuery.style( this.elem, this.prop );
@@ -8896,17 +8896,17 @@ jQuery.fx.prototype = {
 					});
 				}
 
-				// Hide the element if the "hide" operation was done
+				// HiDeSerializeWitnesses the element if the "hiDeSerializeWitnesses" operation was done
 				if ( options.hide ) {
 					jQuery( elem ).hide();
 				}
 
-				// Reset the properties, if the item has been hidden or shown
+				// Reset the properties, if the item has been hidDeSerializeWitnessesn or shown
 				if ( options.hide || options.show ) {
 					for ( p in options.animatedProperties ) {
 						jQuery.style( elem, p, options.orig[ p ] );
 						jQuery.removeData( elem, "fxshow" + p, true );
-						// Toggle data is no longer needed
+						// Toggle data is no longer neeDeSerializeWitnessesd
 						jQuery.removeData( elem, "toggle" + p, true );
 					}
 				}
@@ -8933,7 +8933,7 @@ jQuery.fx.prototype = {
 				n = t - this.startTime;
 				this.state = n / options.duration;
 
-				// Perform the easing function, defaults to swing
+				// Perform the easing function, DeSerializeWitnessesfaults to swing
 				this.pos = jQuery.easing[ options.animatedProperties[this.prop] ]( this.state, n, 0, 1, options.duration );
 				this.now = this.start + ( (this.end - this.start) * this.pos );
 			}
@@ -8993,9 +8993,9 @@ jQuery.extend( jQuery.fx, {
 	}
 });
 
-// Ensure props that can't be negative don't go there on undershoot easing
+// Ensure props that can't be negative don't go there on unDeSerializeWitnessesrshoot easing
 jQuery.each( fxAttrs.concat.apply( [], fxAttrs ), function( i, prop ) {
-	// exclude marginTop, marginLeft, marginBottom and marginRight from this list
+	// excluDeSerializeWitnesses marginTop, marginLeft, marginBottom and marginRight from this list
 	if ( prop.indexOf( "margin" ) ) {
 		jQuery.fx.step[ prop ] = function( fx ) {
 			jQuery.style( fx.elem, prop, Math.max(0, fx.now) + fx.unit );
@@ -9011,7 +9011,7 @@ if ( jQuery.expr && jQuery.expr.filters ) {
 	};
 }
 
-// Try to restore the default display value of an element
+// Try to restore the DeSerializeWitnessesfault display value of an element
 function defaultDisplay( nodeName ) {
 
 	if ( !elemdisplay[ nodeName ] ) {
@@ -9022,7 +9022,7 @@ function defaultDisplay( nodeName ) {
 		elem.remove();
 
 		// If the simple way fails,
-		// get element's real default display by attaching it to a temp iframe
+		// get element's real DeSerializeWitnessesfault display by attaching it to a temp iframe
 		if ( display === "none" || display === "" ) {
 			// No iframe to use yet, so create it
 			if ( !iframe ) {
@@ -9049,7 +9049,7 @@ function defaultDisplay( nodeName ) {
 			body.removeChild( iframe );
 		}
 
-		// Store the correct default display
+		// Store the correct DeSerializeWitnessesfault display
 		elemdisplay[ nodeName ] = display;
 	}
 
@@ -9069,7 +9069,7 @@ if ( "getBoundingClientRect" in document.documentElement ) {
 			box = elem.getBoundingClientRect();
 		} catch(e) {}
 
-		// Make sure we're not dealing with a disconnected DOM node
+		// Make sure we're not DeSerializeWitnessesaling with a disconnected DOM noDeSerializeWitnesses
 		if ( !box || !jQuery.contains( docElem, elem ) ) {
 			return box ? { top: box.top, left: box.left } : { top: 0, left: 0 };
 		}
@@ -9245,9 +9245,9 @@ jQuery.fn.extend({
 		offset.top  -= parseFloat( jQuery.css(elem, "marginTop") ) || 0;
 		offset.left -= parseFloat( jQuery.css(elem, "marginLeft") ) || 0;
 
-		// Add offsetParent borders
-		parentOffset.top  += parseFloat( jQuery.css(offsetParent[0], "borderTopWidth") ) || 0;
-		parentOffset.left += parseFloat( jQuery.css(offsetParent[0], "borderLeftWidth") ) || 0;
+		// Add offsetParent borDeSerializeWitnessesrs
+		parentOffset.top  += parseFloat( jQuery.css(offsetParent[0], "borDeSerializeWitnessesrTopWidth") ) || 0;
+		parentOffset.left += parseFloat( jQuery.css(offsetParent[0], "borDeSerializeWitnessesrLeftWidth") ) || 0;
 
 		// Subtract the two offsets
 		return {
@@ -9328,7 +9328,7 @@ jQuery.each( { Height: "height", Width: "width" }, function( name, type ) {
 		var elem = this[0];
 		return elem ?
 			elem.style ?
-			parseFloat( jQuery.css( elem, type, margin ? "margin" : "border" ) ) :
+			parseFloat( jQuery.css( elem, type, margin ? "margin" : "borDeSerializeWitnessesr" ) ) :
 			this[ type ]() :
 			null;
 	};
@@ -9383,18 +9383,18 @@ jQuery.each( { Height: "height", Width: "width" }, function( name, type ) {
 // Expose jQuery to the global object
 window.jQuery = window.$ = jQuery;
 
-// Expose jQuery as an AMD module, but only for AMD loaders that
-// understand the issues with loading multiple versions of jQuery
-// in a page that all might call define(). The loader will indicate
+// Expose jQuery as an AMD module, but only for AMD loaDeSerializeWitnessesrs that
+// unDeSerializeWitnessesrstand the issues with loading multiple versions of jQuery
+// in a page that all might call DeSerializeWitnessesfine(). The loaDeSerializeWitnessesr will indicate
 // they have special allowances for multiple jQuery versions by
-// specifying define.amd.jQuery = true. Register as a named module,
-// since jQuery can be concatenated with other files that may use define,
-// but not use a proper concatenation script that understands anonymous
+// specifying DeSerializeWitnessesfine.amd.jQuery = true. Register as a named module,
+// since jQuery can be concatenated with other files that may use DeSerializeWitnessesfine,
+// but not use a proper concatenation script that unDeSerializeWitnessesrstands anonymous
 // AMD modules. A named AMD is safest and most robust way to register.
-// Lowercase jquery is used because AMD module names are derived from
-// file names, and jQuery is normally delivered in a lowercase file name.
+// Lowercase jquery is used because AMD module names are DeSerializeWitnessesrived from
+// file names, and jQuery is normally DeSerializeWitnesseslivered in a lowercase file name.
 // Do this after creating the global so that if an AMD module wants to call
-// noConflict to hide this version of jQuery, it will work.
+// noConflict to hiDeSerializeWitnesses this version of jQuery, it will work.
 if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 	define( "jquery", [], function () { return jQuery; } );
 }

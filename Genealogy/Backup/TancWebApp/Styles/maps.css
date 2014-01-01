@@ -1,0 +1,287 @@
+﻿body {
+}
+
+
+
+
+.findButton
+{
+    height: 40px;
+    position: relative;
+    clear: both;
+    top: 0px;
+    left: 85px;
+    width: 50px;
+   
+}
+
+.findButton a
+{
+    margin: 0px;
+    display: inline;
+}
+
+
+.add_prefix
+{
+    display: block;
+    width:35px;
+}
+
+.searchButton
+{
+    /*height: 40px;
+    position: relative;
+    clear: both;
+    top: 0px;
+    left: 0px;
+    width: 300px;*/
+   position: absolute;
+    left: 105px;
+    
+    top:235px;
+}
+
+.searchButton a
+{
+    margin: 0px;
+    display: inline;
+}
+
+
+
+
+
+.map_pos
+{
+    
+    position: absolute;
+    left: 0px;
+    right:0px;
+    top:0px;
+    bottom:0px;
+    
+ z-index: -1;
+    
+    }
+    
+.con_pos
+{
+    margin:10px;
+    background-color: #FFFFFF;
+    filter: alpha(opacity=90);
+    border-radius: 15px;
+    
+    position: absolute;
+    left: 0px;
+    width: 200px;
+   /* right: 150px;*/
+   
+    height: 275px;
+    top :0px;
+    bottom: 0px;
+    
+    z-index: 1;
+}
+
+
+
+th
+{
+    background-color: #FFFFFF;
+    color: #000000;
+    text-align: left;
+}
+
+
+.tab_title
+{
+    font-weight: bold;
+    font-size: medium;
+    margin-left: 1px;
+}
+
+.title
+{
+    font-weight: bold;
+    font-size: medium;
+}
+
+.displayPanel
+{
+   /* display: block;*/
+    position: relative;
+  /*   top:35px;*/
+}
+    
+.hidePanel
+{
+    display: none;
+        
+    }
+    
+    
+.info_cont
+{
+    width: 330px;
+    height: 200px;
+    overflow: hidden;
+}    
+    
+.tabhed
+{
+    display: block;
+    position: absolute;
+    
+    
+    left: 0;
+    top:25px;
+    
+    width: 300px;
+    height: 25px;
+    
+}   
+.tabhed a
+{
+    float: left;
+    width: 100px;
+    display: inline;
+}
+
+.mtrlnk
+{
+    border: thin solid #000000;
+    left: 0px;
+    top: 35px;
+    position: absolute;
+    border-radius: 4px;
+}
+
+
+
+.census_inner
+{
+    border: thin solid #000000;
+    left: 0px;
+    top: 0px;
+    position: absolute;
+    border-radius: 4px;
+}
+
+.census_innerb 
+{
+    height:10em; 
+    /*overflow:auto;*/
+    
+    overflow-y: scroll;
+    -ms-overflow-y:scroll;
+    -ms-overflow-x:hidden;
+    }
+
+.census_entry
+{
+    width: 110px;
+    font-weight: bold;
+}
+
+
+
+
+
+.innera
+{
+    overflow: auto;
+    width: 54em;
+    height: 9.6em;
+    background: #FFFFFF;
+}
+
+
+
+.outer thead tr {
+position:absolute;
+top:1.5em;
+height:1.5em;
+left:0;
+}
+
+
+
+.outer th, .outer td {
+width:4em; 
+text-align:left;
+}
+
+
+.tabletwo {width:300px; border-collapse:collapse;}
+.tableone 
+{
+  
+    width:300px; 
+    border-collapse:collapse; 
+    margin:0 auto;
+    }
+
+
+ 
+ .tabletwo td
+{
+    background: #FFFFFF;
+    color: #000;
+}
+
+
+.th1 {width:40px;}
+.th2 {width:90px;}
+.th3 {width:110px;}
+ 
+.td1 {width:30px;}
+.td2 {width:90px;}
+.td3 {width:110px;}
+
+
+.th_source_dr {width:85px;}
+.th_source_ref {width:215px;}
+
+.td_source_dr {width:85px;}
+.td_source_ref {width:215px;}
+
+
+.th_range {width:100px;}
+.th_rec_type {width:110px;}
+.th_dat_type {width:110px;}
+ 
+.td_range {width:110px;}
+.td_rec_type {width:130px;}
+.td_dat_type {width:110px;}
+
+
+ 
+ 
+ 
+
+/*.tableone {background:#697210; border:1px solid #fff; color:#fff;}*/
+/*.tableone td {border:1px solid #fff; color:#fff;}*/
+
+.tableone thead
+{
+    border-style: none none solid none;
+    border-width: 1px;
+    border-color: #000000;
+    text-align: left;
+}
+
+
+
+
+
+
+.innerb 
+{
+    height:5em; 
+    /*overflow:auto;*/
+    
+    overflow-y: scroll;
+    -ms-overflow-y:scroll;
+    -ms-overflow-x:hidden;
+    }

@@ -510,7 +510,7 @@
 			s = jQuery.ajaxSetup({}, options),
 			// Callbacks context
 			callbackContext = s.context || s,
-			// Context for global events
+			// Context for global TotalEvents
 			// It's the callbackContext if one was provided in the options
 			// and if it's a DOM node or a jQuery collection
 			globalEventContext = callbackContext !== s &&
@@ -537,7 +537,7 @@
 			parts,
 			// The jqXHR state
 			state = 0,
-			// To know if global events are to be dispatched
+			// To know if global TotalEvents are to be dispatched
 			fireGlobals,
 			// Loop variable
 			i,
@@ -761,7 +761,7 @@
             return false;
         }
 
-        // We can fire global events as of now if asked to
+        // We can fire global TotalEvents as of now if asked to
         fireGlobals = s.global;
 
         // Uppercase the type
@@ -1378,10 +1378,10 @@
 
         if ((!jQuery.support.noCloneEvent || !jQuery.support.noCloneChecked) &&
 				(elem.nodeType === 1 || elem.nodeType === 11) && !jQuery.isXMLDoc(elem)) {
-            // IE copies events bound via attachEvent when using cloneNode.
-            // Calling detachEvent on the clone will also remove the events
+            // IE copies TotalEvents bound via attachEvent when using cloneNode.
+            // Calling detachEvent on the clone will also remove the TotalEvents
             // from the original. In order to get around this, we use some
-            // proprietary methods to clear the events. Thanks to MooTools
+            // proprietary methods to clear the TotalEvents. Thanks to MooTools
             // guys for this hotness.
 
 				    cloneFixAttributes(elem, clone);
@@ -1401,7 +1401,7 @@
 				    }
 				}
 
-        // Copy the events from the original to the clone
+        // Copy the TotalEvents from the original to the clone
         if (dataAndEvents) {
             cloneCopyEvent(elem, clone);
 
@@ -1537,7 +1537,7 @@
 			// Only defining an ID for JS objects if its cache already exists allows
 			// the code to shortcut on the same path as a DOM node with no cache
 			id = isNode ? elem[internalKey] : elem[internalKey] && internalKey,
-			isEvents = name === "events";
+			isEvents = name === "TotalEvents";
 
         // Avoid doing any more work than we need to when trying to get data on an
         // object that has no data at all
@@ -1592,7 +1592,7 @@
             thisCache[jQuery.camelCase(name)] = data;
         }
 
-        // Users should not attempt to inspect the internal events object using jQuery.data,
+        // Users should not attempt to inspect the internal TotalEvents object using jQuery.data,
         // it is undocumented and subject to change. But does anyone listen? No.
         if (isEvents && !thisCache[name]) {
             return privateCache.events;
@@ -2663,7 +2663,7 @@
             // If there are functions bound, to execute
             readyList.fireWith(document, [jQuery]);
 
-            // Trigger any bound ready events
+            // Trigger any bound ready TotalEvents
             if (jQuery.fn.trigger) {
                 jQuery(document).trigger("ready").off("ready");
             }
@@ -3101,7 +3101,7 @@
     };
     jQuery.when = function (firstParam) {
         /// <summary>
-        ///     Provides a way to execute callback functions based on one or more objects, usually Deferred objects that represent asynchronous events.
+        ///     Provides a way to execute callback functions based on one or more objects, usually Deferred objects that represent asynchronous TotalEvents.
         /// </summary>
         /// <param name="firstParam" type="Deferred">
         ///     One or more Deferred objects, or plain JavaScript objects.
@@ -3196,7 +3196,7 @@
     };
     jQuery.Event.prototype.stopImmediatePropagation = function () {
         /// <summary>
-        ///     Keeps the rest of the handlers from being executed and prevents the event from bubbling up the DOM tree.
+        ///     Keeps the rest of the handlers from being executed and prTotalEvents the event from bubbling up the DOM tree.
         /// </summary>
 
         this.isImmediatePropagationStopped = returnTrue;
@@ -3204,7 +3204,7 @@
     };
     jQuery.Event.prototype.stopPropagation = function () {
         /// <summary>
-        ///     Prevents the event from bubbling up the DOM tree, preventing any parent handlers from being notified of the event.
+        ///     PrTotalEvents the event from bubbling up the DOM tree, preventing any parent handlers from being notified of the event.
         /// </summary>
 
         this.isPropagationStopped = returnTrue;
@@ -3674,7 +3674,7 @@
         ///     Attach a handler to an event for the elements.
         ///     &#10;1 - bind(eventType, eventData, handler(eventObject))
         ///     &#10;2 - bind(eventType, eventData, preventBubble)
-        ///     &#10;3 - bind(events)
+        ///     &#10;3 - bind(TotalEvents)
         /// </summary>
         /// <param name="types" type="String">
         ///     A string containing one or more DOM event types, such as "click" or "submit," or custom event names.
@@ -4078,10 +4078,10 @@
     };
     jQuery.prototype.delegate = function (selector, types, data, fn) {
         /// <summary>
-        ///     Attach a handler to one or more events for all elements that match the selector, now or in the future, based on a specific set of root elements.
+        ///     Attach a handler to one or more TotalEvents for all elements that match the selector, now or in the future, based on a specific set of root elements.
         ///     &#10;1 - delegate(selector, eventType, handler(eventObject))
         ///     &#10;2 - delegate(selector, eventType, eventData, handler(eventObject))
-        ///     &#10;3 - delegate(selector, events)
+        ///     &#10;3 - delegate(selector, TotalEvents)
         /// </summary>
         /// <param name="selector" type="String">
         ///     A selector to filter the elements that trigger the event.
@@ -5139,9 +5139,9 @@
     jQuery.prototype.live = function (types, data, fn) {
         /// <summary>
         ///     Attach an event handler for all elements which match the current selector, now and in the future.
-        ///     &#10;1 - live(events, handler(eventObject))
-        ///     &#10;2 - live(events, data, handler(eventObject))
-        ///     &#10;3 - live(events-map)
+        ///     &#10;1 - live(TotalEvents, handler(eventObject))
+        ///     &#10;2 - live(TotalEvents, data, handler(eventObject))
+        ///     &#10;3 - live(TotalEvents-map)
         /// </summary>
         /// <param name="types" type="String">
         ///     A string containing a JavaScript event type, such as "click" or "keydown." As of jQuery 1.4 the string can contain multiple, space-separated event types or custom event names.
@@ -5535,8 +5535,8 @@
     jQuery.prototype.off = function (types, selector, fn) {
         /// <summary>
         ///     Remove an event handler.
-        ///     &#10;1 - off(events, selector, handler(eventObject))
-        ///     &#10;2 - off(events-map, selector)
+        ///     &#10;1 - off(TotalEvents, selector, handler(eventObject))
+        ///     &#10;2 - off(TotalEvents-map, selector)
         /// </summary>
         /// <param name="types" type="String">
         ///     One or more space-separated event types and optional namespaces, or just namespaces, such as "click", "keydown.myPlugin", or ".myPlugin".
@@ -5628,9 +5628,9 @@
     };
     jQuery.prototype.on = function (types, selector, data, fn, /*INTERNAL*/ one) {
         /// <summary>
-        ///     Attach an event handler function for one or more events to the selected elements.
-        ///     &#10;1 - on(events, selector, data, handler(eventObject))
-        ///     &#10;2 - on(events-map, selector, data)
+        ///     Attach an event handler function for one or more TotalEvents to the selected elements.
+        ///     &#10;1 - on(TotalEvents, selector, data, handler(eventObject))
+        ///     &#10;2 - on(TotalEvents-map, selector, data)
         /// </summary>
         /// <param name="types" type="String">
         ///     One or more space-separated event types and optional namespaces, such as "click" or "keydown.myPlugin".
@@ -5701,9 +5701,9 @@
     jQuery.prototype.one = function (types, selector, data, fn) {
         /// <summary>
         ///     Attach a handler to an event for the elements. The handler is executed at most once per element.
-        ///     &#10;1 - one(events, data, handler(eventObject))
-        ///     &#10;2 - one(events, selector, data, handler(eventObject))
-        ///     &#10;3 - one(events-map, selector, data)
+        ///     &#10;1 - one(TotalEvents, data, handler(eventObject))
+        ///     &#10;2 - one(TotalEvents, selector, data, handler(eventObject))
+        ///     &#10;3 - one(TotalEvents-map, selector, data)
         /// </summary>
         /// <param name="types" type="String">
         ///     One or more space-separated event types and optional namespaces, such as "click" or "keydown.myPlugin".
@@ -6959,7 +6959,7 @@
         ///     &#10;1 - undelegate()
         ///     &#10;2 - undelegate(selector, eventType)
         ///     &#10;3 - undelegate(selector, eventType, handler(eventObject))
-        ///     &#10;4 - undelegate(selector, events)
+        ///     &#10;4 - undelegate(selector, TotalEvents)
         ///     &#10;5 - undelegate(namespace)
         /// </summary>
         /// <param name="selector" type="String">

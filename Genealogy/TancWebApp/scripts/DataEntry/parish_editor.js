@@ -31,9 +31,8 @@ AncParishEditor.prototype = {
 
     init: function () {
      
-        $("#save").live("click", $.proxy(function () { this.save(); return false; }, this));
-
-        $("#return").live("click", $.proxy(function () { this.saveReturn(); return false; }, this));
+        $('body').on("click","#save", $.proxy(function () { this.save(); return false; }, this));
+        $('body').on("click", "#return", $.proxy(function () { this.saveReturn(); return false; }, this));
 
         this.load();
         return false;
@@ -44,7 +43,7 @@ AncParishEditor.prototype = {
         var params = {};
         params[0] = this.qryStrUtils.getParameterByName('id', '');
         
-        this.ancUtils.twaGetJSON("/Parishs/GetParish", params, $.proxy(this.processData, this));
+        this.ancUtils.twaGetJSON("/ParishService/GetParish", params, $.proxy(this.processData, this));
     },
 
 
@@ -88,14 +87,14 @@ AncParishEditor.prototype = {
     },
     
     save: function () {
-        this.postParams.url = '/Parishs/Add';
+        this.postParams.url = '/ParishService/Add';
         this.postParams.data = this.GetParishRecord();
         this.ancUtils.twaPostJSON(this.postParams);
     },
 
     saveReturn: function () {
         this.postParams.refreshmethod = function () { window.location = '../HtmlPages/ParishSearch.html' + window.location.hash; };
-        this.postParams.url = '/Parishs/Add';
+        this.postParams.url = '/ParishService/Add';
         this.postParams.data = this.GetParishRecord();
         this.ancUtils.twaPostJSON(this.postParams);
     }

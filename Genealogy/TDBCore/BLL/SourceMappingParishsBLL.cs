@@ -1,20 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using TDBCore.EntityModel;
+using System.Diagnostics;
 //using TDBCore.Datasets.DsSourceMappingParishsTableAdapters;
 //using TDBCore.Datasets;
-using TDBCore.EntityModel;
-using TDBCore.BLL;
-using System.Diagnostics;
-using System.Data.Objects.DataClasses;
-using System.Data.Objects;
-using System.Data;
 
 
-namespace GedItter.BLL
+namespace TDBCore.BLL
 {
-    public class SourceMappingParishsBLL : BaseBLL
+    public class SourceMappingParishsBll : BaseBll
     {
  
         public IQueryable<SourceMappingParish> GetData2()
@@ -27,6 +22,12 @@ namespace GedItter.BLL
         {
 
             return ModelContainer.SourceMappingParishs.Where(o => o.Source.SourceId == sourceId);
+        }
+
+
+        public List<Guid> GetParishIds(Guid sourceId)
+        {
+            return ModelContainer.SourceMappingParishs.Where(o => o.Source.SourceId == sourceId).Select(p=>p.Parish.ParishId).ToList();
         }
          
         public IQueryable<SourceMappingParish> GetDataSourceMappingParishRowId2(int sourceMappingParishRowId)

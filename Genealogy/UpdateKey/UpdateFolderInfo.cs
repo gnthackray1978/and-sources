@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.IO;
-using System.Text.RegularExpressions;
 using System.Diagnostics;
-using GedItter.BLL;
+using TDBCore.BLL;
 using ToolsCore;
 
 
@@ -33,7 +31,7 @@ namespace UpdateKey
         private void processCSV() 
         {
 
-            SourceBLL sourceBll = new SourceBLL();
+            SourceBll sourceBll = new SourceBll();
          
 
             int idx =0;

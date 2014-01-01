@@ -1,0 +1,110 @@
+﻿
+
+
+/*
+.defaultImage
+{
+   
+    background-image: url('../../../Images/Fewston_Feb_01.jpg');
+    width: 640px;
+    height: 466px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+*/
+
+.maincontent2,
+.st_bod tr.hed td,
+.mtrhed2,
+.fltcnt,
+.fc_cont
+
+{
+    background-color: #EEFFFF;
+}
+
+
+
+.sf_cont,
+.fc_hed,
+.fc_cont,
+.colhed,
+.maincontent2
+{
+    border-color: #3366CC;
+}
+
+
+
+.item tr.hed, .filterheadingrow, .fc_hed, .colhed, .usr_topbar, .sf_hed
+{
+    background-color: #3366CC;
+}
+
+
+
+
+.maincontent2,
+/* headers*/
+.sf_pad-cont tr a,
+
+.sf_hed,
+.st_bod td a:visited  ,
+.st_bod tr#selecteditem,
+.st_bod tr a,
+.st_bod tr.hed a,
+.st_bod tr.hed td,
+.st_bod table.green,
+
+/*selected item and link in main filter screens*/
+.item tr#selecteditem,
+.item tr a,
+
+/* headers from import csv */
+.fc_hed,
+.fc_colhed,
+
+/* top bar from editor screens*/
+.colhed,
+
+.CustomTabStyle .ajax__tab_header,
+
+/*header from manager user screen*/
+.usr_topbar,
+/*manage user screen contents*/
+.usrRow
+
+{
+    color: #000000;
+    }
+    
+    
+    
+/* headers from top of search screens */    
+.filterheadingrow, .item tr.hed a, .item tr.hed td
+{
+    color: #FFFFFF;
+}
+
+
+
+
+.tabhed,
+.CustomTabStyle .ajax__tab_active .ajax__tab_tab,
+.CustomTabStyle a
+{
+     color: #33CCFF;
+    }
+
+
+
+
+
+
+
+
+
+
+
+

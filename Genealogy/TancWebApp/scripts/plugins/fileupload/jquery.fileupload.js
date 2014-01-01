@@ -15,8 +15,8 @@
 (function ($) {
     'use strict';
 
-    // The fileupload widget listens for change events on file input fields
-    // defined via fileInput setting and drop events of the given dropZone.
+    // The fileupload widget listens for change TotalEvents on file input fields
+    // defined via fileInput setting and drop TotalEvents of the given dropZone.
     // In addition to the default jQuery Widget methods, the fileupload widget
     // exposes the "add" and "send" methods, to add or directly send files
     // using the fileupload API.
@@ -33,14 +33,14 @@
             // The drop target collection, by the default the complete document.
             // Set to null or an empty collection to disable drag & drop support:
             dropZone: $(document),
-            // The file input field collection, that is listened for change events.
+            // The file input field collection, that is listened for change TotalEvents.
             // If undefined, it is set to the file input fields inside
             // of the widget element on plugin initialization.
             // Set to null or an empty collection to disable the change listener.
             fileInput: undefined,
             // By default, the file input field is replaced with a clone after
             // each input field change event. This is required for iframe transport
-            // queues and allows change events to be fired for the same file
+            // queues and allows change TotalEvents to be fired for the same file
             // selection, but can be disabled by setting the following option to false:
             replaceFileInput: true,
             // The parameter name for the file form data (the request argument name).
@@ -113,19 +113,19 @@
             // fail: function (e, data) {}, // .bind('fileuploadfail', func);
             // Callback for completed (success, abort or error) requests:
             // always: function (e, data) {}, // .bind('fileuploadalways', func);
-            // Callback for upload progress events:
+            // Callback for upload progress TotalEvents:
             // progress: function (e, data) {}, // .bind('fileuploadprogress', func);
-            // Callback for global upload progress events:
+            // Callback for global upload progress TotalEvents:
             // progressall: function (e, data) {}, // .bind('fileuploadprogressall', func);
             // Callback for uploads start, equivalent to the global ajaxStart event:
             // start: function (e) {}, // .bind('fileuploadstart', func);
             // Callback for uploads stop, equivalent to the global ajaxStop event:
             // stop: function (e) {}, // .bind('fileuploadstop', func);
-            // Callback for change events of the fileInput collection:
+            // Callback for change TotalEvents of the fileInput collection:
             // change: function (e, data) {}, // .bind('fileuploadchange', func);
-            // Callback for drop events of the dropZone collection:
+            // Callback for drop TotalEvents of the dropZone collection:
             // drop: function (e, data) {}, // .bind('fileuploaddrop', func);
-            // Callback for dragover events of the dropZone collection:
+            // Callback for dragover TotalEvents of the dropZone collection:
             // dragover: function (e) {}, // .bind('fileuploaddragover', func);
             
             // The plugin options are used as settings object for the ajax calls.

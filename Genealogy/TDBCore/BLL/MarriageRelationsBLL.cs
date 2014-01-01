@@ -1,26 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-//using GedItter.MarriageRecords.Datasets.DsMarriagesTableAdapters;
-//using GedItter.MarriageRecords.Datasets;
-//using TDBCore.Datasets.DsMarriagesTableAdapters;
-
-//using TDBCore.Datasets;
-using GedItter.BLL;
-using System.Data.SqlClient;
-using TDBCore.BLL;
 using TDBCore.EntityModel;
-using System.Diagnostics;
-using System.Data.Objects.DataClasses;
-using System.Data.Objects;
-using System.Data;
 
 
-
-namespace GedItter.MarriageRecords.BLL
+namespace TDBCore.BLL
 {
-    public class MarriageRelationsBLL : BaseBLL
+    public class MarriageRelationsBll : BaseBll
     {
 
         public int InsertRelation(Guid marriageA, Guid marriageB, int relationTypeId, int userId)

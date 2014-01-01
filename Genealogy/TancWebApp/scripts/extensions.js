@@ -30,7 +30,7 @@ $.fn.pasteEvents = function (delay) {
 //USAGE EXAMPLES 
 
 // using debounce in a constructor or initialization function to debounce
-// focus events for a widget (onFocus is the original handler):
+// focus TotalEvents for a widget (onFocus is the original handler):
 //this.debouncedOnFocus = this.onFocus.debounce(500, false);
 //this.inputNode.addEventListener('focus', this.debouncedOnFocus, false);
 
@@ -141,4 +141,40 @@ Array.prototype.RemoveDupes = function () {
     });
 
     return uniqueNames;
+};
+
+
+
+
+$.fn.dataTableExt.oApi.fnFindRowAttrib = function (oSettings, sSearch, iColumn) {
+    var i, iLen;
+
+    for (i = 0, iLen = oSettings.aoData.length ; i < iLen ; i++) {
+
+        var result = $(oSettings.aoData[i].nTr).attr(iColumn);
+
+        if (result != undefined && result == sSearch)
+            return i;
+
+    }
+
+    return i;
+};
+
+
+$.fn.dataTableExt.oApi.fnFindRow = function (oSettings, sSearch, iColumn) {
+    var i, iLen;
+
+    var retVale = { row: undefined, idx:-1 };
+
+    for (i = 0, iLen = oSettings.aoData.length ; i < iLen ; i++) {
+
+        var result = $(oSettings.aoData[i].nTr).attr(iColumn);
+
+        if (result != undefined && result == sSearch)
+            return { row: $(oSettings.aoData[i].nTr), idx: i };
+
+    }
+
+    return retVale;
 };

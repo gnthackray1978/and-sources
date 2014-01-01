@@ -101,7 +101,11 @@ AncUtils.prototype = {
     addlinks: function (dupeEvents, func, context) {
         for (var i = 0; i < dupeEvents.length; i++) {
 
-            $("#" + dupeEvents[i].key).die("click");
+            $('body').off("click", "#" + dupeEvents[i].key);
+
+
+       //     $("#" + dupeEvents[i].key).unbind("click");
+            
 
             //console.log('creating event for : ' + dupeEvents[i].key);
 
@@ -110,7 +114,7 @@ AncUtils.prototype = {
                 //this can be a future optimization.
 
 
-                $("#" + dupeEvents[idx].key).live("click", $.proxy(function () {
+                $('body').on("click","#" + dupeEvents[idx].key, $.proxy(function () {
                     var va = val;
 
                     //console.log('clicked with : ' + va);
@@ -148,7 +152,10 @@ AncUtils.prototype = {
             dataType: "jsonp",
             data: paramsArg,
             success: methodArg,
-            beforeSend: $.proxy(this.addFBToHeader(), this)
+            beforeSend: $.proxy(this.addFBToHeader(), this),
+            error: function (request, status, error) {
+            //    alert(request.responseText);
+            }
         });
     },
 
@@ -337,7 +344,7 @@ AncUtils.prototype = {
         // set pager html
         $('#' + pagerparams.ParentElement).html(pagerBody);
 
-        // add click events
+        // add click TotalEvents
         this.addlinks(clickEvents, pagerparams.Function, pagerparams.Context);
     }
 };
@@ -413,7 +420,7 @@ QryStrUtils.prototype = {
         // parameters always should be followed by = 
         // checking for this avoids screw ups where for example id is in the middle of another 
         // param name like fids
-        if (qry.indexOf(parname+'=') < 0) {
+        if (qry.indexOf(parname + '=') < 0) {
             if (qry.indexOf('?') < 0) {
                 qry = '?' + parname + '=' + parval;
                 window.location.hash = qry;
@@ -461,10 +468,19 @@ QryStrUtils.prototype = {
     getParameterByName: function (name, defvalue) {
         var match = RegExp('[?&]' + name + '=([^&]*)')
                         .exec(window.location.href);
- 
+
         if (defvalue != undefined && defvalue != null) {
-            if (match != null)
-                return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+            if (match != null) {
+
+                var codedUri = match[1].replace(/\+/g, ' ');
+
+                if (codedUri != '%') {
+                    return match && decodeURIComponent(codedUri);
+                } else {
+                    return '%';
+                }
+            }
+
             else
                 return defvalue;
         } else {
@@ -476,7 +492,16 @@ QryStrUtils.prototype = {
     getParameterByNameFromString: function (qry, name) {
         var match = RegExp('[?&]' + name + '=([^&]*)')
                         .exec(qry);
-        return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+
+        var codedUri = match[1].replace(/\+/g, ' ');
+
+
+        if (codedUri == '%')
+            return '%';
+        else
+            return match && decodeURIComponent(codedUri);
+
+
     }
 
 

@@ -1,0 +1,57 @@
+<html>
+
+<head>
+<title>Force Direct Tree</title>
+    <script src="../Scripts/jquery/jquery.js" type="text/javascript"></script>
+    <script src="../Scripts/ForceDirect/map_settings.js" type="text/javascript"></script>
+    <script src="../Scripts/ForceDirect/map_edge.js" type="text/javascript"></script>
+    <script src="../Scripts/ForceDirect/map_element.js" type="text/javascript"></script>
+    <script src="../Scripts/ForceDirect/map_vector.js" type="text/javascript"></script>
+    <script src="../Scripts/ForceDirect/map_graph.js" type="text/javascript"></script>
+    <script src="../Scripts/ForceDirect/map_handler.js" type="text/javascript"></script>
+    <script src="../Scripts/ForceDirect/map_layout.js" type="text/javascript"></script>
+    <script src="../Scripts/ForceDirect/map_renderer.js" type="text/javascript"></script>
+    <script src="../Scripts/ForceDirect/map_utils.js" type="text/javascript"></script>
+    <script src="../Scripts/ForceDirect/map_current_tree.js" type="text/javascript"></script>
+    <script src="../Scripts/ForceDirect/map_combined_renderer.js" type="text/javascript"></script> 
+    <script src="../Scripts/ForceDirect/map_main.js" type="text/javascript"></script>
+    <script src="../Scripts/util_func.js"></script> 
+    <link href="../Styles/tree.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body >
+
+<div id ="map_message">loaded
+
+<div class = "map_year"><span>Year: </span><span id ="map_year" >1650</span></div> 
+<div class = "map_year"><span>Zoom level: </span><span id ="map_zoom" >0</span></div> 
+<div class = "map_year"><span>X Pos: </span><span id ="map_X" >0</span></div> 
+<div class = "map_year"><span>Y Pos: </span><span id ="map_Y" >0</span></div> 
+<div class = "map_year"><span>Nodes: </span><span id ="nodes" >0</span></div> 
+
+</div>
+
+<div id = "map_control">
+    <div id = "up" class = "u button_box"><span></span></div>
+    <div id = "dn" class = "d button_box"><span></span></div>
+
+    <div id = "we" class = "w button_box"><span></span></div>
+    <div id = "no" class = "n button_box"><span></span></div>
+    <div id = "es" class = "e button_box"><span></span></div>
+    <div id = "so" class = "s button_box"><span></span></div>
+    <div id = "de" class = "debug button_box"><span></span></div>
+</div>
+
+
+<canvas id="springydemo" >
+
+</canvas>
+
+
+
+
+</body>
+
+
+
+</html>

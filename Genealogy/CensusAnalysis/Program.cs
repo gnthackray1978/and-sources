@@ -6,10 +6,10 @@ using System.IO;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
+using TDBCore.BLL;
+using TDBCore.Types.libs;
 using WebRipper;
-using GedItter.BLL;
 using TDBCore.Types;
-using GedItter.BirthDeathRecords.BLL;
 
 namespace CensusAnalysis
 {
@@ -30,15 +30,15 @@ namespace CensusAnalysis
 
             textReader.Close();
 
-            ParishsBLL _parishBll = new ParishsBLL();
+            ParishsBll _parishBll = new ParishsBll();
 
 
             var pids = File.ReadAllLines(filePath + @"pids.txt");
 
-            SourceBLL sources = new SourceBLL();
-            SourceMappingsBLL sourceMappingsBLL = new SourceMappingsBLL();
-            SourceMappingParishsBLL sourceMappingParishsBLL = new SourceMappingParishsBLL();
-            DeathsBirthsBLL deathsBirthsBLL = new DeathsBirthsBLL();
+            SourceBll sources = new SourceBll();
+            SourceMappingsBll sourceMappingsBLL = new SourceMappingsBll();
+            SourceMappingParishsBll sourceMappingParishsBLL = new SourceMappingParishsBll();
+            DeathsBirthsBll deathsBirthsBLL = new DeathsBirthsBll();
 
             int idx =0;
 

@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using GedItter.MarriageRecords;
 using TDBCore.BLL;
 using TDBCore.Types;
-using GedItter.BLL;
-using GedItter.BirthDeathRecords.BLL;
-using GedItter;
+using TDBCore.Types.DTOs;
+using TDBCore.Types.libs;
 
 
 namespace TDBCore.EntityModel
@@ -20,7 +17,7 @@ namespace TDBCore.EntityModel
 
         public static void MergeInto(this Person _person, Person newPerson)
         {
-            DeathsBirthsBLL deathsBirthsBll = new DeathsBirthsBLL();
+            DeathsBirthsBll deathsBirthsBll = new DeathsBirthsBll();
 
             Guid dummyLocation = new Guid("a813a1ff-6093-4924-a7b2-c5d1af6ff699");
 
@@ -152,15 +149,15 @@ namespace TDBCore.EntityModel
 
         }
 
-        public static IEnumerable<marriageWitness> RemoveDuplicateReferences(this IList<marriageWitness> list)
+        public static IEnumerable<MarriageWitness> RemoveDuplicateReferences(this IList<MarriageWitness> list)
         {
-            TDBCore.Types.EqualityComparer<marriageWitness> ec_p = new TDBCore.Types.EqualityComparer<marriageWitness>((o1, o2) => o1.Person.ChristianName == o2.Person.ChristianName
+            Types.libs.EqualityComparer<MarriageWitness> ec_p = new Types.libs.EqualityComparer<MarriageWitness>((o1, o2) => o1.Person.ChristianName == o2.Person.ChristianName
                 && o1.Person.Surname == o2.Person.Surname
                 && o1.Person.ReferenceDateStr == o2.Person.ReferenceDateStr,
                 o => (o.Person.ReferenceDateStr.GetHashCode() + o.Person.Surname.GetHashCode() + o.Person.ChristianName.GetHashCode()));
 
-            IList<marriageWitness> p = new List<marriageWitness>();
-            IList<marriageWitness> dupes = new List<marriageWitness>();
+            IList<MarriageWitness> p = new List<MarriageWitness>();
+            IList<MarriageWitness> dupes = new List<MarriageWitness>();
 
             int idx = 0;
 
@@ -188,7 +185,7 @@ namespace TDBCore.EntityModel
 
         public static IEnumerable<Person> RemoveDuplicateReferences(this IList<Person> list)
         {
-            TDBCore.Types.EqualityComparer<Person> ec_p = new TDBCore.Types.EqualityComparer<Person>((o1, o2) => o1.ChristianName == o2.ChristianName
+            Types.libs.EqualityComparer<Person> ec_p = new Types.libs.EqualityComparer<Person>((o1, o2) => o1.ChristianName == o2.ChristianName
                 && o1.Surname == o2.Surname
                 && o1.ReferenceDateStr == o2.ReferenceDateStr,
                 o => (o.ReferenceDateStr.GetHashCode() + o.Surname.GetHashCode() + o.ChristianName.GetHashCode()));
@@ -222,7 +219,7 @@ namespace TDBCore.EntityModel
 
         public static List<string> CheckForRelations(this Person _person)
         {
-            RelationsBLL rbll = new RelationsBLL();
+            RelationsBll rbll = new RelationsBll();
             string retStr = "";
             List<string> relations = new List<string>();
 
@@ -258,7 +255,7 @@ namespace TDBCore.EntityModel
 
         public static string CheckForWills(this Person _person, out Guid sourceId)
         {
-            SourceBLL sourecBll = new SourceBLL();
+            SourceBll sourecBll = new SourceBll();
             string description = "";
 
             Guid willSource = Guid.Empty;

@@ -1,21 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Diagnostics;
-using System.Data.Objects.DataClasses;
-using System.Data.Objects;
-using System.Data;
-//using TDBCore.Datasets;
 using TDBCore.EntityModel;
-using TDBCore.BLL;
 
 
-
-
-namespace GedItter.BLL
+namespace TDBCore.BLL
 {
-    public class MissingParishRecordsBLL : BaseBLL
+    public class MissingParishRecordsBll : BaseBll
     {
 
        
