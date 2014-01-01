@@ -9,22 +9,24 @@ using System.Diagnostics;
 
 namespace TDBCore.BLL
 {
-    public class BaseBLL
+    public class BaseBll
     {
 
         private string connectionString = "";
         private static TDBCore.EntityModel.GeneralModelContainer generalModelContainer = null; 
 
-        public BaseBLL()
+        public BaseBll()
         {
             System.Data.EntityClient.EntityConnection connStr = this.GetConn();//new System.Data.EntityClient.EntityConnection(@"metadata=res://*/CustomSearches.csdl|res://*/CustomSearches.ssdl|res://*/CustomSearches.msl;provider=System.Data.SqlClient;provider connection string="";Data Source=GRN-P005718\;Initial Catalog=ThackrayDB;Integrated Security=True;MultipleActiveResultSets=True"";");
-
-            if (BaseBLL.generalModelContainer == null)
+            
+            if (BaseBll.generalModelContainer == null)
             {
                 Debug.WriteLine("Created new entity container: " + connStr);
-                BaseBLL.generalModelContainer = new GeneralModelContainer(connStr);
+                BaseBll.generalModelContainer = new GeneralModelContainer(connStr);
+
+                
             }
-            
+
             
             connectionString = TDBCore.Properties.Settings.Default.ThackrayDBConnectionString;
         }
@@ -34,10 +36,10 @@ namespace TDBCore.BLL
         {
             System.Data.EntityClient.EntityConnection connStr = this.GetConn();//new System.Data.EntityClient.EntityConnection(@"metadata=res://*/CustomSearches.csdl|res://*/CustomSearches.ssdl|res://*/CustomSearches.msl;provider=System.Data.SqlClient;provider connection string="";Data Source=GRN-P005718\;Initial Catalog=ThackrayDB;Integrated Security=True;MultipleActiveResultSets=True"";");
 
-            if (BaseBLL.generalModelContainer == null)
+            if (BaseBll.generalModelContainer == null)
             {
                 Debug.WriteLine("Created new entity container: " + connStr);
-                BaseBLL.generalModelContainer = new GeneralModelContainer(connStr);
+                BaseBll.generalModelContainer = new GeneralModelContainer(connStr);
             }
 
 
@@ -51,11 +53,11 @@ namespace TDBCore.BLL
             {
 
 
-                return BaseBLL.generalModelContainer;
+                return BaseBll.generalModelContainer;
             }
             set
             {
-                BaseBLL.generalModelContainer = value;
+                BaseBll.generalModelContainer = value;
             }
         }
 
@@ -74,30 +76,6 @@ namespace TDBCore.BLL
 
         private System.Data.EntityClient.EntityConnection GetConn()
         {
-            //  (@"metadata=res://*/CustomSearches.csdl|res://*/CustomSearches.ssdl|res://*/CustomSearches.msl;provider=System.Data.SqlClient;
-            //provider connection string="";Data Source=GRN-P005718\;Initial Catalog=ThackrayDB;Integrated Security=True;MultipleActiveResultSets=True"";");
-
-
-            //metadata=res://*/EntityModel.GeneralModel.csdl|res://*/EntityModel.GeneralModel.ssdl|
-            //res://*/EntityModel.GeneralModel.msl;provider=System.Data.SqlClient;provider connection string=
-            //&quot;Data Source=GEORGE-PC\SQLEXPRESS;Initial Catalog=ThackrayDB;Integrated Security=True;MultipleActiveResultSets=True&quot;"
-  
-
-          //  SqlConnectionStringBuilder sconStrBuilder = new SqlConnectionStringBuilder(TDBCore.Properties.Settings.Default.WorkConnString);
-
-
-
-
-           // SqlConnectionStringBuilder sconStrBuilder = new SqlConnectionStringBuilder(TDBCore.Properties.Settings.Default.ThackrayDBConnectionString);
-            
-            //SqlServices
-            //;User Id=myUsername;Password=myPassword;
-
-          
-
-            // looks for this stuff in the tdbcore entitymodel folder
-            //string entConStr = @"metadata=res://*/TDBCore.EntityModel.GeneralModel.csdl|res://*/TDBCore.EntityModel.GeneralModel.ssdl|res://*/TDBCore.EntityModel.GeneralModel.msl;provider=System.Data.SqlClient;provider connection string="";Data Source=" +
-            //    sconStrBuilder.DataSource + @";Initial Catalog=" + sconStrBuilder.InitialCatalog + @";Integrated Security=" + sconStrBuilder.IntegratedSecurity + @";MultipleActiveResultSets=True"";";
 
             string conString = ConfigurationManager.ConnectionStrings["SqlServices"].ConnectionString;
 

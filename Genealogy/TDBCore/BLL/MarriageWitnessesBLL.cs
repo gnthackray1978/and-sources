@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using GedItter.MarriageRecords;
 using TDBCore.EntityModel;
+using TDBCore.Types;
+using TDBCore.Types.DTOs;
 
 namespace TDBCore.BLL
 {
-    public class MarriageWitnessesBll : BaseBLL
+    public class MarriageWitnessesBll : BaseBll
     {
 
         public void MarkWitnessesAsDeleted(Guid marriageId)
@@ -19,9 +20,9 @@ namespace TDBCore.BLL
             ModelContainer.SaveChanges();
         }
 
-        public List<marriageWitness> GetWitnessesForMarriage(Guid marriageId)
+        public List<MarriageWitness> GetWitnessesForMarriage(Guid marriageId)
         {
-            return ModelContainer.MarriageMapWitnesses.Where(m => m.Marriage.Marriage_Id == marriageId).Select(p => new marriageWitness { Description = p.WitnessNote, Person = p.Person }).ToList();           
+            return ModelContainer.MarriageMapWitnesses.Where(m => m.Marriage.Marriage_Id == marriageId).Select(p => new MarriageWitness { Description = p.WitnessNote, Person = p.Person }).ToList();           
         }
 
         public string GetWitnesseStringForMarriage(Guid marriageId)
@@ -52,7 +53,7 @@ namespace TDBCore.BLL
             ModelContainer.SaveChanges();
         }
 
-        public void InsertWitnessesForMarriage(Guid marriageId, IList<marriageWitness> persons)
+        public void InsertWitnessesForMarriage(Guid marriageId, IList<MarriageWitness> persons)
         {
             Marriage mToUpDate = ModelContainer.Marriages.FirstOrDefault(m => m.Marriage_Id == marriageId);
 

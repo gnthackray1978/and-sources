@@ -40,14 +40,14 @@ AncEvents.prototype = {
         
         var panels = new Panels();
      
-        $("#main").live("click", $.proxy(function () { panels.sourcesShowPanel('1'); return false; }, panels));
-        $("#more").live("click", $.proxy(function () { panels.sourcesShowPanel('2'); return false; }, panels));
+        $('body').on("click", "#main", $.proxy(function () { panels.sourcesShowPanel('1'); return false; }, panels));
+        $('body').on("click", "#more", $.proxy(function () { panels.sourcesShowPanel('2'); return false; }, panels));
 
-        $("#refresh").live("click", $.proxy(function () { this.getEvents("0"); return false; }, this));
+        $('body').on("click", "#refresh", $.proxy(function () { this.getEvents("0"); return false; }, this));
 
-        $("#year_hed").live("click", $.proxy(function () { this.sort('EventDate'); return false; }, this));
-        $("#surname_hed").live("click", $.proxy(function () { this.sort('EventSurname'); return false; }, this));
-        $("#locat_hed").live("click", $.proxy(function () { this.sort('EventLocation'); return false; }, this));
+        $('body').on("click", "#year_hed", $.proxy(function () { this.sort('EventDate'); return false; }, this));
+        $('body').on("click", "#surname_hed", $.proxy(function () { this.sort('EventSurname'); return false; }, this));
+        $('body').on("click", "#locat_hed", $.proxy(function () { this.sort('EventLocation'); return false; }, this));
         
         
     

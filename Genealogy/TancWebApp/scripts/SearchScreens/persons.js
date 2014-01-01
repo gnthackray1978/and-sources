@@ -41,35 +41,35 @@ AncPersons.prototype = {
 
         var panels = new Panels();
 
-        $("#main").live("click", $.proxy(function () { panels.sourcesShowPanel('1'); return false; }, panels));
-        $("#more").live("click", $.proxy(function () { panels.sourcesShowPanel('2'); return false; }, panels));
-        $("#refresh").live("click", $.proxy(function () { this.getPersons("0"); return false; }, this));
-        $("#add").live("click", $.proxy(function () { this.addPerson('00000000-0000-0000-0000-000000000000'); return false; }, this));
-        $("#delete").live("click", $.proxy(function () { this.DeleteRecord(); return false; }, this));
-        $("#print").live("click", $.proxy(function () { this.PrintableResults(); return false; }, this));
-        $("#asslocs").live("click", $.proxy(function () { this.AssignLocations(); return false; }, this));
-        $("#dupes").live("click", $.proxy(function () { this.SetDuplicates(); return false; }, this));
-        $("#upests").live("click", $.proxy(function () { this.UpdateEstimates(); return false; }, this));
-        $("#sfat").live("click", $.proxy(function () { this.SetRelation('2'); return false; }, this));
-        $("#smot").live("click", $.proxy(function () { this.SetRelation('4'); return false; }, this));
-        $("#sson").live("click", $.proxy(function () { this.SetRelation('3'); return false; }, this));
-        $("#remove").live("click", $.proxy(function () { this.SetRemoveLink(); return false; }, this));
-        $("#merge").live("click", $.proxy(function () { this.SetMergeSources(); return false; }, this));
-        $("#sdau").live("click", $.proxy(function () { this.SetRelation('5'); return false; }, this));
-        $("#sbro").live("click", $.proxy(function () { this.SetRelation('6'); return false; }, this));
-        $("#ssis").live("click", $.proxy(function () { this.SetRelation('7'); return false; }, this));
+        $('body').on("click", "#main", $.proxy(function () { panels.sourcesShowPanel('1'); return false; }, panels));
+        $('body').on("click", "#more", $.proxy(function () { panels.sourcesShowPanel('2'); return false; }, panels));
+        $('body').on("click", "#refresh", $.proxy(function () { this.getPersons("0"); return false; }, this));
+        $('body').on("click", "#add", $.proxy(function () { this.addPerson('00000000-0000-0000-0000-000000000000'); return false; }, this));
+        $('body').on("click", "#delete", $.proxy(function () { this.DeleteRecord(); return false; }, this));
+        $('body').on("click", "#print", $.proxy(function () { this.PrintableResults(); return false; }, this));
+        $('body').on("click", "#asslocs", $.proxy(function () { this.AssignLocations(); return false; }, this));
+        $('body').on("click", "#dupes", $.proxy(function () { this.SetDuplicates(); return false; }, this));
+        $('body').on("click", "#upests", $.proxy(function () { this.UpdateEstimates(); return false; }, this));
+        $('body').on("click", "#sfat", $.proxy(function () { this.SetRelation('2'); return false; }, this));
+        $('body').on("click", "#smot", $.proxy(function () { this.SetRelation('4'); return false; }, this));
+        $('body').on("click", "#sson", $.proxy(function () { this.SetRelation('3'); return false; }, this));
+        $('body').on("click", "#remove", $.proxy(function () { this.SetRemoveLink(); return false; }, this));
+        $('body').on("click", "#merge", $.proxy(function () { this.SetMergeSources(); return false; }, this));
+        $('body').on("click", "#sdau", $.proxy(function () { this.SetRelation('5'); return false; }, this));
+        $('body').on("click", "#sbro", $.proxy(function () { this.SetRelation('6'); return false; }, this));
+        $('body').on("click", "#ssis", $.proxy(function () { this.SetRelation('7'); return false; }, this));
 
-        $("#sbint").live("click", $.proxy(function () { this.sort('BirthInt'); return false; }, this));
-        $("#sdint").live("click", $.proxy(function () { this.sort('DeathInt'); return false; }, this));
+        $('body').on("click", "#sbint", $.proxy(function () { this.sort('BirthInt'); return false; }, this));
+        $('body').on("click", "#sdint", $.proxy(function () { this.sort('DeathInt'); return false; }, this));
 
-        $("#sbloc").live("click", $.proxy(function () { this.sort('BirthLocation'); return false; }, this));
-        $("#sname").live("click", $.proxy(function () { this.sort('ChristianName'); return false; }, this));
+        $('body').on("click", "#sbloc", $.proxy(function () { this.sort('BirthLocation'); return false; }, this));
+        $('body').on("click", "#sname", $.proxy(function () { this.sort('ChristianName'); return false; }, this));
 
-        $("#ssurname").live("click", $.proxy(function () { this.sort('Surname'); return false; }, this));
+        $('body').on("click", "#ssurname", $.proxy(function () { this.sort('Surname'); return false; }, this));
 
-        $("#sfather").live("click", $.proxy(function () { this.sort('FatherChristianName'); return false; }, this));
-        $("#smother").live("click", $.proxy(function () { this.sort('MotherChristianName'); return false; }, this));
-        $("#sdloc").live("click", $.proxy(function () { this.sort('DeathLocation'); return false; }, this));
+        $('body').on("click", "#sfather", $.proxy(function () { this.sort('FatherChristianName'); return false; }, this));
+        $('body').on("click", "#smother", $.proxy(function () { this.sort('MotherChristianName'); return false; }, this));
+        $('body').on("click", "#sdloc", $.proxy(function () { this.sort('DeathLocation'); return false; }, this));
 
 
         if (isActive == '1') {
@@ -166,14 +166,14 @@ AncPersons.prototype = {
         params[11] = String($('#chkIncludeTree').prop('checked'));
         params[12] = String($('#chkIncludeBirths').prop('checked'));
         params[13] = String($('#chkIncludeDeaths').prop('checked'));
-        params[14] = '';
+        params[14] = String(this.qryStrUtils.getParameterByName('sids', ''));
         params[15] = String($('#txtSpouse').val());
         params[16] = this.parishId;
         params[17] = String(this.qryStrUtils.getParameterByName('page', 0));
         params[18] = '30';
         params[19] = String(this.qryStrUtils.getParameterByName('sort_col', 'BirthInt'));
 
-        this.ancUtils.twaGetJSON('/GetPersons/Select', params, $.proxy(this.processData, this));
+        this.ancUtils.twaGetJSON('/PersonService/Get/Select', params, $.proxy(this.processData, this));
 
         this.createQryString();
 
@@ -193,7 +193,7 @@ AncPersons.prototype = {
         $.each(data.servicePersons, function (source, sourceInfo) {
 
             var hidPID = '<input type="hidden" name="person_id" id="person_id" value ="' + sourceInfo.PersonId + '"/>';
-            var hidParID = '<input type="hidden" name="parent_id" id="parent_id" value ="' + sourceInfo.XREF + '"/>';
+            var hidParID = '<input type="hidden" name="parent_id" id="parent_id" value ="' + sourceInfo.UniqueReference + '"/>';
 
             var arIdx = jQuery.inArray(sourceInfo.PersonId, that.selection);
 
@@ -208,7 +208,7 @@ AncPersons.prototype = {
             _loc = that.qryStrUtils.updateStrForQry(_loc, 'id', sourceInfo.PersonId);
 
             tableBody += '<td><a id= "d' + _idx + '" href=""><div>' + sourceInfo.Events + '</div></a></td>';
-            dupeEvents.push({ key: 'd' + _idx, value: sourceInfo.XREF });
+            dupeEvents.push({ key: 'd' + _idx, value: sourceInfo.UniqueReference });
 
 
             tableBody += '<td><a href="../HtmlPages/PersonEditor.html' + _loc + '"><div> Edit </div></a></td>';
@@ -298,7 +298,7 @@ AncPersons.prototype = {
     },
 
     DeleteRecord: function () {
-        this.postParams.url = '/Person/Delete';
+        this.postParams.url = '/PersonService/Delete';
         this.postParams.data = { personId: this.ancUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
     },
@@ -306,29 +306,29 @@ AncPersons.prototype = {
 
     },
     AssignLocations: function () {
-        this.postParams.url = '/Person/AssignLocats';
+        this.postParams.url = '/PersonService/AssignLocats';
         this.ancUtils.twaPostJSON(this.postParams);
     },
     SetDuplicates: function () {
-        this.postParams.url = '/Person/SetDuplicate';
+        this.postParams.url = '/PersonService/SetDuplicate';
         this.postParams.data = { persons: this.ancUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
     },
     UpdateEstimates: function () {
-        this.ancUtils.twaGetJSON('/Person/UpdateDates', '', function () { });
+        this.ancUtils.twaGetJSON('/PersonService/UpdateDates', '', function () { });
     },
     SetRelation: function (relationid) {
-        this.postParams.url = '/Person/SetDuplicate';
+        this.postParams.url = '/PersonService/SetDuplicate';
         this.postParams.data = { persons: this.ancUtils.convertToCSV(this.selection), relationType: relationid };
         this.ancUtils.twaPostJSON(this.postParams);
     },
     SetRemoveLink: function () {
-        this.postParams.url = '/Person/RemoveLinks';
+        this.postParams.url = '/PersonService/RemoveLinks';
         this.postParams.data = { person: this.ancUtils.convertToCSV(this.selection)};
         this.ancUtils.twaPostJSON(this.postParams);
     },
     SetMergeSources: function(){
-        this.postParams.url = '/Person/MergePersons';
+        this.postParams.url = '/PersonService/MergePersons';
         this.postParams.data = { person: this.ancUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
     }

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+
 using System.IO;
-using GedItter.BLL;
-using ToolsCore;
+using TDBCore.BLL;
+
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 
@@ -197,10 +197,10 @@ namespace ToolsCore
         public static List<SourceFileReference> RefreshSourceFiles(DirectoryInfo sourceFolder, KeyType csvRow, TDBCore.EntityModel.Source source)
         {
             //refresh source files list in db
-            SourceBLL sourceBll = new SourceBLL();
+            SourceBll sourceBll = new SourceBll();
 
-            SourceMappingsBLL sourceMappingsBll = new SourceMappingsBLL();
-            FilesBLL filesBll = new FilesBLL();
+            SourceMappingsBll sourceMappingsBll = new SourceMappingsBll();
+            FilesBll filesBll = new FilesBll();
 
             sourceMappingsBll.DeleteFilesForSource(csvRow.SourceId);
 
@@ -208,10 +208,9 @@ namespace ToolsCore
 
             Guid newSource = csvRow.SourceId;
 
-            List<SourceFileReference> filesToAdd = new List<SourceFileReference>();
+            var filesToAdd = new List<SourceFileReference>();
 
-            if (csvRow.PhysicalPath != null &&
-                csvRow.PhysicalPath != "")
+            if (!string.IsNullOrEmpty(csvRow.PhysicalPath))
             {
 
 
@@ -276,7 +275,7 @@ namespace ToolsCore
 
 
                 if (newSource != Guid.Empty && fileIdsToAdd.Count > 0)
-                    sourceMappingsBll.WriteFilesToSource(newSource, fileIdsToAdd, 1);
+                    sourceMappingsBll.WriteFilesIdsToSource(newSource, fileIdsToAdd, 1);
                 else
                     Debug.WriteLine(csvRow.SourceRef + "no files to add or source is empty");
             }

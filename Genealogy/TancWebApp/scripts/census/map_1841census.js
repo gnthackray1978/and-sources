@@ -80,7 +80,7 @@ CensusMap.prototype = {
 
 
 
-        this.ancUtils.twaGetJSON('/Sources/Get1841CensusPlaces', params, $.proxy(this.parishResults, this));
+        this.ancUtils.twaGetJSON('/Parishs/Get1841CensusPlaces', params, $.proxy(this.parishResults, this));
 
     },
 

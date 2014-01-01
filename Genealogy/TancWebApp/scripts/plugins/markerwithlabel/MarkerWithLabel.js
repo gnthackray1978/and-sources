@@ -8,8 +8,8 @@
 *  <p>
 *  MarkerWithLabel allows you to define markers with associated labels. As you would expect,
 *  if the marker is draggable, so too will be the label. In addition, a marker with a label
-*  responds to all mouse events in the same manner as a regular marker. It also fires mouse
-*  events and "property changed" events just as a regular marker would.
+*  responds to all mouse TotalEvents in the same manner as a regular marker. It also fires mouse
+*  TotalEvents and "property changed" TotalEvents just as a regular marker would.
 */
 
 /*!
@@ -43,9 +43,9 @@ function MarkerLabel_(marker) {
     this.labelDiv_ = document.createElement("div");
     this.labelDiv_.style.cssText = "position: absolute; overflow: hidden;";
 
-    // Set up the DIV for handling mouse events in the label. This DIV forms a transparent veil
+    // Set up the DIV for handling mouse TotalEvents in the label. This DIV forms a transparent veil
     // in the "overlayMouseTarget" pane, a veil that covers just the label. This is done so that
-    // events can be captured even if the label is in the shadow of a google.maps.InfoWindow.
+    // TotalEvents can be captured even if the label is in the shadow of a google.maps.InfoWindow.
     // Code is included here to ensure the veil is always exactly the same size as the label.
     this.eventDiv_ = document.createElement("div");
     this.eventDiv_.style.cssText = this.labelDiv_.style.cssText;
@@ -349,7 +349,7 @@ MarkerLabel_.prototype.setVisible = function () {
 *  marker has been created, call <code>google.maps.Marker.set(propertyName, propertyValue)</code>.
 *  <p>
 *  When any of these properties changes, a property changed event is fired. The names of these
-*  events are derived from the name of the property and are of the form <code>propertyname_changed</code>.
+*  TotalEvents are derived from the name of the property and are of the form <code>propertyname_changed</code>.
 *  For example, if the content of the label changes, a <code>labelcontent_changed</code> event
 *  is fired.
 *  <p>

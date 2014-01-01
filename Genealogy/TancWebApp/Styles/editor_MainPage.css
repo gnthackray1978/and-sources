@@ -9,6 +9,28 @@
 }
 */
 
+.descrip-row {
+    vertical-align: top;
+
+}
+
+#file-header b {
+    
+    display: block;
+  
+}
+
+
+#file-wrapper {
+    margin-top: 30px;
+
+}
+
+
+
+.file-row a{
+
+}
 
 .editor_fltopt
 {

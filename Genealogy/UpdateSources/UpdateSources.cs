@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.IO;
-using System.Text.RegularExpressions;
-using GedItter.BLL;
 using ToolsCore;
-using System.Diagnostics;
 using TDBCore.EntityModel;
 using TDBCore.BLL;
 
@@ -36,7 +32,7 @@ namespace UpdateSources
         private void processCSV()
         {
 
-            SourceBLL sourceBll = new SourceBLL();
+            SourceBll sourceBll = new SourceBll();
 
 
            // int idx = 0;
@@ -85,8 +81,8 @@ namespace UpdateSources
 
                 }
 
-                RelationsBLL relationsBLL = new RelationsBLL();             
-                SourceMappingsBLL sourceMappingsBLL = new SourceMappingsBLL();
+                RelationsBll relationsBLL = new RelationsBll();             
+                SourceMappingsBll sourceMappingsBLL = new SourceMappingsBll();
 
                 List<Person> persons = sourceBll.GetPersonsForSource(csvRow.SourceId);
                 // list of persons for this source

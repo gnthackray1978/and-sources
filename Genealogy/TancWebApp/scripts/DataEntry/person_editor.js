@@ -35,10 +35,10 @@ AncPersonEditor.prototype = {
 
         var panels = new Panels();
 
-        $("#save").live("click", $.proxy(function () { this.save(); return false; }, this));
-        $("#return").live("click", $.proxy(function () { this.saveReturn(); return false; }, this));
-        $("#main").live("click", $.proxy(function () { panels.sourcesShowPanel('1'); return false; }, panels));
-        $("#more").live("click", $.proxy(function () { panels.sourcesShowPanel('2'); return false; }, panels));
+        $('body').on("click", "#save", $.proxy(function () { this.save(); return false; }, this));
+        $('body').on("click", "#return", $.proxy(function () { this.saveReturn(); return false; }, this));
+        $('body').on("click", "#main", $.proxy(function () { panels.sourcesShowPanel('1'); return false; }, panels));
+        $('body').on("click", "#more", $.proxy(function () { panels.sourcesShowPanel('2'); return false; }, panels));
 
     
 
@@ -50,7 +50,7 @@ AncPersonEditor.prototype = {
         var params = {};
         params[0] = this.qryStrUtils.getParameterByName('id', '');
 
-        this.ancUtils.twaGetJSON("/GetPerson/Select", params, $.proxy(this.processData, this));
+        this.ancUtils.twaGetJSON("/PersonService/Person", params, $.proxy(this.processData, this));
     },
 
 
@@ -117,7 +117,7 @@ AncPersonEditor.prototype = {
 
     },
     save: function () {
-        this.postParams.url = '/Person/Add';
+        this.postParams.url = '/PersonService/Add';
         this.postParams.data = this.GetPersonRecord();
         this.ancUtils.twaPostJSON(this.postParams);
     },
@@ -125,7 +125,7 @@ AncPersonEditor.prototype = {
     saveReturn: function () {
         this.postParams.refreshmethod = function () { 
         window.location = '../HtmlPages/PersonSearch.html' + window.location.hash; };
-        this.postParams.url = '/Person/Add';
+        this.postParams.url = '/PersonService/Add';
         this.postParams.data = this.GetPersonRecord();
         this.ancUtils.twaPostJSON(this.postParams);
     }

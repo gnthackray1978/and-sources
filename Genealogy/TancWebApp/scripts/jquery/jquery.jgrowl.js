@@ -100,7 +100,7 @@
  *
  * Changes in 1.0.1:
  * - Removed dependency on metadata plugin in favor of .data()
- * - Namespaced all events
+ * - Namespaced all TotalEvents
  */
 (function($) {
 

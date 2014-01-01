@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TDBCore.ModelObjects;
 using TDBCore.Types;
 using GedItter.MarriageRecords;
 using NUnit.Framework;

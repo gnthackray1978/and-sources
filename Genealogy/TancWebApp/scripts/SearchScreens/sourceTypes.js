@@ -32,35 +32,38 @@ AncSourceTypes.prototype = {
 
     init: function () {
         var isActive = this.qryStrUtils.getParameterByName('active', '');
-        
+
         var panels = new Panels();
 
-        $("#main").live("click", $.proxy(function () { panels.sourcesShowPanel('1'); return false; }, panels));
-        $("#more").live("click", $.proxy(function () { panels.sourcesShowPanel('2'); return false; }, panels));
-        $("#refresh").live("click", $.proxy(function () { this.getSourceTypes(); return false; }, this));
+        $('body').on("click", "#main", $.proxy(function () { panels.sourcesShowPanel('1'); return false; }, panels));
+        $('body').on("click", "#more", $.proxy(function () { panels.sourcesShowPanel('2'); return false; }, panels));
+        $('body').on("click", "#refresh", $.proxy(function () { this.getSourceTypes(); return false; }, this));
 
-        $("#add").live("click", $.proxy(function () { this.AddSourceType(); return false; }, this));
-        $("#delete").live("click", $.proxy(function () { this.DeleteRecord(); return false; }, this));
+        $('body').on("click", "#add", $.proxy(function () { this.AddSourceType(); return false; }, this));
+        $('body').on("click", "#delete", $.proxy(function () { this.DeleteRecord(); return false; }, this));
 
-        $("#stdesc").live("click", $.proxy(function () { this.sort('SourceTypeDesc'); return false; }, this));
+        $('body').on("click", "#stdesc", $.proxy(function () { this.sort('SourceTypeDesc'); return false; }, this));
 
         if (isActive == '1') {
-            $('#txtDescription').val(this.qryStrUtils.getParameterByName('stdesc', ''));
+
+            var stDescParam = this.qryStrUtils.getParameterByName('stdesc', '');
+            
+            $('#txtDescription').val(stDescParam);
 
 
             this.getSourceTypes('1');
         }
     },
-    createQryString: function() {
-         
+    createQryString: function () {
+
         var args = {
             "active": '1',
-            "stdesc": $('#txtDescription') 
+            "stdesc": $('#txtDescription')
         };
 
         this.qryStrUtils.updateQry(args);
     },
-    getSourceTypes: function(showdupes) {
+    getSourceTypes: function (showdupes) {
 
         var params = {};
 
@@ -70,16 +73,16 @@ AncSourceTypes.prototype = {
         params[3] = String(this.qryStrUtils.getParameterByName('sort_col', 'SourceTypeDesc'));
 
         this.ancUtils.twaGetJSON('/SourceTypes/Select', params, $.proxy(this.processData, this));
-        
+
         this.createQryString();
 
         return false;
     },
 
-    processData: function(data) {
-       
+    processData: function (data) {
+
         var tableBody = '';
-      
+
         var selectEvents = [];
         var _idx = 0;
         var that = this;
@@ -94,7 +97,7 @@ AncSourceTypes.prototype = {
             var arIdx = jQuery.inArray(sourceInfo.TypeId, this.selection);
 
             if (arIdx >= 0) {
-                tableBody += '<tr class = "highLightRow">' + hidPID ;
+                tableBody += '<tr class = "highLightRow">' + hidPID;
             }
             else {
                 tableBody += '<tr>' + hidPID;
@@ -147,7 +150,7 @@ AncSourceTypes.prototype = {
         this.ancUtils.sort_inner(sort_col);
         this.getSourceTypes();
     },
-    getLink: function(toPage) {
+    getLink: function (toPage) {
         this.qryStrUtils.updateQryPar('page', toPage);
         this.getSourceTypes();
     },

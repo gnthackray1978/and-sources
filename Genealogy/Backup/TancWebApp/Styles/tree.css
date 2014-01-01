@@ -1,0 +1,152 @@
+﻿body 
+{
+   background-color:Black;
+}
+
+
+#map_message
+{
+    position: absolute;
+    left: 10px;
+    top: 5px;
+}
+
+
+.map_year
+{
+  
+    color: #00FF00;
+    font-size: large;
+    width: 150px;
+}
+
+
+
+
+
+.tree_Links
+{
+
+    position: absolute;
+    
+}
+
+
+.ancestorstyle
+{
+    color: #000000;
+    background-color: #FFFFFF;
+    border: thin solid #99CCFF;
+}
+    
+.descendantstyle
+{
+    color: #FFFFFF;
+    background-color: #000000;
+    border: thin solid #99CCFF;
+}
+
+
+#map_label
+{
+    padding: 5px; 
+    filter: alpha(opacity=90);
+    border-radius: 10px;
+    width: 200px;
+    height: 100px;
+    position: absolute;
+    left: 30px;
+    top: 30px;
+
+}
+
+#map_label .message
+{
+    margin: 0px;
+}
+
+#map_control
+{  
+    filter: alpha(opacity=90);
+    border-radius: 10px;    
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    right: 30px;
+    top: 30px;
+}
+
+#map_control .u
+{
+    background-position: center center;
+    position: absolute;
+    left: 2px;
+    top: 12px;
+    background-image: url('../Images/silver_images/navigate_plus.png');
+    background-repeat: no-repeat;
+}
+#map_control .d
+{
+    background-position: center center;
+    position: absolute;
+    left: 2px;
+    bottom: 10px;
+    background-image: url('../Images/silver_images/navigate_minus.png');
+    background-repeat: no-repeat;
+}
+
+#map_control .n
+{
+    background-position: center center;
+    position: absolute;
+    left: 45px;
+    top: 10px;
+    background-image: url('../Images/silver_images/nav_up_blue.png');
+    background-repeat: no-repeat;
+}
+#map_control .s
+{
+    background-position: center center;
+    position: absolute;
+    bottom: 10px;
+    left: 45px;
+    background-image: url('../Images/silver_images/nav_down_blue.png');
+    background-repeat: no-repeat;
+}
+
+#map_control .e
+{
+    background-position: center center;
+    position: absolute;
+    right: 2px;
+    top: 35px;
+    background-image: url('../Images/silver_images/nav_right_blue.png');
+    background-repeat: no-repeat;
+}
+#map_control .w
+{
+    background-position: center center;
+    position: absolute;
+    left: 25px;
+    top: 35px;
+    background-image: url('../Images/silver_images/nav_left_blue.png');
+    background-repeat: no-repeat;
+}
+
+#map_control .debug
+{
+    background-position: center center;
+    position: absolute;
+    right: 2px;
+    bottom: 10px;
+    background-image: url('../Images/silver_images/navigate_debug.png');
+    background-repeat: no-repeat;
+}
+
+.button_box
+{
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    margin:5px;
+}

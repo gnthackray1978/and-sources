@@ -1,21 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-//using TDBCore.Datasets.DsSourceMappingsTableAdapters;
-////using TDBCore.Datasets;
-using TDBCore.BLL;
 using TDBCore.EntityModel;
 using TDBCore.Types;
 using System.Diagnostics;
-using System.Data.Objects.DataClasses;
-using System.Data.Objects;
-using System.Data;
+using TDBCore.Types.DTOs;
+using TDBCore.Types.libs;
+
+//using TDBCore.Datasets.DsSourceMappingsTableAdapters;
+////using TDBCore.Datasets;
 
 
-namespace GedItter.BLL
+namespace TDBCore.BLL
 {
-    public class SourceMappingsBLL : BaseBLL
+    public class SourceMappingsBll : BaseBll
     {
 
         public void Update()
@@ -128,9 +126,9 @@ namespace GedItter.BLL
 
             List<Guid> copyList = parishIdList.ToList();
 
-            SourceBLL sourceBll = new SourceBLL();
-            SourceMappingsBLL _SourceMappingsBLL2 = new GedItter.BLL.SourceMappingsBLL();
-            SourceMappingParishsBLL sourceMappingParishsBLL = new SourceMappingParishsBLL();
+            SourceBll sourceBll = new SourceBll();
+            SourceMappingsBll _SourceMappingsBLL2 = new SourceMappingsBll();
+            SourceMappingParishsBll sourceMappingParishsBLL = new SourceMappingParishsBll();
 
             foreach (var sRow in sourceMappingParishsBLL.GetDataBySourceId2(sourceRecordId))
             {
@@ -157,12 +155,12 @@ namespace GedItter.BLL
             }     
         }
 
-        public void WriteFilesToSource(Guid sourceId, List<Guid> fileIdList, int userId)
+
+        public void WriteFilesIdsToSource(Guid sourceId, List<Guid> fileIdList, int userId)
         {
-          
-            SourceBLL sourceBll = new SourceBLL();
-            SourceMappingsBLL _SourceMappingsBLL2 = new GedItter.BLL.SourceMappingsBLL();
-            List<Guid> copyList = fileIdList.ToList();
+            SourceBll sourceBll = new SourceBll();
+            SourceMappingsBll _SourceMappingsBLL2 = new SourceMappingsBll();
+            List<Guid> copyList = fileIdList;
 
             // if there are no selected sources and there are some in the source table
             // then delete them from the database
@@ -176,17 +174,17 @@ namespace GedItter.BLL
             {
                 if (!copyList.Contains(sRow.File.FiletId) || copyList.Count == 0)
                 {
-                     SourceMapping _sourceMapping = ModelContainer.SourceMappings.FirstOrDefault(sm => sm.MappingId == sRow.MappingId);
+                    SourceMapping _sourceMapping = ModelContainer.SourceMappings.FirstOrDefault(sm => sm.MappingId == sRow.MappingId);
 
-                     if (_sourceMapping != null)
-                     {
-                         ModelContainer.DeleteObject(_sourceMapping);
-                     }
+                    if (_sourceMapping != null)
+                    {
+                        ModelContainer.DeleteObject(_sourceMapping);
+                    }
                 }
                 else
                 {
                     copyList.Remove(sRow.File.FiletId);
-                }               
+                }
             }
 
             ModelContainer.SaveChanges();
@@ -197,12 +195,92 @@ namespace GedItter.BLL
             }
 
         }
+
+        public void WriteFilesToSource(Guid sourceId, List<ServiceFile> fileIdList, int userId)
+        {
+          
+            SourceBll sourceBll = new SourceBll();
+            SourceMappingsBll _SourceMappingsBLL2 = new SourceMappingsBll();
+            List<Guid> copyList = fileIdList.Select(p=>p.FileId).ToList();
+
+            // if there are no selected sources and there are some in the source table
+            // then delete them from the database
+            //  other wise just delete the missing entries 
+            // we dont want to perform any unnessecary writes to the db if we can help it
+            // so check if there is already a record if there is remove it from the list
+            // of records that need to be written
+
+
+            // ok so do the deletions to start with
+
+           
+            var deletionList = fileIdList.Where(p => p.FileDescription == "" && p.FileLocation == "").Select(p => p.FileId).ToList();
+
+            var editList = new List<ServiceFile>();
+
+            foreach (var sourceMapping in _SourceMappingsBLL2.GetSourceMappingsWithFiles(sourceId)
+                .Where(sRow => deletionList.Contains(sRow.File.FiletId))
+                .Select(sRow => ModelContainer.SourceMappings.FirstOrDefault(sm => sm.MappingId == sRow.MappingId)).Where(sourceMapping => sourceMapping != null))
+            {
+                ModelContainer.DeleteObject(sourceMapping);
+            }
+
+            ModelContainer.SaveChanges();
+
+            foreach (var file in deletionList.Select(guid => ModelContainer.Files.First(p => p.FiletId == guid)).Where(file => file != null))
+            {
+                ModelContainer.DeleteObject(file);
+            }
+
+            ModelContainer.SaveChanges();
+            
+
+            // do edits
+
+            List<File> newFiles = new List<File>();
+
+            foreach (var guid in fileIdList.Where(p => p.FileDescription != "" && p.FileLocation != ""))
+            {
+               var edittingFile = ModelContainer.Files.FirstOrDefault(f => f.FiletId == guid.FileId);
+
+               if (edittingFile != null)
+               {
+                   edittingFile.FileDescription = guid.FileDescription;
+                   edittingFile.FileLocation = guid.FileLocation;
+               }
+               else
+               {
+                   var newFile = new File()
+                       {
+                           FiletId = guid.FileId,
+                           FileDescription = guid.FileDescription,
+                           FileLocation = guid.FileLocation
+                       };
+
+                   newFiles.Add(newFile);
+
+                   ModelContainer.Files.AddObject(newFile);
+
+
+               }
+
+            }
+
+            ModelContainer.SaveChanges();
+
+            foreach (var FileTypeId in newFiles)
+            {
+                _SourceMappingsBLL2.Insert(sourceId, FileTypeId.FiletId, null, userId, null, DateTime.Today.ToShortDateString(), null);
+            }
+
+            ModelContainer.SaveChanges();
+        }
     
         public void WriteSourceTypesToSource(Guid sourceId, List<int> sourceTypeIdList, int userId)
         {           
 
-            SourceBLL sourceBll = new SourceBLL();
-            SourceMappingsBLL sourceMappingsBLL = new GedItter.BLL.SourceMappingsBLL();
+            SourceBll sourceBll = new SourceBll();
+            SourceMappingsBll sourceMappingsBLL = new SourceMappingsBll();
 
             List<int> copyList = sourceTypeIdList.ToList();
 
@@ -244,9 +322,9 @@ namespace GedItter.BLL
             workingList.AddRange(selectedSourceGuids);
 
 
-            SourceBLL sourceBll = new SourceBLL();
+            SourceBll sourceBll = new SourceBll();
  
-            SourceMappingsBLL _SourceMappingsBLL2 = new GedItter.BLL.SourceMappingsBLL();
+            SourceMappingsBll _SourceMappingsBLL2 = new SourceMappingsBll();
 
         
             IQueryable<SourceMapping> sourcesDataTable = null;
@@ -317,8 +395,7 @@ namespace GedItter.BLL
             // if i remember correctly!! 
             if (workingList.Count > 0)
             {
-               // SourceMappingsBLL _SourceMappingsBLL = new GedItter.BLL.SourceMappingsBLL();
-
+             
                 foreach (Guid sourceId in workingList)
                 {
 
@@ -494,6 +571,18 @@ namespace GedItter.BLL
             retTab = ModelContainer.SourceMappings.Where(o => o.Person.Person_id == recordId || o.Marriage.Marriage_Id == recordId);
 
             return retTab;
+        }
+
+
+        public string GetSourceGuidList(Guid? recordId)
+        {
+            List<Guid> retTab = ModelContainer.SourceMappings.Where(o => o.Person.Person_id == recordId || o.Marriage.Marriage_Id == recordId).Select(_ => _.Source.SourceId).ToList();
+
+            string retVal = retTab.Aggregate("", (current, g) => current + ("," + g.ToString()));
+
+            if (retVal.StartsWith(",")) retVal = retVal.Remove(0, 1);
+
+            return retVal;
         }
 
         public IQueryable<SourceMapping> GetSourceMappingsWithFiles(Guid? recordId)

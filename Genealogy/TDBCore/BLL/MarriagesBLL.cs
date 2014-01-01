@@ -1,25 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-//using GedItter.MarriageRecords.Datasets.DsMarriagesTableAdapters;
-//using GedItter.MarriageRecords.Datasets;
-//using TDBCore.Datasets.DsMarriagesTableAdapters;
-
-//using TDBCore.Datasets;
-using GedItter.BLL;
-using System.Data.SqlClient;
-using TDBCore.BLL;
 using TDBCore.EntityModel;
-using System.Diagnostics;
-using System.Data.Objects.DataClasses;
-using System.Data.Objects;
-using System.Data;
-using System.Text.RegularExpressions;
 using TDBCore.Types;
+using TDBCore.Types.DTOs;
+using TDBCore.Types.filters;
+using TDBCore.Types.libs;
 
 
-namespace GedItter.MarriageRecords.BLL
+namespace TDBCore.BLL
 {
 
     public class EnhanceMarriage
@@ -54,7 +43,7 @@ namespace GedItter.MarriageRecords.BLL
         
     }
 
-    public class MarriagesBLL : BaseBLL
+    public class MarriagesBLL : BaseBll
     {
        // private string connectionString = "";
 
@@ -86,78 +75,7 @@ namespace GedItter.MarriageRecords.BLL
             return retVal;
 
         }
-
-
-        //public void GetMarriageWitForProc()
-        //{
-
-        //    MarriageWitnessesBll mwitnessBll = new MarriageWitnessesBll();
-
-        //    foreach (var marriage in ModelContainer.Marriages.Where(m => m.Witness1 != "" || m.Witness2 != "" || m.Witness3 != "" || m.Witness4 != "").ToList())
-        //    {
-        //        List<string> witnessParts = new List<string>();
-        //        Person newPerson = new Person();
-        //        List<Person> witnesses = new List<Person>();
-        //        if (marriage.Witness1 != "")
-        //        {
-        //             // just incase i got careless and entered the data a bit wrong
-        //             marriage.Witness1 = marriage.Witness1.Replace("  ", " ");
-        //             marriage.Witness1 = marriage.Witness1.Replace("   ", " ");
-
-        //             witnessParts = Regex.Split(marriage.Witness1, " ").ToList();
-
-        //             newPerson = _ProcessWitness(marriage, witnessParts);
-                     
-        //            if(newPerson!= null)
-        //                 witnesses.Add(newPerson);
-        //        }
-        //        if (marriage.Witness2 != "")
-        //        {
-        //            // just incase i got careless and entered the data a bit wrong
-        //            marriage.Witness2 = marriage.Witness2.Replace("  ", " ");
-        //            marriage.Witness2 = marriage.Witness2.Replace("   ", " ");
-
-        //            witnessParts = Regex.Split(marriage.Witness2, " ").ToList();
-        //            newPerson = _ProcessWitness(marriage, witnessParts);
-                    
-        //            if(newPerson!= null)
-        //                 witnesses.Add(newPerson);
-        //        }
-
-        //        if (marriage.Witness3 != "")
-        //        {
-        //            // just incase i got careless and entered the data a bit wrong
-        //            marriage.Witness3 = marriage.Witness3.Replace("  ", " ");
-        //            marriage.Witness3 = marriage.Witness3.Replace("   ", " ");
-
-        //            witnessParts = Regex.Split(marriage.Witness3, " ").ToList();
-        //            newPerson = _ProcessWitness(marriage, witnessParts);
-                   
-        //            if(newPerson!= null)
-        //                 witnesses.Add(newPerson);
-        //        }
-
-        //        if (marriage.Witness4 != "")
-        //        {
-        //            // just incase i got careless and entered the data a bit wrong
-        //            marriage.Witness4 = marriage.Witness4.Replace("  ", " ");
-        //            marriage.Witness4 = marriage.Witness4.Replace("   ", " ");
-
-        //            witnessParts = Regex.Split(marriage.Witness4, " ").ToList();
-        //            newPerson = _ProcessWitness(marriage, witnessParts);    
-                   
-        //            if(newPerson!= null)
-        //                 witnesses.Add(newPerson);
-        //        }
-
-        //        mwitnessBll.InsertWitnessesForMarriage(marriage.Marriage_Id,witnesses);
-
-        //    }
-
-
-        //}
-
-
+ 
 
 
       
@@ -170,7 +88,7 @@ namespace GedItter.MarriageRecords.BLL
             if (witnessParts.Count > 0)
             {
                 Person newPerson = new Person();
-                BirthDeathRecords.BLL.DeathsBirthsBLL deathsBirthsBll = new BirthDeathRecords.BLL.DeathsBirthsBLL();
+                DeathsBirthsBll deathsBirthsBll = new DeathsBirthsBll();
 
 
                 newPerson.ReferenceDateInt = marriage.YearIntVal;
@@ -235,41 +153,73 @@ namespace GedItter.MarriageRecords.BLL
 
         #region marriage selection
 
-
-
-        public IQueryable<EnhanceMarriage> GetMarriages3()
+        public List<Guid> GetDeletedMarriages()
         {
-            return ModelContainer.Marriages.Where(m => m.YearIntVal == 1801).Select(o => new EnhanceMarriage() { Marriage = o });
+            return ModelContainer.Marriages.Where(m=>m.IsDeleted == true).Select(p=>p.Marriage_Id).ToList();
         }
-
-        public IQueryable<Marriage> GetMarriages2()
+ 
+        public IQueryable<Marriage> GetMarriages()
         {
             return ModelContainer.Marriages;
         }
+         
 
-        public IQueryable<Marriage> GetUndeletedMarkedMarriage()
-        {
-            return ModelContainer.Marriages.Where(m => m.IsDeleted == false && m.TotalEvents > 1 && m.EventPriority == 1);
-        }
-
-        public IQueryable<Marriage> GetMarriageById2(Guid marriageId)
+        public IQueryable<Marriage> GetMarriageById(Guid marriageId)
         {
             return ModelContainer.Marriages.Where(m => m.Marriage_Id == marriageId && m.IsDeleted == false);
         }
 
-        public IQueryable<Marriage> GetDataByDateRange2(int lower, int upper)
+        public Guid GetMarriageUniqueRef(Guid marriageId)
         {
-            return ModelContainer.Marriages.Where(m => m.YearIntVal >= lower && m.YearIntVal <= upper);
+            var a = ModelContainer.Marriages.FirstOrDefault(m => m.Marriage_Id == marriageId && m.IsDeleted == false);
+
+            return a.UniqueRef.GetValueOrDefault();
+        }
+        public IList<Guid> GetMarriageUniqueRefs(List<Guid> marriageIds, bool returnEmpty = false)
+        {
+            var a = ModelContainer.Marriages.Where(m => marriageIds.Contains(m.Marriage_Id)).ToList().Select(p=>p.UniqueRef.GetValueOrDefault()).ToList();
+
+            return returnEmpty ? a.Where(m => m == Guid.Empty).ToList() : a;
+        }
+
+        public ServiceMarriage GetMarriageById2(Guid marriageId)
+        {
+            var ma =
+                ModelContainer.Marriages.FirstOrDefault(m => m.Marriage_Id == marriageId && m.IsDeleted == false) ??
+                new Marriage();
+
+            return ma.ToServiceMarriage();
         }
 
 
+        public IList<Guid> GetMarriageIdsByUniqueRef(Guid uniqueRef)
+        {
+            return ModelContainer.Marriages.Where(m => m.UniqueRef == uniqueRef).Select(p=>p.Marriage_Id).ToList();
+        }
 
-        public IList<Marriage> GetDataByUniqueRef2(Guid uniqueRef)
+
+        public IList<MarriageResult> GetDataByUniqueRef(Guid uniqueRef)
         {
             IList<Marriage> retVal = null;
-            SourceBLL sourceBll = new SourceBLL();
+            SourceBll sourceBll = new SourceBll();
 
             retVal = ModelContainer.Marriages.Where(m => m.UniqueRef == uniqueRef).ToList();
+
+            var selectPred = new Func<Marriage, MarriageResult>(m => new MarriageResult()
+            {
+                UniqueRefStr = m.UniqueRef.GetValueOrDefault(),
+                UniqueRef = m.UniqueRef.GetValueOrDefault(),
+                MarriageSource = m.Source,
+                MarriageId = m.Marriage_Id,
+                FemaleCName = m.FemaleCName,
+                FemaleSName = m.FemaleSName,
+                MaleCName = m.MaleCName,
+                MaleSName = m.MaleSName,
+                MarriageLocation = m.MarriageLocation,
+                MarriageTotalEvents = m.TotalEvents.Value,
+                MarriageYear = m.YearIntVal
+            });
+            
             int idx = 0;
             while (idx < retVal.Count)
             {
@@ -277,7 +227,9 @@ namespace GedItter.MarriageRecords.BLL
                 idx++;
             }
 
-            return retVal;
+
+
+            return retVal.Select(selectPred).ToList();
 
         }
 
@@ -286,172 +238,183 @@ namespace GedItter.MarriageRecords.BLL
         /// looks up using marriageid unique ref.
         /// </summary>
 
-        public IList<Marriage> GetDataByDupeRefByMarriageId(Guid marriageId)
+        public IList<Guid> GetDataByDupeRefByMarriageId(Guid marriageId)
         {
-            Marriage _marriage = ModelContainer.Marriages.FirstOrDefault(p => p.Marriage_Id == marriageId);
+            var _marriage = ModelContainer.Marriages.FirstOrDefault(p => p.Marriage_Id == marriageId);
 
             if (_marriage != null)
             {
-                return ModelContainer.Marriages.Where(o => o.UniqueRef == _marriage.UniqueRef && o.IsDeleted == false).ToList();
+               
+
+                return ModelContainer.Marriages.Where(o => o.UniqueRef == _marriage.UniqueRef && o.IsDeleted == false).Select(p=>p.Marriage_Id).ToList();
             }
             else
             {
-                return new List<Marriage>();
+                return new List<Guid>();
             }
 
         }
 
 
-        public IQueryable<Marriage> GetMarByLocat2(string marLocat, string marCount)
+        public List<MarriageResult> GetFilteredMarriages(MarriageSearchFilter m)
         {
-            return ModelContainer.Marriages.Where(m => m.MarriageLocation.Contains(marLocat) && m.MarriageCounty.Contains(marCount));
+                    
+            if (m.Parish.ToGuid() != Guid.Empty)
+            {
+                m.Source = "";
 
+                var sources = ModelContainer.Sources.Where(o => o.SourceMappingParishs.Any(a => a.Parish.ParishId == m.Parish.ToGuid())).ToList();
+                
+                if(sources.Count>0)
+                    sources.ForEach(p => m.Source += "," + p.SourceId.ToString());
+               
+                m.Source = m.Source.Substring(1);
+            }
+ 
+
+            var result=  ModelContainer.USP_Marriages_Filtered(m.Witness, m.Source, m.FemaleCName, m.FemaleSName, m.MaleCName,
+                                                         m.MaleSName, m.County, m.Location, m.LowerDate,
+                                                         m.UpperDate).Select(p => new MarriageResult()
+                                                         {
+                                                             FemaleCName = p.FemaleCName,
+                                                             FemaleSName = p.FemaleSName,
+                                                             MaleCName = p.MaleCName,
+                                                             MaleSName = p.MaleSName,
+                                                             MarriageId = p.Marriage_Id,
+                                                             MarriageLocation = p.MarriageLocation,
+                                                             MarriageSource = p.Source,
+                                                             MarriageTotalEvents = p.TotalEvents.GetValueOrDefault(),
+                                                             MarriageYear = p.YearIntVal.GetValueOrDefault(),
+                                                             UniqueRef = p.UniqueRef.GetValueOrDefault(),
+                                                             UniqueRefStr = p.UniqueRef.GetValueOrDefault(),
+                                                             SourceTrees = p.links
+                                                         }).ToList();
+
+
+            foreach (var mr in result)
+            {
+               mr.Witnesses = string.Join(" ", ModelContainer.MarriageMapWitnesses.Where(mw => mw.Marriage.Marriage_Id == mr.MarriageId).Select(p => p.Person.Surname).ToArray());
+            }
+            
+
+
+            return result;
         }
 
-        public IQueryable<Marriage> GetFilteredMarriages2(
-                                                                string FemaleCName,
-                                                                string FemaleInfo,
-                                                                string FemaleLocation,
-                                                                string FemaleSName,
-                                                                string MaleCName,
-                                                                string MaleInfo,
-                                                                string MaleLocation,
-                                                                string MaleSName,
-                                                                string MarriageCounty,
-                                                                string MarriageLocation,
-                                                                string source,
-                                                                int yearIntLower,
-                                                                int yearIntUpper,
-                                                                string marriageWitness)
-        {
-
-            // ok these cant be empty that will really really fuck things up! 
-            //-except if you are looking for every location in which case thats fine
-            string MarriageLocation2 = MarriageLocation;
-            string MarriageLocation3 = MarriageLocation;
-            string MarriageLocation4 = MarriageLocation;
-            string MarriageLocation5 = MarriageLocation;
-
-            if (MarriageLocation.Contains(","))
-            {
-
-
-                string[] locations = MarriageLocation.Split(',');
-
-                MarriageLocation2 = locations[0];
-                MarriageLocation3 = locations[0];
-                MarriageLocation4 = locations[0];
-                MarriageLocation5 = locations[0];
-
-                if (locations.Length > 0) MarriageLocation = locations[0];
-                if (locations.Length > 1) MarriageLocation2 = locations[1];
-                if (locations.Length > 2) MarriageLocation3 = locations[2];
-                if (locations.Length > 3) MarriageLocation4 = locations[3];
-                if (locations.Length > 4) MarriageLocation5 = locations[4];
-            }
-
-            MarriageWitnessesBll mwBll = new MarriageWitnessesBll();
-            
-            
-            List<Guid> temp = new List<Guid>();
-            
-            if(marriageWitness.Length >0)
-                temp = mwBll.GetMarriagesByWitnessName(marriageWitness);
-
-            if (temp.Count > 0)
-            {
-                return ModelContainer.Marriages.Where(m => temp.Contains(m.Marriage_Id) && m.MaleCName.Contains(MaleCName) && m.MaleSName.Contains(MaleSName) && m.MaleLocation.Contains(MaleLocation) &&
-                    m.MaleInfo.Contains(MaleInfo) && m.FemaleCName.Contains(FemaleCName) && m.FemaleSName.Contains(FemaleSName) && m.FemaleLocation.Contains(FemaleLocation) &&
-                    m.FemaleInfo.Contains(FemaleInfo) && (
-                    m.MarriageLocation.Contains(MarriageLocation) || m.MarriageLocation.Contains(MarriageLocation2) || m.MarriageLocation.Contains(MarriageLocation3)
-                    || m.MarriageLocation.Contains(MarriageLocation4) || m.MarriageLocation.Contains(MarriageLocation5))
-                    && m.YearIntVal >= yearIntLower && m.YearIntVal <= yearIntUpper && m.MarriageCounty.Contains(MarriageCounty) &&
-                    m.Source.Contains(source) && m.EventPriority == 0 && !m.IsDeleted.Value);
-            }
-            else
-            {
-                return ModelContainer.Marriages.Where(m => m.MaleCName.Contains(MaleCName) && m.MaleSName.Contains(MaleSName) && m.MaleLocation.Contains(MaleLocation) &&
-                    m.MaleInfo.Contains(MaleInfo) && m.FemaleCName.Contains(FemaleCName) && m.FemaleSName.Contains(FemaleSName) && m.FemaleLocation.Contains(FemaleLocation) &&
-                    m.FemaleInfo.Contains(FemaleInfo) && (
-                    m.MarriageLocation.Contains(MarriageLocation) || m.MarriageLocation.Contains(MarriageLocation2) || m.MarriageLocation.Contains(MarriageLocation3)
-                    || m.MarriageLocation.Contains(MarriageLocation4) || m.MarriageLocation.Contains(MarriageLocation5))
-                    && m.YearIntVal >= yearIntLower && m.YearIntVal <= yearIntUpper && m.MarriageCounty.Contains(MarriageCounty) &&
-                    m.Source.Contains(source) && m.EventPriority == 0 && !m.IsDeleted.Value);
-            }
-       
-        }
-
-
-        public IQueryable<Marriage> GetFilteredMarriagesBySource2(
-                                                                string FemaleCName,
-                                                                string FemaleInfo,
-                                                                string FemaleLocation,
-                                                                string FemaleSName,
-                                                                string MaleCName,
-                                                                string MaleInfo,
-                                                                string MaleLocation,
-                                                                string MaleSName,
-                                                                string MarriageCounty,
-                                                                string MarriageLocation,
-                                                                string source,
-                                                                int yearIntLower,
-                                                                int yearIntUpper,
-                                                                string marriageWitness)
+        public IList<MarriageResult> GetFilteredMarriages(string femaleCName,                                                            
+                                                            string femaleLocation,
+                                                            string femaleSName,
+                                                            string maleCName,                                                        
+                                                            string maleLocation,
+                                                            string maleSName,
+                                                            string marriageCounty,
+                                                            string marriageLocation,
+                                                            string sources,
+                                                            int yearIntLower,
+                                                            int yearIntUpper,
+                                                            string marriageWitness)
         {
 
-            // ok these cant be empty that will really really fuck things up! 
-            //-except if you are looking for every location in which case thats fine
-            string MarriageLocation2 = MarriageLocation;
-            string MarriageLocation3 = MarriageLocation;
-            string MarriageLocation4 = MarriageLocation;
-            string MarriageLocation5 = MarriageLocation;
 
-            if (MarriageLocation.Contains(";"))
-            {
+            return ModelContainer.USP_Marriages_Filtered(marriageWitness, sources, femaleCName, femaleSName, maleCName,
+                                                         maleSName, marriageCounty, marriageLocation, yearIntLower,
+                                                         yearIntUpper).Select(p =>  new MarriageResult()
+                                                                                        {
+                                                                                            FemaleCName = p.FemaleCName,
+                                                                                            FemaleSName = p.FemaleSName,
+                                                                                            MaleCName = p.MaleCName,
+                                                                                            MaleSName = p.MaleSName,
+                                                                                            MarriageId = p.Marriage_Id,
+                                                                                            MarriageLocation = p.MarriageLocation,
+                                                                                            MarriageSource = p.Source,
+                                                                                            MarriageTotalEvents = p.TotalEvents.GetValueOrDefault(),
+                                                                                            MarriageYear = p.YearIntVal.GetValueOrDefault(),
+                                                                                            UniqueRef = p.UniqueRef.GetValueOrDefault(),
+                                                                                            UniqueRefStr = p.UniqueRef.GetValueOrDefault(),
+                                                                                            SourceTrees = p.links
+                                                                                        }).ToList();
 
 
-                string[] locations = MarriageLocation.Split(';');
-
-                MarriageLocation2 = locations[0];
-                MarriageLocation3 = locations[0];
-                MarriageLocation4 = locations[0];
-                MarriageLocation5 = locations[0];
-
-                if (locations.Length > 0) MarriageLocation = locations[0];
-                if (locations.Length > 1) MarriageLocation2 = locations[1];
-                if (locations.Length > 2) MarriageLocation3 = locations[2];
-                if (locations.Length > 3) MarriageLocation4 = locations[3];
-                if (locations.Length > 4) MarriageLocation5 = locations[4];
-            }
-            //uspfilterwithsource
-          //  ModelContainer.USPFilteredMarriagesWithSources(
-
-            //DsMarriages.MarriagesDataTable tp = Adapter.GetDataWithSources(@"'c41dfad2-f3d4-4682-9c52-610851c36dc6','6982eec2-610d-48c6-949a-c3ed120b72e3'"
-            
-            return ModelContainer.USPFilteredMarriagesWithSources(MaleCName,
-                MaleSName,
-                MaleLocation,
-                MaleInfo,
-                FemaleCName,
-                FemaleSName,
-                FemaleLocation,
-                FemaleInfo,
-                MarriageLocation,
-                MarriageLocation2,
-                MarriageLocation3,
-                MarriageLocation4,
-                MarriageLocation5,
-                yearIntLower,
-                yearIntUpper,
-                MarriageCounty,
-                source).AsQueryable();
         }
-
-
-
+ 
+ 
         #endregion
 
+
+        public void MergeMarriages(Guid marriageToMergeIntoId, Guid marriageToMergeId)
+        {
+            var m1 = ModelContainer.Marriages.FirstOrDefault(m => m.Marriage_Id == marriageToMergeIntoId);
+
+            var m2 = ModelContainer.Marriages.FirstOrDefault(m => m.Marriage_Id == marriageToMergeId);
+
+            m1.MergeInto(m2);
+
+
+            ModelContainer.SaveChanges();
+        }
+
         #region insert marriage
+
+        public Guid InsertMarriage(ServiceMarriage sm)
+        {
+
+
+             
+
+            this.Reset();
+
+            var _marriage = new Marriage();
+
+            if (sm.MarriageId == Guid.Empty) _marriage.Marriage_Id = Guid.NewGuid();
+
+            _marriage.MaleCName = sm.MaleCName;
+            _marriage.MaleSName = sm.MaleSName;
+            _marriage.MaleLocation = sm.MaleLocation;
+            _marriage.MaleInfo = sm.MaleNotes;
+            _marriage.FemaleId = Guid.Empty;
+            _marriage.FemaleCName = sm.FemaleCName;
+            _marriage.FemaleSName = sm.FemaleSName;
+            _marriage.FemaleLocation = sm.FemaleLocation;
+            _marriage.FemaleInfo = sm.FemaleNotes;
+            _marriage.Date = sm.MarriageDate;
+            _marriage.MarriageLocation = sm.MarriageLocation;
+            _marriage.YearIntVal = CsUtils.GetDateYear(sm.MarriageDate);
+            _marriage.MarriageCounty = sm.LocationCounty;
+            _marriage.Source = sm.SourceDescription;       
+            _marriage.IsLicence = sm.IsLicense;
+            _marriage.IsBanns = sm.IsBanns;
+            _marriage.MaleIsKnownWidower = sm.IsWidower;
+            _marriage.FemaleIsKnownWidow = sm.IsWidow;
+            _marriage.FemaleOccupation = sm.FemaleOccupation;
+            _marriage.MaleOccupation = sm.MaleOccupation;
+            _marriage.MarriageLocationId = sm.LocationId.ToGuid();
+            _marriage.MaleLocationId = Guid.Empty;
+            _marriage.FemaleLocationId = Guid.Empty;
+            _marriage.UserId = sm.UserId;
+            _marriage.MaleBirthYear = sm.MaleBirthYear;
+            _marriage.FemaleBirthYear = sm.FemaleBirthYear;
+            _marriage.UniqueRef = sm.UniqueRef.ToGuid();
+            _marriage.TotalEvents = sm.TotalEvents.ToInt32();
+            _marriage.EventPriority = sm.Priority.ToInt32();
+            _marriage.Marriage_Id = System.Guid.NewGuid();
+            _marriage.IsDeleted = false;
+            _marriage.MaleId = Guid.Empty;
+           
+            _marriage.IsComposite = false;
+            _marriage.DateAdded = DateTime.Today;
+            _marriage.DateLastEdit = DateTime.Today;
+          
+            ModelContainer.Marriages.AddObject(_marriage);
+
+
+
+            ModelContainer.SaveChanges();
+
+            ModelContainer.Detach(_marriage);
+
+            return _marriage.Marriage_Id;
+        }
+
 
         public Guid InsertMarriage2(
                                     string marriageDate,
@@ -785,20 +748,49 @@ namespace GedItter.MarriageRecords.BLL
 
         }
 
+        public void UpdateMarriage(ServiceMarriage serviceMarriage)
+        {
+            var marriage = ModelContainer.Marriages.FirstOrDefault(m => m.Marriage_Id == serviceMarriage.MarriageId);
+
+            if (marriage != null)
+            {
+                marriage.MaleCName = serviceMarriage.MaleCName;
+                marriage.MaleSName = serviceMarriage.MaleSName;
+                marriage.MaleLocation = serviceMarriage.MaleLocation;
+                marriage.MaleInfo = serviceMarriage.MaleNotes;
+                marriage.FemaleId = Guid.Empty;
+                marriage.FemaleCName = serviceMarriage.FemaleCName;
+                marriage.FemaleSName = serviceMarriage.FemaleSName;
+                marriage.FemaleLocation = serviceMarriage.FemaleLocation;
+                marriage.FemaleInfo = serviceMarriage.FemaleNotes;
+                marriage.Date = serviceMarriage.MarriageDate;
+                marriage.MarriageLocation = serviceMarriage.MarriageLocation;
+                marriage.YearIntVal = CsUtils.GetDateYear(serviceMarriage.MarriageDate);
+                marriage.MarriageCounty = serviceMarriage.LocationCounty;
+                marriage.Source = serviceMarriage.SourceDescription;
+                marriage.IsLicence = serviceMarriage.IsLicense;
+                marriage.IsBanns = serviceMarriage.IsBanns;
+                marriage.MaleIsKnownWidower = serviceMarriage.IsWidower;
+                marriage.FemaleIsKnownWidow = serviceMarriage.IsWidow;
+                marriage.FemaleOccupation = serviceMarriage.FemaleOccupation;
+                marriage.MaleOccupation = serviceMarriage.MaleOccupation;
+                marriage.MarriageLocationId = serviceMarriage.LocationId.ToGuid();
+                marriage.MaleLocationId = serviceMarriage.MaleLocationId.ToGuid();
+                marriage.FemaleLocationId = serviceMarriage.FemaleLocationId.ToGuid();           
+                marriage.MaleBirthYear = serviceMarriage.MaleBirthYear;
+                marriage.FemaleBirthYear = serviceMarriage.FemaleBirthYear;
+           
+
+                ModelContainer.SaveChanges();
+            }
+
+        }
 
 
         public void UpdateMarriage2(Guid marriageId,
-          string marriageDate,
-          string FemaleCName,
-          Guid femaleId,
-          string FemaleInfo,
-          string FemaleLocation,
-          string FemaleSName,
-          string MaleCName,
-          Guid MaleId,
-          string MaleInfo,
-          string MaleLocation,
-          string MaleSName,
+          string marriageDate, string FemaleCName,  Guid femaleId,
+          string FemaleInfo, string FemaleLocation,
+          string FemaleSName,   string MaleCName, Guid MaleId, string MaleInfo, string MaleLocation,  string MaleSName,
           string MarriageCounty,
           string MarriageLocation,
           string source,

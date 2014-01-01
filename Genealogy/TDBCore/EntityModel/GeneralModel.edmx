@@ -36,58 +36,6 @@
       [uvw_1841Census].[ParishId] AS [ParishId]
       FROM [dbo].[uvw_1841Census] AS [uvw_1841Census]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="uvw_ParentMapChildren" EntityType="GeneralModel.Store.uvw_ParentMapChildren" store:Type="Views" store:Schema="dbo" store:Name="uvw_ParentMapChildren">
-            <DefiningQuery>SELECT 
-      [uvw_ParentMapChildren].[Person_id] AS [Person_id], 
-      [uvw_ParentMapChildren].[MotherId] AS [MotherId], 
-      [uvw_ParentMapChildren].[FatherId] AS [FatherId], 
-      [uvw_ParentMapChildren].[IsMale] AS [IsMale], 
-      [uvw_ParentMapChildren].[ChristianName] AS [ChristianName], 
-      [uvw_ParentMapChildren].[Surname] AS [Surname], 
-      [uvw_ParentMapChildren].[BirthLocation] AS [BirthLocation], 
-      [uvw_ParentMapChildren].[BirthDateStr] AS [BirthDateStr], 
-      [uvw_ParentMapChildren].[BaptismDateStr] AS [BaptismDateStr], 
-      [uvw_ParentMapChildren].[DeathDateStr] AS [DeathDateStr], 
-      [uvw_ParentMapChildren].[DeathLocation] AS [DeathLocation], 
-      [uvw_ParentMapChildren].[FatherChristianName] AS [FatherChristianName], 
-      [uvw_ParentMapChildren].[FatherSurname] AS [FatherSurname], 
-      [uvw_ParentMapChildren].[MotherChristianName] AS [MotherChristianName], 
-      [uvw_ParentMapChildren].[MotherSurname] AS [MotherSurname], 
-      [uvw_ParentMapChildren].[Notes] AS [Notes], 
-      [uvw_ParentMapChildren].[Source] AS [Source], 
-      [uvw_ParentMapChildren].[BirthInt] AS [BirthInt], 
-      [uvw_ParentMapChildren].[BapInt] AS [BapInt], 
-      [uvw_ParentMapChildren].[DeathInt] AS [DeathInt], 
-      [uvw_ParentMapChildren].[DeathCounty] AS [DeathCounty], 
-      [uvw_ParentMapChildren].[BirthCounty] AS [BirthCounty], 
-      [uvw_ParentMapChildren].[DateAdded] AS [DateAdded], 
-      [uvw_ParentMapChildren].[DateLastEdit] AS [DateLastEdit], 
-      [uvw_ParentMapChildren].[UserId] AS [UserId], 
-      [uvw_ParentMapChildren].[OrigSurname] AS [OrigSurname], 
-      [uvw_ParentMapChildren].[OrigFatherSurname] AS [OrigFatherSurname], 
-      [uvw_ParentMapChildren].[OrigMotherSurname] AS [OrigMotherSurname], 
-      [uvw_ParentMapChildren].[Occupation] AS [Occupation], 
-      [uvw_ParentMapChildren].[ReferenceLocation] AS [ReferenceLocation], 
-      [uvw_ParentMapChildren].[ReferenceDateStr] AS [ReferenceDateStr], 
-      [uvw_ParentMapChildren].[ReferenceDateInt] AS [ReferenceDateInt], 
-      [uvw_ParentMapChildren].[SpouseName] AS [SpouseName], 
-      [uvw_ParentMapChildren].[SpouseSurname] AS [SpouseSurname], 
-      [uvw_ParentMapChildren].[FatherOccupation] AS [FatherOccupation], 
-      [uvw_ParentMapChildren].[BirthLocationId] AS [BirthLocationId], 
-      [uvw_ParentMapChildren].[DeathLocationId] AS [DeathLocationId], 
-      [uvw_ParentMapChildren].[ReferenceLocationId] AS [ReferenceLocationId], 
-      [uvw_ParentMapChildren].[UniqueRef] AS [UniqueRef], 
-      [uvw_ParentMapChildren].[TotalEvents] AS [TotalEvents], 
-      [uvw_ParentMapChildren].[EventPriority] AS [EventPriority], 
-      [uvw_ParentMapChildren].[EstBirthYearInt] AS [EstBirthYearInt], 
-      [uvw_ParentMapChildren].[EstDeathYearInt] AS [EstDeathYearInt], 
-      [uvw_ParentMapChildren].[IsEstBirth] AS [IsEstBirth], 
-      [uvw_ParentMapChildren].[IsEstDeath] AS [IsEstDeath], 
-      [uvw_ParentMapChildren].[PersonA] AS [PersonA], 
-      [uvw_ParentMapChildren].[ParentId] AS [ParentId], 
-      [uvw_ParentMapChildren].[RelationType] AS [RelationType]
-      FROM [dbo].[uvw_ParentMapChildren] AS [uvw_ParentMapChildren]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_MarriageMapWitness_Marriages" Association="GeneralModel.Store.FK_MarriageMapWitness_Marriages">
             <End Role="Marriages" EntitySet="Marriages" />
             <End Role="MarriageMapWitness" EntitySet="MarriageMapWitness" />
@@ -472,62 +420,6 @@
           <Property Name="SourceDescription" Type="varchar" MaxLength="1000" />
           <Property Name="ParishId" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-      warning 6002: The table/view 'ThackrayDB.dbo.uvw_ParentMapChildren' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
-      -->
-        <EntityType Name="uvw_ParentMapChildren">
-          <Key>
-            <PropertyRef Name="Person_id" />
-          </Key>
-          <Property Name="Person_id" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="MotherId" Type="int" />
-          <Property Name="FatherId" Type="int" />
-          <Property Name="IsMale" Type="bit" />
-          <Property Name="ChristianName" Type="nvarchar" MaxLength="150" />
-          <Property Name="Surname" Type="nvarchar" MaxLength="100" />
-          <Property Name="BirthLocation" Type="nvarchar" MaxLength="500" />
-          <Property Name="BirthDateStr" Type="nvarchar" MaxLength="50" />
-          <Property Name="BaptismDateStr" Type="nvarchar" MaxLength="50" />
-          <Property Name="DeathDateStr" Type="nvarchar" MaxLength="50" />
-          <Property Name="DeathLocation" Type="nvarchar" MaxLength="500" />
-          <Property Name="FatherChristianName" Type="nvarchar" MaxLength="150" />
-          <Property Name="FatherSurname" Type="nvarchar" MaxLength="500" />
-          <Property Name="MotherChristianName" Type="nvarchar" MaxLength="500" />
-          <Property Name="MotherSurname" Type="nvarchar" MaxLength="500" />
-          <Property Name="Notes" Type="text" />
-          <Property Name="Source" Type="nvarchar" MaxLength="50" />
-          <Property Name="BirthInt" Type="int" />
-          <Property Name="BapInt" Type="int" />
-          <Property Name="DeathInt" Type="int" />
-          <Property Name="DeathCounty" Type="nvarchar" MaxLength="500" />
-          <Property Name="BirthCounty" Type="nvarchar" MaxLength="500" />
-          <Property Name="DateAdded" Type="date" />
-          <Property Name="DateLastEdit" Type="date" />
-          <Property Name="UserId" Type="int" />
-          <Property Name="OrigSurname" Type="nvarchar" MaxLength="150" />
-          <Property Name="OrigFatherSurname" Type="nvarchar" MaxLength="150" />
-          <Property Name="OrigMotherSurname" Type="nvarchar" MaxLength="150" />
-          <Property Name="Occupation" Type="nvarchar" MaxLength="150" />
-          <Property Name="ReferenceLocation" Type="nvarchar" MaxLength="150" />
-          <Property Name="ReferenceDateStr" Type="nvarchar" MaxLength="50" />
-          <Property Name="ReferenceDateInt" Type="int" />
-          <Property Name="SpouseName" Type="nvarchar" MaxLength="150" />
-          <Property Name="SpouseSurname" Type="nvarchar" MaxLength="150" />
-          <Property Name="FatherOccupation" Type="nvarchar" MaxLength="150" />
-          <Property Name="BirthLocationId" Type="uniqueidentifier" />
-          <Property Name="DeathLocationId" Type="uniqueidentifier" />
-          <Property Name="ReferenceLocationId" Type="uniqueidentifier" />
-          <Property Name="UniqueRef" Type="uniqueidentifier" />
-          <Property Name="TotalEvents" Type="int" />
-          <Property Name="EventPriority" Type="int" />
-          <Property Name="EstBirthYearInt" Type="int" />
-          <Property Name="EstDeathYearInt" Type="int" />
-          <Property Name="IsEstBirth" Type="bit" />
-          <Property Name="IsEstDeath" Type="bit" />
-          <Property Name="PersonA" Type="uniqueidentifier" />
-          <Property Name="ParentId" Type="uniqueidentifier" />
-          <Property Name="RelationType" Type="int" />
-        </EntityType>
         <Association Name="FK_MarriageMapWitness_Marriages">
           <End Role="Marriages" Type="GeneralModel.Store.Marriages" Multiplicity="1" />
           <End Role="MarriageMapWitness" Type="GeneralModel.Store.MarriageMapWitness" Multiplicity="*" />
@@ -776,6 +668,32 @@
         </Function>
         <Function Name="USP_DeleteTree" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="sourceId" Type="uniqueidentifier" Mode="In" />
+        </Function>
+        <Function Name="USP_Marriages_Filtered" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="witnessName" Type="varchar(max)" Mode="In" />
+          <Parameter Name="sources" Type="varchar(max)" Mode="In" />
+          <Parameter Name="femaleCName" Type="varchar(max)" Mode="In" />
+          <Parameter Name="femaleSName" Type="varchar(max)" Mode="In" />
+          <Parameter Name="maleCName" Type="varchar(max)" Mode="In" />
+          <Parameter Name="maleSName" Type="varchar(max)" Mode="In" />
+          <Parameter Name="marriageCounty" Type="varchar(max)" Mode="In" />
+          <Parameter Name="marriageLocation" Type="varchar(max)" Mode="In" />
+          <Parameter Name="yearIntLower" Type="int" Mode="In" />
+          <Parameter Name="yearIntUpper" Type="int" Mode="In" />
+        </Function>
+        <Function Name="USP_Persons_Filtered" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="cName" Type="nvarchar" Mode="In" />
+          <Parameter Name="sName" Type="nvarchar" Mode="In" />
+          <Parameter Name="fatherCName" Type="nvarchar" Mode="In" />
+          <Parameter Name="fatherSName" Type="nvarchar" Mode="In" />
+          <Parameter Name="motherCName" Type="nvarchar" Mode="In" />
+          <Parameter Name="motherSName" Type="nvarchar" Mode="In" />
+          <Parameter Name="source" Type="nvarchar" Mode="In" />
+          <Parameter Name="bLocation" Type="nvarchar" Mode="In" />
+          <Parameter Name="LowerBound" Type="int" Mode="In" />
+          <Parameter Name="UpperBound" Type="int" Mode="In" />
+          <Parameter Name="county" Type="nvarchar" Mode="In" />
+          <Parameter Name="spouse" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="USPDeleteSource" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="sourceId" Type="uniqueidentifier" Mode="In" />
@@ -1068,7 +986,6 @@
             <End Role="RelationType" EntitySet="RelationTypes" />
             <End Role="MarriageRelation" EntitySet="MarriageRelations" />
           </AssociationSet>
-          <EntitySet Name="uvw_ParentMapChildren" EntityType="GeneralModel.uvw_ParentMapChildren" />
           <EntitySet Name="MarriageMapWitnesses" EntityType="GeneralModel.MarriageMapWitness" />
           <AssociationSet Name="FK_MarriageMapWitness_Marriages" Association="GeneralModel.FK_MarriageMapWitness_Marriages">
             <End Role="Marriage" EntitySet="Marriages" />
@@ -1107,6 +1024,32 @@
           <EntitySet Name="uvw_1841Census" EntityType="GeneralModel.uvw_1841Census" />
           <FunctionImport Name="ReorderMarriages" ReturnType="Collection(GeneralModel.ReorderMarriages_Result)">
           <Parameter Name="marriageId" Mode="In" Type="Guid" />
+          </FunctionImport>
+          <FunctionImport Name="USP_Marriages_Filtered" ReturnType="Collection(GeneralModel.USP_Marriages_Filtered_Result)">
+            <Parameter Name="witnessName" Mode="In" Type="String" />
+            <Parameter Name="sources" Mode="In" Type="String" />
+            <Parameter Name="femaleCName" Mode="In" Type="String" />
+            <Parameter Name="femaleSName" Mode="In" Type="String" />
+            <Parameter Name="maleCName" Mode="In" Type="String" />
+            <Parameter Name="maleSName" Mode="In" Type="String" />
+            <Parameter Name="marriageCounty" Mode="In" Type="String" />
+            <Parameter Name="marriageLocation" Mode="In" Type="String" />
+            <Parameter Name="yearIntLower" Mode="In" Type="Int32" />
+            <Parameter Name="yearIntUpper" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="USP_Persons_Filtered" ReturnType="Collection(GeneralModel.USP_Persons_Filtered_Result)">
+            <Parameter Name="cName" Mode="In" Type="String" />
+            <Parameter Name="sName" Mode="In" Type="String" />
+            <Parameter Name="fatherCName" Mode="In" Type="String" />
+            <Parameter Name="fatherSName" Mode="In" Type="String" />
+            <Parameter Name="motherCName" Mode="In" Type="String" />
+            <Parameter Name="motherSName" Mode="In" Type="String" />
+            <Parameter Name="source" Mode="In" Type="String" />
+            <Parameter Name="bLocation" Mode="In" Type="String" />
+            <Parameter Name="LowerBound" Mode="In" Type="Int32" />
+            <Parameter Name="UpperBound" Mode="In" Type="Int32" />
+            <Parameter Name="county" Mode="In" Type="String" />
+            <Parameter Name="spouse" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="Marriage">
@@ -1464,59 +1407,6 @@
           <End Type="GeneralModel.RelationType" Role="RelationType" Multiplicity="0..1" />
           <End Type="GeneralModel.MarriageRelation" Role="MarriageRelation" Multiplicity="*" />
         </Association>
-        <EntityType Name="uvw_ParentMapChildren">
-          <Key>
-            <PropertyRef Name="Person_id" />
-          </Key>
-          <Property Type="Guid" Name="Person_id" Nullable="false" />
-          <Property Type="Int32" Name="MotherId" />
-          <Property Type="Int32" Name="FatherId" />
-          <Property Type="Boolean" Name="IsMale" />
-          <Property Type="String" Name="ChristianName" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Surname" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="BirthLocation" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="BirthDateStr" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="BaptismDateStr" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="DeathDateStr" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="DeathLocation" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="FatherChristianName" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="FatherSurname" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="MotherChristianName" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="MotherSurname" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Notes" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Source" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="BirthInt" />
-          <Property Type="Int32" Name="BapInt" />
-          <Property Type="Int32" Name="DeathInt" />
-          <Property Type="String" Name="DeathCounty" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="BirthCounty" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Type="DateTime" Name="DateAdded" />
-          <Property Type="DateTime" Name="DateLastEdit" />
-          <Property Type="Int32" Name="UserId" />
-          <Property Type="String" Name="OrigSurname" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="OrigFatherSurname" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="OrigMotherSurname" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Occupation" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="ReferenceLocation" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="ReferenceDateStr" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="ReferenceDateInt" />
-          <Property Type="String" Name="SpouseName" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="SpouseSurname" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="FatherOccupation" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Type="Guid" Name="BirthLocationId" />
-          <Property Type="Guid" Name="DeathLocationId" />
-          <Property Type="Guid" Name="ReferenceLocationId" />
-          <Property Type="Guid" Name="UniqueRef"/>
-          <Property Type="Int32" Name="TotalEvents" />
-          <Property Type="Int32" Name="EventPriority" />
-          <Property Type="Int32" Name="EstBirthYearInt" />
-          <Property Type="Int32" Name="EstDeathYearInt" />
-          <Property Type="Boolean" Name="IsEstBirth" />
-          <Property Type="Boolean" Name="IsEstDeath" />
-          <Property Type="Guid" Name="PersonA" />
-          <Property Type="Guid" Name="ParentId" />
-          <Property Type="Int32" Name="RelationType" />
-        </EntityType>
         <EntityType Name="MarriageMapWitness">
           <Key>
             <PropertyRef Name="MarriageMapWitnessIndex" />
@@ -1619,6 +1509,110 @@
         </EntityType>
         <ComplexType Name="ReorderMarriages_Result">
           <Property Type="Guid" Name="Column1" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="USP_Marriages_Filtered_Result">
+          <Property Type="Guid" Name="Marriage_Id" Nullable="false" />
+          <Property Type="String" Name="MaleCName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="MaleSName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="MaleLocation" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="MaleInfo" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="FemaleCName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="FemaleSName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="FemaleLocation" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="FemaleInfo" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Date" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="MarriageLocation" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="YearIntVal" Nullable="true" />
+          <Property Type="String" Name="MarriageCounty" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Source" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Witness1" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Witness3" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Witness2" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Witness4" Nullable="true" MaxLength="500" />
+          <Property Type="DateTime" Name="DateAdded" Nullable="true" />
+          <Property Type="DateTime" Name="DateLastEdit" Nullable="true" />
+          <Property Type="String" Name="OrigMaleSurname" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="UserId" Nullable="true" />
+          <Property Type="String" Name="OrigFemaleSurname" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="MaleOccupation" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="FemaleOccupation" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="FemaleIsKnownWidow" Nullable="true" />
+          <Property Type="Boolean" Name="MaleIsKnownWidower" Nullable="true" />
+          <Property Type="Boolean" Name="IsBanns" Nullable="true" />
+          <Property Type="Boolean" Name="IsLicence" Nullable="true" />
+          <Property Type="Guid" Name="MarriageLocationId" Nullable="true" />
+          <Property Type="Guid" Name="MaleLocationId" Nullable="true" />
+          <Property Type="Guid" Name="FemaleLocationId" Nullable="true" />
+          <Property Type="Int32" Name="MaleBirthYear" Nullable="true" />
+          <Property Type="Int32" Name="FemaleBirthYear" Nullable="true" />
+          <Property Type="Int32" Name="TotalEvents" Nullable="true" />
+          <Property Type="Int32" Name="EventPriority" Nullable="true" />
+          <Property Type="Guid" Name="MaleId" Nullable="true" />
+          <Property Type="Guid" Name="FemaleId" Nullable="true" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="true" />
+          <Property Type="Boolean" Name="IsComposite" Nullable="true" />
+          <Property Type="Guid" Name="UniqueRef" Nullable="true" />
+          <Property Type="String" Name="links" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetFilteredMarriages_Result">
+          <Property Type="Guid" Name="Person_id" Nullable="false" />
+          <Property Type="String" Name="ChristianName" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="Surname" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="BirthLocation" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="BirthDateStr" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="BaptismDateStr" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="DeathDateStr" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="DeathLocation" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="FatherChristianName" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="FatherSurname" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="MotherChristianName" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="MotherSurname" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="Notes" Nullable="true" MaxLength="8000" />
+          <Property Type="String" Name="Source" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="BirthInt" Nullable="false" />
+          <Property Type="Int32" Name="BapInt" Nullable="false" />
+          <Property Type="Int32" Name="DeathInt" Nullable="false" />
+          <Property Type="String" Name="tree_links" Nullable="false" />
+          <Property Type="String" Name="Occupation" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="ReferenceLocation" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="ReferenceDateStr" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="ReferenceDateInt" Nullable="false" />
+          <Property Type="String" Name="SpouseName" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="SpouseSurname" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="FatherOccupation" Nullable="false" MaxLength="150" />
+          <Property Type="Guid" Name="UniqueRef" Nullable="true" />
+          <Property Type="Int32" Name="TotalEvents" Nullable="false" />
+          <Property Type="Int32" Name="EventPriority" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="USP_Persons_Filtered_Result">
+          <Property Type="Guid" Name="Person_id" Nullable="false" />
+          <Property Type="String" Name="ChristianName" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="Surname" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="BirthLocation" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="BirthDateStr" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="BaptismDateStr" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="DeathDateStr" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="DeathLocation" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="FatherChristianName" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="FatherSurname" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="MotherChristianName" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="MotherSurname" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="Notes" Nullable="true" MaxLength="8000" />
+          <Property Type="String" Name="Source" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="BirthInt" Nullable="false" />
+          <Property Type="Int32" Name="BapInt" Nullable="false" />
+          <Property Type="Int32" Name="DeathInt" Nullable="false" />
+          <Property Type="String" Name="tree_links" Nullable="false" />
+          <Property Type="String" Name="Occupation" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="ReferenceLocation" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="ReferenceDateStr" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="ReferenceDateInt" Nullable="false" />
+          <Property Type="String" Name="SpouseName" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="SpouseSurname" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="FatherOccupation" Nullable="false" MaxLength="150" />
+          <Property Type="Guid" Name="UniqueRef" Nullable="true" />
+          <Property Type="Int32" Name="TotalEvents" Nullable="false" />
+          <Property Type="Int32" Name="EventPriority" Nullable="false" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2054,60 +2048,6 @@
             </EndProperty>
             <Condition ColumnName="RelationType" IsNull="false" />
           </AssociationSetMapping>
-          <EntitySetMapping Name="uvw_ParentMapChildren">
-            <EntityTypeMapping TypeName="GeneralModel.uvw_ParentMapChildren">
-              <MappingFragment StoreEntitySet="uvw_ParentMapChildren">
-                <ScalarProperty Name="RelationType" ColumnName="RelationType" />
-                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
-                <ScalarProperty Name="PersonA" ColumnName="PersonA" />
-                <ScalarProperty Name="IsEstDeath" ColumnName="IsEstDeath" />
-                <ScalarProperty Name="IsEstBirth" ColumnName="IsEstBirth" />
-                <ScalarProperty Name="EstDeathYearInt" ColumnName="EstDeathYearInt" />
-                <ScalarProperty Name="EstBirthYearInt" ColumnName="EstBirthYearInt" />
-                <ScalarProperty Name="EventPriority" ColumnName="EventPriority" />
-                <ScalarProperty Name="TotalEvents" ColumnName="TotalEvents" />
-                <ScalarProperty Name="UniqueRef" ColumnName="UniqueRef" />
-                <ScalarProperty Name="ReferenceLocationId" ColumnName="ReferenceLocationId" />
-                <ScalarProperty Name="DeathLocationId" ColumnName="DeathLocationId" />
-                <ScalarProperty Name="BirthLocationId" ColumnName="BirthLocationId" />
-                <ScalarProperty Name="FatherOccupation" ColumnName="FatherOccupation" />
-                <ScalarProperty Name="SpouseSurname" ColumnName="SpouseSurname" />
-                <ScalarProperty Name="SpouseName" ColumnName="SpouseName" />
-                <ScalarProperty Name="ReferenceDateInt" ColumnName="ReferenceDateInt" />
-                <ScalarProperty Name="ReferenceDateStr" ColumnName="ReferenceDateStr" />
-                <ScalarProperty Name="ReferenceLocation" ColumnName="ReferenceLocation" />
-                <ScalarProperty Name="Occupation" ColumnName="Occupation" />
-                <ScalarProperty Name="OrigMotherSurname" ColumnName="OrigMotherSurname" />
-                <ScalarProperty Name="OrigFatherSurname" ColumnName="OrigFatherSurname" />
-                <ScalarProperty Name="OrigSurname" ColumnName="OrigSurname" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="DateLastEdit" ColumnName="DateLastEdit" />
-                <ScalarProperty Name="DateAdded" ColumnName="DateAdded" />
-                <ScalarProperty Name="BirthCounty" ColumnName="BirthCounty" />
-                <ScalarProperty Name="DeathCounty" ColumnName="DeathCounty" />
-                <ScalarProperty Name="DeathInt" ColumnName="DeathInt" />
-                <ScalarProperty Name="BapInt" ColumnName="BapInt" />
-                <ScalarProperty Name="BirthInt" ColumnName="BirthInt" />
-                <ScalarProperty Name="Source" ColumnName="Source" />
-                <ScalarProperty Name="Notes" ColumnName="Notes" />
-                <ScalarProperty Name="MotherSurname" ColumnName="MotherSurname" />
-                <ScalarProperty Name="MotherChristianName" ColumnName="MotherChristianName" />
-                <ScalarProperty Name="FatherSurname" ColumnName="FatherSurname" />
-                <ScalarProperty Name="FatherChristianName" ColumnName="FatherChristianName" />
-                <ScalarProperty Name="DeathLocation" ColumnName="DeathLocation" />
-                <ScalarProperty Name="DeathDateStr" ColumnName="DeathDateStr" />
-                <ScalarProperty Name="BaptismDateStr" ColumnName="BaptismDateStr" />
-                <ScalarProperty Name="BirthDateStr" ColumnName="BirthDateStr" />
-                <ScalarProperty Name="BirthLocation" ColumnName="BirthLocation" />
-                <ScalarProperty Name="Surname" ColumnName="Surname" />
-                <ScalarProperty Name="ChristianName" ColumnName="ChristianName" />
-                <ScalarProperty Name="IsMale" ColumnName="IsMale" />
-                <ScalarProperty Name="FatherId" ColumnName="FatherId" />
-                <ScalarProperty Name="MotherId" ColumnName="MotherId" />
-                <ScalarProperty Name="Person_id" ColumnName="Person_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="MarriageMapWitnesses">
             <EntityTypeMapping TypeName="GeneralModel.MarriageMapWitness">
               <MappingFragment StoreEntitySet="MarriageMapWitness">
@@ -2253,6 +2193,88 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="USP_Marriages_Filtered" FunctionName="GeneralModel.Store.USP_Marriages_Filtered">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GeneralModel.USP_Marriages_Filtered_Result">
+                <ScalarProperty Name="Marriage_Id" ColumnName="Marriage_Id" />
+                <ScalarProperty Name="MaleCName" ColumnName="MaleCName" />
+                <ScalarProperty Name="MaleSName" ColumnName="MaleSName" />
+                <ScalarProperty Name="MaleLocation" ColumnName="MaleLocation" />
+                <ScalarProperty Name="MaleInfo" ColumnName="MaleInfo" />
+                <ScalarProperty Name="FemaleCName" ColumnName="FemaleCName" />
+                <ScalarProperty Name="FemaleSName" ColumnName="FemaleSName" />
+                <ScalarProperty Name="FemaleLocation" ColumnName="FemaleLocation" />
+                <ScalarProperty Name="FemaleInfo" ColumnName="FemaleInfo" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="MarriageLocation" ColumnName="MarriageLocation" />
+                <ScalarProperty Name="YearIntVal" ColumnName="YearIntVal" />
+                <ScalarProperty Name="MarriageCounty" ColumnName="MarriageCounty" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="Witness1" ColumnName="Witness1" />
+                <ScalarProperty Name="Witness3" ColumnName="Witness3" />
+                <ScalarProperty Name="Witness2" ColumnName="Witness2" />
+                <ScalarProperty Name="Witness4" ColumnName="Witness4" />
+                <ScalarProperty Name="DateAdded" ColumnName="DateAdded" />
+                <ScalarProperty Name="DateLastEdit" ColumnName="DateLastEdit" />
+                <ScalarProperty Name="OrigMaleSurname" ColumnName="OrigMaleSurname" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="OrigFemaleSurname" ColumnName="OrigFemaleSurname" />
+                <ScalarProperty Name="MaleOccupation" ColumnName="MaleOccupation" />
+                <ScalarProperty Name="FemaleOccupation" ColumnName="FemaleOccupation" />
+                <ScalarProperty Name="FemaleIsKnownWidow" ColumnName="FemaleIsKnownWidow" />
+                <ScalarProperty Name="MaleIsKnownWidower" ColumnName="MaleIsKnownWidower" />
+                <ScalarProperty Name="IsBanns" ColumnName="IsBanns" />
+                <ScalarProperty Name="IsLicence" ColumnName="IsLicence" />
+                <ScalarProperty Name="MarriageLocationId" ColumnName="MarriageLocationId" />
+                <ScalarProperty Name="MaleLocationId" ColumnName="MaleLocationId" />
+                <ScalarProperty Name="FemaleLocationId" ColumnName="FemaleLocationId" />
+                <ScalarProperty Name="MaleBirthYear" ColumnName="MaleBirthYear" />
+                <ScalarProperty Name="FemaleBirthYear" ColumnName="FemaleBirthYear" />
+                <ScalarProperty Name="TotalEvents" ColumnName="TotalEvents" />
+                <ScalarProperty Name="EventPriority" ColumnName="EventPriority" />
+                <ScalarProperty Name="MaleId" ColumnName="MaleId" />
+                <ScalarProperty Name="FemaleId" ColumnName="FemaleId" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="IsComposite" ColumnName="IsComposite" />
+                <ScalarProperty Name="UniqueRef" ColumnName="UniqueRef" />
+                <ScalarProperty Name="links" ColumnName="links" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="USP_Persons_Filtered" FunctionName="GeneralModel.Store.USP_Persons_Filtered">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GeneralModel.USP_Persons_Filtered_Result">
+                <ScalarProperty Name="Person_id" ColumnName="Person_id" />
+                <ScalarProperty Name="ChristianName" ColumnName="ChristianName" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="BirthLocation" ColumnName="BirthLocation" />
+                <ScalarProperty Name="BirthDateStr" ColumnName="BirthDateStr" />
+                <ScalarProperty Name="BaptismDateStr" ColumnName="BaptismDateStr" />
+                <ScalarProperty Name="DeathDateStr" ColumnName="DeathDateStr" />
+                <ScalarProperty Name="DeathLocation" ColumnName="DeathLocation" />
+                <ScalarProperty Name="FatherChristianName" ColumnName="FatherChristianName" />
+                <ScalarProperty Name="FatherSurname" ColumnName="FatherSurname" />
+                <ScalarProperty Name="MotherChristianName" ColumnName="MotherChristianName" />
+                <ScalarProperty Name="MotherSurname" ColumnName="MotherSurname" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="BirthInt" ColumnName="BirthInt" />
+                <ScalarProperty Name="BapInt" ColumnName="BapInt" />
+                <ScalarProperty Name="DeathInt" ColumnName="DeathInt" />
+                <ScalarProperty Name="tree_links" ColumnName="tree_links" />
+                <ScalarProperty Name="Occupation" ColumnName="Occupation" />
+                <ScalarProperty Name="ReferenceLocation" ColumnName="ReferenceLocation" />
+                <ScalarProperty Name="ReferenceDateStr" ColumnName="ReferenceDateStr" />
+                <ScalarProperty Name="ReferenceDateInt" ColumnName="ReferenceDateInt" />
+                <ScalarProperty Name="SpouseName" ColumnName="SpouseName" />
+                <ScalarProperty Name="SpouseSurname" ColumnName="SpouseSurname" />
+                <ScalarProperty Name="FatherOccupation" ColumnName="FatherOccupation" />
+                <ScalarProperty Name="UniqueRef" ColumnName="UniqueRef" />
+                <ScalarProperty Name="TotalEvents" ColumnName="TotalEvents" />
+                <ScalarProperty Name="EventPriority" ColumnName="EventPriority" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -2273,16 +2295,16 @@
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram Name="GeneralModel" xmlns="http://schemas.microsoft.com/ado/2008/10/edmx" ZoomLevel="85">
+      <Diagram Name="GeneralModel" xmlns="http://schemas.microsoft.com/ado/2008/10/edmx" ZoomLevel="74">
         <EntityTypeShape EntityType="GeneralModel.Marriage" Width="1.5" PointX="21.875" PointY="0.625" Height="9.6723437499999978" />
         <EntityTypeShape EntityType="GeneralModel.Parish" Width="1.5" PointX="3.375" PointY="1.75" Height="3.7109993489583326" />
         <EntityTypeShape EntityType="GeneralModel.SourceMappingParish" Width="2.25" PointX="6" PointY="0.5" Height="1.9802864583333326" />
-        <EntityTypeShape EntityType="GeneralModel.SourceMapping" Width="1.5" PointX="11.5" PointY="1.75" Height="2.5571907552083326" />
+        <EntityTypeShape EntityType="GeneralModel.SourceMapping" Width="1.5" PointX="12.625" PointY="2.25" Height="2.5571907552083326" />
         <EntityTypeShape EntityType="GeneralModel.Source" Width="1.5" PointX="8.875" PointY="3.375" Height="4.2879036458333326" />
         <EntityTypeShape EntityType="GeneralModel.SourceType" Width="2" PointX="9.125" PointY="0.5" Height="2.172587890625" />
         <AssociationConnector Association="GeneralModel.FK_SourceMappings_Marriages">
-          <ConnectorPoint PointX="21.875" PointY="3.8720914713541679" />
-          <ConnectorPoint PointX="13" PointY="3.8720914713541679" />
+          <ConnectorPoint PointX="21.875" PointY="4.1220914713541674" />
+          <ConnectorPoint PointX="14.125" PointY="4.1220914713541674" />
         </AssociationConnector>
         <AssociationConnector Association="GeneralModel.FK_SourceMappingParishs_Parishs">
           <ConnectorPoint PointX="4.875" PointY="2.1151432291666663" />
@@ -2294,12 +2316,12 @@
           <ConnectorPoint PointX="7.84375" PointY="2.4802864583333326" />
         </AssociationConnector>
         <AssociationConnector Association="GeneralModel.FK_SourceMappings_Sources">
-          <ConnectorPoint PointX="10.375" PointY="3.8410953776041663" />
-          <ConnectorPoint PointX="11.5" PointY="3.8410953776041663" />
+          <ConnectorPoint PointX="10.375" PointY="4.0910953776041659" />
+          <ConnectorPoint PointX="12.625" PointY="4.0910953776041659" />
         </AssociationConnector>
         <AssociationConnector Association="GeneralModel.FK_SourceMappings_SourceTypes" >
-          <ConnectorPoint PointX="11.125" PointY="2.2112939453125" />
-          <ConnectorPoint PointX="11.5" PointY="2.2112939453125" />
+          <ConnectorPoint PointX="11.125" PointY="2.4612939453125" />
+          <ConnectorPoint PointX="12.625" PointY="2.4612939453125" />
         </AssociationConnector>
         <EntityTypeShape EntityType="GeneralModel.Relation" Width="1.5" PointX="13.25" PointY="5.875" Height="2.1725878906249996" />
         <EntityTypeShape EntityType="GeneralModel.RelationType" Width="1.5" PointX="13.625" PointY="8.5" Height="1.9802864583333317" />
@@ -2309,8 +2331,8 @@
         </AssociationConnector>
         <EntityTypeShape EntityType="GeneralModel.File" Width="1.5" PointX="14.875" PointY="0.625" Height="2.7494921875000031" />
         <AssociationConnector Association="GeneralModel.FK_SourceMappings_Files" >
-          <ConnectorPoint PointX="14.875" PointY="2.5622460937500016" />
-          <ConnectorPoint PointX="13" PointY="2.5622460937500016" />
+          <ConnectorPoint PointX="14.875" PointY="2.8122460937500016" />
+          <ConnectorPoint PointX="14.125" PointY="2.8122460937500016" />
         </AssociationConnector>
         <EntityTypeShape EntityType="GeneralModel.ParishTranscriptionDetail" Width="1.5" PointX="3" PointY="6.875" Height="1.5956835937500031" />
         <AssociationConnector Association="GeneralModel.FK_ParishTranscriptionDetails_Parishs" >
@@ -2341,11 +2363,11 @@
           <ConnectorPoint PointX="13.40625" PointY="8.047587890625" />
         </AssociationConnector>
         <AssociationConnector Association="GeneralModel.FK_Relations_Persons1" ManuallyRouted="true" >
-          <ConnectorPoint PointX="2.25" PointY="7.1637710592528432" />
-          <ConnectorPoint PointX="2.75" PointY="7.1637710592528432" />
+          <ConnectorPoint PointX="2.25" PointY="7.20822534574017" />
+          <ConnectorPoint PointX="2.75" PointY="7.20822534574017" />
           <ConnectorPoint PointX="2.75" PointY="8.375" />
-          <ConnectorPoint PointX="12.697916666666666" PointY="8.375" />
-          <ConnectorPoint PointX="12.864583333333334" PointY="8.375" />
+          <ConnectorPoint PointX="12.822916666666666" PointY="8.375" />
+          <ConnectorPoint PointX="12.989583333333334" PointY="8.375" />
           <ConnectorPoint PointX="13.322916666666666" PointY="8.375" />
           <ConnectorPoint PointX="13.489583333333334" PointY="8.375" />
           <ConnectorPoint PointX="13.916667666666667" PointY="8.375" />
@@ -2354,9 +2376,9 @@
           <ConnectorPoint PointX="14.500002" PointY="8.047587890625" />
         </AssociationConnector>
         <AssociationConnector Association="GeneralModel.FK_SourceMappings_Persons" >
-          <ConnectorPoint PointX="2.25" PointY="12.881785830078133" />
-          <ConnectorPoint PointX="12.78125" PointY="12.881785830078133" />
-          <ConnectorPoint PointX="12.78125" PointY="4.3071907552083326" />
+          <ConnectorPoint PointX="2.25" PointY="13.142381578420629" />
+          <ConnectorPoint PointX="12.90625" PointY="13.142381578420629" />
+          <ConnectorPoint PointX="12.90625" PointY="4.8071907552083326" />
         </AssociationConnector>
         <EntityTypeShape EntityType="GeneralModel.MarriageRelation" Width="3.125" PointX="17.5" PointY="6" Height="2.3648893229166674" />
         <AssociationConnector Association="GeneralModel.FK_MarriageRelations_Marriages" >
@@ -2372,7 +2394,6 @@
           <ConnectorPoint PointX="19.0625" PointY="9.5862939453125" />
           <ConnectorPoint PointX="19.0625" PointY="8.3648893229166674" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="GeneralModel.uvw_ParentMapChildren" Width="2.5" PointX="10" PointY="14.625" Height="10.249248046875007" />
         <EntityTypeShape EntityType="GeneralModel.MarriageMapWitness" Width="3.25" PointX="24.875" PointY="7.25" Height="1.595683593749996" />
         <AssociationConnector Association="GeneralModel.FK_MarriageMapWitness_Marriages" >
           <ConnectorPoint PointX="23.375" PointY="8.047841796874998" />

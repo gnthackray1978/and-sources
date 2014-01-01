@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Descendants Tree</title>
+    <link href="../Styles/tree.css" rel="stylesheet" type="text/css" />
+    <script src="../scripts/jquery/jquery.js" type="text/javascript"></script>        
+    <script src="../scripts/extensions.js" type="text/javascript"></script>
+    <script src="../Scripts/visiblePanels.js" type="text/javascript"></script>
+    <script src="../scripts/masters.js" type="text/javascript"></script>
+    <script src="../scripts/util_func.js" type="text/javascript"></script>
+    <script src="../scripts/TreeDiags/treeUI.js" type="text/javascript"></script>
+    <script src="../scripts/TreeDiags/BaseTree.js" type="text/javascript"></script>
+    <script src="../scripts/TreeDiags/DescendantTree.js" type="text/javascript"></script>
+    <script src="../scripts/TreeDiags/DescTreeDiag.js" type="text/javascript"></script>
+
+
+</head>
+<body style="background-color: black;">
+    
+
+
+   <div id = "map_label">
+        <div id="fb-root">
+            <fb:login-button autologoutlink="true" &nbsp;perms="email,user_birthday,status_update,publish_stream"></fb:login-button>
+        </div>
+        <div id = "usr_nam"></div>
+        <div class = "message"><span>Downloading Descendants</span></div>
+    </div>
+    
+    <div id = "map_control">
+
+
+    <div id = "up" class = "u button_box"><span></span></div>
+    <div id = "dn" class = "d button_box"><span></span></div>
+
+    <div id = "we" class = "w button_box"><span></span></div>
+    <div id = "no" class = "n button_box"><span></span></div>
+    <div id = "es" class = "e button_box"><span></span></div>
+    <div id = "so" class = "s button_box"><span></span></div>
+    <div id = "de" class = "debug button_box"><span></span></div>
+
+
+    </div>
+
+
+
+    <canvas id="myCanvas" >
+
+    </canvas>
+
+        
+</body>
+</html>

@@ -31,8 +31,9 @@ var AncSourceTypeEditor = function () {
 AncSourceTypeEditor.prototype = {
 
     init: function () {                
-        $("#save").live("click", $.proxy(function () { this.save(); return false; }, this));
-        $("#return").live("click", $.proxy(function () { this.saveReturn(); return false; }, this));
+        $('body').on("click","#save", $.proxy(function () { this.save(); return false; }, this));
+        $('body').on("click","#return", $.proxy(function () { this.saveReturn(); return false; }, this));
+
         this.load();
         return false;
     },

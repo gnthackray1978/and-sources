@@ -101,7 +101,7 @@ AncSelectorBase.prototype = {
         //var lrefreshMethod = that.context_data.refreshMethod;
 
 
-        $("#sb_refresh").live("click", function () {
+        $('body').on("click", "#sb_refresh",function () {
             that.context_data.refreshMethod.call(that.context_data.parentContext, 'nothing');          
             return false;
         });

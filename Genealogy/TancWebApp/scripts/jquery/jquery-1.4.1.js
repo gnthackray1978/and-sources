@@ -70,7 +70,7 @@ var jQuery = function( selector, context ) {
 	// For matching the engine and version of the browser
 	browserMatch,
 	
-	// Has the ready events already been bound?
+	// Has the ready TotalEvents already been bound?
 	readyBound = false,
 	
 	// The functions to execute on DOM ready
@@ -406,7 +406,7 @@ jQuery.extend({
 				readyList = null;
 			}
 
-			// Trigger any bound ready events
+			// Trigger any bound ready TotalEvents
 			if ( jQuery.fn.triggerHandler ) {
 				jQuery( document ).triggerHandler( "ready" );
 			}
@@ -1546,7 +1546,7 @@ var fcleanup = function( nm ) {
 };
 
 /*
- * A number of helper functions used for managing events.
+ * A number of helper functions used for managing TotalEvents.
  * Many of the ideas behind this code originated from
  * Dean Edwards' addEvent library.
  */
@@ -1583,7 +1583,7 @@ jQuery.event = {
 		}
 
 		// Init the element's event structure
-		var events = jQuery.data( elem, "events" ) || jQuery.data( elem, "events", {} ),
+		var events = jQuery.data( elem, "TotalEvents" ) || jQuery.data( elem, "TotalEvents", {} ),
 			handle = jQuery.data( elem, "handle" ), eventHandle;
 
 		if ( !handle ) {
@@ -1609,7 +1609,7 @@ jQuery.event = {
 		// event in IE.
 		handle.elem = elem;
 
-		// Handle multiple events separated by a space
+		// Handle multiple TotalEvents separated by a space
 		// jQuery(...).bind("mouseover mouseout", fn);
 		types = types.split( /\s+/ );
 
@@ -1640,7 +1640,7 @@ jQuery.event = {
 
 				// Check for a special event handler
 				// Only use addEventListener/attachEvent if the special
-				// events handler returns false
+				// TotalEvents handler returns false
 				if ( !special.setup || special.setup.call( elem, data, namespaces, handler) === false ) {
 					// Bind the global event handler to the element
 					if ( elem.addEventListener ) {
@@ -1664,7 +1664,7 @@ jQuery.event = {
 			// Add the function to the element's handler list
 			handlers[ handler.guid ] = handler;
 
-			// Keep track of which events have been used, for global triggering
+			// Keep track of which TotalEvents have been used, for global triggering
 			this.global[ type ] = true;
 		}
 
@@ -1674,17 +1674,17 @@ jQuery.event = {
 
 	global: {},
 
-	// Detach an event or set of events from an element
+	// Detach an event or set of TotalEvents from an element
 	remove: function( elem, types, handler ) {
-		// don't do events on text and comment nodes
+		// don't do TotalEvents on text and comment nodes
 		if ( elem.nodeType === 3 || elem.nodeType === 8 ) {
 			return;
 		}
 
-		var events = jQuery.data( elem, "events" ), ret, type, fn;
+		var events = jQuery.data( elem, "TotalEvents" ), ret, type, fn;
 
 		if ( events ) {
-			// Unbind all events for the element
+			// Unbind all TotalEvents for the element
 			if ( types === undefined || (typeof types === "string" && types.charAt(0) === ".") ) {
 				for ( type in events ) {
 					this.remove( elem, type + (types || "") );
@@ -1696,7 +1696,7 @@ jQuery.event = {
 					types = types.type;
 				}
 
-				// Handle multiple events separated by a space
+				// Handle multiple TotalEvents separated by a space
 				// jQuery(...).unbind("mouseover mouseout", fn);
 				types = types.split(/\s+/);
 				var i = 0;
@@ -1718,7 +1718,7 @@ jQuery.event = {
 						// remove all handlers for the given type
 						} else {
 							for ( var handle in events[ type ] ) {
-								// Handle the removal of namespaced events
+								// Handle the removal of namespaced TotalEvents
 								if ( all || namespace.test( events[ type ][ handle ].type ) ) {
 									delete events[ type ][ handle ];
 								}
@@ -1757,7 +1757,7 @@ jQuery.event = {
 				if ( handle ) {
 					handle.elem = null;
 				}
-				jQuery.removeData( elem, "events" );
+				jQuery.removeData( elem, "TotalEvents" );
 				jQuery.removeData( elem, "handle" );
 			}
 		}
@@ -1785,7 +1785,7 @@ jQuery.event = {
 
 			// Handle a global trigger
 			if ( !elem ) {
-				// Don't bubble custom events when global (to avoid too much overhead)
+				// Don't bubble custom TotalEvents when global (to avoid too much overhead)
 				event.stopPropagation();
 
 				// Only trigger if we've ever bound an event for it
@@ -1800,7 +1800,7 @@ jQuery.event = {
 
 			// Handle triggering a single element
 
-			// don't do events on text and comment nodes
+			// don't do TotalEvents on text and comment nodes
 			if ( !elem || elem.nodeType === 3 || elem.nodeType === 8 ) {
 				return undefined;
 			}
@@ -1845,7 +1845,7 @@ jQuery.event = {
 			if ( !isClick && !(target && target.nodeName && jQuery.noData[target.nodeName.toLowerCase()]) ) {
 				try {
 					if ( target[ type ] ) {
-						// Make sure that we don't accidentally re-trigger the onFOO events
+						// Make sure that we don't accidentally re-trigger the onFOO TotalEvents
 						old = target[ "on" + type ];
 
 						if ( old ) {
@@ -1884,7 +1884,7 @@ jQuery.event = {
 
 		var namespace = new RegExp("(^|\\.)" + namespaces.slice(0).sort().join("\\.(?:.*\\.)?") + "(\\.|$)");
 
-		handlers = ( jQuery.data(this, "events") || {} )[ event.type ];
+		handlers = ( jQuery.data(this, "TotalEvents") || {} )[ event.type ];
 
 		for ( var j in handlers ) {
 			var handler = handlers[ j ];
@@ -1955,7 +1955,7 @@ jQuery.event = {
 			event.pageY = event.clientY + (doc && doc.scrollTop  || body && body.scrollTop  || 0) - (doc && doc.clientTop  || body && body.clientTop  || 0);
 		}
 
-		// Add which for key events
+		// Add which for key TotalEvents
 		if ( !event.which && ((event.charCode || event.charCode === 0) ? event.charCode : event.keyCode) ) {
 			event.which = event.charCode || event.keyCode;
 		}
@@ -2002,7 +2002,7 @@ jQuery.event = {
 				if ( namespaces.length ) {
 					var remove = 0, name = new RegExp("(^|\\.)" + namespaces[0] + "(\\.|$)");
 
-					jQuery.each( (jQuery.data(this, "events").live || {}), function() {
+					jQuery.each( (jQuery.data(this, "TotalEvents").live || {}), function() {
 						if ( name.test(this.type) ) {
 							remove++;
 						}
@@ -2048,7 +2048,7 @@ jQuery.Event = function( src ) {
 		this.type = src;
 	}
 
-	// timeStamp is buggy for some events on Firefox(#3843)
+	// timeStamp is buggy for some TotalEvents on Firefox(#3843)
 	// So we won't rely on the native value
 	this.timeStamp = now();
 
@@ -2140,7 +2140,7 @@ delegate = function( event ) {
 	jQuery.event.handle.apply( this, arguments );
 };
 
-// Create mouseenter and mouseleave events
+// Create mouseenter and mouseleave TotalEvents
 jQuery.each({
 	mouseenter: "mouseover",
 	mouseleave: "mouseout"
@@ -2300,7 +2300,7 @@ function trigger( type, elem, args ) {
 	return jQuery.event.handle.apply( elem, args );
 }
 
-// Create "bubbling" focus and blur events
+// Create "bubbling" focus and blur TotalEvents
 if ( document.addEventListener ) {
 	jQuery.each({ focus: "focusin", blur: "focusout" }, function( orig, fix ) {
 		jQuery.event.special[ fix ] = {
@@ -2441,7 +2441,7 @@ jQuery.each(["live", "die"], function( i, name ) {
 function liveHandler( event ) {
 	var stop, elems = [], selectors = [], args = arguments,
 		related, match, fn, elem, j, i, l, data,
-		live = jQuery.extend({}, jQuery.data( this, "events" ).live);
+		live = jQuery.extend({}, jQuery.data( this, "TotalEvents" ).live);
 
 	// Make sure we avoid non-left-click bubbling in Firefox (#3861)
 	if ( event.button && event.type === "click" ) {
@@ -2472,7 +2472,7 @@ function liveHandler( event ) {
 			related = null;
 
 			if ( match[i].selector === fn.selector ) {
-				// Those two events require additional checking
+				// Those two TotalEvents require additional checking
 				if ( fn.live === "mouseenter" || fn.live === "mouseleave" ) {
 					related = jQuery( event.relatedTarget ).closest( fn.selector )[0];
 				}
@@ -2516,7 +2516,7 @@ jQuery.each( ("blur focus focusin focusout load resize scroll unload click dblcl
 });
 
 // Prevent memory leaks in IE
-// Window isn't included so as not to unbind existing unload events
+// Window isn't included so as not to unbind existing unload TotalEvents
 // More info:
 //  - http://isaacschlueter.com/2006/10/msie-memory-leaks/
 if ( window.attachEvent && !window.addEventListener ) {
@@ -4038,9 +4038,9 @@ jQuery.fn.extend({
 		// Do the clone
 		var ret = this.map(function() {
 			if ( !jQuery.support.noCloneEvent && !jQuery.isXMLDoc(this) ) {
-				// IE copies events bound via attachEvent when
+				// IE copies TotalEvents bound via attachEvent when
 				// using cloneNode. Calling detachEvent on the
-				// clone will also remove the events from the orignal
+				// clone will also remove the TotalEvents from the orignal
 				// In order to get around this, we use innerHTML.
 				// Unfortunately, this means some modifications to
 				// attributes in IE that are actually only stored
@@ -4060,7 +4060,7 @@ jQuery.fn.extend({
 			}
 		});
 
-		// Copy the events from the original to the clone
+		// Copy the TotalEvents from the original to the clone
 		if ( events === true ) {
 			cloneCopyEvent( this, ret );
 			cloneCopyEvent( this.find("*"), ret.find("*") );
@@ -4747,7 +4747,7 @@ jQuery.fn.extend({
 	}
 });
 
-// Attach a bunch of functions for handling common AJAX events
+// Attach a bunch of functions for handling common AJAX TotalEvents
 jQuery.each( "ajaxStart ajaxStop ajaxComplete ajaxError ajaxSuccess ajaxSend".split(" "), function( i, o ) {
 	jQuery.fn[o] = function( f ) {
 		return this.bind(o, f);

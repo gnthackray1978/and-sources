@@ -1,0 +1,47 @@
+td.number {
+	text-align: right;
+	font-weight: bold;
+	padding-right: 5px;
+	white-space: nowrap;
+}
+
+td.boolean {
+	text-align: center;
+}
+
+th.boolean {
+	text-align: center;
+}
+
+
+th.colBoolWidth
+{
+    width: 30px;
+    }
+    
+    
+th.colIdWidth
+{
+    width: 30px;
+    }
+    
+        
+colDateWidth 
+{
+    width: 100px;
+    }
+    
+colStrShtWidth 
+{
+    width: 100px;
+    }
+    
+colStrLngWidth 
+{
+    width: 100px;
+    }
+    
+default 
+{
+    width: 100px;
+    }

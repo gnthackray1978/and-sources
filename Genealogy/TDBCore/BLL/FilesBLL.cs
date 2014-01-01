@@ -1,34 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Security.Policy;
+using TDBCore.Types.DTOs;
+
 ////using TDBCore.Datasets;
 
-using System.IO;
-using TDBCore.BLL;
-using TDBCore.EntityModel;
-using System.Diagnostics;
-using System.Data.Objects.DataClasses;
-using System.Data.Objects;
-using System.Data;
 
-
-namespace GedItter.BLL
+namespace TDBCore.BLL
 {
-    public class FilesBLL : BaseBLL
+    public class FilesBll : BaseBll
     {
  
 
         private string root = "";
 
 
-        public FilesBLL()
+        public FilesBll()
         {
 
         }
  
 
-        public FilesBLL(string rootLocation)
+        public FilesBll(string rootLocation)
         {
             this.root = rootLocation;
         }
@@ -158,6 +152,23 @@ namespace GedItter.BLL
         {
         
             return ModelContainer.Files.Where(s => s.SourceMappings.Any(o => o.Source.SourceId == parentId));
+        }
+
+        public List<Guid> GetFileIdsByParent(Guid parentId)
+        {
+
+            return ModelContainer.Files.Where(s => s.SourceMappings.Any(o => o.Source.SourceId == parentId)).Select(p=>p.FiletId).ToList();
+        }
+
+        public List<ServiceFile> GetFilesByParent(Guid parentId)
+        {
+
+            return ModelContainer.Files.Where(s => s.SourceMappings.Any(o => o.Source.SourceId == parentId)).Select(p => new ServiceFile()
+                {
+                    FileId = p.FiletId,
+                    FileDescription =p.FileDescription,
+                    FileLocation =  p.FileLocation          
+                }).ToList();
         }
     }
 }

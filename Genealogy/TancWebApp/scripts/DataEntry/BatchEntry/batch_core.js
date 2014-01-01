@@ -52,12 +52,13 @@ BatchCore.prototype = {
 
     run: function () {
 
-        $("#display").live("click", $.proxy(function () { this.Display(); return false; }, this));
+        $('body').on("click", "#display", $.proxy(function () { this.Display(); return false; }, this));
 
-        $("#save").live("click", $.proxy(function () { this.Save(); return false; }, this));
-        $("#selectsource").live("click", $.proxy(function () { this.selectSource(); return false; }, this));
-        $("#selectparish").live("click", $.proxy(function () { this.selectParish(); return false; }, this));
-        $("#tablecontent").on("postpaste", $.proxy(this.paste, this)).pasteEvents();
+        $('body').on("click", "#save", $.proxy(function () { this.Save(); return false; }, this));
+        $('body').on("click", "#selectsource", $.proxy(function () { this.selectSource(); return false; }, this));
+        $('body').on("click", "#selectparish", $.proxy(function () { this.selectParish(); return false; }, this));
+
+        $('body').on("postpaste","#tablecontent", $.proxy(this.paste, this)).pasteEvents();
 
         $('#txtBirthCounty').val(this.qryStrUtils.getParameterByName('bcount', ''));
         $('#txtDeathCounty').val(this.qryStrUtils.getParameterByName('dcount', ''));
