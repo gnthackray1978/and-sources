@@ -543,7 +543,8 @@ namespace TDBCore.Types.libs
                     Witnesses = m.Witnesses,
                     UniqueRef = m.UniqueRef.ToString(),
                     Sources = m.MarriageSource,
-                    TotalEvents = m.MarriageTotalEvents.ToString()
+                    TotalEvents = m.MarriageTotalEvents.ToString(),
+                    LinkedTrees = m.SourceTrees
                 }).ToList();
 
             smo.Total = smo.serviceMarriages.Count;

@@ -27,8 +27,6 @@ namespace ANDServices
                                             "&4={fatherSurname}&5={motherChristianName}&6={motherSurname}&7={location}&8={county}&9={lowerDate}&10={upperDate}" +
                                             "&11={filterTreeResults}&12={filterIncludeBirths}&13={filterIncludeDeaths}&14={filterSource}&15={spouse}" +
                                             "&16={parishFilter}&17={page_number}&18={page_size}&19={sort_col}";
-
-
-
+ 
     }
 }

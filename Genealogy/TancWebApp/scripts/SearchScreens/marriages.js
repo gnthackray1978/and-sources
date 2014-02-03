@@ -53,7 +53,8 @@ AncMarriages.prototype = {
         $('body').on("click", "#dupe", $.proxy(function () { this.SetDuplicates(); return false; }, this));
         $('body').on("click", "#merge", $.proxy(function () { this.SetMergeMarriages(); return false; }, this));
         $('body').on("click", "#remove", $.proxy(function () { this.SetRemoveLink(); return false; }, this));
-
+        $('body').on("click", "#switch", $.proxy(function () { this.SwitchSpouses(); return false; }, this));
+        
         $('body').on("click", "#year_hed", $.proxy(function () { this.sort('MarriageDate'); return false; }, this));
         $('body').on("click", "#mcname_hed", $.proxy(function () { this.sort('MaleCName'); return false; }, this));
         $('body').on("click", "#msname_hed", $.proxy(function () { this.sort('MaleSName'); return false; }, this));
@@ -62,7 +63,8 @@ AncMarriages.prototype = {
 
         $('body').on("click","#locat_hed", $.proxy(function () { this.sort('MarriageLocation'); return false; }, this));
 
-
+        $('body').on("click", "#remove-trees", $.proxy(function () { this.RemoveSources(); return false; }, this));
+        $('body').on("click", "#add-tree", $.proxy(function () { this.SetSources(); return false; }, this));
 
 
         if (isActive == '1') {
@@ -78,9 +80,11 @@ AncMarriages.prototype = {
             this.parishId = this.qryStrUtils.getParameterByName('parid', '');
 
             this.getMarriages('1');
+
+            
         }
 
-
+        this.getSources();
     },
 
     createQryString: function () {
@@ -135,7 +139,40 @@ AncMarriages.prototype = {
 
         return false;
     },
+    
+    getSources: function () {
 
+        var params = {};
+        params[0] = '87';
+        params[1] = '';
+        params[2] = '';
+        params[3] = '';
+        params[4] = '0';
+        params[5] = '0';
+        params[6] = '2000';
+        params[7] = '2000';
+        params[8] = '';
+        params[9] = 'false'; 
+        params[10] = 'false'; 
+        params[11] = 'false'; 
+        params[12] = 'false';
+        params[13] = '0';
+        params[14] = '30';
+        params[15] = 'sdate';
+
+        this.ancUtils.twaGetJSON('/Sources/Select', params, function (data) {
+            var tableBody = '';
+            $.each(data.serviceSources, function (source, sourceInfo) {
+                //<option value="volvo">Volvo</option> //sourceInfo.SourceDesc           
+                tableBody += '<option value="' + sourceInfo.SourceId + '">' + sourceInfo.SourceRef + '</option>';
+            });
+            if (tableBody !== '') $('#tree-select').html(tableBody);
+        });
+         
+        return false;
+    },
+
+    
 
     marriageResult: function (data) {
 
@@ -282,6 +319,22 @@ AncMarriages.prototype = {
 
     addMarriage: function (path) {
         window.location.href = '../HtmlPages/MarriageEditor.html#' + this.qryStrUtils.makeIdQryString('id', path);
+    },
+    SwitchSpouses: function () {
+        this.postParams.url = '/MarriageService/SwitchSpouses';
+        this.postParams.data = { marriage: this.ancUtils.convertToCSV(this.selection) };
+        this.ancUtils.twaPostJSON(this.postParams);
+    }
+    ,
+    SetSources: function () {
+        this.postParams.url = '/Sources/AddTreeSource';
+        this.postParams.data = { record: $("#tree-select").val(), sources: this.ancUtils.convertToCSV(this.selection) };
+        this.ancUtils.twaPostJSON(this.postParams);
+    },
+    RemoveSources: function () {
+        this.postParams.url = '/Sources/RemoveTreeSources';
+        this.postParams.data = { record: this.ancUtils.convertToCSV(this.selection) };
+        this.ancUtils.twaPostJSON(this.postParams);
     }
 };
 

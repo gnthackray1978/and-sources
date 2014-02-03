@@ -18,6 +18,7 @@ namespace TDBCore.EntityModel
         public static void MergeInto(this Person _person, Person newPerson)
         {
             DeathsBirthsBll deathsBirthsBll = new DeathsBirthsBll();
+            SourceBll sourceBll = new SourceBll();
 
             Guid dummyLocation = new Guid("a813a1ff-6093-4924-a7b2-c5d1af6ff699");
 
@@ -124,7 +125,7 @@ namespace TDBCore.EntityModel
 
             _person.IsMale = newPerson.IsMale;
 
-            string source = _person.Source + Environment.NewLine + deathsBirthsBll.MakeSourceString(newPerson.Person_id);
+            string source = _person.Source + Environment.NewLine + sourceBll.MakeSourceString(newPerson.Person_id);
 
 
            // if(source.Length >49)

@@ -522,6 +522,24 @@ namespace TDBCore.BLL
 
         }
 
+
+        public void DeleteSourcesForPersonOrMarriage(Guid recordId, int? mapTypeId)
+        {
+
+            var effectedSources =
+                ModelContainer.SourceMappings.Where( sm => sm.SourceType.SourceTypeId == mapTypeId).Select(p=>p.Source.SourceId).AsEnumerable() ;
+
+            foreach (var smap in ModelContainer.SourceMappings.Where(sm => (sm.Marriage.Marriage_Id == recordId || sm.Person.Person_id == recordId)
+                                                                           && effectedSources.Contains(sm.Source.SourceId)).ToList().Where(smap => smap.Source != null))
+            {
+                ModelContainer.SourceMappings.DeleteObject(smap);
+            }
+
+            ModelContainer.SaveChanges();
+
+        }
+
+
         #endregion
 
         #region select methods

@@ -498,11 +498,7 @@ namespace TDBCore.BLL
 
         #region selects
 
-      
-        private IQueryable<Person> GetDeathBirthRecordById2(Guid personId)
-        {
-            return ModelContainer.Persons.Where(o => o.Person_id == personId && !o.IsDeleted );
-        }
+       
         
         public ServicePerson GetDeathBirthRecordById(Guid personId)
         {
@@ -513,11 +509,6 @@ namespace TDBCore.BLL
 
         }
         
-        public IQueryable<Person> GetDeathsBirths2()
-        { 
-            return ModelContainer.Persons;
-        }
-
         public IList<ServicePerson> GetDataByDupeRef(Guid dupeRef)
         {
 
@@ -527,28 +518,15 @@ namespace TDBCore.BLL
 
 
         }
-        
-        public List<Guid> GetDuplicatesByUniqueRef(Guid personId)
-        {
-
-
-            return ModelContainer.Persons.Where(o => o.UniqueRef == personId && o.IsDeleted == false).Select(p => p.Person_id).ToList();
-        }
-
-        public IQueryable<Person> GetUniqRefDuplicates(Guid personId)
+ 
+        private IEnumerable<Person> GetUniqRefDuplicates(Guid personId)
         {
             var person = ModelContainer.Persons.FirstOrDefault(p => p.Person_id == personId);
 
             return person != null ? ModelContainer.Persons.Where(o => o.UniqueRef == person.UniqueRef && o.IsDeleted == false) : null;
         }
 
-        public string MakeSourceString(Guid person)
-        {
-            var sourceBll = new SourceBll();
-
-            return Enumerable.Aggregate(sourceBll.FillSourceTableByPersonOrMarriageId2(person), "", (current, source) => current + (Environment.NewLine + source.SourceRef));
-
-        }
+        
 
         public List<ServicePerson> GetFilterSimple2(PersonSearchFilter personSearchFilter)
         {
@@ -613,13 +591,7 @@ namespace TDBCore.BLL
             return ModelContainer.Persons.Where(p => p.BirthLocationId == birthLocationId && p.BirthLocation.Contains(birthLoc) && p.DeathLocation.Contains(deathLocat) && p.DeathCounty.Contains(deathCounty) && p.BirthCounty.Contains(birthCounty));
         }
  
-        public IQueryable<Person>  GetByBirthLocationId2(Guid birthId)
-        {
- 
-            return   ModelContainer.Persons.Where(p => p.BirthLocationId == birthId);
-
-        }
-
+      
 
         #endregion
 
@@ -628,16 +600,22 @@ namespace TDBCore.BLL
         public void UpdateDeletedBirths()
         {
 
-            
-            foreach (var pROw in GetDeathsBirths2().Where(m => m.IsDeleted && m.TotalEvents > 1))
+
+            foreach (var pROw in ModelContainer.Persons.Where(m => m.IsDeleted && m.TotalEvents > 1))
             {
                 var peopleToKeep = new List<Guid>();
 
-                var dsDbTemp = GetDeathBirthRecordById2(pROw.Person_id).FirstOrDefault();
+                var dsDbTemp = ModelContainer.Persons.FirstOrDefault(o => o.Person_id == pROw.Person_id && !o.IsDeleted);
 
                 if (dsDbTemp != null)
                 {
-                    peopleToKeep.AddRange(GetDuplicatesByUniqueRef(dsDbTemp.UniqueRef).Where(dupePerson => pROw.Person_id != dupePerson));
+                    var personList =
+                        ModelContainer.Persons.Where(
+                            o =>
+                            o.UniqueRef == dsDbTemp.Person_id && o.IsDeleted == false && o.Person_id != pROw.Person_id)
+                                      .Select(p => p.Person_id).ToList();
+
+                    peopleToKeep.AddRange(personList);
                 }
 
                 Guid newRef = Guid.NewGuid();
@@ -662,8 +640,8 @@ namespace TDBCore.BLL
         /// </summary>
         public void MergeDuplicateRecords()
         {
-          
-            var records = GetDeathsBirths2().Where(o => !o.IsDeleted && o.TotalEvents > 1 && o.EventPriority == 1).ToList();      
+
+            var records = ModelContainer.Persons.Where(o => !o.IsDeleted && o.TotalEvents > 1 && o.EventPriority == 1).ToList();      
             records.ForEach(MergeDuplicateRecord);           
         }
 
@@ -671,7 +649,7 @@ namespace TDBCore.BLL
         {
 
 
-            var record = GetDeathsBirths2().FirstOrDefault(o => o.Person_id == personId);
+            var record = ModelContainer.Persons.FirstOrDefault(o => o.Person_id == personId);
 
             MergeDuplicateRecord(record);
         }
@@ -717,7 +695,7 @@ namespace TDBCore.BLL
 
 
 
-            foreach (var prow in GetByBirthLocationId2(dummyLocationdId).Where(d => d.BirthCounty != ""
+            foreach (var prow in ModelContainer.Persons.Where(p => p.BirthLocationId == dummyLocationdId).Where(d => d.BirthCounty != ""
                 && d.BirthLocation != "" && d.BirthLocation.ToLower() != "unknown" && d.BirthLocation.Contains(d.BirthCounty)))
             {
                 char[] charsToTrim = { ',', '.', ' ' };
@@ -738,9 +716,9 @@ namespace TDBCore.BLL
          
             Guid dummyLocationdId = new Guid("A813A1FF-6093-4924-A7B2-C5D1AF6FF699");
 
-           
 
-            foreach (var prow in GetByBirthLocationId2(dummyLocationdId).Where(p => p.BirthLocation != ""))// personDataTable.Where(o => o.BirthLocation != ""))
+
+            foreach (var prow in ModelContainer.Persons.Where(p => p.BirthLocationId == dummyLocationdId).Where(p => p.BirthLocation != ""))// personDataTable.Where(o => o.BirthLocation != ""))
             {
                 var dictEntry = locationDictionaryBll.GetEntryByLocatAndCounty(prow.BirthLocation, prow.BirthCounty);
 
@@ -762,13 +740,13 @@ namespace TDBCore.BLL
             var parishsBll = new ParishsBll();
           
             var dummyLocationdId = new Guid("A813A1FF-6093-4924-A7B2-C5D1AF6FF699");
-           
-            List<string> counties = GetByBirthLocationId2(dummyLocationdId).Select(o => o.BirthCounty).Distinct().ToList();
+
+            List<string> counties = ModelContainer.Persons.Where(p => p.BirthLocationId == dummyLocationdId).Select(o => o.BirthCounty).Distinct().ToList();
             int reccount = 0;
             foreach (string county in counties)
             {
                 string county1 = county;
-                foreach (var personRec in GetByBirthLocationId2(dummyLocationdId).Where(o => o.BirthCounty == county1))
+                foreach (var personRec in ModelContainer.Persons.Where(p => p.BirthLocationId == dummyLocationdId).Where(o => o.BirthCounty == county1))
                 {
                     var var2 = parishsBll.GetParishsByCounty2(county).FirstOrDefault(p => personRec.BirthLocation.Contains(p.ParishName));
 
@@ -792,8 +770,8 @@ namespace TDBCore.BLL
         {
 
 
-         
-            foreach (var pRow in GetDeathsBirths2().Where(p => p.EstBirthYearInt == 0 && p.EstDeathYearInt == 0).ToList())
+
+            foreach (var pRow in ModelContainer.Persons.Where(p => p.EstBirthYearInt == 0 && p.EstDeathYearInt == 0).ToList())
             {
 
                 int estBirthYear;
@@ -843,6 +821,7 @@ namespace TDBCore.BLL
             int evtCount = 1;
 
 
+        
             List<Guid> peopleToKeep = (from pRow in GetUniqRefDuplicates(personA) where !selectedRecordIds.Contains(pRow.Person_id) select pRow.Person_id).ToList();
 
 

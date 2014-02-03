@@ -19,5 +19,8 @@ namespace ANDServices
         public const string GetSource = "/GetSource?0={sourceId}";
 
         public const string AddSource = "/Add";
+
+        public const string AddTreeSource = "/AddTreeSource";
+        public const string RemoveTreeSources = "/RemoveTreeSources";
     }
 }

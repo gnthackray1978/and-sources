@@ -74,6 +74,35 @@ namespace TDBCore.Types.domain
                        
         }
 
+        public string AddSources(List<Guid> records, List<Guid> sources)
+        {
+
+            if (!_security.IsValidEdit()) return "You dont have permission to edit!";
+
+            if (sources.IsNullOrBelowMinSize(1))
+            {
+                return "You need to select more than source!";
+            }
+
+            
+            records.ForEach(p => _smBll.WritePersonSources2(p, sources, _security.UserId()));
+           
+
+
+
+            return "";
+        }
+
+        public string RemoveTreeSources(List<Guid> records)
+        {
+
+            if (!_security.IsValidEdit()) return "You dont have permission to edit!";
+
+            records.ForEach(p => _smBll.DeleteSourcesForPersonOrMarriage(p, 87));
+
+            return "";
+        }
+
 
         public void DeleteRecords(SourceDto sourceDto)
         {

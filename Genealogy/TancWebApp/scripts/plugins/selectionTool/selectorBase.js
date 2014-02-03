@@ -255,7 +255,12 @@ AncSelectorBase.prototype = {
         //var param_name = 'source_ids';
 
         var paramSources = this.qryStrUtils.getParameterByName(this.context_data.param_name);
+
+        // some hacks to get rid of nulls
+        paramSources = paramSources.replace("null", "").replace(",,", ",");
+        
         if (paramSources != '' && paramSources != null) {
+
             selectedSourceIds = paramSources.split(',');
         }
 

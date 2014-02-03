@@ -196,6 +196,27 @@ namespace MarriageService
 
         }
 
+        public string SwitchSpouses(string marriage)
+        {
+            var iModel = new MarriageSearch(new Security(WebHelper.GetUser()));
+
+            string retVal = "";
+
+            try
+            {
+                iModel.SwitchSpouses(marriage.ParseToGuidList());
+            }
+            catch (Exception ex1)
+            {
+                retVal = ex1.Message;
+            }
+
+
+            return WebHelper.MakeReturn(marriage, retVal);
+        }
+
+       
+
         public string MergeMarriage(string marriage)
         {
             var iModel = new MarriageSearch(new Security(WebHelper.GetUser()));
@@ -215,7 +236,7 @@ namespace MarriageService
         }
 
 
-
+       
 
         public string AddMarriage(
                     string FemaleLocationId, string LocationId, string MaleLocationId, string SourceDescription, string Sources, string MarriageId, string IsBanns, string IsLicense, string IsWidow, string IsWidower,
