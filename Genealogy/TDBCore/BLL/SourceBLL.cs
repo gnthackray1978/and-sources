@@ -118,7 +118,14 @@ namespace TDBCore.BLL
         }
 
 
- 
+        public string MakeSourceString(Guid person)
+        {
+            var sourceBll = new SourceBll();
+
+            return Enumerable.Aggregate(sourceBll.FillSourceTableByPersonOrMarriageId2(person), "", (current, source) => current + (Environment.NewLine + source.SourceRef));
+
+        }
+
         public List<Person> GetPersonsForSource(Guid sourceId)
         {
             return ModelContainer.SourceMappings.Where(sm => sm.Source.SourceId == sourceId && sm.Person != null).Select(p => p.Person).ToList();

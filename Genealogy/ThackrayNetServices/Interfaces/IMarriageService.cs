@@ -98,5 +98,10 @@ namespace MarriageService
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = UriMarriageMappings.ReorderMarriages, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
         string ReorderMarriages(string marriage);
 
+        [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = UriMarriageMappings.SwitchSpouses, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
+        string SwitchSpouses(string marriage);
+
+ 
     }
 }

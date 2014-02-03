@@ -237,7 +237,7 @@ namespace TDBCore.Types.domain
                         UpperDate = upperDate.ToInt32(),
                         Source = sourceFilter
 
-                    }, new DataShaping());
+                    }, new DataShaping() { Column = "MarriageDate" });
 
 
             }

@@ -66,5 +66,15 @@ namespace AndServices.Interfaces
         [OperationContract]
         [WebGet(ResponseFormat = WebMessageFormat.Json, UriTemplate = UriSourceMappings.Get1841CensusSources)]
         List<CensusSource> Get1841CensusSources(Guid sourceId);
+
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = UriSourceMappings.AddTreeSource, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
+        string AddSources(string record, string sources);
+
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = UriSourceMappings.RemoveTreeSources, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
+        string RemoveTreeSources(string record);
     }
 }

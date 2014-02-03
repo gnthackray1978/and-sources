@@ -75,9 +75,40 @@ namespace TDBCore.BLL
             return retVal;
 
         }
+
+
+        public string SwapSpouses(List<Guid> marriageIds)
+        {
+        
+
+            foreach (Guid marriageId in marriageIds)
+            {
+                var result = ModelContainer.Marriages.FirstOrDefault(m => m.Marriage_Id == marriageId);
+
+                if (result != null)
+                {
+                    var o_cname = result.MaleCName;
+                    var o_sname = result.MaleSName;
+
+                    result.MaleCName = result.FemaleCName;
+                    result.MaleSName = result.FemaleSName;
+
+
+                    result.FemaleCName = o_cname;
+                    result.FemaleSName = o_sname;
+
+                  //  ModelContainer.Marriages.AddObject(result);
+
+                    ModelContainer.SaveChanges();
+
+                    
+                }                
+            }
+
+            return "Success";
+            //return "Fail - no such marriage ID exists";
+        }
  
-
-
       
         private static Person _ProcessWitness(Marriage marriage, List<string> witnessParts)
         {

@@ -118,5 +118,7 @@ namespace PersonService
         [OperationContract]
         [WebGet(ResponseFormat = WebMessageFormat.Json, UriTemplate = UriPersonMappings.AssignLocations)]
         void AssignLocations();
+
+
     }
 }

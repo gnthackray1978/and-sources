@@ -122,15 +122,8 @@ namespace TDBCore.Types.domain
             }
 
         }
-         
 
-
-
-
-
-
-
-
+     
 
         public string SetDuplicateRelation(List<Guid> persons)
         {

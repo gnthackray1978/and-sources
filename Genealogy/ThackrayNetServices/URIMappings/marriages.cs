@@ -24,5 +24,7 @@ namespace ANDServices
         public const string MergeMarriages = "/MergeMarriages";
         public const string RemoveMarriageLinks = "/RemoveLinks";
         public const string ReorderMarriages = "/ReorderMarriages";
+        public const string SwitchSpouses = "/SwitchSpouses";
+
     }
 }

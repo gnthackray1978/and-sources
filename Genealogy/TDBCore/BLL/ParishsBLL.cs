@@ -18,7 +18,7 @@ namespace TDBCore.BLL
 
         public List<CensusPlace> Get1841Census()
         {
-            return ModelContainer.uvw_1841Census.Select(entry => new CensusPlace()
+            return ModelContainer.uvw_1841Census.ToList().Select(entry => new CensusPlace()
                 {
                     ParishId = entry.ParishId, PlaceName = entry.ParishName, LocX = entry.ParishX.GetValueOrDefault(), LocY = entry.ParishY.GetValueOrDefault()
                 }).ToList();

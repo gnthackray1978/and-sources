@@ -50,14 +50,15 @@ AncPersons.prototype = {
         $('body').on("click", "#asslocs", $.proxy(function () { this.AssignLocations(); return false; }, this));
         $('body').on("click", "#dupes", $.proxy(function () { this.SetDuplicates(); return false; }, this));
         $('body').on("click", "#upests", $.proxy(function () { this.UpdateEstimates(); return false; }, this));
-        $('body').on("click", "#sfat", $.proxy(function () { this.SetRelation('2'); return false; }, this));
-        $('body').on("click", "#smot", $.proxy(function () { this.SetRelation('4'); return false; }, this));
-        $('body').on("click", "#sson", $.proxy(function () { this.SetRelation('3'); return false; }, this));
+        $('body').on("click", "#remove-trees", $.proxy(function () { this.RemoveSources(); return false; }, this));
+        $('body').on("click", "#add-tree", $.proxy(function () { this.SetSources(); return false; }, this));
+        
+      //  $('body').on("click", "#sson", $.proxy(function () { this.SetRelation('3'); return false; }, this));
         $('body').on("click", "#remove", $.proxy(function () { this.SetRemoveLink(); return false; }, this));
         $('body').on("click", "#merge", $.proxy(function () { this.SetMergeSources(); return false; }, this));
-        $('body').on("click", "#sdau", $.proxy(function () { this.SetRelation('5'); return false; }, this));
-        $('body').on("click", "#sbro", $.proxy(function () { this.SetRelation('6'); return false; }, this));
-        $('body').on("click", "#ssis", $.proxy(function () { this.SetRelation('7'); return false; }, this));
+    //    $('body').on("click", "#sdau", $.proxy(function () { this.SetRelation('5'); return false; }, this));
+     //   $('body').on("click", "#sbro", $.proxy(function () { this.SetRelation('6'); return false; }, this));
+    //    $('body').on("click", "#ssis", $.proxy(function () { this.SetRelation('7'); return false; }, this));
 
         $('body').on("click", "#sbint", $.proxy(function () { this.sort('BirthInt'); return false; }, this));
         $('body').on("click", "#sdint", $.proxy(function () { this.sort('DeathInt'); return false; }, this));
@@ -112,6 +113,13 @@ AncPersons.prototype = {
             this.getPersons('1');
         }
 
+
+        this.getSources();
+        
+
+     //'remove-trees'  
+                   
+         //         'add-tree' 
     },
     createQryString: function () {
 
@@ -278,6 +286,39 @@ AncPersons.prototype = {
 
         this.ancUtils.addlinks(selectEvents, this.processSelect, this);
     },
+
+    getSources: function () {
+
+        var params = {};
+        params[0] = '87';
+        params[1] = '';
+        params[2] = '';
+        params[3] = '';
+        params[4] = '0';
+        params[5] = '0';
+        params[6] = '2000';
+        params[7] = '2000';
+        params[8] = '';
+        params[9] = 'false';
+        params[10] = 'false';
+        params[11] = 'false';
+        params[12] = 'false';
+        params[13] = '0';
+        params[14] = '30';
+        params[15] = 'sdate';
+
+        this.ancUtils.twaGetJSON('/Sources/Select', params, function (data) {
+            var tableBody = '';
+            $.each(data.serviceSources, function (source, sourceInfo) {
+                //<option value="volvo">Volvo</option> //sourceInfo.SourceDesc           
+                tableBody += '<option value="' + sourceInfo.SourceId + '">' + sourceInfo.SourceRef + '</option>';
+            });
+            if (tableBody !== '') $('#tree-select').html(tableBody);
+        });
+
+        return false;
+    },
+
     loadDupes: function (id) {
         this.qryStrUtils.updateQryPar('_parentId', id);
         this.getPersons('1');
@@ -327,12 +368,22 @@ AncPersons.prototype = {
         this.postParams.data = { person: this.ancUtils.convertToCSV(this.selection)};
         this.ancUtils.twaPostJSON(this.postParams);
     },
+    
     SetMergeSources: function(){
         this.postParams.url = '/PersonService/MergePersons';
         this.postParams.data = { person: this.ancUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
+    },
+    SetSources: function () {
+        this.postParams.url = '/Sources/AddTreeSource';              
+        this.postParams.data = { record:this.ancUtils.convertToCSV(this.selection),sources: $("#tree-select").val()};
+        this.ancUtils.twaPostJSON(this.postParams);
+    },
+    RemoveSources: function () {
+        this.postParams.url = '/Sources/RemoveTreeSources';
+        this.postParams.data = { record: this.ancUtils.convertToCSV(this.selection) };
+        this.ancUtils.twaPostJSON(this.postParams);
     }
-
 
 };
 

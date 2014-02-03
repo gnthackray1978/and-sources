@@ -21,7 +21,45 @@ namespace SourceService
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Required)]
     public class SourceService : ISourceService
     {
-       
+
+        public string AddSources(string record, string sources)
+        {
+            var iModel = new SourceSearch(new Security(WebHelper.GetUser()));
+            string retVal = "";
+
+            try
+            {
+                iModel.AddSources(record.ParseToGuidList(), sources.ParseToGuidList());
+            }
+            catch (Exception ex1)
+            {
+                retVal = ex1.Message;
+            }
+
+
+            return WebHelper.MakeReturn(record, retVal);
+        }
+
+
+
+        public string RemoveTreeSources(string record)
+        {
+            string retVal = "";
+            var iModel = new SourceSearch(new Security(WebHelper.GetUser()));
+
+            try
+            {
+                iModel.RemoveTreeSources(record.ParseToGuidList());
+            }
+            catch (Exception ex1)
+            {
+                retVal = ex1.Message;
+            }
+
+            return WebHelper.MakeReturn(record, retVal);
+        }
+     
+
         public List<CensusSource> Get1841CensusSources(Guid sourceId)
         {
             var serviceSourceObject = new ServiceSourceObject();                     

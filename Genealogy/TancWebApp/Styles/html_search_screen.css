@@ -198,6 +198,15 @@ left: 0;
     
     }
 
+.flt_gen select
+{
+    position: relative;
+	/*left: 10px;*/
+	width: 160px;
+	margin-bottom: 5px;
+	margin-left: 10px;
+}
+
 .flt_gen input
 {
     position: relative;

@@ -112,6 +112,24 @@ namespace TDBCore.Types.domain
                 _marriagesDll.ReorderMarriages(marriageId);
         }
 
+
+        public void SwitchSpouses(List<Guid> marriageIds)
+        {
+            if (!marriageIds.IsNullOrEmpty())
+                _marriagesDll.SwapSpouses(marriageIds);
+        }
+
+        public string RemoveTreeSources(Guid marriageId)
+        {
+
+            if (!_security.IsValidEdit()) return "You dont have permission to edit!";
+
+            _sourceMappingsBll.DeleteSourcesForPersonOrMarriage(marriageId, 87);//.WritePersonSources2(personId, sources, _security.UserId());
+
+            return "";
+        }
+
+
         /// <summary>
         /// Deletes selected record(s) then calls refresh
         /// </summary>
@@ -184,6 +202,7 @@ namespace TDBCore.Types.domain
  
         }
 
+ 
 
         public void SetSelectedDuplicateMarriage(List<Guid> marriages)
         {
@@ -261,7 +280,8 @@ namespace TDBCore.Types.domain
 
             pmarriage.MarriageId = _marriagesDll.InsertMarriage(pmarriage);
 
-            _sourceMappingsBll.WriteMarriageSources(pmarriage.MarriageId, sources, 1);
+            if(sources.Count>0)
+                _sourceMappingsBll.WriteMarriageSources(pmarriage.MarriageId, sources, 1);
 
 
             SetWitnesses(pmarriage.MarriageId, witnesses);
