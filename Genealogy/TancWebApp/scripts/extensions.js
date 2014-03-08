@@ -146,35 +146,36 @@ Array.prototype.RemoveDupes = function () {
 
 
 
-$.fn.dataTableExt.oApi.fnFindRowAttrib = function (oSettings, sSearch, iColumn) {
-    var i, iLen;
+//$.fn.dataTableExt.oApi.fnFindRowAttrib = function (oSettings, sSearch, iColumn) {
+//    var i, iLen;
 
-    for (i = 0, iLen = oSettings.aoData.length ; i < iLen ; i++) {
+//    for (i = 0, iLen = oSettings.aoData.length ; i < iLen ; i++) {
 
-        var result = $(oSettings.aoData[i].nTr).attr(iColumn);
+//        var result = $(oSettings.aoData[i].nTr).attr(iColumn);
 
-        if (result != undefined && result == sSearch)
-            return i;
+//        if (result != undefined && result == sSearch)
+//            return i;
 
-    }
+//    }
 
-    return i;
-};
+//    return i;
+//};
 
 
-$.fn.dataTableExt.oApi.fnFindRow = function (oSettings, sSearch, iColumn) {
-    var i, iLen;
+if ($.fn.dataTableExt)
+    $.fn.dataTableExt.oApi.fnFindRow = function (oSettings, sSearch, iColumn) {
+        var i, iLen;
 
-    var retVale = { row: undefined, idx:-1 };
+        var retVale = { row: undefined, idx:-1 };
 
-    for (i = 0, iLen = oSettings.aoData.length ; i < iLen ; i++) {
+        for (i = 0, iLen = oSettings.aoData.length ; i < iLen ; i++) {
 
-        var result = $(oSettings.aoData[i].nTr).attr(iColumn);
+            var result = $(oSettings.aoData[i].nTr).attr(iColumn);
 
-        if (result != undefined && result == sSearch)
-            return { row: $(oSettings.aoData[i].nTr), idx: i };
+            if (result != undefined && result == sSearch)
+                return { row: $(oSettings.aoData[i].nTr), idx: i };
 
-    }
+        }
 
-    return retVale;
-};
+        return retVale;
+    };
