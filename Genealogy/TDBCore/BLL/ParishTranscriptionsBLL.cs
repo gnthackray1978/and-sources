@@ -54,7 +54,7 @@ namespace TDBCore.BLL
                 parishTranscriptionDetail.Parish = parish;
                 parishTranscriptionDetail.ParishDataString = transcriptionString;
 
-                ModelContainer.ParishTranscriptionDetails.AddObject(parishTranscriptionDetail);
+                ModelContainer.ParishTranscriptionDetails.Add(parishTranscriptionDetail);
                 ModelContainer.SaveChanges();
 
                 return parishTranscriptionDetail.ParishTranscriptionId;
@@ -75,7 +75,7 @@ namespace TDBCore.BLL
 
             if (ptrans != null)
             {
-                ModelContainer.ParishTranscriptionDetails.DeleteObject(ptrans);
+                ModelContainer.ParishTranscriptionDetails.Remove(ptrans);
                 ModelContainer.SaveChanges();
             }
         }

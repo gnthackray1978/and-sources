@@ -51,7 +51,7 @@ namespace TDBCore.BLL
                 smp.SourceMappingUser = userId;
 
 
-                ModelContainer.SourceMappingParishs.AddObject(smp);
+                ModelContainer.SourceMappingParishs.Add(smp);
 
                 ModelContainer.SaveChanges();
             }
@@ -87,43 +87,7 @@ namespace TDBCore.BLL
 
         }
  
-        public void DeleteBySourceIdAndParishId2(Guid sourceId, Guid parishId)
-        {
 
-            var ent = ModelContainer.SourceMappingParishs.Where(o => o.Source.SourceId == sourceId && o.Parish.ParishId == parishId).FirstOrDefault();
-
-
-            if (ent != null)
-            {
-                // because source mappings are added and removed in disconnected state from the db
-                // and the source mapping might not be in the entity model by this point BUT it could still be in the db
-
-                if (ModelContainer.SourceMappingParishs.Where(sm => sm.SourceMappingParishsRowId == ent.SourceMappingParishsRowId).Count() > 0)
-                    ModelContainer.DeleteObject(ent);
-
-
-                ModelContainer.SaveChanges();
-            }
-   
-        }
- 
-
-        public void DeleteBySourceMappingParishsRowId2(int sourceMappingParishsRowId)
-        {
-    
-            ModelContainer.SaveChanges();
-            SourceMappingParish ent = ModelContainer.SourceMappingParishs.FirstOrDefault(o => o.SourceMappingParishsRowId == sourceMappingParishsRowId);
-
-            if (ent != null)
-            {
-                ModelContainer.DeleteObject(ent);
-                ModelContainer.SaveChanges();
-            }
-            else
-            {
-                Debug.Assert(false);
-            }
-        }
 
     }
 }

@@ -97,7 +97,7 @@ namespace TDBCore.BLL
                     result.FemaleCName = o_cname;
                     result.FemaleSName = o_sname;
 
-                  //  ModelContainer.Marriages.AddObject(result);
+                  //  ModelContainer.Marriages.Add(result);
 
                     ModelContainer.SaveChanges();
 
@@ -122,7 +122,7 @@ namespace TDBCore.BLL
                 DeathsBirthsBll deathsBirthsBll = new DeathsBirthsBll();
 
 
-                newPerson.ReferenceDateInt = marriage.YearIntVal;
+                newPerson.ReferenceDateInt = marriage.YearIntVal.GetValueOrDefault();
                 newPerson.ReferenceDateStr = marriage.Date;
                 newPerson.ReferenceLocation = marriage.MarriageLocation;
                 newPerson.OrigSurname = "witness";
@@ -248,7 +248,7 @@ namespace TDBCore.BLL
                 MaleSName = m.MaleSName,
                 MarriageLocation = m.MarriageLocation,
                 MarriageTotalEvents = m.TotalEvents.Value,
-                MarriageYear = m.YearIntVal
+                MarriageYear = m.YearIntVal.GetValueOrDefault()
             });
             
             int idx = 0;
@@ -435,13 +435,13 @@ namespace TDBCore.BLL
             _marriage.DateAdded = DateTime.Today;
             _marriage.DateLastEdit = DateTime.Today;
           
-            ModelContainer.Marriages.AddObject(_marriage);
+            ModelContainer.Marriages.Add(_marriage);
 
 
 
             ModelContainer.SaveChanges();
 
-            ModelContainer.Detach(_marriage);
+            //ModelContainer.Detach(_marriage);
 
             return _marriage.Marriage_Id;
         }
@@ -536,13 +536,13 @@ namespace TDBCore.BLL
             _marriage.OrigFemaleSurname = origFemaleName;
             _marriage.OrigMaleSurname = origMaleName;
 
-            ModelContainer.Marriages.AddObject(_marriage);
+            ModelContainer.Marriages.Add(_marriage);
 
           
 
             ModelContainer.SaveChanges();
 
-            ModelContainer.Detach(_marriage);
+         //   ModelContainer.Detach(_marriage);
 
             return _marriage.Marriage_Id;
         }
@@ -678,7 +678,7 @@ namespace TDBCore.BLL
             _marriage.Witness3 = "";
             _marriage.Witness4 = "";
 
-            ModelContainer.Marriages.AddObject(_marriage);
+            ModelContainer.Marriages.Add(_marriage);
             ModelContainer.SaveChanges();
 
             return _marriage.Marriage_Id;
@@ -913,7 +913,7 @@ namespace TDBCore.BLL
 
             if (marriage != null)
             {
-                ModelContainer.DeleteObject(marriage);
+                ModelContainer.Marriages.Remove(marriage);
                 ModelContainer.SaveChanges();
             }
         }

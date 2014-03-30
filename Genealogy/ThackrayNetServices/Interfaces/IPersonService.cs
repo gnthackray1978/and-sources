@@ -40,6 +40,7 @@ namespace PersonService
                                                 string filterTreeResults,
                                                 string filterIncludeBirths,
                                                 string filterIncludeDeaths,
+                                                string filterIncludeSources,
                                                 string filterSource,
                                                 string spouse,
                                                 string parishFilter,

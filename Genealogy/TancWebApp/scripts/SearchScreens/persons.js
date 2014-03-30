@@ -5,8 +5,10 @@ var JSMaster,QryStrUtils,AncUtils,Panels;
 $(document).ready(function () {
     var jsMaster = new JSMaster();
 
+    console.log('person ready');
 
     jsMaster.generateHeader('#1', function () {
+        console.log('person header generated');
         var ancPersons = new AncPersons();
         ancPersons.init();
 
@@ -70,7 +72,7 @@ AncPersons.prototype = {
 
         $('body').on("click", "#sfather", $.proxy(function () { this.sort('FatherChristianName'); return false; }, this));
         $('body').on("click", "#smother", $.proxy(function () { this.sort('MotherChristianName'); return false; }, this));
-        $('body').on("click", "#sdloc", $.proxy(function () { this.sort('DeathLocation'); return false; }, this));
+        $('body').on("click", "#sinfo", $.proxy(function () { this.sort('SourceRef'); return false; }, this));
 
 
         if (isActive == '1') {
@@ -107,13 +109,22 @@ AncPersons.prototype = {
             else {
                 $('#chkIncludeDeaths').prop('checked', true);
             }
+            
+
+            if (this.qryStrUtils.getParameterByName('incs', '') == 'false') {
+                $('#chkIncludeSources').prop('checked', false);
+            }
+            else {
+                $('#chkIncludeSources').prop('checked', true);
+            }
+            
 
             this.parishId = this.qryStrUtils.getParameterByName('parid', '');
-
+            console.log('person calling get data');
             this.getPersons('1');
         }
 
-
+        
         this.getSources();
         
 
@@ -135,9 +146,10 @@ AncPersons.prototype = {
             "count": $('#txtCounty'),
             "ldrl": $('#txtLowerDateRangeLower'),
             "ldru": $('#txtLowerDateRangeUpper'),
-            "inct": $('#txtLocation').prop('checked'),
-            "incb": $('#txtLowerDateRangeLower').prop('checked'),
-            "incd": $('#txtLowerDateRangeUpper').prop('checked'),
+            "inct": $('#chkIncludeTree').prop('checked'),
+            "incb": $('#chkIncludeBirths').prop('checked'),
+            "incd": $('#chkIncludeDeaths').prop('checked'),
+            "incs": $('#chkIncludeSources').prop('checked'),
             "parid": this.parishId
         };
 
@@ -174,12 +186,13 @@ AncPersons.prototype = {
         params[11] = String($('#chkIncludeTree').prop('checked'));
         params[12] = String($('#chkIncludeBirths').prop('checked'));
         params[13] = String($('#chkIncludeDeaths').prop('checked'));
-        params[14] = String(this.qryStrUtils.getParameterByName('sids', ''));
-        params[15] = String($('#txtSpouse').val());
-        params[16] = this.parishId;
-        params[17] = String(this.qryStrUtils.getParameterByName('page', 0));
-        params[18] = '30';
-        params[19] = String(this.qryStrUtils.getParameterByName('sort_col', 'BirthInt'));
+        params[14] = String($('#chkIncludeSources').prop('checked'));
+        params[15] = String(this.qryStrUtils.getParameterByName('sids', ''));
+        params[16] = String($('#txtSpouse').val());
+        params[17] = this.parishId;
+        params[18] = String(this.qryStrUtils.getParameterByName('page', 0));
+        params[19] = '30';
+        params[20] = String(this.qryStrUtils.getParameterByName('sort_col', 'BirthInt'));
 
         this.ancUtils.twaGetJSON('/PersonService/Get/Select', params, $.proxy(this.processData, this));
 
@@ -220,9 +233,28 @@ AncPersons.prototype = {
 
 
             tableBody += '<td><a href="../HtmlPages/PersonEditor.html' + _loc + '"><div> Edit </div></a></td>';
-            tableBody += '<td><div class = "dates" >' + sourceInfo.BirthYear + '-' + sourceInfo.DeathYear + '</div></td>';
 
-            tableBody += '<td><div>' + sourceInfo.BirthLocation + '</div></td>';
+
+            if (sourceInfo.SourceDateStr == '')
+                tableBody += '<td><div class = "dates" >' + sourceInfo.BirthYear + '-' + sourceInfo.DeathYear + '</div></td>';
+            else  
+                tableBody += '<td><div class = "dates" >' + sourceInfo.SourceDateStr + '</div></td>';
+             
+
+
+
+            if (sourceInfo.SourceParishName == '') {
+                
+                if (sourceInfo.DeathLocation == '') {
+                    tableBody += '<td><div>' + sourceInfo.BirthLocation + '</div></td>';
+                } else {
+                    tableBody += '<td><div>' + sourceInfo.BirthLocation + ' -> '+sourceInfo.DeathLocation + '</div></td>';
+                }
+                
+            } else {
+                tableBody += '<td><div>' + sourceInfo.SourceParishName + '</div></td>';
+            }
+
 
             tableBody += '<td><a id= "s' + _idx + '" href="" ><div>' + sourceInfo.ChristianName + '</div></a></td>';
             selectEvents.push({ key: 's' + _idx, value: sourceInfo.PersonId });
@@ -245,8 +277,14 @@ AncPersons.prototype = {
 
             tableBody += '<td><div>' + sourceInfo.MotherChristianName + '</div></td>';
             tableBody += '<td><div>' + sourceInfo.MotherSurname + '</div></td>';
-            tableBody += '<td><div>' + sourceInfo.DeathLocation + '</div></td>';
+         //   <td><div>' + sourceInfo.SourceRef + '</div></td>';
 
+            _loc = window.location.hash;
+            _loc = that.qryStrUtils.updateStrForQry(_loc, 'id', sourceInfo.SourceId);
+
+            tableBody += '<td><a href="../HtmlPages/SourceEditor.html' + _loc + '"><div>' + sourceInfo.SourceRef + '</div></a></td>';
+            
+            
             tableBody += '</tr>';
 
             visibleRecords.push(sourceInfo.PersonId);
@@ -375,7 +413,7 @@ AncPersons.prototype = {
         this.ancUtils.twaPostJSON(this.postParams);
     },
     SetSources: function () {
-        this.postParams.url = '/Sources/AddTreeSource';              
+        this.postParams.url = '/Sources/AddPersonTreeSource';              
         this.postParams.data = { record:this.ancUtils.convertToCSV(this.selection),sources: $("#tree-select").val()};
         this.ancUtils.twaPostJSON(this.postParams);
     },

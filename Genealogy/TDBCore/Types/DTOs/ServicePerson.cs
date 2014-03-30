@@ -20,7 +20,7 @@ namespace TDBCore.Types.DTOs
         public string BirthLocationId { get; set; }
         public string DeathLocationId { get; set; }
         public string ReferenceLocationId { get; set; }
-        public string ReferenceLocation { get; set; }
+      
         public string ReferenceDate { get; set; }
         public string SourceDescription { get; set; }
         public string SpouseChristianName { get; set; }

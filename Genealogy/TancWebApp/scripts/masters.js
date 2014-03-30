@@ -38,18 +38,22 @@ JSMaster.prototype = {
 
     initFacebook: function () {
 
-        console.log('jsmaster init face book');
+        console.log('jsmaster FB.init');
 
         FB.init({ appId: 205401136237103, status: true, cookie: true, xfbml: true, channelUrl: this.urlroot + '/HtmlPages/channel.html' });
 
+        console.log('jsmaster FB.getLoginStatus');
+        
         FB.getLoginStatus(function (response) {
+
 
             console.log('jsmaster init getLoginStatus');
 
             if (response.status == 'connected') {
                 // showError('connected');
                 //window.getLoggedInUserName();
-
+                console.log('jsmaster init connected');
+                
                 var params = {};
                 params[0] = 'hello';
                 var ancUtils = new AncUtils();
@@ -57,14 +61,19 @@ JSMaster.prototype = {
                     $('#usr_nam').html(data);
                 });
 
+                console.log('jsmaster init facebookReady.apply');
                 if (window.facebookReady != null) {
+                    console.log('jsmaster init facebookReady.apply confirmed to go');
                     window.facebookReady.apply();
                 }
             }
             else {
+                console.log('jsmaster init facebookReady.apply');
                 window.facebookReady.apply();
             }
-        });
+            
+
+        }, true);
 
     },
 
@@ -133,7 +142,8 @@ JSMaster.prototype = {
 
 
         headersection += '<div id="fb-root">';
-        headersection += '<fb:login-button autologoutlink="true" perms="email,user_birthday,status_update"></fb:login-button>';
+           headersection += '<fb:login-button autologoutlink="true" perms="email,user_birthday,status_update"></fb:login-button>';
+     //   headersection += '<fb:login-button show-faces="false" width=200px!important max-rows="1"></fb:login-button>';
         headersection += '</div>';
 
         headersection += '<div id = "usr_nam"></div>';
@@ -150,9 +160,7 @@ JSMaster.prototype = {
 
         $(selectorid).html(headersection);
 
-        this.connectfacebook(readyfunction);
 
-        var panels = new Panels();
 
 
         $('body').on("click", "#lnk_mainoptions", $.proxy(function () { panels.masterShowTab(1); return false; }, panels));
@@ -163,7 +171,13 @@ JSMaster.prototype = {
         $('body').on("click", "#lnk_prevback", $.proxy(function () { this.prevBackground(); return false; }, this));
         $('body').on("click", "#lnk_nextback", $.proxy(function () { this.nextBackground(); return false; }, this));
 
+        this.connectfacebook(function () {
+            console.log('facebook loaded');
+        });
 
+        readyfunction.call();
+
+        var panels = new Panels();
     },
 
     connectfacebook: function (readyfunction) {

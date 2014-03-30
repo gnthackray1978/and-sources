@@ -20,7 +20,9 @@ namespace ANDServices
 
         public const string AddSource = "/Add";
 
-        public const string AddTreeSource = "/AddTreeSource";
+        public const string AddPersonTreeSource = "/AddPersonTreeSource";
+        public const string AddMarriageTreeSource = "/AddMarriageTreeSource";
+
         public const string RemoveTreeSources = "/RemoveTreeSources";
     }
 }

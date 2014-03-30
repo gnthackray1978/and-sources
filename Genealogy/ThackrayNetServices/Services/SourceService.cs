@@ -22,14 +22,14 @@ namespace SourceService
     public class SourceService : ISourceService
     {
 
-        public string AddSources(string record, string sources)
+        public string AddMarriageSources(string record, string sources)
         {
             var iModel = new SourceSearch(new Security(WebHelper.GetUser()));
             string retVal = "";
 
             try
             {
-                iModel.AddSources(record.ParseToGuidList(), sources.ParseToGuidList());
+                iModel.AddSources(record.ParseToGuidList(), sources.ParseToGuidList(), SourceTypes.Marriage);
             }
             catch (Exception ex1)
             {
@@ -40,7 +40,23 @@ namespace SourceService
             return WebHelper.MakeReturn(record, retVal);
         }
 
+        public string AddPersonSources(string record, string sources)
+        {
+            var iModel = new SourceSearch(new Security(WebHelper.GetUser()));
+            string retVal = "";
 
+            try
+            {
+                iModel.AddSources(record.ParseToGuidList(), sources.ParseToGuidList(),SourceTypes.Person);
+            }
+            catch (Exception ex1)
+            {
+                retVal = ex1.Message;
+            }
+
+
+            return WebHelper.MakeReturn(record, retVal);
+        }
 
         public string RemoveTreeSources(string record)
         {

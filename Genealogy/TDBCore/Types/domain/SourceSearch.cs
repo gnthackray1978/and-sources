@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Security;
+using System.Web.UI.WebControls;
 using TDBCore.BLL;
  
 using TDBCore.Types.DTOs;
@@ -40,11 +43,9 @@ namespace TDBCore.Types.domain
             if(validator== null)
                 validator = new Validator();
 
+            if (!_security.IsvalidSelect()) throw new SecurityException("Missing select permission");
 
-
-            if (!_security.IsvalidSelect()) return sourcesDataTable;
-
-            if (!validator.ValidEntry()) return sourcesDataTable;
+            if (!validator.ValidEntry()) throw new InvalidDataException(validator.GetErrors());
 
             switch (param)
             { 
@@ -68,27 +69,35 @@ namespace TDBCore.Types.domain
 
         public void DeleteRecords(SourceSearchFilter sourceSearchFilter)
         {
-            if (!_security.IsValidDelete()) return;
+            if (!_security.IsValidDelete()) throw new SecurityException("Missing delete permission");
          
             sourceSearchFilter.Sources.ForEach(s => _sourceBll.DeleteSource2(s));
                        
         }
 
-        public string AddSources(List<Guid> records, List<Guid> sources)
+        public string AddSources(List<Guid> records, List<Guid> sources,SourceTypes sourceTypes)
         {
 
-            if (!_security.IsValidEdit()) return "You dont have permission to edit!";
+            if (!_security.IsValidEdit()) throw new SecurityException("Missing edit permission");
 
             if (sources.IsNullOrBelowMinSize(1))
             {
-                return "You need to select more than source!";
+                throw new InvalidDataException("Invalid number of supplied sources");
             }
 
-            
-            records.ForEach(p => _smBll.WritePersonSources2(p, sources, _security.UserId()));
-           
 
-
+            switch (sourceTypes)
+            {
+                case SourceTypes.Person:
+                    records.ForEach(p => _smBll.WritePersonSources2(p, sources, _security.UserId()));
+                    break;
+                case SourceTypes.Marriage:
+                    records.ForEach(p => _smBll.WriteMarriageSources(p, sources, _security.UserId()));
+                    break;
+               
+                default:
+                    throw new ArgumentOutOfRangeException("sourceTypes");
+            }
 
             return "";
         }
@@ -106,7 +115,7 @@ namespace TDBCore.Types.domain
 
         public void DeleteRecords(SourceDto sourceDto)
         {
-            if (!_security.IsValidDelete()) return;
+            if (!_security.IsValidDelete()) throw new SecurityException("Missing delete permission");
 
             _sourceBll.DeleteSource2(sourceDto.SourceId);
 
@@ -117,7 +126,7 @@ namespace TDBCore.Types.domain
             if (sourceDto == null)
                 sourceDto = new SourceDto();
 
-            if (!_security.IsvalidSelect()) return sourceDto;
+            if (!_security.IsvalidSelect()) throw new SecurityException("Missing select permission");
 
             sourceDto = _sourceBll.GetSource(sourceDto.SourceId);
 
@@ -132,7 +141,7 @@ namespace TDBCore.Types.domain
 
         private void Edit(SourceDto sourceDto)
         {
-            if (!_security.IsValidEdit()) return;
+            if (!_security.IsValidEdit()) throw new SecurityException("Missing edit permission");
 
             _sourceBll.UpdateSource(sourceDto);
 
@@ -142,7 +151,7 @@ namespace TDBCore.Types.domain
         private void Insert(SourceDto sourceDto)
         {
 
-            if (!_security.IsValidInsert()) return;
+            if (!_security.IsValidInsert()) throw new SecurityException("Missing insert permission");
 
             UpdateRelatedData(sourceDto);
         }
@@ -162,7 +171,7 @@ namespace TDBCore.Types.domain
             if (validator == null)
                 validator = new Validator();
 
-            if (!validator.ValidEntry()) return;
+            if (!validator.ValidEntry()) throw new InvalidDataException(validator.GetErrors());
 
             if (sourceDto.SourceId == Guid.Empty)
             {

@@ -58,7 +58,7 @@ namespace TDBCore.BLL
                 _parish.ParishX = parishX;
                 _parish.ParishY = parishY;
 
-                ModelContainer.AddToParishs(_parish);
+                ModelContainer.Parishs.Add(_parish);
             }
             else
             {
@@ -530,7 +530,7 @@ namespace TDBCore.BLL
             Parish customer = ModelContainer.Parishs.First(c => c.ParishId == parishId);
             if (customer != null)
             {
-                ModelContainer.DeleteObject(customer);
+                ModelContainer.Parishs.Remove(customer);
                 ModelContainer.SaveChanges();
             } 
 
@@ -544,7 +544,7 @@ namespace TDBCore.BLL
 
             foreach (var parish in customer.Where(parish => parish != null))
             {
-                ModelContainer.DeleteObject(parish);
+                ModelContainer.Parishs.Remove(parish);
                 ModelContainer.SaveChanges();
             }
         }
@@ -631,7 +631,7 @@ namespace TDBCore.BLL
                         ParishY = (decimal)serviceParish.ParishLong
                     };
 
-                ModelContainer.AddToParishs(parish);
+                ModelContainer.Parishs.Add(parish);
             }
             else
             {

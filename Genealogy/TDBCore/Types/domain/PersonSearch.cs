@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
- 
+using System.IO;
 using System.Linq;
+using System.Security;
 using TDBCore.BLL;
  
 using TDBCore.Types.DTOs;
@@ -32,11 +33,10 @@ namespace TDBCore.Types.domain
 
         public ServicePersonObject Search(PersonSearchTypes filterMode, PersonSearchFilter personSearchFilter, DataShaping shaper, IValidator validator = null)
         {
-            var personsDataTable = new ServicePersonObject();
+           
+            if (validator != null && !validator.ValidEntry()) throw new InvalidDataException(validator.GetErrors());
 
-            if (validator != null && !validator.ValidEntry()) return personsDataTable;
-
-            if (!_security.IsvalidSelect()) return personsDataTable;
+            if (!_security.IsvalidSelect()) throw new SecurityException("Missing select permission");
         
             IList<ServicePerson> tpServicePerson = new List<ServicePerson>();
 
@@ -68,7 +68,7 @@ namespace TDBCore.Types.domain
         
         public void DeleteRecords(List<Guid> personIds)
         {
-            if (!_security.IsValidDelete()) return;
+            if (!_security.IsValidDelete()) throw new SecurityException("Missing delete permission");
 
             personIds.ForEach(p => _deathsBirthsBll.DeleteDeathBirthRecord2(p));           
         }
@@ -78,7 +78,7 @@ namespace TDBCore.Types.domain
         {
             var servicePerson = new ServicePerson();
 
-            if (!_security.IsvalidSelect()) return servicePerson;
+            if (!_security.IsvalidSelect()) throw new SecurityException("Missing select permission");
 
             if (personId == Guid.Empty) return servicePerson;
 
@@ -92,7 +92,7 @@ namespace TDBCore.Types.domain
 
         private void EditSelectedRecord(ServicePerson servicePerson,List<Guid> sourceIds)
         {
-            if (!_security.IsValidEdit()) return;
+            if (!_security.IsValidEdit()) throw new SecurityException("Missing edit permission");
 
             _deathsBirthsBll.UpdateBirthDeathRecord(servicePerson);
 
@@ -101,7 +101,7 @@ namespace TDBCore.Types.domain
 
         private void InsertNewRecord(ServicePerson servicePerson, List<Guid> sourceIds)
         {
-            if (!_security.IsValidInsert()) return;
+            if (!_security.IsValidInsert()) throw new SecurityException("Missing insert permission");
             
             _deathsBirthsBll.InsertDeathBirthRecord(servicePerson);
 
@@ -110,7 +110,7 @@ namespace TDBCore.Types.domain
 
         public void Save(ServicePerson servicePerson,List<Guid> sourceIds,  IValidator validator = null)
         {
-            if (validator != null && !validator.ValidEntry()) return;
+            if (validator != null && !validator.ValidEntry()) throw new InvalidDataException(validator.GetErrors());
 
             if (servicePerson.PersonId == Guid.Empty)
             {
@@ -128,11 +128,12 @@ namespace TDBCore.Types.domain
         public string SetDuplicateRelation(List<Guid> persons)
         {
 
-            if (!_security.IsValidEdit()) return "You dont have permission to edit!";
+            if (!_security.IsValidEdit()) throw new SecurityException("Missing edit permission");
 
             if (persons.IsNullOrBelowMinSize(2))
-            {                
-                return "You need to select more than source!";
+            {
+                throw new InvalidDataException("You need to select more than source!");
+                 
             }
 
             _relationsBll.GetRelationsByMapId(persons, 1, _security.UserId()).ForEach(r => _deathsBirthsBll.UpdateDuplicateRefs2(r.PersonA, r.PersonB));
@@ -142,11 +143,11 @@ namespace TDBCore.Types.domain
 
         public string SetDefaultPersonForTree(Guid param)
         {
-            if (!_security.IsValidEdit()) return "You dont have permission to edit!";
+            if (!_security.IsValidEdit()) throw new SecurityException("Missing edit permission");
 
             if (param == Guid.Empty)
             {
-                return "You need to select more than source!";
+                throw new InvalidDataException("You need to select more than source!");
             }
 
             _sourceMappingsBll.SetDefaultTreePerson(param, param);
@@ -157,11 +158,11 @@ namespace TDBCore.Types.domain
         public string DelinkPersons(List<Guid> persons)
         {
 
-            if (!_security.IsValidEdit()) return "You dont have permission to edit!";
+            if (!_security.IsValidEdit()) throw new SecurityException("Missing edit permission");
           
             if (persons.IsNullOrBelowMinSize(1))
             {
-                return "You need to select more than source!";
+                throw new InvalidDataException("You need to select more than source!");
             }
 
             _deathsBirthsBll.DelinkPersons(persons);

@@ -11,6 +11,12 @@ namespace TDBCore.Types.libs
 
     public static class MyExtensions
     {
+
+        public static bool LazyContains(this string str, string contains)
+        {
+            return str.Trim().ToLower().Contains(contains.Trim().ToLower());
+        }
+
         public static bool IsNullOrEmpty(this string str)
         {
             return string.IsNullOrEmpty(str);
@@ -42,23 +48,6 @@ namespace TDBCore.Types.libs
 
  
  
-        public static TreePerson GetTreePerson(this List<List<TreePerson>> treeList, Guid personId)
-        {
-            TreePerson retPerson = null;
-
-            foreach (List<TreePerson> ltp in treeList)
-            {
-                foreach (TreePerson tp in ltp)
-                {
-                    if (tp.PersonId == personId)
-                    {
-                        return tp;
-                    }
-                }
-            }
-
-            return retPerson;
-        }
 
         public static int FirstIndexOfFamily(this List<TreePerson> treeList, Guid personId, Guid fatherId, Guid motherId)
         {
@@ -93,19 +82,19 @@ namespace TDBCore.Types.libs
             return idx;
         }
 
-        public static List<WitnessDto> DeserializeToMarriageWitnesses(this JavaScriptSerializer serializer, string marriageWitnesses, int Year,
-          string Date,
-          string Location,
-          Guid LocationId )
+        public static List<WitnessDto> DeserializeToMarriageWitnesses(this JavaScriptSerializer serializer, string marriageWitnesses, int year,
+          string date,
+          string location,
+          Guid locationId )
         {
-            List<WitnessDto> view = serializer.Deserialize<List<WitnessDto>>(marriageWitnesses);
+            var view = serializer.Deserialize<List<WitnessDto>>(marriageWitnesses);
 
             foreach(var witness in view)
             {
-                witness.Date = Date;
-                witness.Location = Location;
-                witness.LocationId = LocationId;
-                witness.Year = Year;
+                witness.Date = date;
+                witness.Location = location;
+                witness.LocationId = locationId;
+                witness.Year = year;
 
             }
 
@@ -214,7 +203,7 @@ namespace TDBCore.Types.libs
                 if (str.ContainsKey(key))
                 {
 
-                    retVal = str[key].ToString();
+                    retVal = str[key];
                     
                 }
             }
@@ -230,7 +219,7 @@ namespace TDBCore.Types.libs
             str = str.Trim();
 
 
-            Guid retVal = Guid.Empty;
+            Guid retVal;
 
             try
             {
@@ -269,11 +258,7 @@ namespace TDBCore.Types.libs
         public static string ParseToCSV(this List<int> str)
         {
 
-            string retVal = "";
-            foreach (int _int in str)
-            {
-                retVal += "," + _int.ToString();
-            }
+            string retVal = str.Aggregate("", (current, _int) => current + ("," + _int));
 
             if (retVal.StartsWith(",")) retVal = retVal.Remove(0, 1);
 
@@ -288,7 +273,7 @@ namespace TDBCore.Types.libs
             str = str.Trim();
 
 
-            bool retVal = false;
+            bool retVal;
 
             try
             {
@@ -317,7 +302,7 @@ namespace TDBCore.Types.libs
             str = str.Trim();
 
 
-            bool retVal = false;
+            bool retVal;
 
             try
             {
@@ -346,7 +331,7 @@ namespace TDBCore.Types.libs
                 str = "";
 
             str = str.Trim();
-            int retVal =0;
+            int retVal;
 
             Int32.TryParse(str, out retVal);
 
@@ -367,16 +352,9 @@ namespace TDBCore.Types.libs
             return retVal;
         }
 
-        public static int WordCount(this String str)
-        {
-            return str.Split(new char[] { ' ', '.', '?' },
-                             StringSplitOptions.RemoveEmptyEntries).Length;
-        }
+      
 
-        public static bool AlmostEquals(this double double1, double double2, double precision)
-        {
-            return (Math.Abs(double1 - double2) <= precision);
-        }
+      
 
         /// <summary>
         /// RETURNS list of DUPLICATE items
@@ -437,17 +415,17 @@ namespace TDBCore.Types.libs
             if (sortBy.Contains(" DESC"))
             {
                 sortBy = sortBy.Replace(" DESC", "");
-                PropertyInfo _t = list[0].GetType().GetProperty(sortBy.Trim());
-                if(_t != null)
-                    return list.OrderByDescending(e => _t.GetValue(e, null)).ToList();
+                PropertyInfo t = list[0].GetType().GetProperty(sortBy.Trim());
+                if(t != null)
+                    return list.OrderByDescending(e => t.GetValue(e, null)).ToList();
             }
             else
             {
                 //rewrite somehow!
                  
-                PropertyInfo _t = list[0].GetType().GetProperty(sortBy);
-                if (_t != null)
-                    return list.OrderBy(e => _t.GetValue(e, null)).ToList();
+                PropertyInfo t = list[0].GetType().GetProperty(sortBy);
+                if (t != null)
+                    return list.OrderBy(e => t.GetValue(e, null)).ToList();
                 
             }
 
@@ -483,9 +461,9 @@ namespace TDBCore.Types.libs
                 }
             }
 
-            foreach (var _rec in orderedList)
+            foreach (var rec in orderedList)
             {
-                if (_rec.ContainsYearRange(startYear, endYear))
+                if (rec.ContainsYearRange(startYear, endYear))
                 {
                     isFound = true;
                 }
@@ -495,19 +473,13 @@ namespace TDBCore.Types.libs
             return isFound;
         }
 
-        public static bool ContainsYearRange(this SourceRecord _sourceRecord, int startYearRngToTest, int endYearRngToTest)
+        public static bool ContainsYearRange(this SourceRecord sourceRecord, int startYearRngToTest, int endYearRngToTest)
         {
-      
-            if ((startYearRngToTest >= _sourceRecord.YearStart && endYearRngToTest <= _sourceRecord.YearEnd))
+            if ((startYearRngToTest >= sourceRecord.YearStart && endYearRngToTest <= sourceRecord.YearEnd))
             {
                 return true;
             }
-            else
-            {
-                return false;
-            }
-
-          
+            return false;
         }
 
 
@@ -580,10 +552,10 @@ namespace TDBCore.Types.libs
         public static SourceAjaxDto ToSourceAjaxDto(this SourceDto sourceDto)
         {
 
-            return  new SourceAjaxDto()
-                {
-                    Files = sourceDto.Files.Select(x=> new FileBasicInfo()
-                        {
+            return  new SourceAjaxDto
+            {
+                    Files = sourceDto.Files.Select(x=> new FileBasicInfo
+                    {
                            Description = x.FileDescription,
                            FileId = x.FileId,
                            Url = x.FileLocation
@@ -608,9 +580,7 @@ namespace TDBCore.Types.libs
 
         public static ServiceSourceObject ToServiceSourceObject(this IList<ServiceSource> sources, string sortColumn, int pageSize, int pageNumber)
         {
-            var spo = new ServiceSourceObject();
-
-            spo.serviceSources = sources.ToList();
+            var spo = new ServiceSourceObject {serviceSources = sources.ToList()};
 
             spo.Total = spo.serviceSources.Count;
            
@@ -626,34 +596,38 @@ namespace TDBCore.Types.libs
 
         public static ServicePersonObject ToServicePersonObject(this IList<ServicePerson> persons, string sortColumn, int pageSize, int pageNumber)
         {
-            ServicePersonObject spo = new ServicePersonObject();
-
-            spo.servicePersons = persons.Select(p => new ServicePersonLookUp()
+            var spo = new ServicePersonObject
             {
-                BirthLocation = p.BirthLocation,
-                BirthYear = p.BirthYear ,
-                ChristianName = p.ChristianName,
-                DeathLocation = p.DeathLocation,
-                DeathYear = p.DeathYear,
-                FatherChristianName = p.FatherChristianName,
-                FatherSurname = p.Surname,
-                MotherChristianName = p.MotherChristianName,
-                MotherSurname = p.MotherSurname,
-                PersonId = p.PersonId,
-                Sources = p.Sources,
-                Surname = p.Surname,
-                UniqueReference = p.UniqueReference,
-                Events = p.Events,
-                Spouse = p.Spouse.Trim(),
-                LinkedTrees = p.LinkedTrees
-            }).ToList();
+                servicePersons = persons.Select(p => new ServicePersonLookUp
+                {
+                    BirthLocation = p.BirthLocation,
+                    BirthYear = p.BirthYear,
+                    ChristianName = p.ChristianName,
+                    DeathLocation = p.DeathLocation,
+                    DeathYear = p.DeathYear,
+                    FatherChristianName = p.FatherChristianName,
+                    FatherSurname = p.Surname,
+                    MotherChristianName = p.MotherChristianName,
+                    MotherSurname = p.MotherSurname,
+                    PersonId = p.PersonId,
+                    Sources = p.Sources,
+                    Surname = p.Surname,
+                    UniqueReference = p.UniqueReference,
+                    Events = p.Events,
+                    Spouse = p.Spouse.Trim(),
+                    LinkedTrees = p.LinkedTrees,
+                    SourceParishName = p.SourceParishName,
+                    SourceDateInt = p.SourceDateInt,
+                    SourceDateStr = p.SourceDateStr,
+                    ReferenceLocation = p.ReferenceLocation,
+                    SourceRef = p.SourceRef,
+                    SourceId = p.SourceId
+                }).ToList()
+            };
 
 
             spo.Total = spo.servicePersons.Count;
-            var x = 1;
-
-            x = true ? 2 : 3;
- 
+          
 
             if (pageSize != 0)
             {

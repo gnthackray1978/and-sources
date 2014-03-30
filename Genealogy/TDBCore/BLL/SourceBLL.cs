@@ -148,7 +148,7 @@ namespace TDBCore.BLL
             newSource.SourceRef = sourceRef;
             newSource.DateAdded = DateTime.Today;
 
-            ModelContainer.Sources.AddObject(newSource);
+            ModelContainer.Sources.Add(newSource);
 
             ModelContainer.SaveChanges();
 
@@ -171,7 +171,7 @@ namespace TDBCore.BLL
             newSource.SourceRef = sourceRef;
             newSource.DateAdded = DateTime.Today;
 
-            ModelContainer.Sources.AddObject(newSource);
+            ModelContainer.Sources.Add(newSource);
 
             ModelContainer.SaveChanges();
 
@@ -199,7 +199,7 @@ namespace TDBCore.BLL
             source.SourceId = System.Guid.NewGuid();
             source.DateAdded = DateTime.Today;
 
-            ModelContainer.Sources.AddObject(source);
+            ModelContainer.Sources.Add(source);
 
             ModelContainer.SaveChanges();
 
@@ -232,7 +232,7 @@ namespace TDBCore.BLL
             _source.DateAdded = DateTime.Today;
 
 
-            ModelContainer.Sources.AddObject(_source);
+            ModelContainer.Sources.Add(_source);
 
             //Debug.WriteLine("modified");
             //foreach (var _entry in ModelContainer.ObjectStateManager.GetObjectStateEntries(System.Data.EntityState.Modified))
@@ -282,7 +282,7 @@ namespace TDBCore.BLL
             _source.DateAdded = DateTime.Today;
 
 
-            ModelContainer.Sources.AddObject(_source);
+            ModelContainer.Sources.Add(_source);
 
  
 
@@ -398,11 +398,11 @@ namespace TDBCore.BLL
         {
           
 
-            Source _source = ModelContainer.Sources.FirstOrDefault(o => o.SourceId == sourceId);
+            var _source = ModelContainer.Sources.FirstOrDefault(o => o.SourceId == sourceId);
 
             if (_source != null)
             {
-                ModelContainer.DeleteObject(_source);
+                ModelContainer.Sources.Remove(_source);
 
                 ModelContainer.SaveChanges();
             }
