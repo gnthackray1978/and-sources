@@ -35,7 +35,7 @@
 
 //        private Guid linkId;
 
-//        private SearchEventLink searchEventLinkType;
+//        private SourceTypes searchEventLinkType;
 
 
 
@@ -71,7 +71,7 @@
 //            {
 //                case SearchEventType.Births:
 //                    _person = (Person)this.entityObj;
-//                    searchEventLinkType = SearchEventLink.Person;
+//                    searchEventLinkType = SourceTypes.Person;
 //                    christianName = _person.ChristianName;
 //                    surname = _person.Surname;
 //                    recordId = _person.Person_id;
@@ -97,7 +97,7 @@
 //                case SearchEventType.Deaths:
              
 //                    _person = (Person)this.entityObj;
-//                    searchEventLinkType = SearchEventLink.Person;
+//                    searchEventLinkType = SourceTypes.Person;
 //                    christianName = _person.ChristianName;
 //                    surname = _person.Surname;
 //                    recordId = _person.Person_id;
@@ -121,7 +121,7 @@
 //                case SearchEventType.Spouses:
 
 //                    _person = (Person)this.entityObj;
-//                    searchEventLinkType = SearchEventLink.Person;
+//                    searchEventLinkType = SourceTypes.Person;
 
 
 //                    christianName = _person.SpouseName;
@@ -164,12 +164,12 @@
 //                    {
 //                        description = _person.CheckForWills(out linkId);
 
-//                        searchEventLinkType = SearchEventLink.Source;
+//                        searchEventLinkType = SourceTypes.Source;
 
 //                    }
 //                    else
 //                    {
-//                        searchEventLinkType = SearchEventLink.Marriage;
+//                        searchEventLinkType = SourceTypes.Marriage;
 
 //                    }
 
@@ -184,7 +184,7 @@
 //                    linkId = _person.Person_id;
 //                    sourcesDesc = _sources.GetPersonSources(recordId, sourcesList);
 //                    location = _person.BirthLocation;
-//                    searchEventLinkType = SearchEventLink.Person;
+//                    searchEventLinkType = SourceTypes.Person;
 
 //                    if (_person.BapInt > 0)
 //                    {
@@ -202,7 +202,7 @@
 
 //                case SearchEventType.Motherings:
 //                    _person = (Person)this.entityObj;
-//                    searchEventLinkType = SearchEventLink.Person;
+//                    searchEventLinkType = SourceTypes.Person;
 //                    christianName = _person.MotherChristianName;
 //                    surname = _person.MotherSurname;
 //                    recordId = _person.Person_id;
@@ -225,7 +225,7 @@
 //                    break;
 //                case SearchEventType.MarriageBride:
 //                    _marriage = (Marriage)this.entityObj;
-//                    searchEventLinkType = SearchEventLink.Marriage;
+//                    searchEventLinkType = SourceTypes.Marriage;
 //                    recordId = _marriage.Marriage_Id;
 //                    linkId = _marriage.Marriage_Id;
 //                    christianName = _marriage.FemaleCName;
@@ -238,7 +238,7 @@
 //                    break;
 //                case SearchEventType.MarriageGroom:
 //                    _marriage = (Marriage)this.entityObj;
-//                    searchEventLinkType = SearchEventLink.Marriage;
+//                    searchEventLinkType = SourceTypes.Marriage;
 //                    linkId = _marriage.Marriage_Id;
 //                    recordId = _marriage.Marriage_Id;
 //                    christianName = _marriage.MaleCName;
@@ -272,7 +272,7 @@
 //        }
 
 
-//        public SearchEventLink SearchEventLinkType
+//        public SourceTypes SearchEventLinkType
 //        {
 //            get { return searchEventLinkType; }
 //            set { searchEventLinkType = value; }
@@ -377,19 +377,19 @@
 
 //        #endregion
 
-//        public static int GetLinkTypeId(SearchEventLink sel)
+//        public static int GetLinkTypeId(SourceTypes sel)
 //        {
 //            int retTypeId = 0;
 
 //            switch (sel)
 //            {
-//                case SearchEventLink.Person:
+//                case SourceTypes.Person:
 //                    retTypeId = 1;
 //                    break;
-//                case SearchEventLink.Marriage:
+//                case SourceTypes.Marriage:
 //                    retTypeId = 2;
 //                    break;
-//                case SearchEventLink.Source:
+//                case SourceTypes.Source:
 //                    retTypeId = 4;
 //                    break;
 //                default:

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using TDBCore.EntityModel;
-using TDBCore.Types;
 using System.Diagnostics;
 using TDBCore.Types.DTOs;
 using TDBCore.Types.libs;
@@ -16,20 +15,14 @@ namespace TDBCore.BLL
     public class SourceMappingsBll : BaseBll
     {
 
-        public void Update()
-        { 
-        
-        }
-
-
         public bool SetDefaultTreePerson(Guid sourceId, Guid personId)
         {
             
-            var smap = this.GetBySourceIdAndMapTypeId2(sourceId, 39).FirstOrDefault();
+            var smap = GetBySourceIdAndMapTypeId2(sourceId, 39).FirstOrDefault();
 
             if (smap != null)
             {
-                this.UpdateDefaultPerson(smap.MappingId, sourceId, personId);
+                UpdateDefaultPerson(smap.MappingId, sourceId, personId);
             }
 
             return true;
@@ -49,8 +42,7 @@ namespace TDBCore.BLL
             if (sourceId != null && marriageId != null)// || marriageId != null))
                 retTab = GetByPersonOrMarriageIdAndSourceId2(sourceId, marriageId);
 
-            if (retTab == null || retTab.Count() == 0 
-               )
+            if (retTab == null || !retTab.Any())
             {
                 var file = ModelContainer.Files.FirstOrDefault(o => o.FiletId == fileId);
                 var marriage = ModelContainer.Marriages.FirstOrDefault(o => o.Marriage_Id == marriageId);
@@ -60,16 +52,18 @@ namespace TDBCore.BLL
 
                // Adapter.Insert(searchId, fileId, marriageId, userId, personId, dateAdded, mapTypeId);
 
-                SourceMapping sourceMapping = new SourceMapping();
-                sourceMapping.File = file;
-                sourceMapping.DateAdded = DateTime.Today;
-                sourceMapping.Source = source;
-                sourceMapping.Person = person;
-                sourceMapping.SourceType = mapType;
-                sourceMapping.UserId = userId;
-                sourceMapping.Marriage = marriage;
+                var sourceMapping = new SourceMapping
+                {
+                    File = file,
+                    DateAdded = DateTime.Today,
+                    Source = source,
+                    Person = person,
+                    SourceType = mapType,
+                    UserId = userId,
+                    Marriage = marriage
+                };
 
-                ModelContainer.SourceMappings.AddObject(sourceMapping);
+                ModelContainer.SourceMappings.Add(sourceMapping);
                 ModelContainer.SaveChanges();
 
                 retid = sourceMapping.MappingId;
@@ -138,7 +132,7 @@ namespace TDBCore.BLL
                     
                     if (_sourceMapping != null)
                     {
-                        ModelContainer.DeleteObject(_sourceMapping);
+                        ModelContainer.SourceMappingParishs.Remove(_sourceMapping);
                     }
                 }
                 else
@@ -158,7 +152,7 @@ namespace TDBCore.BLL
 
         public void WriteFilesIdsToSource(Guid sourceId, List<Guid> fileIdList, int userId)
         {
-            SourceBll sourceBll = new SourceBll();
+        //    SourceBll sourceBll = new SourceBll();
             SourceMappingsBll _SourceMappingsBLL2 = new SourceMappingsBll();
             List<Guid> copyList = fileIdList;
 
@@ -178,7 +172,7 @@ namespace TDBCore.BLL
 
                     if (_sourceMapping != null)
                     {
-                        ModelContainer.DeleteObject(_sourceMapping);
+                        ModelContainer.SourceMappings.Remove(_sourceMapping);
                     }
                 }
                 else
@@ -222,14 +216,14 @@ namespace TDBCore.BLL
                 .Where(sRow => deletionList.Contains(sRow.File.FiletId))
                 .Select(sRow => ModelContainer.SourceMappings.FirstOrDefault(sm => sm.MappingId == sRow.MappingId)).Where(sourceMapping => sourceMapping != null))
             {
-                ModelContainer.DeleteObject(sourceMapping);
+                ModelContainer.SourceMappings.Remove(sourceMapping);
             }
 
             ModelContainer.SaveChanges();
 
             foreach (var file in deletionList.Select(guid => ModelContainer.Files.First(p => p.FiletId == guid)).Where(file => file != null))
             {
-                ModelContainer.DeleteObject(file);
+                ModelContainer.Files.Remove(file);
             }
 
             ModelContainer.SaveChanges();
@@ -259,7 +253,7 @@ namespace TDBCore.BLL
 
                    newFiles.Add(newFile);
 
-                   ModelContainer.Files.AddObject(newFile);
+                   ModelContainer.Files.Add(newFile);
 
 
                }
@@ -292,7 +286,7 @@ namespace TDBCore.BLL
 
                     if (_sourceMapping != null)
                     {
-                        ModelContainer.DeleteObject(_sourceMapping);
+                        ModelContainer.SourceMappings.Remove(_sourceMapping);
                     }
                 }
                 else
@@ -427,11 +421,11 @@ namespace TDBCore.BLL
 
             foreach (int mapping in mappingIds)
             {
-                var sourcemapping = ModelContainer.SourceMappings.Where(sm => sm.MappingId == mapping).FirstOrDefault();
+                var sourcemapping = ModelContainer.SourceMappings.FirstOrDefault(sm => sm.MappingId == mapping);
 
                 if (sourcemapping != null)
                 {
-                    ModelContainer.DeleteObject(sourcemapping);
+                    ModelContainer.SourceMappings.Remove(sourcemapping);
                     
                 }
             }
@@ -439,9 +433,9 @@ namespace TDBCore.BLL
 
             fileIds.ForEach(f =>
             {
-               var file = ModelContainer.Files.Where(fi => fi.FiletId == f).FirstOrDefault();
+               var file = ModelContainer.Files.FirstOrDefault(fi => fi.FiletId == f);
                if (file != null)
-                   ModelContainer.Files.DeleteObject(file);
+                   ModelContainer.Files.Remove(file);
             });
 
             ModelContainer.SaveChanges();
@@ -452,11 +446,11 @@ namespace TDBCore.BLL
 
         public void DeleteByMappingId(int mappingId)
         {
-            var sourcemapping = ModelContainer.SourceMappings.Where(sm => sm.MappingId == mappingId).FirstOrDefault();
+            var sourcemapping = ModelContainer.SourceMappings.FirstOrDefault(sm => sm.MappingId == mappingId);
 
             if (sourcemapping != null)
             {
-                ModelContainer.DeleteObject(sourcemapping);
+                ModelContainer.SourceMappings.Remove(sourcemapping);
                 ModelContainer.SaveChanges();
             }
         }
@@ -464,11 +458,11 @@ namespace TDBCore.BLL
         public void DeleteByMapTypeIdAndSourceId(Guid sourceId, int mapTypeId)
         {
 
-            var sourcemapping= this.GetBySourceIdAndMapTypeId2(sourceId, mapTypeId).FirstOrDefault();
+            var sourcemapping= GetBySourceIdAndMapTypeId2(sourceId, mapTypeId).FirstOrDefault();
 
             if (sourcemapping != null)
             {
-                ModelContainer.DeleteObject(sourcemapping);
+                ModelContainer.SourceMappings.Remove(sourcemapping);
 
 
                 ModelContainer.SaveChanges();
@@ -483,11 +477,11 @@ namespace TDBCore.BLL
 
         public void DeleteByFileIdAndSourceId(Guid? sourceId, Guid? fileId)
         {
-            var sourcemapping = this.GetByFileIdAndSourceId2(sourceId, fileId).FirstOrDefault();
+            var sourcemapping = GetByFileIdAndSourceId2(sourceId, fileId).FirstOrDefault();
 
             if (sourcemapping != null)
             {
-                ModelContainer.DeleteObject(sourcemapping);
+                ModelContainer.SourceMappings.Remove(sourcemapping);
                 ModelContainer.SaveChanges();
             }
         }
@@ -501,8 +495,8 @@ namespace TDBCore.BLL
             {
                 // because source mappings are added and removed in disconnected state from the db
                 // and the source mapping might not be in the entity model by this point BUT it could still be in the db
-                if(ModelContainer.SourceMappings.Where(sm=>sm.MappingId == sourcemapping.MappingId).Count() >0)
-                    ModelContainer.DeleteObject(sourcemapping);
+                if(ModelContainer.SourceMappings.Count(sm => sm.MappingId == sourcemapping.MappingId) >0)
+                    ModelContainer.SourceMappings.Remove(sourcemapping);
                 
                 ModelContainer.SaveChanges();
 
@@ -515,7 +509,7 @@ namespace TDBCore.BLL
             foreach (SourceMapping smap in ModelContainer.SourceMappings.Where(sm => sm.Marriage.Marriage_Id == recordId || sm.Person.Person_id == recordId).ToList())
             {
                 if (smap.Source != null)
-                    ModelContainer.SourceMappings.DeleteObject(smap);
+                    ModelContainer.SourceMappings.Remove(smap);
             }
 
             ModelContainer.SaveChanges();
@@ -532,7 +526,7 @@ namespace TDBCore.BLL
             foreach (var smap in ModelContainer.SourceMappings.Where(sm => (sm.Marriage.Marriage_Id == recordId || sm.Person.Person_id == recordId)
                                                                            && effectedSources.Contains(sm.Source.SourceId)).ToList().Where(smap => smap.Source != null))
             {
-                ModelContainer.SourceMappings.DeleteObject(smap);
+                ModelContainer.SourceMappings.Remove(smap);
             }
 
             ModelContainer.SaveChanges();
@@ -548,14 +542,10 @@ namespace TDBCore.BLL
 
         public IQueryable<SourceMapping> GetBySourceIdAndMapTypeId2(Guid? sourceId, int? mapTypeId)
         {
-
-            IQueryable<SourceMapping> retTab = null;
-
-            retTab = ModelContainer.SourceMappings.Where(o => o.Source.SourceId == sourceId && o.SourceType.SourceTypeId == mapTypeId);
+            IQueryable<SourceMapping> retTab = ModelContainer.SourceMappings.Where(o => o.Source.SourceId == sourceId && o.SourceType.SourceTypeId == mapTypeId);
 
 
-
-          //  retTab = Adapter.GetDataBySourceIdAndMapTypeId(mapTypeId, sourceId);
+            //  retTab = Adapter.GetDataBySourceIdAndMapTypeId(mapTypeId, sourceId);
 
             return retTab;
         }
@@ -563,9 +553,7 @@ namespace TDBCore.BLL
 
         public IQueryable<SourceMapping> GetByFileIdAndSourceId2(Guid? sourceId, Guid? fileId)
         {
-            IQueryable<SourceMapping> retTab = null;
-
-            retTab = ModelContainer.SourceMappings.Where(o => o.Source.SourceId == sourceId && o.File.FiletId == fileId);
+            IQueryable<SourceMapping> retTab = ModelContainer.SourceMappings.Where(o => o.Source.SourceId == sourceId && o.File.FiletId == fileId);
 
             return retTab;
         }
@@ -573,20 +561,16 @@ namespace TDBCore.BLL
 
         public IQueryable<SourceMapping> GetByPersonOrMarriageIdAndSourceId2(Guid? sourceId, Guid? recordId)
         {
-            IQueryable<SourceMapping> retTab = null;
+            IQueryable<SourceMapping> retTab = ModelContainer.SourceMappings.Where(o => (o.Marriage.Marriage_Id == recordId || o.Person.Person_id == recordId) && o.Source.SourceId == sourceId);
 
-            retTab = ModelContainer.SourceMappings.Where(o => (o.Marriage.Marriage_Id == recordId || o.Person.Person_id == recordId) && o.Source.SourceId == sourceId);
-
-           // retTab = Adapter.GetDataByMarriageIdOrRecordId(sourceId, recordId);
+            // retTab = Adapter.GetDataByMarriageIdOrRecordId(sourceId, recordId);
 
             return retTab;
         }
 
         public IQueryable<SourceMapping> GetByMarriageIdOrPersonId2(Guid? recordId)
         {
-            IQueryable<SourceMapping> retTab = null;
-
-            retTab = ModelContainer.SourceMappings.Where(o => o.Person.Person_id == recordId || o.Marriage.Marriage_Id == recordId);
+            IQueryable<SourceMapping> retTab = ModelContainer.SourceMappings.Where(o => o.Person.Person_id == recordId || o.Marriage.Marriage_Id == recordId);
 
             return retTab;
         }
@@ -605,18 +589,16 @@ namespace TDBCore.BLL
 
         public IQueryable<SourceMapping> GetSourceMappingsWithFiles(Guid? recordId)
         {
-            IQueryable<SourceMapping> retTab = null;
-
-            retTab = ModelContainer.SourceMappings.Where(o => o.Source.SourceId == recordId && o.File != null);
+           
+            IQueryable<SourceMapping> retTab = ModelContainer.SourceMappings.Where(o => o.Source.SourceId == recordId && o.File != null);
 
             return retTab;
         }
 
         public IQueryable<SourceMapping> GetBySourceTypesBySourceId2(Guid? recordId)
         {
-            IQueryable<SourceMapping> retTab = null;
-
-            retTab = ModelContainer.SourceMappings.Where(o => o.Source.SourceId == recordId && o.SourceType != null);
+          
+            IQueryable<SourceMapping> retTab = ModelContainer.SourceMappings.Where(o => o.Source.SourceId == recordId && o.SourceType != null);
            
 
             return retTab;

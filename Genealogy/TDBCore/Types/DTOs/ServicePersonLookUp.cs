@@ -21,5 +21,17 @@ namespace TDBCore.Types.DTOs
         public string Events { get; set; }
         public string Spouse { get; set; }
         public string LinkedTrees { get; set; }
+        public string ReferenceLocation { get; set; }
+
+        public string SourceParishName { get; set; } 
+       
+        public string SourceDateStr { get; set; }
+
+        public string SourceRef { get; set; }
+
+        public int SourceDateInt { get; set; }
+
+        public Guid SourceId { get; set; }
+ 
     }
 }

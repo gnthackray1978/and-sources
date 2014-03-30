@@ -29,7 +29,7 @@ namespace TDBCore.BLL
                 missingrecord.RecordType = type;
                 missingrecord.DataTypeId = dataType;
 
-                ModelContainer.MissingRecords.AddObject(missingrecord);
+                ModelContainer.MissingRecords.Add(missingrecord);
                 ModelContainer.SaveChanges();
             }
 
@@ -45,7 +45,7 @@ namespace TDBCore.BLL
 
             if (_rec != null)
             {
-                ModelContainer.DeleteObject(_rec);
+                ModelContainer.MissingRecords.Remove(_rec);
             }
         }
 

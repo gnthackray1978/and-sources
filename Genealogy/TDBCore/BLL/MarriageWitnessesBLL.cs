@@ -60,13 +60,13 @@ namespace TDBCore.BLL
             DeleteWitnessesForMarriage(marriageId);
 
             foreach (var dupePerson in persons.RemoveDuplicateReferences())
-            {            
-                ModelContainer.Persons.DeleteObject(dupePerson.Person);
+            {
+                ModelContainer.Persons.Remove(dupePerson.Person);
             }
            
             foreach (var person in persons)
             {
-                ModelContainer.MarriageMapWitnesses.AddObject(new MarriageMapWitness { Person = person.Person, Marriage = mToUpDate, WitnessNote = person.Description });
+                ModelContainer.MarriageMapWitnesses.Add(new MarriageMapWitness { Person = person.Person, Marriage = mToUpDate, WitnessNote = person.Description });
             }
              
             ModelContainer.SaveChanges();
@@ -77,12 +77,12 @@ namespace TDBCore.BLL
         {
             foreach (var mmw in ModelContainer.MarriageMapWitnesses.Where(m => m.Marriage.Marriage_Id == marriageId).ToList())
             {       
-                ModelContainer.MarriageMapWitnesses.DeleteObject(mmw);
+                ModelContainer.MarriageMapWitnesses.Remove(mmw);
 
                 if (mmw.Person != null)
                 {
                     if (ModelContainer.MarriageMapWitnesses.Count(o => o.Person.Person_id == mmw.Person.Person_id) == 0)
-                        ModelContainer.Persons.DeleteObject(mmw.Person);
+                        ModelContainer.Persons.Remove(mmw.Person);
                 }
             }
             
@@ -95,7 +95,7 @@ namespace TDBCore.BLL
         {
             foreach (var mmw in ModelContainer.MarriageMapWitnesses.Where(m => m.Marriage.Marriage_Id == marriageId).ToList())
             {
-                ModelContainer.MarriageMapWitnesses.DeleteObject(mmw);
+                ModelContainer.MarriageMapWitnesses.Remove(mmw);
             }
 
             ModelContainer.SaveChanges();

@@ -236,6 +236,7 @@ namespace PersonService
             string filterTreeResults,
             string filterIncludeBirths,
             string filterIncludeDeaths,
+            string filterIncludeSources,
             string filterSource,
             string spouse,
             string parishFilter,
@@ -272,6 +273,7 @@ namespace PersonService
                             UpperDate = upperDate.ToInt32(),
                             IsIncludeBirths = filterIncludeBirths.ToBool(),
                             IsIncludeDeaths = filterIncludeDeaths.ToBool(),
+                            IsIncludeSources = filterIncludeSources.ToBool(),
                             SpouseChristianName = spouse,
                             SourceString = filterSource,
                             ParishString = parishFilter

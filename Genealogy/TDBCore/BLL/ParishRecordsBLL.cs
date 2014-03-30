@@ -27,7 +27,7 @@ namespace TDBCore.BLL
             parishrec.Year = year;
             parishrec.YearEnd = yearEnd;
 
-            ModelContainer.ParishRecords.AddObject(parishrec);
+            ModelContainer.ParishRecords.Add(parishrec);
 
             ModelContainer.SaveChanges();
 

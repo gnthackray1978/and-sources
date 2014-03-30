@@ -23,35 +23,35 @@ namespace TDBCore.Types.libs
         }
 
 
-        public static System.Data.EntityClient.EntityConnection GetConn()
-        {
+        //public static System.Data.EntityClient.EntityConnection GetConn()
+        //{
 
-            //Debug.WriteLine(TDBCore.Properties.Settings.Default.ThackrayDBConnectionString);
+        //    //Debug.WriteLine(TDBCore.Properties.Settings.Default.ThackrayDBConnectionString);
 
-            //Debug.WriteLine(TDBCore.Properties.Settings.Default.YorkshireParishsConnectionString);
+        //    //Debug.WriteLine(TDBCore.Properties.Settings.Default.YorkshireParishsConnectionString);
 
-            //Debug.WriteLine(TDBCore.Properties.Settings.Default.WorkConnString);
-
-
-            SqlConnectionStringBuilder sconStrBuilder = new SqlConnectionStringBuilder(TDBCore.Properties.Settings.Default.ThackrayDBConnectionString);
+        //    //Debug.WriteLine(TDBCore.Properties.Settings.Default.WorkConnString);
 
 
+        //    SqlConnectionStringBuilder sconStrBuilder = new SqlConnectionStringBuilder(TDBCore.Properties.Settings.Default.ThackrayDBConnectionString);
 
-            string entConStr = @"metadata=res://*/EntityModel.GeneralModel.csdl|res://*/EntityModel.GeneralModel.ssdl|res://*/EntityModel.GeneralModel.msl;provider=System.Data.SqlClient;provider connection string="";Data Source=" +
-                               sconStrBuilder.DataSource + @";Initial Catalog=" + sconStrBuilder.InitialCatalog + @";Integrated Security=" + sconStrBuilder.IntegratedSecurity + @";MultipleActiveResultSets=True"";";
 
-            System.Data.EntityClient.EntityConnection connStr = new System.Data.EntityClient.EntityConnection(entConStr);
-            //  (@"metadata=res://*/CustomSearches.csdl|res://*/CustomSearches.ssdl|res://*/CustomSearches.msl;provider=System.Data.SqlClient;
-            //provider connection string="";Data Source=GRN-P005718\;Initial Catalog=ThackrayDB;Integrated Security=True;MultipleActiveResultSets=True"";");
+
+        //    string entConStr = @"metadata=res://*/EntityModel.GeneralModel.csdl|res://*/EntityModel.GeneralModel.ssdl|res://*/EntityModel.GeneralModel.msl;provider=System.Data.SqlClient;provider connection string="";Data Source=" +
+        //                       sconStrBuilder.DataSource + @";Initial Catalog=" + sconStrBuilder.InitialCatalog + @";Integrated Security=" + sconStrBuilder.IntegratedSecurity + @";MultipleActiveResultSets=True"";";
+
+        //    System.Data.EntityClient.EntityConnection connStr = new System.Data.EntityClient.EntityConnection(entConStr);
+        //    //  (@"metadata=res://*/CustomSearches.csdl|res://*/CustomSearches.ssdl|res://*/CustomSearches.msl;provider=System.Data.SqlClient;
+        //    //provider connection string="";Data Source=GRN-P005718\;Initial Catalog=ThackrayDB;Integrated Security=True;MultipleActiveResultSets=True"";");
             
            
-            //metadata=res://*/EntityModel.GeneralModel.csdl|res://*/EntityModel.GeneralModel.ssdl|
-            //res://*/EntityModel.GeneralModel.msl;provider=System.Data.SqlClient;provider connection string=
-            //&quot;Data Source=GEORGE-PC\SQLEXPRESS;Initial Catalog=ThackrayDB;Integrated Security=True;MultipleActiveResultSets=True&quot;"
+        //    //metadata=res://*/EntityModel.GeneralModel.csdl|res://*/EntityModel.GeneralModel.ssdl|
+        //    //res://*/EntityModel.GeneralModel.msl;provider=System.Data.SqlClient;provider connection string=
+        //    //&quot;Data Source=GEORGE-PC\SQLEXPRESS;Initial Catalog=ThackrayDB;Integrated Security=True;MultipleActiveResultSets=True&quot;"
 
 
-            return connStr;
-        }
+        //    return connStr;
+        //}
 
 
 
@@ -695,7 +695,7 @@ namespace TDBCore.Types.libs
                                                         person.ReferenceLocationId,
                                                         person.TotalEvents,
                                                         person.EventPriority,
-                                                        person.UniqueRef,
+                                                        person.UniqueRef.GetValueOrDefault(),
                                                         person.EstBirthYearInt,
                                                         person.EstDeathYearInt,
                                                         person.IsEstBirth,

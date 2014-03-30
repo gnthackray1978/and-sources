@@ -63,7 +63,7 @@ namespace TDBCore.BLL
             _file.FilerUserAdded = userId;
             _file.FileThumbLocation = thumbPath;
             _file.FiletId = System.Guid.NewGuid();
-            ModelContainer.Files.AddObject(_file);
+            ModelContainer.Files.Add(_file);
 
             ModelContainer.SaveChanges();
 
@@ -94,7 +94,7 @@ namespace TDBCore.BLL
             var _file = ModelContainer.Files.FirstOrDefault(o => o.FiletId == fileId);
             if (_file != null)
             {
-                ModelContainer.DeleteObject(_file);
+                ModelContainer.Files.Remove(_file);
                 ModelContainer.SaveChanges();
             }
 

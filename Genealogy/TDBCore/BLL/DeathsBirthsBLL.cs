@@ -313,11 +313,8 @@ namespace TDBCore.BLL
             if (_person.BaptismDateStr == null) _person.BaptismDateStr = "";
             if (_person.BirthCounty == null) _person.BirthCounty = "";
             if (_person.BirthDateStr == null) _person.BirthDateStr = "";
-            if (_person.BirthLocation == null) _person.BirthLocation = "";
-            if (_person.BirthLocationId == null) _person.BirthLocationId = Guid.Empty;
-            if (_person.ChristianName == null) _person.ChristianName = "";
-            if (_person.DateAdded == null) _person.DateAdded = DateTime.Today;
-            if (_person.DateLastEdit == null) _person.DateLastEdit = DateTime.Today;
+            if (_person.BirthLocation == null) _person.BirthLocation = "";            
+            if (_person.ChristianName == null) _person.ChristianName = "";           
             if (_person.DeathCounty == null) _person.DeathCounty = "";
             if (_person.DeathDateStr == null) _person.DeathDateStr = "";
             if (_person.DeathLocation == null) _person.DeathLocation = "";
@@ -345,7 +342,7 @@ namespace TDBCore.BLL
 
 
 
-            ModelContainer.Persons.AddObject(_person);
+            ModelContainer.Persons.Add(_person);
 
             ModelContainer.SaveChanges();
 
@@ -416,7 +413,7 @@ namespace TDBCore.BLL
                 };
 
 
-            ModelContainer.Persons.AddObject(personEntity);
+            ModelContainer.Persons.Add(personEntity);
 
             ModelContainer.SaveChanges();
 
@@ -488,7 +485,7 @@ namespace TDBCore.BLL
                 };
 
 
-            ModelContainer.Persons.AddObject(person);
+            ModelContainer.Persons.Add(person);
 
             ModelContainer.SaveChanges();
 
@@ -542,11 +539,18 @@ namespace TDBCore.BLL
                 personSearchFilter.SourceString = personSearchFilter.SourceString.Substring(1);
             }
 
-            var temp =  ModelContainer.USP_Persons_Filtered(personSearchFilter.CName, personSearchFilter.Surname,
+            var inMemoryLocFilter = "";
+            if (personSearchFilter.Location.Contains(','))
+            {
+                inMemoryLocFilter = personSearchFilter.Location;
+                personSearchFilter.Location = "";
+            }
+
+            var temp =  ModelContainer.USP_Persons_Filtered_1(personSearchFilter.CName, personSearchFilter.Surname,
                 personSearchFilter.FatherChristianName, personSearchFilter.FatherSurname,
                 personSearchFilter.MotherChristianName, personSearchFilter.MotherSurname,
                 personSearchFilter.SourceString, personSearchFilter.Location, personSearchFilter.LowerDate,
-                                                personSearchFilter.UpperDate, personSearchFilter.County, personSearchFilter.SpouseChristianName).Select(p => new ServicePerson
+                                                personSearchFilter.UpperDate, personSearchFilter.County, personSearchFilter.SpouseChristianName, personSearchFilter.IsIncludeSources).Select(p => new ServicePerson
                                                     {
                                                                                            PersonId = p.Person_id,
                                                                                            ChristianName = p.ChristianName,
@@ -564,18 +568,27 @@ namespace TDBCore.BLL
                                                                                            BirthYear = (p.BirthInt==0) ? p.BapInt : p.BirthInt,
                                                                                            DeathYear = p.DeathInt,
                                                                                            LinkedTrees = p.tree_links,
-                                                                                           Occupation = p.Occupation,
-                                                                                           ReferenceLocation = p.ReferenceLocation,
-                                                                                           ReferenceDate = p.ReferenceDateStr,
+                                                                                           Occupation = p.Occupation,                                                                                           
                                                                                            SpouseChristianName = p.SpouseName,
                                                                                            SpouseSurname = p.SpouseSurname,
                                                                                            Spouse = p.SpouseName + " " + p.SpouseSurname,
                                                                                            FatherOccupation = p.FatherOccupation,
                                                                                            Events = p.TotalEvents.ToString(CultureInfo.InvariantCulture),
-                                                                                           UniqueReference = p.UniqueRef.GetValueOrDefault().ToString()
+                                                                                           UniqueReference = p.UniqueRef.GetValueOrDefault().ToString(),
+                                                                                           SourceDateInt = p.SourceDateInt,
+                                                                                           SourceDateStr = p.SourceDateStr,
+                                                                                           SourceParishName = p.SourceParishName,
+                                                                                           SourceRef = p.SourceRef,
+                                                                                           SourceId = p.RefSourceId
+                                                                                           
                                                                                        }).ToList();
 
 
+            if (inMemoryLocFilter.Length > 0)
+            {
+                //filter by multiple locations in memory cause the sql is too much a pain
+                temp = temp.Where(servicePerson => inMemoryLocFilter.Split(',').ToList().Any(l => servicePerson.BirthLocation.LazyContains(l) || servicePerson.DeathLocation.LazyContains(l))).ToList();               
+            }
 
             if (personSearchFilter.IsIncludeDeaths) temp = temp.Where(p => p.DeathYear > 0).ToList();
 
@@ -788,7 +801,7 @@ namespace TDBCore.BLL
                     pRow.DeathLocation, pRow.FatherChristianName, pRow.FatherSurname, pRow.MotherChristianName, pRow.MotherSurname,
                     pRow.Notes, pRow.Source, pRow.BapInt, pRow.BirthInt, pRow.DeathInt, pRow.ReferenceDateInt, pRow.ReferenceLocation,
                     pRow.BirthCounty, pRow.DeathCounty, pRow.Occupation, pRow.FatherOccupation, pRow.SpouseName, pRow.SpouseSurname,
-                    pRow.UserId, pRow.BirthLocationId, pRow.DeathLocationId, pRow.ReferenceLocationId, pRow.TotalEvents, pRow.EventPriority, pRow.UniqueRef,
+                    pRow.UserId, pRow.BirthLocationId, pRow.DeathLocationId, pRow.ReferenceLocationId, pRow.TotalEvents, pRow.EventPriority, pRow.UniqueRef.GetValueOrDefault(),
                     estBirthYear, estDeathYear, isEstBirth, isEstDeath, pRow.OrigSurname, pRow.OrigFatherSurname, pRow.OrigMotherSurname);
 
             }

@@ -205,7 +205,7 @@ namespace TDBCore.BLL
 
             if (relMap != null)
             {
-                ModelContainer.Relations.DeleteObject(relMap);
+                ModelContainer.Relations.Remove(relMap);
 
                 ModelContainer.SaveChanges();
             }
@@ -229,7 +229,7 @@ namespace TDBCore.BLL
                 relation.RelationType = relationType;
                 relation.UserId = userId;
 
-                ModelContainer.Relations.AddObject(relation);
+                ModelContainer.Relations.Add(relation);
                 ModelContainer.SaveChanges();
 
                 return relation.RelationId;

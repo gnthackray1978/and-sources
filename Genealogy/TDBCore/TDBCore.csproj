@@ -54,11 +54,13 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.6.0.2\lib\net40\EntityFramework.dll</HintPath>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net40\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\packages\EntityFramework.6.0.2\lib\net40\EntityFramework.SqlServer.dll</HintPath>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net40\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Gedcom, Version=1.0.3480.40193, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -78,7 +80,6 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
     <Reference Include="System.Runtime.Serialization" />
@@ -119,13 +120,116 @@
     <Compile Include="BLL\SourceMappingsBLL.cs" />
     <Compile Include="BLL\SourceTypesBLL.cs" />
     <Compile Include="BLL\UserBLL.cs" />
+    <Compile Include="EntityModel\CountyDictionary.cs">
+      <DependentUpon>GeneralModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\File.cs">
+      <DependentUpon>GeneralModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\GeneralModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GeneralModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\GeneralModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GeneralModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="EntityModel\GeneralModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>GeneralModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="EntityModel\GetAncestors_Result.cs">
+      <DependentUpon>GeneralModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\GetDescendantSpouses_Result.cs">
+      <DependentUpon>GeneralModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\GetDescendants_Result.cs">
+      <DependentUpon>GeneralModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\GetFilteredMarriages_Result.cs">
+      <DependentUpon>GeneralModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\GetMarriageByLocation_Result.cs">
+      <DependentUpon>GeneralModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\LocationDictionary.cs">
+      <DependentUpon>GeneralModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\Marriage.cs">
+      <DependentUpon>GeneralModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="EntityModel\MarriageExtensions.cs" />
+    <Compile Include="EntityModel\MarriageMapWitness.cs">
+      <DependentUpon>GeneralModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\MarriageRelation.cs">
+      <DependentUpon>GeneralModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\MarriageSources_Result.cs">
+      <DependentUpon>GeneralModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\MissingRecord.cs">
+      <DependentUpon>GeneralModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\Parish.cs">
+      <DependentUpon>GeneralModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\ParishCounter.cs">
+      <DependentUpon>GeneralModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\ParishRecord.cs">
+      <DependentUpon>GeneralModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\ParishRecordSource.cs">
+      <DependentUpon>GeneralModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\ParishTranscriptionDetail.cs">
+      <DependentUpon>GeneralModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\Person.cs">
+      <DependentUpon>GeneralModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="EntityModel\PersonExtensions.cs" />
+    <Compile Include="EntityModel\PersonSources_Result.cs">
+      <DependentUpon>GeneralModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\Relation.cs">
+      <DependentUpon>GeneralModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\RelationType.cs">
+      <DependentUpon>GeneralModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\ReorderMarriages_Result.cs">
+      <DependentUpon>GeneralModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\Source.cs">
+      <DependentUpon>GeneralModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\SourceMapping.cs">
+      <DependentUpon>GeneralModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\SourceMappingParish.cs">
+      <DependentUpon>GeneralModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\SourceType.cs">
+      <DependentUpon>GeneralModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\uspGetParishSources_Result.cs">
+      <DependentUpon>GeneralModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\USP_Marriages_Filtered_Result.cs">
+      <DependentUpon>GeneralModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\USP_Persons_Filtered_1_Result.cs">
+      <DependentUpon>GeneralModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\uvw_1841Census.cs">
+      <DependentUpon>GeneralModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -187,8 +291,7 @@
     <Compile Include="Types\DTOs\WitnessDto.cs" />
     <Compile Include="Types\enums\MarriageSearchTypes.cs" />
     <Compile Include="Types\enums\PersonSearchTypes.cs" />
-    <Compile Include="Types\enums\SearchEventLink.cs" />
-    <Compile Include="Types\enums\SearchEventType.cs" />
+    <Compile Include="Types\enums\SourceTypes.cs" />
     <Compile Include="Types\enums\SourceSearchTypes.cs" />
     <Compile Include="Types\filters\MarriageSearchFilter.cs" />
     <Compile Include="Types\filters\ParishSearchFilter.cs" />
@@ -232,6 +335,16 @@
       <LastGenOutput>GeneralModel.Designer.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EntityDeploy>
+    <None Include="EntityModel\GeneralModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>GeneralModel.Context.cs</LastGenOutput>
+      <DependentUpon>GeneralModel.edmx</DependentUpon>
+    </None>
+    <None Include="EntityModel\GeneralModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>GeneralModel.cs</LastGenOutput>
+      <DependentUpon>GeneralModel.edmx</DependentUpon>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

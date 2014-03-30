@@ -69,8 +69,12 @@ namespace AndServices.Interfaces
 
 
         [OperationContract]
-        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = UriSourceMappings.AddTreeSource, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
-        string AddSources(string record, string sources);
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = UriSourceMappings.AddMarriageTreeSource, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
+        string AddMarriageSources(string record, string sources);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = UriSourceMappings.AddPersonTreeSource, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
+        string AddPersonSources(string record, string sources);
 
 
         [OperationContract]

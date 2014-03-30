@@ -18,8 +18,8 @@ namespace TDBCore.BLL
             var record = this.ModelContainer.SourceTypes.FirstOrDefault(o => o.SourceTypeId == sourceTypeId);
 
             if (record == null) return;
-
-            this.ModelContainer.SourceTypes.DeleteObject(record);
+            this.ModelContainer.SourceTypes.Remove(record);
+            //this.ModelContainer.SourceTypes.DeleteObject();
 
             this.ModelContainer.SaveChanges();
         }
@@ -29,7 +29,7 @@ namespace TDBCore.BLL
         {
             foreach (var record in sourceTypeIds.Select(sourceTypeId => this.ModelContainer.SourceTypes.FirstOrDefault(o => o.SourceTypeId == sourceTypeId)).Where(record => record != null))
             {
-                this.ModelContainer.SourceTypes.DeleteObject(record);
+                this.ModelContainer.SourceTypes.Remove(record);
             }
 
             this.ModelContainer.SaveChanges();
@@ -45,8 +45,8 @@ namespace TDBCore.BLL
             sourceType.SourceUserAdded = userId;
             sourceType.SourceTypeOrder = sourceTypeOrder;
 
-            this.ModelContainer.SourceTypes.AddObject(sourceType);
-
+          //  this.ModelContainer.SourceTypes.Add();
+            this.ModelContainer.SourceTypes.Add(sourceType);
             this.ModelContainer.SaveChanges();
             //object i = Adapter.InsertSource(sourceTypeDesc, DateTime.Today, userId);
 
@@ -169,7 +169,7 @@ namespace TDBCore.BLL
                         Description = p.SourceTypeDesc,
                         TypeId = p.SourceTypeId,
                         Order = p.SourceTypeOrder,
-                        UserId = p.SourceUserAdded
+                        UserId = 0//p.SourceUserAdded.GetValueOrDefault()
                     }).ToList();
 
             }
@@ -182,7 +182,7 @@ namespace TDBCore.BLL
                         Description = p.SourceTypeDesc,
                         TypeId = p.SourceTypeId,
                         Order = p.SourceTypeOrder,
-                        UserId = p.SourceUserAdded
+                        UserId = 0//p.SourceUserAdded
                     }).ToList();     
                 }
                 else
@@ -192,7 +192,7 @@ namespace TDBCore.BLL
                         Description = p.SourceTypeDesc,
                         TypeId = p.SourceTypeId,
                         Order = p.SourceTypeOrder,
-                        UserId = p.SourceUserAdded
+                        UserId = 0//p.SourceUserAdded
                     }).ToList();                    
                 }
 
@@ -246,7 +246,7 @@ namespace TDBCore.BLL
             sourceType.SourceUserAdded = 1;
             sourceType.SourceTypeOrder = serviceSourceType.Order;
 
-            this.ModelContainer.SourceTypes.AddObject(sourceType);
+            this.ModelContainer.SourceTypes.Add(sourceType);
 
             this.ModelContainer.SaveChanges();
             

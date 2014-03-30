@@ -26,7 +26,7 @@ namespace TDBCore.BLL
                 relation.UserId = userId;
                 relation.DateAdded = DateTime.Today;
 
-                ModelContainer.MarriageRelations.AddObject(relation);
+                ModelContainer.MarriageRelations.Add(relation);
                 ModelContainer.SaveChanges();
 
                 return relation.MarriageRelationId;
@@ -55,7 +55,7 @@ namespace TDBCore.BLL
 
             if (_record != null)
             {
-                ModelContainer.MarriageRelations.DeleteObject(_record);
+                ModelContainer.MarriageRelations.Remove(_record);
                 ModelContainer.SaveChanges();
             }
 

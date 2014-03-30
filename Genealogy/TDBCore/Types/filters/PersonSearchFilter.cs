@@ -26,6 +26,8 @@ namespace TDBCore.Types
         public bool IsIncludeBirths { get; set; }
         public bool IsIncludeDeaths { get; set; }
 
+        public bool IsIncludeSources { get; set; }
+
         public Guid ParentId { get; set; }
        
     }

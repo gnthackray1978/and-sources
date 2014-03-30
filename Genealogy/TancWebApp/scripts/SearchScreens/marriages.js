@@ -327,8 +327,8 @@ AncMarriages.prototype = {
     }
     ,
     SetSources: function () {
-        this.postParams.url = '/Sources/AddTreeSource';
-        this.postParams.data = { record: $("#tree-select").val(), sources: this.ancUtils.convertToCSV(this.selection) };
+        this.postParams.url = '/Sources/AddMarriageTreeSource';
+        this.postParams.data = { record: this.ancUtils.convertToCSV(this.selection), sources: $("#tree-select").val() };
         this.ancUtils.twaPostJSON(this.postParams);
     },
     RemoveSources: function () {
