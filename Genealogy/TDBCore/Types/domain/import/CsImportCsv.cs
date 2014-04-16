@@ -6,7 +6,6 @@ using System.Text;
 using TDBCore.BLL;
 using TDBCore.EntityModel;
 using TDBCore.Types.DTOs;
-using TDBCore.Types.filters;
 using TDBCore.Types.libs;
 
 namespace TDBCore.Types.domain.import
@@ -19,7 +18,7 @@ namespace TDBCore.Types.domain.import
  
         private readonly SourceBll _sourceBll;
         private readonly SourceMappingParishsBll _sourceMappingParishBll;
-        private readonly SourceTypesBll _sourceTypesBll;
+        
   
         private readonly SourceMappingsBll _sourceMappingsBll;
         private readonly MarriagesBLL _marriagesBll;
@@ -34,8 +33,7 @@ namespace TDBCore.Types.domain.import
           
             _sourceBll = new SourceBll();
             _sourceMappingParishBll = new SourceMappingParishsBll();
-            _sourceTypesBll = new SourceTypesBll();
-       
+           
             _sourceMappingsBll = new SourceMappingsBll();
             _marriagesBll = new MarriagesBLL();
             _sourceMappingBll = new SourceMappingsBll();
@@ -78,9 +76,9 @@ namespace TDBCore.Types.domain.import
 
             lineList.RemoveAt(0);
 
-            string[] allLines = lineList.ToArray();//File.ReadAllLines(path);
+            string[] allLines = lineList.ToArray();
            
-            var query = allLines.Select(line => new {line, data = line.Split(',')}).Select(@t => new ServicePerson()
+            var query = allLines.Select(line => new {line, data = line.Split(',')}).Select(@t => new ServicePerson
 
             {
                 
@@ -144,42 +142,17 @@ namespace TDBCore.Types.domain.import
                 SpouseSurname = @t.data.Get(CSVFiles.BDFieldList, CSVField.SpouseSurname),
                 FatherOccupation = @t.data.Get(CSVFiles.BDFieldList, CSVField.FatherOccupation),
                 ReferenceLocationId = "",            
-
-                //AgeYear = @t.data.Get(CSVFiles.BDFieldList, CSVField.AgeYear),
-                //AgeMonth = @t.data.Get(CSVFiles.BDFieldList, CSVField.AgeMonth),
-                //AgeDay = @t.data.Get(CSVFiles.BDFieldList, CSVField.AgeDay),
-                //AgeWeek = @t.data.Get(CSVFiles.BDFieldList, CSVField.AgeWeek),
-                //Notes2 = @t.data.Get(CSVFiles.BDFieldList, CSVField.Notes2),
-
-                SourceId = @t.data.Get(CSVFiles.BDFieldList, CSVField.SourceId).ToGuid(),
-                //makeGuid(data[31], data[12] + Environment.NewLine + data[32]),
-
-                BirthLocationId = @t.data.Get(CSVFiles.BDFieldList, CSVField.LocationId).ToGuid().ToString(),
-                // makeGuid(data[32], data[12] + Environment.NewLine + data[32]),
-
-                DeathLocationId = @t.data.Get(CSVFiles.BDFieldList, CSVField.DeathLocationId).ToGuid().ToString(),
-                //makeGuid(data[33], data[12] + Environment.NewLine + data[32]),
-                 PersonId = @t.data.Get(CSVFiles.BDFieldList,CSVField.PersonId).ToGuid()
+                SourceId = @t.data.Get(CSVFiles.BDFieldList, CSVField.SourceId).ToGuid(),               
+                BirthLocationId = @t.data.Get(CSVFiles.BDFieldList, CSVField.LocationId).ToGuid().ToString(),               
+                DeathLocationId = @t.data.Get(CSVFiles.BDFieldList, CSVField.DeathLocationId).ToGuid().ToString(),             
+                PersonId = @t.data.Get(CSVFiles.BDFieldList,CSVField.PersonId).ToGuid()
             });
-
-
-            //foreach (var team in query)
-            //{   
-            //    Debug.WriteLine(team.ToString());
-            //}
-
-
-
-            Guid personId = Guid.Empty;
-
 
             foreach (var team in query)
             {
-
                 if (team.BirthYear == 0 && team.BaptismYear == 0 && team.DeathYear ==0 && team.ReferenceYear==0)
                 {
                     Debug.WriteLine("Person not inserted: invalid date");
-
                 }
                 else
                 {                     
@@ -187,31 +160,17 @@ namespace TDBCore.Types.domain.import
                         team.PersonId = _deathsBirthsBll.InsertDeathBirthRecord(team);
                     else
                         _deathsBirthsBll.UpdateBirthDeathRecord(team);
-
                 }
-
-
                 if (team.PersonId != Guid.Empty)
                 {
                     _sourceMappingBll.Insert(team.SourceId, null, null, 1, team.PersonId, DateTime.Today.ToShortDateString(), null);
-
                 }
                 else
                 {
-                    Debug.WriteLine("Person not inserted: personid is empty");
-                   
+                    Debug.WriteLine("Person not inserted: personid is empty");                   
                 }
 
-
-
-
             }
-
-
-
-
-
-
 
         }
 
@@ -298,7 +257,7 @@ namespace TDBCore.Types.domain.import
             allLines.RemoveAt(0);
 
 
-            var query = allLines.Select(line => new {line, data = line.Split(',')}).Select(@t => new SourceDto()
+            var query = allLines.Select(line => new {line, data = line.Split(',')}).Select(@t => new SourceDto
 
             {
                 SourceDesc = @t.data.Get(CSVFiles.SourceFieldList, CSVField.SourceDesc), //data[0],

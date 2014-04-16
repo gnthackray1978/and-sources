@@ -51,7 +51,6 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UpdateFolderInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

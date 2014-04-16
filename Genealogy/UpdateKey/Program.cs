@@ -12,22 +12,7 @@ namespace UpdateKey
         static void Main(string[] args)
         {
           
-
-            //Regex regex = new Regex(@"\d\d\d\d");
-
-            //MatchCollection mc = regex.Matches("xxc1884");
-
-            //if (mc.Count > 0)
-            //{
-            //    Console.WriteLine(mc[0].Value);
-            //}
-
-
-            UpdateFolderInfo ufi = new UpdateFolderInfo();
-            ufi.RootPath = @"C:\Users\george\Google Drive\familyhist\Images";
-
-            ufi.Run();
-
+ 
             Console.ReadKey();
 
         }

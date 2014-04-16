@@ -103,17 +103,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLL\BaseBLL.cs" />
-    <Compile Include="BLL\CountyDictionaryBLL.cs" />
     <Compile Include="BLL\DeathsBirthsBLL.cs" />
     <Compile Include="BLL\FilesBLL.cs" />
-    <Compile Include="BLL\LocationDictionaryBLL.cs" />
-    <Compile Include="BLL\MarriageRelationsBLL.cs" />
     <Compile Include="BLL\MarriagesBLL.cs" />
     <Compile Include="BLL\MarriageWitnessesBLL.cs" />
-    <Compile Include="BLL\MissingParishRecordsBLL.cs" />
-    <Compile Include="BLL\ParishRecordsBLL.cs" />
     <Compile Include="BLL\ParishsBLL.cs" />
-    <Compile Include="BLL\ParishTranscriptionsBLL.cs" />
     <Compile Include="BLL\RelationsBLL.cs" />
     <Compile Include="BLL\SourceBLL.cs" />
     <Compile Include="BLL\SourceMappingParishsBLL.cs" />

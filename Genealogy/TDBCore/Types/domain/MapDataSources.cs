@@ -122,7 +122,7 @@ namespace TDBCore.Types.domain
                 ParishTranscriptRecord = o.ParishTranscriptRecord
             }).ToList();
 
-            serviceParishDetailObject.serviceServiceMapDisplaySource = _parishsBll.GetParishSourceRecords(parishSearchFilter.ParishIds.SafeFirst()).Select(s => new ServiceMapDisplaySource
+            serviceParishDetailObject.serviceServiceMapDisplaySource = _sourceBll.GetParishSourceRecords(parishSearchFilter.ParishIds.SafeFirst()).Select(s => new ServiceMapDisplaySource
             {
                 DisplayOrder = s.DisplayOrder,
                 IsCopyHeld = s.IsCopyHeld,

@@ -6,14 +6,24 @@ using System.Diagnostics;
 using TDBCore.Types.DTOs;
 using TDBCore.Types.libs;
 
-//using TDBCore.Datasets.DsSourceMappingsTableAdapters;
-////using TDBCore.Datasets;
-
-
 namespace TDBCore.BLL
 {
     public class SourceMappingsBll : BaseBll
     {
+   
+        private readonly SourceMappingParishsBll _sourceMappingParishsBll;
+       
+      
+    
+
+        public SourceMappingsBll()
+        {
+           
+            _sourceMappingParishsBll = new SourceMappingParishsBll();
+       
+         
+          
+        }
 
         public bool SetDefaultTreePerson(Guid sourceId, Guid personId)
         {
@@ -75,21 +85,19 @@ namespace TDBCore.BLL
 
         public int UpdateDefaultPerson(int mappingId, Guid sourceId, Guid personId)
         {
-
-            SourceMapping sourceMapping = new SourceMapping();
-            sourceMapping = ModelContainer.SourceMappings.Where(sm => sm.MappingId == mappingId).FirstOrDefault();
-            Source _source = ModelContainer.Sources.FirstOrDefault(so => so.SourceId == sourceId);
-            Person _person = ModelContainer.Persons.FirstOrDefault(po => po.Person_id == personId);
-            SourceType _sourceType = ModelContainer.SourceTypes.FirstOrDefault(st => st.SourceTypeId == 39);
+            SourceMapping sourceMapping = ModelContainer.SourceMappings.FirstOrDefault(sm => sm.MappingId == mappingId);
+            Source source = ModelContainer.Sources.FirstOrDefault(so => so.SourceId == sourceId);
+            Person person = ModelContainer.Persons.FirstOrDefault(po => po.Person_id == personId);
+            SourceType sourceType = ModelContainer.SourceTypes.FirstOrDefault(st => st.SourceTypeId == 39);
 
             if (sourceMapping != null &&
-                _source != null)
+                source != null)
             {
               
                 sourceMapping.DateAdded = DateTime.Today;
-                sourceMapping.Source = _source;
-                sourceMapping.Person = _person;
-                sourceMapping.SourceType = _sourceType;
+                sourceMapping.Source = source;
+                sourceMapping.Person = person;
+                sourceMapping.SourceType = sourceType;
            
 
     
@@ -120,19 +128,17 @@ namespace TDBCore.BLL
 
             List<Guid> copyList = parishIdList.ToList();
 
-            SourceBll sourceBll = new SourceBll();
-            SourceMappingsBll _SourceMappingsBLL2 = new SourceMappingsBll();
-            SourceMappingParishsBll sourceMappingParishsBLL = new SourceMappingParishsBll();
+            // return ModelContainer.SourceMappingParishs.Where(o => o.Source.SourceId == sourceId);
 
-            foreach (var sRow in sourceMappingParishsBLL.GetDataBySourceId2(sourceRecordId))
+            foreach (var sRow in ModelContainer.SourceMappingParishs.Where(o => o.Source.SourceId == sourceRecordId))
             {
                 if (!copyList.Contains(sRow.Parish.ParishId) || copyList.Count == 0)
                 {
-                    SourceMappingParish _sourceMapping = ModelContainer.SourceMappingParishs.FirstOrDefault(sm => sm.SourceMappingParishsRowId == sRow.SourceMappingParishsRowId);
+                    SourceMappingParish sourceMapping = ModelContainer.SourceMappingParishs.FirstOrDefault(sm => sm.SourceMappingParishsRowId == sRow.SourceMappingParishsRowId);
                     
-                    if (_sourceMapping != null)
+                    if (sourceMapping != null)
                     {
-                        ModelContainer.SourceMappingParishs.Remove(_sourceMapping);
+                        ModelContainer.SourceMappingParishs.Remove(sourceMapping);
                     }
                 }
                 else
@@ -145,7 +151,7 @@ namespace TDBCore.BLL
 
             foreach (Guid parishId in copyList)
             {                 
-                sourceMappingParishsBLL.InsertSourceMappingParish2(parishId, sourceRecordId, userId);
+                _sourceMappingParishsBll.InsertSourceMappingParish2(parishId, sourceRecordId, userId);
             }     
         }
 
@@ -153,7 +159,6 @@ namespace TDBCore.BLL
         public void WriteFilesIdsToSource(Guid sourceId, List<Guid> fileIdList, int userId)
         {
         //    SourceBll sourceBll = new SourceBll();
-            SourceMappingsBll _SourceMappingsBLL2 = new SourceMappingsBll();
             List<Guid> copyList = fileIdList;
 
             // if there are no selected sources and there are some in the source table
@@ -164,15 +169,15 @@ namespace TDBCore.BLL
             // of records that need to be written
 
 
-            foreach (var sRow in _SourceMappingsBLL2.GetSourceMappingsWithFiles(sourceId))
+            foreach (var sRow in GetSourceMappingsWithFiles(sourceId))
             {
                 if (!copyList.Contains(sRow.File.FiletId) || copyList.Count == 0)
                 {
-                    SourceMapping _sourceMapping = ModelContainer.SourceMappings.FirstOrDefault(sm => sm.MappingId == sRow.MappingId);
+                    SourceMapping sourceMapping = ModelContainer.SourceMappings.FirstOrDefault(sm => sm.MappingId == sRow.MappingId);
 
-                    if (_sourceMapping != null)
+                    if (sourceMapping != null)
                     {
-                        ModelContainer.SourceMappings.Remove(_sourceMapping);
+                        ModelContainer.SourceMappings.Remove(sourceMapping);
                     }
                 }
                 else
@@ -183,20 +188,15 @@ namespace TDBCore.BLL
 
             ModelContainer.SaveChanges();
 
-            foreach (Guid FileTypeId in copyList)
+            foreach (var fileTypeId in copyList)
             {
-                _SourceMappingsBLL2.Insert(sourceId, FileTypeId, null, userId, null, DateTime.Today.ToShortDateString(), null);
+                Insert(sourceId, fileTypeId, null, userId, null, DateTime.Today.ToShortDateString(), null);
             }
 
         }
 
         public void WriteFilesToSource(Guid sourceId, List<ServiceFile> fileIdList, int userId)
         {
-          
-            SourceBll sourceBll = new SourceBll();
-            SourceMappingsBll _SourceMappingsBLL2 = new SourceMappingsBll();
-            List<Guid> copyList = fileIdList.Select(p=>p.FileId).ToList();
-
             // if there are no selected sources and there are some in the source table
             // then delete them from the database
             //  other wise just delete the missing entries 
@@ -209,10 +209,8 @@ namespace TDBCore.BLL
 
            
             var deletionList = fileIdList.Where(p => p.FileDescription == "" && p.FileLocation == "").Select(p => p.FileId).ToList();
-
-            var editList = new List<ServiceFile>();
-
-            foreach (var sourceMapping in _SourceMappingsBLL2.GetSourceMappingsWithFiles(sourceId)
+ 
+            foreach (var sourceMapping in GetSourceMappingsWithFiles(sourceId)
                 .Where(sRow => deletionList.Contains(sRow.File.FiletId))
                 .Select(sRow => ModelContainer.SourceMappings.FirstOrDefault(sm => sm.MappingId == sRow.MappingId)).Where(sourceMapping => sourceMapping != null))
             {
@@ -231,7 +229,7 @@ namespace TDBCore.BLL
 
             // do edits
 
-            List<File> newFiles = new List<File>();
+            var newFiles = new List<File>();
 
             foreach (var guid in fileIdList.Where(p => p.FileDescription != "" && p.FileLocation != ""))
             {
@@ -244,7 +242,7 @@ namespace TDBCore.BLL
                }
                else
                {
-                   var newFile = new File()
+                   var newFile = new File
                        {
                            FiletId = guid.FileId,
                            FileDescription = guid.FileDescription,
@@ -262,9 +260,9 @@ namespace TDBCore.BLL
 
             ModelContainer.SaveChanges();
 
-            foreach (var FileTypeId in newFiles)
+            foreach (var fileTypeId in newFiles)
             {
-                _SourceMappingsBLL2.Insert(sourceId, FileTypeId.FiletId, null, userId, null, DateTime.Today.ToShortDateString(), null);
+                Insert(sourceId, fileTypeId.FiletId, null, userId, null, DateTime.Today.ToShortDateString(), null);
             }
 
             ModelContainer.SaveChanges();
@@ -273,20 +271,20 @@ namespace TDBCore.BLL
         public void WriteSourceTypesToSource(Guid sourceId, List<int> sourceTypeIdList, int userId)
         {           
 
-            SourceBll sourceBll = new SourceBll();
-            SourceMappingsBll sourceMappingsBLL = new SourceMappingsBll();
+         
+     
 
             List<int> copyList = sourceTypeIdList.ToList();
 
-            foreach (var sRow in sourceMappingsBLL.GetBySourceTypesBySourceId2(sourceId))
+            foreach (var sRow in GetBySourceTypesBySourceId2(sourceId))
             {
                 if (!copyList.Contains(sRow.SourceType.SourceTypeId) || copyList.Count == 0)
                 {
-                    SourceMapping _sourceMapping = ModelContainer.SourceMappings.FirstOrDefault(sm => sm.MappingId == sRow.MappingId);
+                    SourceMapping sourceMapping = ModelContainer.SourceMappings.FirstOrDefault(sm => sm.MappingId == sRow.MappingId);
 
-                    if (_sourceMapping != null)
+                    if (sourceMapping != null)
                     {
-                        ModelContainer.SourceMappings.Remove(_sourceMapping);
+                        ModelContainer.SourceMappings.Remove(sourceMapping);
                     }
                 }
                 else
@@ -299,7 +297,7 @@ namespace TDBCore.BLL
 
             foreach (int sourceTypeId in copyList)
             {
-                sourceMappingsBLL.Insert(sourceId, null, null, userId, null, DateTime.Today.ToShortDateString(), sourceTypeId);
+                Insert(sourceId, null, null, userId, null, DateTime.Today.ToShortDateString(), sourceTypeId);
             }
 
         }
@@ -307,30 +305,22 @@ namespace TDBCore.BLL
    
         public void WriteSourceMappings2(Guid recordId, IList<Guid> selectedSourceGuids, int userId, bool isMarriage)
         {
-            // todo rewrite this
+            
             Debug.WriteLine("WriteSourceMappings2");
 
-            List<Guid> workingList = new List<Guid>();
+            var workingList = new List<Guid>();
             selectedSourceGuids.RemoveDuplicates();
 
             workingList.AddRange(selectedSourceGuids);
 
 
-            SourceBll sourceBll = new SourceBll();
- 
-            SourceMappingsBll _SourceMappingsBLL2 = new SourceMappingsBll();
-
-        
-            IQueryable<SourceMapping> sourcesDataTable = null;
-
-            
             // get current sources for record (marriage or person)
-            sourcesDataTable = _SourceMappingsBLL2.GetByMarriageIdOrPersonId2(recordId);
+            IQueryable<SourceMapping> sourcesDataTable = GetByMarriageIdOrPersonId2(recordId);
 
             // if there are no selected sources and there are some in the source table
             // then delete them from the database
             //  other wise just delete the missing entries
-            List<Guid> rowsToDelete = new List<Guid>();
+            var rowsToDelete = new List<Guid>();
 
             // if there are any of these delete them 
             // shouldnt be but sometimes things can get screwed up
@@ -342,9 +332,9 @@ namespace TDBCore.BLL
 
 
 
-            if (workingList.Count == 0 && validSources.Count() > 0)
+            if (workingList.Count == 0 && validSources.Any())
             {
-                validSources.ForEach(o => rowsToDelete.Add(o));                
+                validSources.ForEach(rowsToDelete.Add);                
             }
             else
             {
@@ -375,13 +365,13 @@ namespace TDBCore.BLL
             foreach (Guid deleteId in rowsToDelete)
             {
 
-                _SourceMappingsBLL2.DeleteBySourceIdMarriageIdOrPersonId(deleteId, recordId);
+                DeleteBySourceIdMarriageIdOrPersonId(deleteId, recordId);
             }
             
             //delete the invalid mappings if they exist.
             foreach (int mappingid in invalidmappings)
             {
-                _SourceMappingsBLL2.DeleteByMappingId(mappingid);
+                DeleteByMappingId(mappingid);
             }
 
             // if we've got something to write
@@ -394,9 +384,9 @@ namespace TDBCore.BLL
                 {
 
                     if (isMarriage)
-                        _SourceMappingsBLL2.Insert(sourceId, null, recordId, userId, null, DateTime.Today.ToShortDateString(), null);
+                        Insert(sourceId, null, recordId, userId, null, DateTime.Today.ToShortDateString(), null);
                     else
-                        _SourceMappingsBLL2.Insert(sourceId, null, null, userId, recordId, DateTime.Today.ToShortDateString(), null);
+                        Insert(sourceId, null, null, userId, recordId, DateTime.Today.ToShortDateString(), null);
 
                 }
 
