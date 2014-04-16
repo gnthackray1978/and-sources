@@ -152,7 +152,7 @@ namespace PersonService
           var iModel = new PersonSearch(new Security(WebHelper.GetUser()));
 
 
-            datebirthstr = CsUtils.MakeDateString(datebapstr, datebirthstr, datedeath, years, months, weeks, days);
+            datebirthstr = DateTools.MakeDateString(datebapstr, datebirthstr, datedeath, years, months, weeks, days);
 
             var sp = new ServicePerson
                 {
@@ -182,9 +182,9 @@ namespace PersonService
                     ReferenceLocationId = referenceparishId,
                     DeathLocationId = deathparishId,
                     SourceDescription = source,
-                    BirthYear = CsUtils.GetDateYear(datebirthstr),
-                    BaptismYear = CsUtils.GetDateYear(datebapstr),
-                    DeathYear = CsUtils.GetDateYear(datedeath)
+                    BirthYear = datebirthstr.ParseToValidYear(),//DateTools.GetDateYear(datebirthstr),
+                    BaptismYear =datebapstr.ParseToValidYear(),// DateTools.GetDateYear(),
+                    DeathYear =datedeath.ParseToValidYear()// DateTools.GetDateYear(datedeath)
                 };
                                             
                                             

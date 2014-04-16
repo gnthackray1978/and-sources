@@ -40,7 +40,7 @@ namespace TDBCore.Types.DTOs
             var witnesses = new List<MarriageWitness>();
 
             var serializer = new JavaScriptSerializer();
-            var marriages = serializer.DeserializeToMarriageWitnesses(witnessDtos, CsUtils.GetDateYear(marriageDate), marriageDate,
+            var marriages = serializer.DeserializeToMarriageWitnesses(witnessDtos,marriageDate.ParseToValidYear(), marriageDate,
                                                                       marriageLocation, locationId);
 
             foreach (WitnessDto witnessDto in marriages)

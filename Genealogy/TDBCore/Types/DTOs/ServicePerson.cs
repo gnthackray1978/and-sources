@@ -19,9 +19,9 @@ namespace TDBCore.Types.DTOs
         public string DeathCounty { get; set; }
         public string BirthLocationId { get; set; }
         public string DeathLocationId { get; set; }
-        public string ReferenceLocationId { get; set; }
-      
+        public string ReferenceLocationId { get; set; }      
         public string ReferenceDate { get; set; }
+        public int ReferenceYear { get; set; }
         public string SourceDescription { get; set; }
         public string SpouseChristianName { get; set; }
         public string SpouseSurname { get; set; }

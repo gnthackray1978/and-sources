@@ -162,7 +162,6 @@
     <Compile Include="EntityModel\Marriage.cs">
       <DependentUpon>GeneralModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="EntityModel\MarriageExtensions.cs" />
     <Compile Include="EntityModel\MarriageMapWitness.cs">
       <DependentUpon>GeneralModel.tt</DependentUpon>
     </Compile>
@@ -193,7 +192,6 @@
     <Compile Include="EntityModel\Person.cs">
       <DependentUpon>GeneralModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="EntityModel\PersonExtensions.cs" />
     <Compile Include="EntityModel\PersonSources_Result.cs">
       <DependentUpon>GeneralModel.tt</DependentUpon>
     </Compile>
@@ -236,7 +234,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Types\domain\CombinedSearch.cs" />
     <Compile Include="Types\domain\MapDataSources.cs" />
     <Compile Include="Types\domain\MarriageSearch.cs" />
     <Compile Include="Types\domain\ParishSearch.cs" />
@@ -246,8 +243,6 @@
     <Compile Include="Types\DTOs\CensusPerson.cs" />
     <Compile Include="Types\DTOs\CensusPlace.cs" />
     <Compile Include="Types\DTOs\CensusSource.cs" />
-    <Compile Include="Types\DTOs\CombinedSearchOption.cs" />
-    <Compile Include="Types\DTOs\CombinedSearchResult.cs" />
     <Compile Include="Types\DTOs\FileBasicInfo.cs" />
     <Compile Include="Types\DTOs\MarriageResult.cs" />
     <Compile Include="Types\DTOs\MarriageWitness.cs" />
@@ -298,13 +293,15 @@
     <Compile Include="Types\filters\SourceSearchFilter.cs" />
     <Compile Include="Types\filters\SourceTypeSearchFilter.cs" />
     <Compile Include="Types\libs\Comparer.cs" />
-    <Compile Include="Types\libs\CsImportCsv.cs" />
-    <Compile Include="Types\libs\CsUtils.cs" />
+    <Compile Include="Types\libs\DomainExtensions.cs" />
+    <Compile Include="Types\domain\import\CsImportCsv.cs" />
+    <Compile Include="Types\libs\DataExtraction.cs" />
+    <Compile Include="Types\domain\import\CSVField.cs" />
+    <Compile Include="Types\domain\import\CSVFiles.cs" />
     <Compile Include="Types\libs\DataShaping.cs" />
     <Compile Include="Types\libs\DateTools.cs" />
-    <Compile Include="Types\libs\DoubleMetaphoneStringExtension.cs" />
     <Compile Include="Types\libs\EqualityComparer.cs" />
-    <Compile Include="Types\libs\MyExtensions.cs" />
+    <Compile Include="Types\libs\GeneralExtensions.cs" />
     <Compile Include="Types\libs\RectangleD.cs" />
     <Compile Include="Types\libs\SimpleTimer.cs" />
     <Compile Include="Types\libs\YearRange.cs" />

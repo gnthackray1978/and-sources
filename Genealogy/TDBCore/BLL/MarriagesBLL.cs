@@ -409,7 +409,7 @@ namespace TDBCore.BLL
             _marriage.FemaleInfo = sm.FemaleNotes;
             _marriage.Date = sm.MarriageDate;
             _marriage.MarriageLocation = sm.MarriageLocation;
-            _marriage.YearIntVal = CsUtils.GetDateYear(sm.MarriageDate);
+            _marriage.YearIntVal = sm.MarriageDate.ParseToValidYear();
             _marriage.MarriageCounty = sm.LocationCounty;
             _marriage.Source = sm.SourceDescription;       
             _marriage.IsLicence = sm.IsLicense;
@@ -796,7 +796,7 @@ namespace TDBCore.BLL
                 marriage.FemaleInfo = serviceMarriage.FemaleNotes;
                 marriage.Date = serviceMarriage.MarriageDate;
                 marriage.MarriageLocation = serviceMarriage.MarriageLocation;
-                marriage.YearIntVal = CsUtils.GetDateYear(serviceMarriage.MarriageDate);
+                marriage.YearIntVal = serviceMarriage.MarriageDate.ParseToValidYear();
                 marriage.MarriageCounty = serviceMarriage.LocationCounty;
                 marriage.Source = serviceMarriage.SourceDescription;
                 marriage.IsLicence = serviceMarriage.IsLicense;

@@ -182,22 +182,24 @@ namespace TDBCore.BLL
 
         public Guid InsertSource(SourceDto sourceAjaxDto)
         {       
-            var source = new Source();
-            source.SourceDescription = sourceAjaxDto.SourceDesc;
-            source.OriginalLocation = sourceAjaxDto.OriginalLocation;
-            source.IsCopyHeld = sourceAjaxDto.IsCopyHeld;
-            source.IsViewed = sourceAjaxDto.IsViewed;
-            source.IsThackrayFound = sourceAjaxDto.IsThackrayFound;
-            source.UserId = 0;
-            source.SourceDate = CsUtils.GetDateYear(sourceAjaxDto.SourceDateStr);
-            source.SourceDateTo = CsUtils.GetDateYear(sourceAjaxDto.SourceDateStrTo);
-            source.SourceDateStr = sourceAjaxDto.SourceDateStr;
-            source.SourceDateStrTo = sourceAjaxDto.SourceDateStrTo;
-            source.SourceRef = sourceAjaxDto.SourceRef;
-            source.SourceFileCount = sourceAjaxDto.SourceFileCount;
-            source.SourceNotes = sourceAjaxDto.SourceNotes;
-            source.SourceId = System.Guid.NewGuid();
-            source.DateAdded = DateTime.Today;
+            var source = new Source
+            {
+                SourceDescription = sourceAjaxDto.SourceDesc,
+                OriginalLocation = sourceAjaxDto.OriginalLocation,
+                IsCopyHeld = sourceAjaxDto.IsCopyHeld,
+                IsViewed = sourceAjaxDto.IsViewed,
+                IsThackrayFound = sourceAjaxDto.IsThackrayFound,
+                UserId = 0,
+                SourceDate = sourceAjaxDto.SourceDateStr.ParseToValidYear(),
+                SourceDateTo = sourceAjaxDto.SourceDateStrTo.ParseToValidYear(),
+                SourceDateStr = sourceAjaxDto.SourceDateStr,
+                SourceDateStrTo = sourceAjaxDto.SourceDateStrTo,
+                SourceRef = sourceAjaxDto.SourceRef,
+                SourceFileCount = sourceAjaxDto.SourceFileCount,
+                SourceNotes = sourceAjaxDto.SourceNotes,
+                SourceId = Guid.NewGuid(),
+                DateAdded = DateTime.Today
+            };
 
             ModelContainer.Sources.Add(source);
 
@@ -344,8 +346,8 @@ namespace TDBCore.BLL
             source.IsViewed = sourceAjaxDto.IsViewed;
             source.IsThackrayFound = sourceAjaxDto.IsThackrayFound;
             source.UserId = 1;
-            source.SourceDate = CsUtils.GetDateYear(sourceAjaxDto.SourceDateStr);
-            source.SourceDateTo = CsUtils.GetDateYear(sourceAjaxDto.SourceDateStrTo);
+            source.SourceDate = sourceAjaxDto.SourceDateStr.ParseToValidYear();
+            source.SourceDateTo = sourceAjaxDto.SourceDateStrTo.ParseToValidYear();
             source.SourceDateStr = sourceAjaxDto.SourceDateStr;
             source.SourceDateStrTo = sourceAjaxDto.SourceDateStrTo;
             source.SourceRef = sourceAjaxDto.SourceRef;
