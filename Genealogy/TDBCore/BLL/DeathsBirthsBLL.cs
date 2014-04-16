@@ -46,7 +46,7 @@ namespace TDBCore.BLL
                 personEntity.BapInt = person.BaptismYear;
                 personEntity.BirthInt = person.BirthYear;
                 personEntity.DeathInt = person.DeathYear;
-                personEntity.ReferenceDateInt = CsUtils.GetDateYear(person.ReferenceDate);
+                personEntity.ReferenceDateInt = person.ReferenceDate.ParseToValidYear();// DateTools.GetDateYear();
 
                 //  _person.UserId = userId;
                 //_person.EventPriority = eventPriority;
@@ -201,29 +201,29 @@ namespace TDBCore.BLL
         private void UpdateBirthLocationId(Guid personId, Guid locationId)
         {
 
-            var _person = ModelContainer.Persons.FirstOrDefault(p => p.Person_id == personId);
+          
 
-
-
-            SqlConnection SQLConnection = GetConnection();
+            SqlConnection sqlConnection = GetConnection();
 
             try
             {
-                SqlCommand cmd = new SqlCommand("UPDATE Persons SET BirthLocationId = @birthLocationId WHERE Person_id = @personId", SQLConnection);
-                cmd.CommandType = CommandType.Text;
-                SqlParameter myParm1 = cmd.Parameters.Add("@birthLocationId", SqlDbType.UniqueIdentifier);
+                var cmd = new SqlCommand("UPDATE Persons SET BirthLocationId = @birthLocationId WHERE Person_id = @personId", sqlConnection)
+                {
+                    CommandType = CommandType.Text
+                };
+                var myParm1 = cmd.Parameters.Add("@birthLocationId", SqlDbType.UniqueIdentifier);
                 myParm1.Value = locationId;
-                SqlParameter myParm2 = cmd.Parameters.Add("@personId", SqlDbType.UniqueIdentifier);
+                var myParm2 = cmd.Parameters.Add("@personId", SqlDbType.UniqueIdentifier);
                 myParm2.Value = personId;
-                if (SQLConnection.State != System.Data.ConnectionState.Open)
-                    SQLConnection.Open();
+                if (sqlConnection.State != ConnectionState.Open)
+                    sqlConnection.Open();
 
                 cmd.ExecuteNonQuery();
             }
             finally
             {
-                SQLConnection.Close();
-                SQLConnection.Dispose();
+                sqlConnection.Close();
+                sqlConnection.Dispose();
             }
 
 
@@ -232,52 +232,43 @@ namespace TDBCore.BLL
         private void UpdateBirthLocation2(Guid personId, string location)
         {
 
-            var _person = ModelContainer.Persons.FirstOrDefault(p => p.Person_id == personId);
+            var person = ModelContainer.Persons.FirstOrDefault(p => p.Person_id == personId);
 
-            if (_person != null)
-            {
-                _person.BirthLocation = location;
+            if (person == null) return;
 
-                ModelContainer.SaveChanges();
-            }
+            person.BirthLocation = location;
 
+            ModelContainer.SaveChanges();
         }
 
         private void UpdateUniqueRefs2(Guid personId, Guid uniqueRef, int totalEvents, int eventPriority)
         {
 
-            var _person = ModelContainer.Persons.FirstOrDefault(p => p.Person_id == personId);
+            var person = ModelContainer.Persons.FirstOrDefault(p => p.Person_id == personId);
 
-            if (_person != null)
-            {
-                _person.UniqueRef = uniqueRef;
-                _person.TotalEvents = totalEvents;
-                _person.EventPriority = eventPriority;
+            if (person == null) return;
 
-                ModelContainer.SaveChanges();
-            }
+            person.UniqueRef = uniqueRef;
+            person.TotalEvents = totalEvents;
+            person.EventPriority = eventPriority;
 
+            ModelContainer.SaveChanges();
         }
 
         public void UpdateDuplicateRefs2(Guid person1, Guid person2)
         {
         
-            List<Person> effectedPeople = new List<Person>();
-            
-           
-            foreach (var _person in ModelContainer.Persons.Where(p => (p.Person_id == person2 || p.Person_id == person1) && p.UniqueRef == Guid.Empty))
-            {
-                effectedPeople.Add(_person);
-            }
+            List<Person> effectedPeople = ModelContainer.Persons.Where(p => (p.Person_id == person2 || p.Person_id == person1) && p.UniqueRef == Guid.Empty).ToList();
 
-            
+
             // if our 2 people have unique refs fetch them
-            foreach (var _uniqRef in ModelContainer.Persons.Where(p => (p.Person_id == person2 || p.Person_id == person1) && p.UniqueRef != Guid.Empty))
-            {       
-                foreach (var _dupePerson in ModelContainer.Persons.Where(p => p.UniqueRef == _uniqRef.UniqueRef))
+            foreach (var uniqRef in ModelContainer.Persons.Where(p => (p.Person_id == person2 || p.Person_id == person1) && p.UniqueRef != Guid.Empty))
+            {
+                Person @ref = uniqRef;
+                foreach (var dupePerson in ModelContainer.Persons.Where(p => p.UniqueRef == @ref.UniqueRef))
                 {
-                    if (!effectedPeople.Contains(_dupePerson))
-                        effectedPeople.Add(_dupePerson);
+                    if (!effectedPeople.Contains(dupePerson))
+                        effectedPeople.Add(dupePerson);
                 }
             }
 
@@ -285,12 +276,12 @@ namespace TDBCore.BLL
             Guid newRef = Guid.NewGuid();
 
             int evtCount = 1;
-            foreach (Person _effectedPerson in effectedPeople)
+            foreach (Person effectedPerson in effectedPeople)
             {
                
-                _effectedPerson.UniqueRef = newRef;
-                _effectedPerson.TotalEvents = effectedPeople.Count;
-                _effectedPerson.EventPriority = evtCount;
+                effectedPerson.UniqueRef = newRef;
+                effectedPerson.TotalEvents = effectedPeople.Count;
+                effectedPerson.EventPriority = evtCount;
                 evtCount++;
             }
 
@@ -305,48 +296,48 @@ namespace TDBCore.BLL
 
         #region insert
  
-        public Guid InsertPerson(Person _person)
+        public Guid InsertPerson(Person person)
         {
-            _person.Person_id = Guid.NewGuid();
+            person.Person_id = Guid.NewGuid();
      
 
-            if (_person.BaptismDateStr == null) _person.BaptismDateStr = "";
-            if (_person.BirthCounty == null) _person.BirthCounty = "";
-            if (_person.BirthDateStr == null) _person.BirthDateStr = "";
-            if (_person.BirthLocation == null) _person.BirthLocation = "";            
-            if (_person.ChristianName == null) _person.ChristianName = "";           
-            if (_person.DeathCounty == null) _person.DeathCounty = "";
-            if (_person.DeathDateStr == null) _person.DeathDateStr = "";
-            if (_person.DeathLocation == null) _person.DeathLocation = "";
-            if (_person.FatherChristianName == null) _person.FatherChristianName = "";
-            if (_person.FatherOccupation == null) _person.FatherOccupation = "";
-            if (_person.FatherSurname == null) _person.FatherSurname = "";
-            if (_person.MotherChristianName == null) _person.MotherChristianName = "";
-            if (_person.MotherSurname == null) _person.MotherSurname = "";
-            if (_person.Notes == null) _person.Notes = "";
-            if (_person.Occupation == null) _person.Occupation = "";
-            if (_person.OrigFatherSurname == null) _person.OrigFatherSurname = "";
-            if (_person.OrigMotherSurname == null) _person.OrigMotherSurname = "";
-            if (_person.OrigSurname == null) _person.OrigSurname = "";
-            if (_person.ReferenceDateStr == null) _person.ReferenceDateStr = "";
-            if (_person.ReferenceLocation == null) _person.ReferenceLocation = "";
-            if (_person.ReferenceLocationId == null) _person.ReferenceLocationId = Guid.Empty;
-            if (_person.Source == null) _person.Source = "";
-            if (_person.SpouseName == null) _person.SpouseName = "";
-            if (_person.SpouseSurname == null) _person.SpouseSurname = "";
-            if (_person.Surname == null) _person.Surname = "";
-            if (_person.UniqueRef == null) _person.UniqueRef = Guid.Empty;
-            if (_person.UserId == 0) _person.UserId = 1;
-            if (_person.TotalEvents == 0) _person.TotalEvents = 1;
-            if (_person.EventPriority == 0) _person.EventPriority = 1;
+            if (person.BaptismDateStr == null) person.BaptismDateStr = "";
+            if (person.BirthCounty == null) person.BirthCounty = "";
+            if (person.BirthDateStr == null) person.BirthDateStr = "";
+            if (person.BirthLocation == null) person.BirthLocation = "";            
+            if (person.ChristianName == null) person.ChristianName = "";           
+            if (person.DeathCounty == null) person.DeathCounty = "";
+            if (person.DeathDateStr == null) person.DeathDateStr = "";
+            if (person.DeathLocation == null) person.DeathLocation = "";
+            if (person.FatherChristianName == null) person.FatherChristianName = "";
+            if (person.FatherOccupation == null) person.FatherOccupation = "";
+            if (person.FatherSurname == null) person.FatherSurname = "";
+            if (person.MotherChristianName == null) person.MotherChristianName = "";
+            if (person.MotherSurname == null) person.MotherSurname = "";
+            if (person.Notes == null) person.Notes = "";
+            if (person.Occupation == null) person.Occupation = "";
+            if (person.OrigFatherSurname == null) person.OrigFatherSurname = "";
+            if (person.OrigMotherSurname == null) person.OrigMotherSurname = "";
+            if (person.OrigSurname == null) person.OrigSurname = "";
+            if (person.ReferenceDateStr == null) person.ReferenceDateStr = "";
+            if (person.ReferenceLocation == null) person.ReferenceLocation = "";
+            if (person.ReferenceLocationId == null) person.ReferenceLocationId = Guid.Empty;
+            if (person.Source == null) person.Source = "";
+            if (person.SpouseName == null) person.SpouseName = "";
+            if (person.SpouseSurname == null) person.SpouseSurname = "";
+            if (person.Surname == null) person.Surname = "";
+            if (person.UniqueRef == null) person.UniqueRef = Guid.Empty;
+            if (person.UserId == 0) person.UserId = 1;
+            if (person.TotalEvents == 0) person.TotalEvents = 1;
+            if (person.EventPriority == 0) person.EventPriority = 1;
 
 
 
-            ModelContainer.Persons.Add(_person);
+            ModelContainer.Persons.Add(person);
 
             ModelContainer.SaveChanges();
 
-            return _person.Person_id;
+            return person.Person_id;
         }
 
         public Person CreateBasicPerson(string cname, string sname, string blocat, int birthyear)
@@ -387,7 +378,7 @@ namespace TDBCore.BLL
                     BapInt = person.BaptismYear,
                     BirthInt = person.BirthYear,
                     DeathInt = person.DeathYear,
-                    ReferenceDateInt = CsUtils.GetDateYear(person.ReferenceDate),
+                    ReferenceDateInt =person.ReferenceDate.ParseToValidYear(),// DateTools.GetDateYear(),
                     ReferenceLocation = person.ReferenceLocation,
                     BirthCounty = person.BirthCounty,
                     DeathCounty = person.DeathCounty,
@@ -409,7 +400,9 @@ namespace TDBCore.BLL
                     OrigSurname = "",
                     OrigFatherSurname = "",
                     OrigMotherSurname = "",
-                    Person_id = Guid.NewGuid()
+                    Person_id = Guid.NewGuid(),
+                    DateAdded = DateTime.Today,
+                    DateLastEdit = DateTime.Today
                 };
 
 
@@ -419,78 +412,7 @@ namespace TDBCore.BLL
 
             return personEntity.Person_id;
         }
-
-        public Guid InsertDeathBirthRecord2(bool isMale, string cName, string sName, string bLocation,
-                                           string bDate, string bapDate, string detDate, string dLocation, string fCName, string fSName,
-                                           string mCName, string mSName, string source, string notes,
-                                           int birthInt, int bapInt, int detInt, string birthCounty, string deathCounty
-                                           , string occupation, string referenceLocation, string referenceDateString
-                                           , int referenceDateInt, string spouseCName, string spouseSName, string fatherOccupation,
-                                           Guid birthLocationId, int userId, Guid deathLocationId, Guid referenceLocationId,
-                                           int totalEvents,
-                                           int eventPriority,
-                                           Guid uniqueRef,
-                                           int estBirthInt,
-                                           int estDeathInt,
-                                           bool isEstBirth,
-                                           bool isEstDeath,
-                                           string origSurname,
-                                           string origFatherSurname,
-                                           string origMotherSurname)
-        {
-
-            var person = new Person
-                {
-                    IsMale = isMale,
-                    ChristianName = cName,
-                    Surname = sName,
-                    BirthLocation = bLocation,
-                    BirthDateStr = bDate,
-                    BaptismDateStr = bapDate,
-                    DeathDateStr = detDate,
-                    ReferenceDateStr = referenceDateString,
-                    DeathLocation = dLocation,
-                    FatherChristianName = fCName,
-                    FatherSurname = fSName,
-                    MotherChristianName = mCName,
-                    MotherSurname = mSName,
-                    Notes = notes,
-                    Source = source,
-                    BapInt = bapInt,
-                    BirthInt = birthInt,
-                    DeathInt = detInt,
-                    ReferenceDateInt = referenceDateInt,
-                    ReferenceLocation = referenceLocation,
-                    BirthCounty = birthCounty,
-                    DeathCounty = deathCounty,
-                    Occupation = occupation,
-                    FatherOccupation = fatherOccupation,
-                    SpouseName = spouseCName,
-                    SpouseSurname = spouseSName,
-                    UserId = userId,
-                    BirthLocationId = birthLocationId,
-                    DeathLocationId = deathLocationId,
-                    ReferenceLocationId = referenceLocationId,
-                    TotalEvents = totalEvents,
-                    EventPriority = eventPriority,
-                    UniqueRef = uniqueRef,
-                    EstBirthYearInt = estBirthInt,
-                    EstDeathYearInt = estDeathInt,
-                    IsEstBirth = isEstBirth,
-                    IsEstDeath = isEstDeath,
-                    OrigSurname = origSurname,
-                    OrigFatherSurname = origFatherSurname,
-                    OrigMotherSurname = origMotherSurname,
-                    Person_id = Guid.NewGuid()
-                };
-
-
-            ModelContainer.Persons.Add(person);
-
-            ModelContainer.SaveChanges();
-
-            return person.Person_id;
-        }
+ 
         #endregion
 
         #region selects
@@ -699,8 +621,7 @@ namespace TDBCore.BLL
             // get all persons with no county
             // look in the countydictionary
             // and fill out the county using the dictionary
-            var locationDictionaryBll = new LocationDictionaryBll();
-
+          
 
            
 
@@ -735,8 +656,8 @@ namespace TDBCore.BLL
             {
                 var dictEntry = locationDictionaryBll.GetEntryByLocatAndCounty(prow.BirthLocation, prow.BirthCounty);
 
-                if (dictEntry != null)
-                    UpdateBirthLocationId(prow.Person_id, dictEntry.ParishId.Value);
+                if (dictEntry != null && dictEntry.ParishId != null)
+                   UpdateBirthLocationId(prow.Person_id, dictEntry.ParishId.Value);
             }
 
 
@@ -755,7 +676,7 @@ namespace TDBCore.BLL
             var dummyLocationdId = new Guid("A813A1FF-6093-4924-A7B2-C5D1AF6FF699");
 
             List<string> counties = ModelContainer.Persons.Where(p => p.BirthLocationId == dummyLocationdId).Select(o => o.BirthCounty).Distinct().ToList();
-            int reccount = 0;
+           
             foreach (string county in counties)
             {
                 string county1 = county;
@@ -766,7 +687,7 @@ namespace TDBCore.BLL
                     if (var2 != null)
                     {
                         UpdateBirthLocationId(personRec.Person_id, var2.ParishId);
-                        reccount++;
+                      
                     }
 
                     var var3 = locationDictionaryBll.GetEntryByLocatAndCounty(personRec.BirthLocation, county);
@@ -793,7 +714,7 @@ namespace TDBCore.BLL
                 bool isEstDeath;
 
 
-                CsUtils.CalcEstDates(pRow.BirthInt, pRow.BapInt, pRow.DeathInt, out estBirthYear,
+                DateTools.CalcEstDates(pRow.BirthInt, pRow.BapInt, pRow.DeathInt, out estBirthYear,
                     out estDeathYear, out isEstBirth, out isEstDeath, pRow.FatherChristianName, pRow.MotherChristianName);
 
                 UpdateBirthDeathRecord2(pRow.Person_id, pRow.IsMale, pRow.ChristianName, pRow.Surname,

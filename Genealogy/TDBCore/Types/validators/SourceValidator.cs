@@ -100,9 +100,9 @@ namespace TDBCore.Types.validators
 
         private void Validate()
         {
-            _isValidSourceDate = CsUtils.ValidYear(_sourceAjaxDto.SourceDateStr);
+            _isValidSourceDate = DateTools.ValidYear(_sourceAjaxDto.SourceDateStr);
 
-            _isValidSourceDateTo = CsUtils.ValidYear(_sourceAjaxDto.SourceDateStrTo);
+            _isValidSourceDateTo = DateTools.ValidYear(_sourceAjaxDto.SourceDateStrTo);
 
             _isValidSourceDescription = !string.IsNullOrWhiteSpace(_sourceAjaxDto.SourceDesc);
 

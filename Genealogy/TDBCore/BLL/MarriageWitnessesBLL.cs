@@ -4,6 +4,7 @@ using System.Linq;
 using TDBCore.EntityModel;
 using TDBCore.Types;
 using TDBCore.Types.DTOs;
+using TDBCore.Types.libs;
 
 namespace TDBCore.BLL
 {

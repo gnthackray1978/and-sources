@@ -133,16 +133,8 @@ namespace TDBCore.Types.validators
         }
 
         public bool IsValidMarriageDate()
-        {          
-            int result = 0;
-            if (CsUtils.ValidYear(_serviceMarriage.MarriageDate, out result))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            } 
+        {
+            return _serviceMarriage.MarriageDate.ParseToValidYear() >0;
         }
 
         public bool IsValidLocation()
