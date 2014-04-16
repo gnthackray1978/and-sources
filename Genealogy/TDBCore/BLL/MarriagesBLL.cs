@@ -10,38 +10,7 @@ using TDBCore.Types.libs;
 
 namespace TDBCore.BLL
 {
-
-    public class EnhanceMarriage
-    {
-
-        private Marriage marriage;
-
-        public Marriage Marriage
-        {
-            get { return marriage; }
-            set { marriage = value; }
-        }
-        
-
-        private string witness5;
-
-        public EnhanceMarriage()
-        {
-        }
-
-        public EnhanceMarriage(Marriage _m)
-        {
-            marriage = _m;
-
-        }
-
-        public string Witness5
-        {
-            get { return witness5; }
-            set { witness5 = value; }
-        }
-        
-    }
+ 
 
     public class MarriagesBLL : BaseBll
     {
@@ -50,10 +19,7 @@ namespace TDBCore.BLL
         public MarriagesBLL()
         {
             
-           // connectionString = TDBCore.Properties.Settings.Default.ThackrayDBConnectionString;
-
-            EnhanceMarriage _m = new EnhanceMarriage();
-            
+          
         }
 
 

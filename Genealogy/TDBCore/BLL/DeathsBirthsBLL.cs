@@ -100,103 +100,7 @@ namespace TDBCore.BLL
 
 
         }
-
-        public void UpdateBirthDeathRecord2(Guid personId, bool isMale,
-                                                             string cName,
-                                                             string sName,
-                                                             string bLocation,
-                                                             string bDate,
-                                                             string bapDate,
-                                                             string detDate,
-                                                             string refDate,
-                                                             string dLocation,
-                                                             string fatherCName,
-                                                             string fatherSName,
-                                                             string motherCName,
-                                                             string motherSName,
-                                                             string notes,
-                                                             string source,
-                                                             int bapInt,
-                                                             int birtInt,
-                                                             int detInt, 
-                                                             int refInt,
-                                                             string referenceLocation,
-                                                             string bCounty,
-                                                             string dCounty,
-                                                             string occupation,
-                                                             string fatherOccupation,
-                                                             string spouseCName,
-                                                             string spouseSName,
-                                                             int userId,
-                                                             Guid birthLocationId,
-                                                             Guid deathLocationId,
-                                                             Guid referenceLocationId,
-                                                             int totalEvents,
-                                                             int eventPriority,
-                                                             Guid uniqueRef,
-                                                             int estBirthInt,
-                                                             int estDeathInt,
-                                                             bool isEstBirth,
-                                                             bool isEstDeath,
-                                                             string origName,
-                                                             string origFatherName,
-                                                             string origMotherName)
-        {
-            var person = ModelContainer.Persons.FirstOrDefault(o => o.Person_id == personId);
-
-            if (person != null)
-            {
-
-                person.IsMale = isMale;
-                person.ChristianName = cName;
-                person.Surname = sName;
-                person.BirthLocation = bLocation;
-                person.BirthDateStr = bDate;
-                person.BaptismDateStr = bapDate;
-                person.DeathDateStr = detDate;
-                person.ReferenceDateStr = refDate;
-                person.DeathLocation = dLocation;
-                person.FatherChristianName = fatherCName;
-                person.FatherSurname = fatherSName;
-                person.MotherChristianName = motherCName;
-                person.MotherSurname = motherSName;
-                person.Notes = notes;
-                person.Source = source;
-                person.BapInt = bapInt;
-                person.BirthInt = birtInt;
-                person.DeathInt = detInt;
-                person.ReferenceDateInt = refInt;
-                person.ReferenceLocation = referenceLocation;
-                person.BirthCounty = bCounty;
-                person.DeathCounty = dCounty;
-                person.Occupation = occupation;
-                person.FatherOccupation = fatherOccupation;
-                person.SpouseName = spouseCName;
-                person.SpouseSurname = spouseSName;
-                person.UserId = userId;
-                person.BirthLocationId = birthLocationId;
-                person.DeathLocationId = deathLocationId;
-                person.ReferenceLocationId = referenceLocationId;
-                person.TotalEvents = totalEvents;
-                person.EventPriority = eventPriority;
-                person.UniqueRef = uniqueRef;
-                person.EstBirthYearInt = estBirthInt;
-                person.EstDeathYearInt = estDeathInt;
-                person.IsEstBirth = isEstBirth;
-                person.IsEstDeath = isEstDeath;
-                person.OrigSurname = origName;
-                person.OrigFatherSurname = origFatherName;
-                person.OrigMotherSurname = origMotherName;
-
-            }
-            
-            ModelContainer.SaveChanges();
-
-
-        }
-
-
-
+ 
     
         private void UpdateBirthLocationId(Guid personId, Guid locationId)
         {
@@ -339,21 +243,7 @@ namespace TDBCore.BLL
 
             return person.Person_id;
         }
-
-        public Person CreateBasicPerson(string cname, string sname, string blocat, int birthyear)
-        {
-            var person = new Person
-                {
-                    ChristianName = cname,
-                    Surname = sname,
-                    BirthDateStr = birthyear.ToString(),
-                    BirthLocation = blocat
-                };
-
-            InsertPerson(person);
-
-            return person;
-        }
+         
 
         public Guid InsertDeathBirthRecord(ServicePerson person)
         {
@@ -454,9 +344,9 @@ namespace TDBCore.BLL
            
             if (parishId != Guid.Empty)
             {
-                var parishsBll = new ParishsBll();
+                var sourceBll = new SourceBll();
 
-                parishsBll.GetParishSourceRecords(parishId).ForEach(p => personSearchFilter.SourceString += "," + p.SourceId.ToString());
+                sourceBll.GetParishSourceRecords(parishId).ForEach(p => personSearchFilter.SourceString += "," + p.SourceId.ToString());
 
                 personSearchFilter.SourceString = personSearchFilter.SourceString.Substring(1);
             }
@@ -520,12 +410,7 @@ namespace TDBCore.BLL
 
         }
 
-        public IQueryable<Person> GetByLocation2(Guid deathLocationId, Guid birthLocationId, string birthLoc, string deathLocat
-                                            , string birthCounty, string deathCounty)
-        { 
-            return ModelContainer.Persons.Where(p => p.BirthLocationId == birthLocationId && p.BirthLocation.Contains(birthLoc) && p.DeathLocation.Contains(deathLocat) && p.DeathCounty.Contains(deathCounty) && p.BirthCounty.Contains(birthCounty));
-        }
- 
+        
       
 
         #endregion
@@ -570,15 +455,7 @@ namespace TDBCore.BLL
 
         }
 
-        /// <summary>
-        /// Attempt to merge ALL duplicate records
-        /// </summary>
-        public void MergeDuplicateRecords()
-        {
-
-            var records = ModelContainer.Persons.Where(o => !o.IsDeleted && o.TotalEvents > 1 && o.EventPriority == 1).ToList();      
-            records.ForEach(MergeDuplicateRecord);           
-        }
+      
 
         public void MergeDuplicateRecords(Guid personId)
         {
@@ -640,37 +517,13 @@ namespace TDBCore.BLL
                 UpdateBirthLocation2(prow.Person_id, newLocation);
             }
         }
-
-        public void UpdateLocationIdsFromDictionary()
-        {
-
-            var locationDictionaryBll = new LocationDictionaryBll();
-
-
-         
-            Guid dummyLocationdId = new Guid("A813A1FF-6093-4924-A7B2-C5D1AF6FF699");
-
-
-
-            foreach (var prow in ModelContainer.Persons.Where(p => p.BirthLocationId == dummyLocationdId).Where(p => p.BirthLocation != ""))// personDataTable.Where(o => o.BirthLocation != ""))
-            {
-                var dictEntry = locationDictionaryBll.GetEntryByLocatAndCounty(prow.BirthLocation, prow.BirthCounty);
-
-                if (dictEntry != null && dictEntry.ParishId != null)
-                   UpdateBirthLocationId(prow.Person_id, dictEntry.ParishId.Value);
-            }
-
-
-
-        }
+ 
 
         public void UpdateLocationIdsFromParishTable()
         {
 
             UpdateTidyBirthLocations();
-
-            var locationDictionaryBll = new LocationDictionaryBll();
-
+ 
             var parishsBll = new ParishsBll();
           
             var dummyLocationdId = new Guid("A813A1FF-6093-4924-A7B2-C5D1AF6FF699");
@@ -690,7 +543,7 @@ namespace TDBCore.BLL
                       
                     }
 
-                    var var3 = locationDictionaryBll.GetEntryByLocatAndCounty(personRec.BirthLocation, county);
+                    var var3 = GetEntryByLocatAndCounty(personRec.BirthLocation, county);
                     if (var3 != null)
                     {
                         if (var3.ParishId != null) UpdateBirthLocationId(personRec.Person_id, var3.ParishId.Value);
@@ -717,13 +570,44 @@ namespace TDBCore.BLL
                 DateTools.CalcEstDates(pRow.BirthInt, pRow.BapInt, pRow.DeathInt, out estBirthYear,
                     out estDeathYear, out isEstBirth, out isEstDeath, pRow.FatherChristianName, pRow.MotherChristianName);
 
-                UpdateBirthDeathRecord2(pRow.Person_id, pRow.IsMale, pRow.ChristianName, pRow.Surname,
-                    pRow.BirthLocation, pRow.BirthDateStr, pRow.BaptismDateStr, pRow.DeathDateStr, pRow.ReferenceDateStr,
-                    pRow.DeathLocation, pRow.FatherChristianName, pRow.FatherSurname, pRow.MotherChristianName, pRow.MotherSurname,
-                    pRow.Notes, pRow.Source, pRow.BapInt, pRow.BirthInt, pRow.DeathInt, pRow.ReferenceDateInt, pRow.ReferenceLocation,
-                    pRow.BirthCounty, pRow.DeathCounty, pRow.Occupation, pRow.FatherOccupation, pRow.SpouseName, pRow.SpouseSurname,
-                    pRow.UserId, pRow.BirthLocationId, pRow.DeathLocationId, pRow.ReferenceLocationId, pRow.TotalEvents, pRow.EventPriority, pRow.UniqueRef.GetValueOrDefault(),
-                    estBirthYear, estDeathYear, isEstBirth, isEstDeath, pRow.OrigSurname, pRow.OrigFatherSurname, pRow.OrigMotherSurname);
+                UpdateBirthDeathRecord(new ServicePerson
+                {
+                    PersonId = pRow.Person_id, 
+                    IsMale = pRow.IsMale.ToString(),
+                    ChristianName  = pRow.ChristianName,
+                    Surname = pRow.Surname,
+                    BirthLocation  = pRow.BirthLocation, 
+                    Birth  = pRow.BirthDateStr,
+                    Baptism =pRow.BaptismDateStr, 
+                    Death  = pRow.DeathDateStr,
+                    ReferenceDate  = pRow.ReferenceDateStr,
+                    DeathLocation = pRow.DeathLocation,
+                    FatherChristianName  = pRow.FatherChristianName, 
+                    FatherSurname  = pRow.FatherSurname,
+                    MotherChristianName  = pRow.MotherChristianName, 
+                    MotherSurname  = pRow.MotherSurname,
+                    Notes  = pRow.Notes,
+                    Sources   = pRow.Source,
+                    BaptismYear  = pRow.BapInt,
+                    BirthYear  = pRow.BirthInt, 
+                    DeathYear  = pRow.DeathInt,
+                    ReferenceYear  = pRow.ReferenceDateInt,
+                    ReferenceLocation  = pRow.ReferenceLocation,
+                    BirthCounty = pRow.BirthCounty, 
+                    DeathCounty  = pRow.DeathCounty, 
+                    Occupation   = pRow.Occupation,
+                    FatherOccupation  = pRow.FatherOccupation, 
+                    SpouseChristianName  = pRow.SpouseName,
+                    SpouseSurname  = pRow.SpouseSurname,
+                    UserId  = pRow.UserId,
+                    BirthLocationId  = pRow.BirthLocationId.ToString(),
+                    DeathLocationId  = pRow.DeathLocationId.ToString(), 
+                    ReferenceLocationId  = pRow.ReferenceLocationId.ToString(),
+                    Events  = pRow.TotalEvents.ToString(),                   
+                    UniqueReference  = pRow.UniqueRef.GetValueOrDefault().ToString()              
+                });
+
+                
 
             }
 
@@ -788,18 +672,14 @@ namespace TDBCore.BLL
             return parentGuids;
         }
 
-        public void DelinkAllRelatedPersons(List<Guid> selectedRecordIds)
+        
+
+        public LocationDictionary GetEntryByLocatAndCounty(string locat, string county)
         {
-            if (selectedRecordIds.Count <= 0) return;
+            LocationDictionary retVal = ModelContainer.LocationDictionaries.FirstOrDefault(o => o.LocationName == locat && o.LocationCounty == county);
 
-            var relationsBll = new RelationsBll();
-            relationsBll.DeleteRelationMapping(selectedRecordIds);
-            Guid personA = selectedRecordIds[0];
+            return retVal;
 
-            foreach (var pRow in GetUniqRefDuplicates(personA).ToList())
-            {
-                UpdateUniqueRefs2(pRow.Person_id, Guid.NewGuid(), 1, 1);
-            }
         }
     }
 }

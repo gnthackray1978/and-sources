@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using TDBCore.EntityModel;
-using TDBCore.Types;
 using System.Text.RegularExpressions;
 using TDBCore.Types.DTOs;
 using TDBCore.Types.filters;
@@ -12,6 +11,12 @@ namespace TDBCore.BLL
 {
     public class SourceBll : BaseBll
     {
+        private readonly SourceTypesBll _sourceTypes;
+
+        public SourceBll()
+        {
+            _sourceTypes = new SourceTypesBll();
+        }
 
         public List<CensusSource> Get1841CensuSources(Guid sourceId)
         {   
@@ -25,8 +30,8 @@ namespace TDBCore.BLL
                 var personResults = ModelContainer.Persons.Where(s => s.SourceMappings.Any(o => o.Source.SourceId == entry.SourceId)).OrderBy(p => p.BirthDateStr).ToList();
 
                 
-                personResults.ForEach(o => censusPersons.Add(new CensusPerson()
-                    {
+                personResults.ForEach(o => censusPersons.Add(new CensusPerson
+                {
                         BirthCounty = o.BirthCounty,
                         BirthYear = o.BirthDateStr.ToInt32(),
                         CName = o.ChristianName,
@@ -34,7 +39,7 @@ namespace TDBCore.BLL
                     }));
 
 
-                var cs = new CensusSource()
+                var cs = new CensusSource
                 {
                     CensusDesc = entry.SourceDescription,
                     CensusRef = entry.SourceRef,
@@ -117,7 +122,6 @@ namespace TDBCore.BLL
             return ret;
         }
 
-
         public string MakeSourceString(Guid person)
         {
             var sourceBll = new SourceBll();
@@ -130,55 +134,6 @@ namespace TDBCore.BLL
         {
             return ModelContainer.SourceMappings.Where(sm => sm.Source.SourceId == sourceId && sm.Person != null).Select(p => p.Person).ToList();
         }
-
-        public Source CreateBasicSource(Guid sourceId, string sourceRef, int sourceDateInt, int sourceDateToInt, string sourceDesc)
-        {
-            Source newSource = new Source();
-            newSource.SourceId = sourceId;
-            newSource.IsCopyHeld = false;
-            newSource.IsThackrayFound = false;
-            newSource.IsViewed = false;
-            newSource.OriginalLocation = "";
-            newSource.SourceDate = sourceDateInt;
-            newSource.SourceDateTo = sourceDateToInt;
-
-            newSource.SourceDateStr = sourceDateInt.ToString();
-            newSource.SourceDateStrTo = sourceDateToInt.ToString();
-            newSource.SourceDescription = sourceDesc;
-            newSource.SourceRef = sourceRef;
-            newSource.DateAdded = DateTime.Today;
-
-            ModelContainer.Sources.Add(newSource);
-
-            ModelContainer.SaveChanges();
-
-            return newSource;
-        }
-
-        public Source CreateBasicSource(string sourceRef, int sourceDateInt, string sourceDesc)
-        {
-            Source newSource = new Source();
-            newSource.SourceId = Guid.NewGuid();
-            newSource.IsCopyHeld = false;
-            newSource.IsThackrayFound = false;
-            newSource.IsViewed = false;
-            newSource.OriginalLocation = "";
-            newSource.SourceDate = sourceDateInt;
-            newSource.SourceDateTo = sourceDateInt;
-            newSource.SourceDateStr = sourceDateInt.ToString();
-            newSource.SourceDateStrTo = sourceDateInt.ToString();
-            newSource.SourceDescription = sourceDesc;
-            newSource.SourceRef = sourceRef;
-            newSource.DateAdded = DateTime.Today;
-
-            ModelContainer.Sources.Add(newSource);
-
-            ModelContainer.SaveChanges();
-
-            return newSource;
-        }
-
-
 
         public Guid InsertSource(SourceDto sourceAjaxDto)
         {       
@@ -207,129 +162,6 @@ namespace TDBCore.BLL
 
             return source.SourceId;
         }
-
-
-
-        public Guid InsertSource2(string sourceDesc, string sourceOrigLoc, bool isCopyHeld, bool isViewed, bool isThackrayFound, int userId,
-                                    string sourceDateStr, string sourceDateStrTo, int sourceDateInt, int sourceDateIntTo , string sourceRef, int sourceFileCount, string sourceNotes)
-        {
-
-          //  ModelContainer.AcceptAllChanges();
-
-            Source _source = new Source();
-            _source.SourceDescription = sourceDesc;
-            _source.OriginalLocation = sourceOrigLoc;
-            _source.IsCopyHeld = isCopyHeld;
-            _source.IsViewed = isViewed;
-            _source.IsThackrayFound = isThackrayFound;
-            _source.UserId = userId;
-            _source.SourceDate = sourceDateInt;
-            _source.SourceDateTo = sourceDateIntTo;
-            _source.SourceDateStr = sourceDateStr;
-            _source.SourceDateStrTo = sourceDateStrTo;
-            _source.SourceRef = sourceRef;
-            _source.SourceFileCount = sourceFileCount;
-            _source.SourceNotes = sourceNotes;
-            _source.SourceId = System.Guid.NewGuid();
-            _source.DateAdded = DateTime.Today;
-
-
-            ModelContainer.Sources.Add(_source);
-
-            //Debug.WriteLine("modified");
-            //foreach (var _entry in ModelContainer.ObjectStateManager.GetObjectStateEntries(System.Data.EntityState.Modified))
-            //{
-            //    Debug.WriteLine(_entry.ToString());
-            //}
-            //Debug.WriteLine("added");
-            //foreach (var _entry in ModelContainer.ObjectStateManager.GetObjectStateEntries(System.Data.EntityState.Added))
-            //{
-            //    Debug.WriteLine(_entry.ToString());
-            //}
-            //Debug.WriteLine("unchanged");
-            //foreach (var _entry in ModelContainer.ObjectStateManager.GetObjectStateEntries(System.Data.EntityState.Unchanged))
-            //{
-            //    Debug.WriteLine(_entry.ToString());
-            //}
-
-
-            
-            ModelContainer.SaveChanges();
-     
-             
-            return _source.SourceId;
-        }
-
-        public Source GetNewSource(string sourceDesc, string sourceOrigLoc, bool isCopyHeld, bool isViewed, bool isThackrayFound, int userId,
-                            string sourceDateStr, string sourceDateStrTo, int sourceDateInt, int sourceDateIntTo, string sourceRef, int sourceFileCount, string sourceNotes)
-        {
-
-            //  ModelContainer.AcceptAllChanges();
-
-            Source _source = new Source();
-            _source.SourceDescription = sourceDesc;
-            _source.OriginalLocation = sourceOrigLoc;
-            _source.IsCopyHeld = isCopyHeld;
-            _source.IsViewed = isViewed;
-            _source.IsThackrayFound = isThackrayFound;
-            _source.UserId = userId;
-            _source.SourceDate = sourceDateInt;
-            _source.SourceDateTo = sourceDateIntTo;
-            _source.SourceDateStr = sourceDateStr;
-            _source.SourceDateStrTo = sourceDateStrTo;
-            _source.SourceRef = sourceRef;
-            _source.SourceFileCount = sourceFileCount;
-            _source.SourceNotes = sourceNotes;
-            _source.SourceId = System.Guid.NewGuid();
-            _source.DateAdded = DateTime.Today;
-
-
-            ModelContainer.Sources.Add(_source);
-
- 
-
-            ModelContainer.SaveChanges();
-
-
-            return _source;
-        }
- 
-        public void UpdateSource2(Guid sourceId, string sourceDesc, string sourceOrigLoc,
-         bool isCopyHeld, bool isViewed, bool isThackrayFound, int userId,
-         string sourceDateStr, string sourceDateStrTo, int sourceDateInt, int sourceDateIntTo,
-         string sourceRef, int sourceFileCount, string sourceNotes)
-        {
-            Source _source = ModelContainer.Sources.FirstOrDefault(o => o.SourceId == sourceId);
-
-
-            if (_source != null)
-            {
-                _source.SourceDescription = sourceDesc;
-                _source.OriginalLocation = sourceOrigLoc;
-                _source.IsCopyHeld = isCopyHeld;
-                _source.IsViewed = isViewed;
-                _source.IsThackrayFound = isThackrayFound;
-                _source.UserId = userId;
-                _source.SourceDate = sourceDateInt;
-                _source.SourceDateTo = sourceDateIntTo;
-                _source.SourceDateStr = sourceDateStr;
-                _source.SourceDateStrTo = sourceDateStrTo;
-                _source.SourceRef = sourceRef;
-                _source.SourceFileCount = sourceFileCount;
-                _source.SourceNotes = sourceNotes;
-             
-                _source.DateAdded = DateTime.Today;
-
-                ModelContainer.SaveChanges();
-            }
-
-
-
-      
-        }
-
-
-        //SourceAjaxDto
 
         public void UpdateSource(SourceDto sourceAjaxDto)
         {
@@ -360,118 +192,40 @@ namespace TDBCore.BLL
 
             ModelContainer.SaveChanges();
         }
+  
+        public void DeleteSource2(Guid sourceId)
+        {         
+            var source = ModelContainer.Sources.FirstOrDefault(o => o.SourceId == sourceId);
 
-        public void UpdateBasic(Guid sourceId, string sourceRef, string sourceDesc, int sourceYear, int sourceYearTo)
-        {
-            Source _source = ModelContainer.Sources.FirstOrDefault(o => o.SourceId == sourceId);
+            if (source == null) return;
 
+            ModelContainer.Sources.Remove(source);
 
-            if (_source != null)
-            {
-                _source.SourceDescription = sourceDesc;
-              
-                _source.SourceRef = sourceRef;
-        
-                _source.DateAdded = DateTime.Today;
-
-
-                _source.SourceDate = sourceYear;
-                _source.SourceDateStr = sourceYear.ToString();
-
-                _source.SourceDateTo = sourceYearTo;
-                _source.SourceDateStrTo = sourceYearTo.ToString();
-                 
-
-                ModelContainer.SaveChanges();
-            }
-        }
-
-        public void UpdateNotes(Guid sourceId, string sourceNotes)
-        {
-            Source _source = ModelContainer.Sources.FirstOrDefault(o => o.SourceId == sourceId);
-            if (_source != null)
-            {
-                _source.SourceNotes += sourceNotes;
-                ModelContainer.SaveChanges();
-            }
+            ModelContainer.SaveChanges();
         }
  
-        public void DeleteSource2(Guid sourceId)
-        {
-          
-
-            var _source = ModelContainer.Sources.FirstOrDefault(o => o.SourceId == sourceId);
-
-            if (_source != null)
-            {
-                ModelContainer.Sources.Remove(_source);
-
-                ModelContainer.SaveChanges();
-            }
-        }
-
-        public string GetPersonSources(Guid _personId, List<Guid> sources)
-        {
-            //SimpleTimer _st = new SimpleTimer();
-
-
-            //_st.StartTimer();
-
-
-            var results = ModelContainer.GetPersonSources(_personId);
-            string retVal = "";
-            foreach (var _source in results)
-            {
-                retVal += _source.SourceRef + " ";
-                sources.Add(_source.SourceId.Value);
-            }
-
-
-//            Debug.WriteLine( _st.EndTimer("1"));
-
-            return retVal;
-        }
-
-        public string GetMarriageSources(Guid _marriageId, List<Guid> sources)
-        {
-            string retVal = "";
-            var results = ModelContainer.GetMarriageSources(_marriageId);
-
-            foreach (var source in results)
-            {
-                retVal += source.SourceRef;
-                sources.Add(source.SourceId.Value);
-            }
-
-            return retVal;
-        }
-
         public List<ServiceSource> FillSourceTableBySourceIds(List<Guid> ssf)
         {
+            var result = ModelContainer.Sources.Where(o => ssf.Contains(o.SourceId)).ToList().Select(p => new ServiceSource
+            {
+                SourceDesc = p.SourceDescription,
+                SourceId = p.SourceId,
+                SourceRef = p.SourceRef,
+                SourceYear = p.SourceDate.GetValueOrDefault(),
+                SourceYearTo = p.SourceDateTo.GetValueOrDefault()
+            }).ToList();
 
-            List<ServiceSource> result = null;
-           
-            result = ModelContainer.Sources.Where(o => ssf.Contains(o.SourceId)).ToList().Select(p => new ServiceSource()
-                                        {
-                                            SourceDesc = p.SourceDescription,
-                                            SourceId = p.SourceId,
-                                            SourceRef = p.SourceRef,
-                                            SourceYear = p.SourceDate.GetValueOrDefault(),
-                                            SourceYearTo = p.SourceDateTo.GetValueOrDefault()
-                                        }).ToList();
- 
-            
+
             return result;
-
         }
 
         public List<ServiceSource> FillSourceTableByFilter(SourceSearchFilter ssf)
         {
 
-            List<ServiceSource> result = null;
+            List<ServiceSource> result;
             #region booleans
-            bool isCopyHoldLocal = false;
-            bool isCopyHoldLocalAlt = false;
+            bool isCopyHoldLocal;
+            bool isCopyHoldLocalAlt;
 
             if (ssf.CopyHeld == null)
             {
@@ -484,8 +238,8 @@ namespace TDBCore.BLL
                 isCopyHoldLocalAlt = ssf.CopyHeld.Value;
             }
 
-            bool isViewedLocal = false;
-            bool isViewedLocalAlt = false;
+            bool isViewedLocal;
+            bool isViewedLocalAlt;
 
             if (ssf.Viewed == null)
             {
@@ -498,8 +252,8 @@ namespace TDBCore.BLL
                 isViewedLocalAlt = ssf.Viewed.Value;
             }
 
-            bool isThackrayLocalFound = false;
-            bool isThackrayLocalFoundAlt = false;
+            bool isThackrayLocalFound;
+            bool isThackrayLocalFoundAlt;
 
             if (ssf.ThackrayFound == null)
             {
@@ -540,7 +294,7 @@ namespace TDBCore.BLL
                                             o.SourceDate >= sourceL && o.SourceDate <= sourceU &&
                                             o.SourceDateTo >= sourceToL && o.SourceDateTo <= sourceToU &&
 
-                                            o.SourceRef.Contains(ssf.Ref)).Select(p=> new ServiceSource()
+                                            o.SourceRef.Contains(ssf.Ref)).Select(p=> new ServiceSource
                                                 {
                                                     SourceDesc = p.SourceDescription,
                                                     SourceId = p.SourceId,
@@ -564,7 +318,7 @@ namespace TDBCore.BLL
                     isViewedLocalAlt,
                     isCopyHoldLocal,
                     isCopyHoldLocalAlt,
-                    listOfSourcesStr).Select(p => new ServiceSource()
+                    listOfSourcesStr).Select(p => new ServiceSource
                     {
                         SourceDesc = p.SourceDescription,
                         SourceId = p.SourceId,
@@ -573,144 +327,9 @@ namespace TDBCore.BLL
                         SourceYearTo = p.SourceDateTo.GetValueOrDefault()
                     }).ToList();
             }
-
-            int intSourceFileCount = 0;
-
-     
-            if (Int32.TryParse( ssf.FileCount, out intSourceFileCount))
-            {
-                if (intSourceFileCount == 0)
-                {
-                    result = result.Where(o => o.FileCount == 0).ToList();
-                }
-                else
-                {
-                    result = result.Where(o => o.FileCount >= intSourceFileCount).ToList();
-                }
-            }
-
-
-            return result;
-
+          
+            return ssf.FileCount.ToInt32() == 0 ? result.Where(o => o.FileCount == 0).ToList() : result.Where(o => o.FileCount >= ssf.FileCount.ToInt32()).ToList();
         }
-
-
-        public IQueryable<Source> FillSourceTableByFilter2(string sourceDesc, string sourceOrigLoc,
-            bool? isCopyHeld, bool? isViewed, bool? isThackrayFound,
-            int sourceU, int sourceL, int sourceToU, int sourceToL,
-            int? userId, List<int> listOfSources, DateTime addedFrom, DateTime addedTo, string sourceRef,
-            string sourceFileCount)
-        {
-     //       ModelContainer.Sources.MergeOption = System.Data.Objects.MergeOption.NoTracking;
-
-            IQueryable<Source> result = null;
-            #region booleans
-            bool isCopyHoldLocal = false;
-            bool isCopyHoldLocalAlt = false;
-
-            if (isCopyHeld == null)
-            {
-                isCopyHoldLocal = false;
-                isCopyHoldLocalAlt = true;
-            }
-            else
-            {
-                isCopyHoldLocal = isCopyHeld.Value;
-                isCopyHoldLocalAlt = isCopyHeld.Value;
-            }
-
-            bool isViewedLocal = false;
-            bool isViewedLocalAlt = false;
-
-            if (isViewed == null)
-            {
-                isViewedLocal = false;
-                isViewedLocalAlt = true;
-            }
-            else
-            {
-                isViewedLocal = isViewed.Value;
-                isViewedLocalAlt = isViewed.Value;
-            }
-
-            bool isThackrayLocalFound = false;
-            bool isThackrayLocalFoundAlt = false;
-
-            if (isThackrayFound == null)
-            {
-                isThackrayLocalFound = false;
-                isThackrayLocalFoundAlt = true;
-            }
-            else
-            {
-                isThackrayLocalFound = isThackrayFound.Value;
-                isThackrayLocalFoundAlt = isThackrayFound.Value;
-            }
-
-            #endregion
-
-            string listOfSourcesStr = "";
-
-            if (listOfSources != null && listOfSources.Count > 0)
-            {
-                foreach (int _id in listOfSources)
-                {
-                    listOfSourcesStr += "," + _id.ToString();
-                }
-
-                listOfSourcesStr = listOfSourcesStr.Remove(0, 1);
-            }
-
-
-            if (listOfSourcesStr == "")
-            {
-                result = ModelContainer.Sources.Where(o => (o.IsCopyHeld == isCopyHoldLocal || o.IsCopyHeld == isCopyHoldLocalAlt) &&
-                                            (o.IsThackrayFound == isThackrayLocalFound || o.IsThackrayFound == isThackrayLocalFoundAlt) &&
-                                            o.SourceDescription.Contains(sourceDesc) &&
-                                            (o.IsViewed == isViewedLocal || o.IsViewed == isViewedLocalAlt) && 
-                                            o.OriginalLocation.Contains(sourceOrigLoc) && 
-                                            o.SourceDate >= sourceL &&  o.SourceDate <= sourceU &&
-                                            o.SourceDateTo >= sourceToL &&  o.SourceDateTo <= sourceToU && 
-                                            o.SourceRef.Contains(sourceRef));
-            }
-            else
-            {                           
-                result =ModelContainer.GetSourcesBySourceTypes(
-                    sourceRef,
-                    sourceToU, sourceL, sourceToL, sourceU,
-                    userId.Value,
-                    sourceOrigLoc,
-                    addedTo,
-                    addedFrom,
-                    isThackrayLocalFound,
-                    isThackrayLocalFoundAlt,
-                    isViewedLocal,
-                    isViewedLocalAlt,
-                    isCopyHoldLocal,
-                    isCopyHoldLocalAlt,
-                    listOfSourcesStr).AsQueryable();
-            }
-
-            int intSourceFileCount = 0;
-
-            if (Int32.TryParse(sourceFileCount, out intSourceFileCount))
-            {
-                if (intSourceFileCount == 0)
-                {
-                    result = result.Where(o => o.SourceFileCount == 0);
-                }
-                else
-                {
-                    result = result.Where(o => o.SourceFileCount >= intSourceFileCount);
-                }
-            }
-
-
-            return result;
-
-        }
-
-
 
         public List<ServiceSearchResult> GetSourceByParishString(string parishs, int startYear, int endYear)
         {
@@ -750,15 +369,47 @@ namespace TDBCore.BLL
 
             return ssresults;
         }
-
-        public List<string> GetsourceRefs2(List<Guid> sourceId)
+          
+        public List<SourceRecord> GetParishSourceRecords(Guid parishId)
         {
-             return ModelContainer.Sources.Where(o => sourceId.Contains(o.SourceId)).Select(o => o.SourceRef).ToList();
-        }
+            var sources = ModelContainer.Sources.Where(o => o.SourceDate != null 
+                && o.SourceDateTo != null 
+                && o.SourceMappingParishs.Any(a => a.Parish.ParishId == parishId));
 
-        public IQueryable<Source> FillSourceTableByParishId2(Guid parishId)
-        {
-            return ModelContainer.Sources.Where(o => o.SourceMappingParishs.Any(a => a.Parish.ParishId == parishId)); 
+            var sourceRecords = sources.Select(srow => new SourceRecord
+            {
+                SourceId = srow.SourceId,
+                IsCopyHeld = srow.IsCopyHeld.GetValueOrDefault(),
+                IsThackrayFound = srow.IsThackrayFound.GetValueOrDefault(),
+                IsViewed = srow.IsViewed.GetValueOrDefault(),
+                OriginalLocation = srow.OriginalLocation,
+                SourceDesc = srow.SourceDescription,
+                SourceRef = srow.SourceRef,
+                YearStart = srow.SourceDate.Value,
+                YearEnd = srow.SourceDateTo.Value,
+                sourceTYpes = _sourceTypes.GetSourceTypeBySourceId2(srow.SourceId).Select(st => st.SourceTypeId).ToList()
+                 
+            }).ToList();
+
+            sourceRecords.ForEach(sr => sr.sourceTYpes.ForEach(type =>                 
+            {
+                // parish regs
+                if (type >= 40 && type <= 43)
+                    sr.DisplayOrder = 1;
+                // parish reg
+                if (type == 1)
+                    sr.DisplayOrder = 1;
+                // igi records
+                if (type == 36)
+                    sr.DisplayOrder = 2;
+                // wills etc
+                if (type >= 2 && type <= 33)
+                    sr.DisplayOrder = 3;
+
+                if (type >= 37 && type <= 39)
+                    sr.DisplayOrder = 3;
+            }));                  
+            return sourceRecords;
         }
 
         public Source FillSourceTableById2(Guid sourceId)
@@ -772,7 +423,7 @@ namespace TDBCore.BLL
 
             if (tp != null)
             {
-                return new SourceDto()
+                return new SourceDto
                 {
                    IsCopyHeld = tp.IsCopyHeld.GetValueOrDefault(),
                    IsThackrayFound = tp.IsThackrayFound.GetValueOrDefault(),
@@ -790,13 +441,7 @@ namespace TDBCore.BLL
 
             return new SourceDto();
         }
-
-
-        public IQueryable<Source> FillSources()
-        {
-            return ModelContainer.Sources; 
-        }
-
+      
         public IQueryable<Source> FillSourceTableByPersonOrMarriageId2(Guid recordId)
         {
             return ModelContainer.Sources.Where(o => o.SourceMappings.Any(p => p.Marriage.Marriage_Id == recordId || p.Person.Person_id == recordId)); 
@@ -804,10 +449,10 @@ namespace TDBCore.BLL
 
         public List<ServiceSource> FillTreeSources(SourceSearchFilter description)
         {          
-            var retVal = new List<ServiceSource>();
+            List<ServiceSource> retVal;
 
             if(description.Description=="")
-                retVal= ModelContainer.Sources.Where(o => o.SourceMappings.Any(p => p.SourceType.SourceTypeId == 39)).Select(s=> new ServiceSource()
+                retVal= ModelContainer.Sources.Where(o => o.SourceMappings.Any(p => p.SourceType.SourceTypeId == 39)).Select(s=> new ServiceSource
                     {
                         SourceDesc = s.SourceDescription,
                         SourceId = s.SourceId,
@@ -817,7 +462,7 @@ namespace TDBCore.BLL
                         UserId = s.UserId                        
                     }).ToList();
             else
-                retVal= ModelContainer.Sources.Where(o => o.SourceMappings.Any(p => p.SourceType.SourceTypeId == 39) && o.SourceDescription.Contains(description.Description)).Select(s => new ServiceSource()
+                retVal= ModelContainer.Sources.Where(o => o.SourceMappings.Any(p => p.SourceType.SourceTypeId == 39) && o.SourceDescription.Contains(description.Description)).Select(s => new ServiceSource
                 {
                     SourceDesc = s.SourceDescription,
                     SourceId = s.SourceId,
@@ -835,10 +480,7 @@ namespace TDBCore.BLL
                
                     if (sourceMap != null)
                     {
-                        if (sourceMap.Person != null)
-                            ss.DefaultPerson = sourceMap.Person.Person_id;
-                        else
-                            ss.DefaultPerson = Guid.Empty;
+                        ss.DefaultPerson = sourceMap.Person != null ? sourceMap.Person.Person_id : Guid.Empty;
                     }
                     else
                         ss.DefaultPerson = Guid.Empty;
@@ -849,34 +491,7 @@ namespace TDBCore.BLL
 
             return retVal;
         }
-
-        public bool DeleteTree(Guid sourceId)
-        {
-            if (sourceId != null
-                && sourceId != Guid.Empty)
-            {
-                ModelContainer.DeleteTree(sourceId);
-
-                var row = ModelContainer.Sources.FirstOrDefault(s => s.SourceId == sourceId);
-
-
-                if (row == null)
-                    return true;
-                else
-                    return false;
-            }
-            else
-            {
-                return false;
-            }
-
-        }
-
-        /// <summary>
-        /// Get Source Reference string for marriage or person
-        /// ref is a maximum of 49 character anything after that
-        /// will be cut off.
-        /// </summary>          
+      
         public string GetSourcesRef(Guid recordId)
         {
            // var result = ModelContainer.Sources.Where(o => o.SourceMappings.Any(p => p.Marriage.Marriage_Id == recordId || p.Person.Person_id == recordId)).Select(s=>s.SourceRef);
@@ -890,15 +505,6 @@ namespace TDBCore.BLL
             return result;
  
         }
-
-       
-
-        public IQueryable<Source> FillSourceTableBySourceRef2(string sourceRef)
-        {
-            return ModelContainer.Sources.Where(o => o.SourceRef.Contains(sourceRef));
-        }
-    
-    
-    
+ 
     }
 }

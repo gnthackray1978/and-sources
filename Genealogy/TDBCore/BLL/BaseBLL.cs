@@ -62,40 +62,6 @@ namespace TDBCore.BLL
 
       
 
-        //private System.Data.EntityClient.EntityConnection GetConn()
-        //{
-
-        //    string conString = ConfigurationManager.ConnectionStrings["SqlServices"].ConnectionString;
-
-        //    var sconStrBuilder = new SqlConnectionStringBuilder(conString);
-
-        //    string entConStr = @"metadata=res://*/EntityModel.GeneralModel.csdl|res://*/EntityModel.GeneralModel.ssdl|res://*/EntityModel.GeneralModel.msl;provider=System.Data.SqlClient;provider connection string="";Data Source=" +
-        //      sconStrBuilder.DataSource + @";Initial Catalog=" + sconStrBuilder.InitialCatalog + @";Integrated Security="
-        //      + sconStrBuilder.IntegratedSecurity + @";User Id=" + sconStrBuilder.UserID + @";Password=" + sconStrBuilder.Password + @";MultipleActiveResultSets=True"";";
-
-
-
-        //    var connStr = new System.Data.EntityClient.EntityConnection(entConStr);
-
-
-
-        //    return connStr;
-        //}
-
-        private string GetNormalConn()
-        {
-
-            string conString = ConfigurationManager.ConnectionStrings["SqlServices"].ConnectionString;
-
-         
-       
-
-            return conString;
-        }
-
-
-        
-
         public string ErrorCondition
         {
             get { return _errorCondition; }
