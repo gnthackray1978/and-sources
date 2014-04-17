@@ -11,7 +11,7 @@ namespace TDBCore.BLL
         public int roleId { get; set; }
     }
 
-    public class UserBll : BaseBll
+    public class UserDal : BaseBll
     {
 
 

@@ -12,33 +12,33 @@ namespace TDBCore.Types.domain.import
 {
     public class CsImportCsv
     {
-        private readonly ParishsBll _parishsBll;
-        private readonly SourceMappingsBll _sourceMappingBll;
-        private readonly DeathsBirthsBll _deathsBirthsBll;
+        private readonly ParishsDal _parishsDal;
+        private readonly SourceMappingsDal _sourceMappingDal;
+        private readonly PersonDal _personDal;
  
-        private readonly SourceBll _sourceBll;
-        private readonly SourceMappingParishsBll _sourceMappingParishBll;
+        private readonly SourceDal _sourceDal;
+        private readonly SourceMappingParishsDal _sourceMappingParishDal;
         
   
-        private readonly SourceMappingsBll _sourceMappingsBll;
-        private readonly MarriagesBLL _marriagesBll;
-        private readonly MarriageWitnessesBll _mwits;
+        private readonly SourceMappingsDal _sourceMappingsDal;
+        private readonly MarriagesDal _marriagesDal;
+        private readonly MarriageWitnessesDal _mwits;
 
 
         public CsImportCsv()
         {
-            _parishsBll = new ParishsBll();
+            _parishsDal = new ParishsDal();
           
     
           
-            _sourceBll = new SourceBll();
-            _sourceMappingParishBll = new SourceMappingParishsBll();
+            _sourceDal = new SourceDal();
+            _sourceMappingParishDal = new SourceMappingParishsDal();
            
-            _sourceMappingsBll = new SourceMappingsBll();
-            _marriagesBll = new MarriagesBLL();
-            _sourceMappingBll = new SourceMappingsBll();
-            _deathsBirthsBll = new DeathsBirthsBll();
-            _mwits = new MarriageWitnessesBll();
+            _sourceMappingsDal = new SourceMappingsDal();
+            _marriagesDal = new MarriagesDal();
+            _sourceMappingDal = new SourceMappingsDal();
+            _personDal = new PersonDal();
+            _mwits = new MarriageWitnessesDal();
         }
 
 
@@ -157,13 +157,13 @@ namespace TDBCore.Types.domain.import
                 else
                 {                     
                     if(team.PersonId == Guid.Empty)
-                        team.PersonId = _deathsBirthsBll.InsertDeathBirthRecord(team);
+                        team.PersonId = _personDal.Insert(team);
                     else
-                        _deathsBirthsBll.UpdateBirthDeathRecord(team);
+                        _personDal.Update(team);
                 }
                 if (team.PersonId != Guid.Empty)
                 {
-                    _sourceMappingBll.Insert(team.SourceId, null, null, 1, team.PersonId, DateTime.Today.ToShortDateString(), null);
+                    _sourceMappingDal.Insert(team.SourceId, null, null, 1, team.PersonId, DateTime.Today.ToShortDateString(), null);
                 }
                 else
                 {
@@ -230,7 +230,7 @@ namespace TDBCore.Types.domain.import
             {
                 try
                 {
-                    _parishsBll.AddParish(team.ParishName, "", "", team.ParentParish, 0, team.County, 0, team.XLong, team.YLat);
+                    _parishsDal.AddParish(team.ParishName, "", "", team.ParentParish, 0, team.County, 0, team.XLong, team.YLat);
                     //  Debug.WriteLine(team.ParishName + "," + team.ParentParish + "," + team.County + "," + team.XLong + "," + team.YLat);
                 }
                 catch (Exception ep)
@@ -281,20 +281,20 @@ namespace TDBCore.Types.domain.import
             {
                 if (team.SourceId == Guid.Empty)
                 {                     
-                    team.SourceId = _sourceBll.InsertSource(team);
+                    team.SourceId = _sourceDal.InsertSource(team);
                 }
                 else
                 {
-                    _sourceBll.UpdateSource(team);
+                    _sourceDal.UpdateSource(team);
                 }
 
 
                 if (team .Parishs!= null)
                 {
-                    _sourceMappingParishBll.InsertSourceMappingParish2(team.Parishs.First(), team.SourceId, userId);
+                    _sourceMappingParishDal.InsertSourceMappingParish2(team.Parishs.First(), team.SourceId, userId);
                 }
 
-                team.SourceTypes.ForEach(s => _sourceMappingsBll.Insert(team.SourceId, null, null, userId, null, DateTime.Today.ToShortDateString(), s));
+                team.SourceTypes.ForEach(s => _sourceMappingsDal.Insert(team.SourceId, null, null, userId, null, DateTime.Today.ToShortDateString(), s));
 
                 // create 
                 newCSV.Add(string.Join(",", CSVFiles.SourceFieldList.Select(sfield => sfield.SourceDto(team)).ToList()));
@@ -327,51 +327,55 @@ namespace TDBCore.Types.domain.import
 
                         let data = line.Split(',')
 
-                        select new
-
-                        {
-
-                            MaleId = Guid.Empty,
-
+                        select new ServiceMarriageImports
+                        {                             
                             MaleCName = data.Get(CSVFiles.MarriageFieldList, CSVField.MaleCName),//data[0],//a
 
                             MaleSName = data.Get(CSVFiles.MarriageFieldList, CSVField.MaleSName),//data[1],//b
 
                             MaleLocation = data.Get(CSVFiles.MarriageFieldList, CSVField.MaleLocation),//data[2],//c
-
-                            MaleInfo = data.Get(CSVFiles.MarriageFieldList, CSVField.MaleInfo),// data[3],//d
-
-                            FemaleId = Guid.Empty,
-
+ 
+                            MaleNotes = data.Get(CSVFiles.MarriageFieldList, CSVField.MaleInfo),// data[3],//d
+                             
                             FemaleCName = data.Get(CSVFiles.MarriageFieldList, CSVField.FemaleCName),//data[4],//e
 
                             FemaleSName = data.Get(CSVFiles.MarriageFieldList, CSVField.FemaleSName),//data[5],//f
 
                             FemaleLocation = data.Get(CSVFiles.MarriageFieldList, CSVField.FemaleLocation),// data[6],//g
 
-                            FemaleInfo = data.Get(CSVFiles.MarriageFieldList, CSVField.FemaleInfo),// data[7],//h
+                            FemaleNotes = data.Get(CSVFiles.MarriageFieldList, CSVField.FemaleInfo),// data[7],//h
 
-                            Date = data.Get(CSVFiles.MarriageFieldList, CSVField.Date),//data[8],//i
+                            MarriageDate = data.Get(CSVFiles.MarriageFieldList, CSVField.Date),//data[8],//i
 
                             MarriageLocation = data.Get(CSVFiles.MarriageFieldList, CSVField.MarriageLocation),// data[9],//j
+ 
+                            LocationCounty = data.Get(CSVFiles.MarriageFieldList, CSVField.MarriageCounty),// data[11],//l
 
-                            YearIntVal =data.Get(CSVFiles.MarriageFieldList, CSVField.YearIntVal).ParseToValidYear(),
+                            SourceDescription = data.Get(CSVFiles.MarriageFieldList, CSVField.Source),//  data[12],//m
 
-                            MarriageCounty = data.Get(CSVFiles.MarriageFieldList, CSVField.MarriageCounty),// data[11],//l
+                            Witness1ChristianName = data.Get(CSVFiles.MarriageFieldList, CSVField.Witness1CName),//data[13],//n
+                            Witness1Surname = data.Get(CSVFiles.MarriageFieldList, CSVField.Witness1SName),//data[13],//n
+                            Witness1Description = data.Get(CSVFiles.MarriageFieldList, CSVField.Witness1Desc),//data[13],//n
 
-                            Source = data.Get(CSVFiles.MarriageFieldList, CSVField.Source),//  data[12],//m
+                            Witness2ChristianName = data.Get(CSVFiles.MarriageFieldList, CSVField.Witness2CName),//data[23],//n
+                            Witness2Surname = data.Get(CSVFiles.MarriageFieldList, CSVField.Witness2SName),//data[23],//n
+                            Witness2Description = data.Get(CSVFiles.MarriageFieldList, CSVField.Witness2Desc),//data[13],//n
 
-                            Witness1 = data.Get(CSVFiles.MarriageFieldList, CSVField.Witness1),//data[13],//n
+                            Witness3ChristianName = data.Get(CSVFiles.MarriageFieldList, CSVField.Witness3CName),//data[33],//n
+                            Witness3Surname = data.Get(CSVFiles.MarriageFieldList, CSVField.Witness3SName),//data[33],//n
+                            Witness3Description = data.Get(CSVFiles.MarriageFieldList, CSVField.Witness3Desc),//data[13],//n
 
-                            Witness2 = data.Get(CSVFiles.MarriageFieldList, CSVField.Witness2),//data[14],//o
+                            Witness4ChristianName = data.Get(CSVFiles.MarriageFieldList, CSVField.Witness4CName),
+                            Witness4Surname = data.Get(CSVFiles.MarriageFieldList, CSVField.Witness4SName),
+                            Witness4Description = data.Get(CSVFiles.MarriageFieldList, CSVField.Witness4Desc),
 
-                            Witness3 = data.Get(CSVFiles.MarriageFieldList, CSVField.Witness3),//data[15],//p
+                            Witness5ChristianName = data.Get(CSVFiles.MarriageFieldList, CSVField.Witness5CName),
+                            Witness5Surname = data.Get(CSVFiles.MarriageFieldList, CSVField.Witness5SName),
+                            Witness5Description = data.Get(CSVFiles.MarriageFieldList, CSVField.Witness5Desc),
 
-                            Witness4 = data.Get(CSVFiles.MarriageFieldList, CSVField.Witness4),//data[16],//q
-
-                            DateAdded = DateTime.Today,
-
-                            DateLastEdit = DateTime.Today,
+                            Witness6ChristianName = data.Get(CSVFiles.MarriageFieldList, CSVField.Witness6CName),
+                            Witness6Surname = data.Get(CSVFiles.MarriageFieldList, CSVField.Witness6SName),
+                            Witness6Description = data.Get(CSVFiles.MarriageFieldList, CSVField.Witness6Desc),
 
                             UserId = 1,
 
@@ -383,192 +387,103 @@ namespace TDBCore.Types.domain.import
 
                             FemaleOccupation = data.Get(CSVFiles.MarriageFieldList, CSVField.FemaleOccupation),// data[20],//u
 
-                            FemaleIsKnownWidow = data.Get(CSVFiles.MarriageFieldList, CSVField.FemaleIsKnownWidow).ToBool(),//makeBool(data[21]),//v
+                            IsWidow = data.Get(CSVFiles.MarriageFieldList, CSVField.FemaleIsKnownWidow).ToBool(),//makeBool(data[21]),//v
 
-                            MaleIsKnownWidower = data.Get(CSVFiles.MarriageFieldList, CSVField.MaleIsKnownWidower).ToBool(),// makeBool(data[22]),//w
+                            IsWidower = data.Get(CSVFiles.MarriageFieldList, CSVField.MaleIsKnownWidower).ToBool(),// makeBool(data[22]),//w
 
                             IsBanns = data.Get(CSVFiles.MarriageFieldList, CSVField.IsBanns).ToBool(),// makeBool(data[23]),//x
 
 
 
-                            IsLicence = data.Get(CSVFiles.MarriageFieldList, CSVField.IsLic).ToBool(),//  makeBool(data[24]),//y
+                            IsLicense = data.Get(CSVFiles.MarriageFieldList, CSVField.IsLic).ToBool(),//  makeBool(data[24]),//y
 
-                            MarriageLocationId = data.Get(CSVFiles.MarriageFieldList, CSVField.LocationId).ToGuid(),//  makeGuid(data[32], ""),
+                            LocationId = data.Get(CSVFiles.MarriageFieldList, CSVField.LocationId).ToGuid().ToString(),//  makeGuid(data[32], ""),
 
-                            MaleLocationId = Guid.Empty,
-
-                            FemaleLocationId = Guid.Empty,
-
+                          
                             SourceId = data.Get(CSVFiles.MarriageFieldList, CSVField.SourceId).ToGuid(),//data[25],// makeGuid(data[25],""),//data[31]
 
                             MaleBirthYear = DateTools.CalcMarriageBirthYear(data.Get(CSVFiles.MarriageFieldList, CSVField.MaleAge), data.Get(CSVFiles.MarriageFieldList, CSVField.Date)),//aa
 
                             FemaleBirthYear = DateTools.CalcMarriageBirthYear(data.Get(CSVFiles.MarriageFieldList, CSVField.FemaleAge), data.Get(CSVFiles.MarriageFieldList, CSVField.Date)),//ab
 
-                            FemaleFather = data.Get(CSVFiles.MarriageFieldList, CSVField.FemaleFather), //data[28],//ac
+                            FemaleFatherCName = data.Get(CSVFiles.MarriageFieldList, CSVField.FemaleFatherCName), //data[28],//ac
+                            FemaleFatherSName = data.Get(CSVFiles.MarriageFieldList, CSVField.FemaleFatherSName), //data[28],//ac
 
-                            MaleFather = data.Get(CSVFiles.MarriageFieldList, CSVField.MaleFather), //data[29],//ad
+                            MaleFatherCName = data.Get(CSVFiles.MarriageFieldList, CSVField.MaleFatherCName), //data[28],//ac
+                            MaleFatherSName = data.Get(CSVFiles.MarriageFieldList, CSVField.MaleFatherSName), //data[28],//ac
+
 
                             FemaleFatherOccupation = data.Get(CSVFiles.MarriageFieldList, CSVField.FemaleFatherOccupation), // data[30],//ae
-
+                            
                             MaleFatherOccupation = data.Get(CSVFiles.MarriageFieldList, CSVField.MaleFatherOccupation) // data[31]//af
 
 
                         };
 
 
-            //SourceId	MaleAge	FemaleAge	FemaleFather	MaleFather	FemaleFatherOccupation	MaleFatherOccupation
-            //foreach (var team in query)
-            //{
-                //Debug.WriteLine(team.ToString());
-            //}
-
-
-
             foreach (var team in query)
             {
+                team.MarriageId = _marriagesDal.InsertMarriage(team);
 
-               
-                 
+                var witnesses = CreateWitnesses(team);
 
-                string wit3 = team.Witness3 ;
-                string wit4 = team.Witness4 ;
+                _mwits.InsertWitnessesForMarriage(team.MarriageId,MarriageWitness.AddWitnesses(witnesses));
 
-
-
-                string minfo = team.MaleInfo ;
-                string finfo = team.FemaleInfo ;
-
-
-                if (team.FemaleFather != "")
-                {
-                     wit3 = team.Witness3 +" Brides Father" + Environment.NewLine + team.FemaleFather;
-                }
-
-                if (team.MaleFather != "")
-                {
-                    wit4 = team.Witness4 +" Grooms Father" + Environment.NewLine + team.MaleFather;
-                }
-
-                if (team.MaleFatherOccupation != "")
-                {
-                    minfo = team.MaleInfo + Environment.NewLine + "Grooms Fathers Occupation" + Environment.NewLine + team.MaleFatherOccupation;
-                }
-
-                if (team.FemaleFatherOccupation != "")
-                {
-                    finfo = team.FemaleInfo + Environment.NewLine + "Brides Fathers Occupation" + Environment.NewLine + team.FemaleFatherOccupation;
-                }
-
-                Debug.WriteLine(team.ToString());
-
-               // string notes = team.
-
-               
-                Guid marriageId = _marriagesBll.InsertMarriage2(team.Date, team.FemaleCName, team.FemaleId, finfo, team.FemaleLocation, team.FemaleSName,
-
-                    team.MaleCName, team.MaleId, minfo, team.MaleLocation, team.MaleSName, team.MarriageCounty, team.MarriageLocation,
-
-                    team.Source, team.YearIntVal, team.MaleOccupation,
-
-                    team.FemaleOccupation, team.IsLicence, team.IsBanns, team.FemaleIsKnownWidow, team.MaleIsKnownWidower,
-                    team.UserId, team.MarriageLocationId, team.MaleLocationId, team.FemaleLocationId, team.MaleBirthYear, team.FemaleBirthYear, Guid.Empty, 0, 0,"","");
-
-
-
-                SetWitnesses(marriageId, team.YearIntVal, team.Date, team.MarriageLocation, team.MarriageLocationId,
-            team.Witness1, team.Witness2, wit3, wit4,
-            "", "", "", "");
-
-
-                //team.Witness1, team.Witness2, wit3, wit4, 
-
-                _sourceMappingBll.Insert(team.SourceId, null, marriageId, 1, null, DateTime.Today.ToShortDateString(), null);
-
+                _sourceMappingDal.Insert(team.SourceId, null, team.MarriageId, 1, null, DateTime.Today.ToShortDateString(), null);
 
             }
 
-
-
-
-
         }
 
-
-
-
-       
-
-        private void SetWitnesses(Guid marriageId,int marYear, string marDate, string marLocation, Guid marLocId, 
-            string witness1, string witness2, string witness3, string witness4,
-            string witness1C, string witness2C, string witness3C, string witness4C)
+        private List<WitnessDto> CreateWitnesses(ServiceMarriageImports team)
         {
-            //delete existing entries
-            _mwits.DeleteWitnessesForMarriage(marriageId);
+            var witnesses = new List<WitnessDto>();
 
-       
+            SetWitnesses(witnesses, team.MarriageDate, team.MarriageLocation, team.LocationId, team.FemaleFatherCName,
+                team.FemaleFatherSName, "Father of Bride " + Environment.NewLine + team.FemaleFatherOccupation);
 
-            //readd or add 
-            if (witness1 != "" || witness1C != "")
-            {
-                var witPers1 = new Person
-                {
-                    ReferenceDateInt = marYear,
-                    ReferenceDateStr = marDate,
-                    ReferenceLocation = marLocation,
-                    ReferenceLocationId = marLocId,
-                    ChristianName = witness1C,
-                    Surname = witness1
-                };
-                _deathsBirthsBll.InsertPerson(witPers1);
-            }
+            SetWitnesses(witnesses, team.MarriageDate, team.MarriageLocation, team.LocationId, team.MaleFatherCName,
+                team.MaleFatherSName, "Father of Groom " + Environment.NewLine + team.MaleFatherOccupation);
 
-            if (witness2 != "" || witness2C != "")
-            {
-                var witPers2 = new Person
-                {
-                    ReferenceDateInt = marYear,
-                    ReferenceDateStr = marDate,
-                    ReferenceLocation = marLocation,
-                    ReferenceLocationId = marLocId,
-                    ChristianName = witness2C,
-                    Surname = witness2
-                };
-                _deathsBirthsBll.InsertPerson(witPers2);
-            }
+            SetWitnesses(witnesses, team.MarriageDate, team.MarriageLocation, team.LocationId, team.Witness1ChristianName,
+                team.Witness1Surname, team.Witness1Description);
 
-            if (witness3 != "" || witness3C != "")
-            {
-                var witPers3 = new Person
-                {
-                    ReferenceDateInt = marYear,
-                    ReferenceDateStr = marDate,
-                    ReferenceLocation = marLocation,
-                    ReferenceLocationId = marLocId,
-                    ChristianName = witness3C,
-                    Surname = witness3
-                };
-                _deathsBirthsBll.InsertPerson(witPers3);
-            }
+            SetWitnesses(witnesses, team.MarriageDate, team.MarriageLocation, team.LocationId, team.Witness2ChristianName,
+                team.Witness2Surname, team.Witness2Description);
 
-            if (witness4 != "" || witness4C != "")
-            {
-                var witPers4 = new Person
-                {
-                    ReferenceDateInt = marYear,
-                    ReferenceDateStr = marDate,
-                    ReferenceLocation = marLocation,
-                    ReferenceLocationId = marLocId,
-                    ChristianName = witness4C,
-                    Surname = witness4
-                };
-                _deathsBirthsBll.InsertPerson(witPers4);
-            }
+            SetWitnesses(witnesses, team.MarriageDate, team.MarriageLocation, team.LocationId, team.Witness3ChristianName,
+                team.Witness3Surname, team.Witness3Description);
 
+            SetWitnesses(witnesses, team.MarriageDate, team.MarriageLocation, team.LocationId, team.Witness4ChristianName,
+                team.Witness4Surname, team.Witness4Description);
 
+            SetWitnesses(witnesses, team.MarriageDate, team.MarriageLocation, team.LocationId, team.Witness5ChristianName,
+                team.Witness5Surname, team.Witness5Description);
 
+            SetWitnesses(witnesses, team.MarriageDate, team.MarriageLocation, team.LocationId, team.Witness6ChristianName,
+                team.Witness6Surname, team.Witness6Description);
 
+            return witnesses;
         }
+
+        private void SetWitnesses(List<WitnessDto> witnessDtos,string marDate, string marLocation, string marLocId, string wCName, string wSName, string sDesc)
+        {
+            if (wCName != "")
+            {
+                witnessDtos.Add( new WitnessDto()
+                {
+                    Date = marDate,
+                    Description = sDesc,
+                    Location = marLocation,
+                    LocationId = marLocId.ToGuid(),
+                    Name = wCName,
+                    Surname = wSName
+                });
+            }           
+        }
+
+
+
 
         private bool IsCombinedHandleError(List<string> allLines, IList<CSVField> fieldList)
         {

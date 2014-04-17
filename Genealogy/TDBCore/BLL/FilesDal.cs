@@ -6,7 +6,7 @@ using TDBCore.Types.DTOs;
  
 namespace TDBCore.BLL
 {
-    public class FilesBll : BaseBll
+    public class FilesDal : BaseBll
     {  
         public Guid AddFile2(string description, string filePath, int userId, string thumbPath)
         {            

@@ -18,13 +18,17 @@ namespace MarriageService
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Required)]
     public class MarriageService : IMarriageService
     {
+        private readonly MarriageSearch _marriageSearch;
 
+        public MarriageService()
+        {
+            _marriageSearch = new MarriageSearch(new Security(WebHelper.GetUser()));
+        }
 
         public ServiceMarriage GetMarriage(string id)
         {
 
-            // ahouls use search function here
-            var iModel = new MarriageSearch(new Security(WebHelper.GetUser()));
+            // ahouls use search function here     
             string retVal = "";
             
             var serviceMarriage = new ServiceMarriage();
@@ -32,7 +36,7 @@ namespace MarriageService
             try
             {
 
-                serviceMarriage = iModel.Get(id.ToGuid());
+                serviceMarriage = _marriageSearch.Get(id.ToGuid());
 
             }
             catch (Exception ex1)
@@ -50,7 +54,7 @@ namespace MarriageService
             string femalesname, string location, string lowerDate, string upperDate, string sourceFilter, string parishFilter, string marriageWitness,
             string page_number, string page_size, string sort_col)
         {                  
-            var iModel = new MarriageSearch(new Security(WebHelper.GetUser()));
+            //var iModel = new MarriageSearch(new Security(WebHelper.GetUser()));
           
 
             var serviceMarriageObject = new ServiceMarriageObject();
@@ -83,7 +87,7 @@ namespace MarriageService
                     var marriageValidation = new MarriageSearchValidator(marriageFilter);
 
 
-                    serviceMarriageObject = iModel.Search(MarriageFilterTypes.Standard, marriageFilter,
+                    serviceMarriageObject = _marriageSearch.Search(MarriageFilterTypes.Standard, marriageFilter,
                                   new DataShaping()
                                       {
                                           Column = sort_col,
@@ -94,8 +98,8 @@ namespace MarriageService
                   
                 }
                 else
-                {                       
-                    serviceMarriageObject = iModel.Search(MarriageFilterTypes.Duplicates, new MarriageSearchFilter() { ParentId = parentId }, 
+                {
+                    serviceMarriageObject = _marriageSearch.Search(MarriageFilterTypes.Duplicates, new MarriageSearchFilter() { ParentId = parentId }, 
                                   new DataShaping()
                                   {
                                       Column = sort_col,
@@ -120,14 +124,12 @@ namespace MarriageService
         }
 
         public string DeleteMarriages(string marriageIds)
-        {
-            var iModel = new MarriageSearch(new Security(WebHelper.GetUser()));
-    
+        {             
             string retVal = "";
 
             try
-            {                          
-                iModel.DeleteRecords(marriageIds.ParseToGuidList());
+            {
+                _marriageSearch.DeleteRecords(marriageIds.ParseToGuidList());
             }
             catch (Exception ex1)
             {
@@ -139,13 +141,12 @@ namespace MarriageService
         }
 
         public string SetMarriageDuplicate(string marriages)
-        {     
-            var iModel = new MarriageSearch(new Security(WebHelper.GetUser()));     
+        {                
             string retVal = "";
 
             try
-            {                       
-                iModel.SetSelectedDuplicateMarriage(marriages.ParseToGuidList());
+            {
+                _marriageSearch.SetSelectedDuplicateMarriage(marriages.ParseToGuidList());
             }
             catch (Exception ex1)
             {
@@ -159,12 +160,12 @@ namespace MarriageService
 
         public string RemoveMarriageLink(string marriage)
         {
-            var iModel = new MarriageSearch(new Security(WebHelper.GetUser()));    
+           // var iModel = new MarriageSearch(new Security(WebHelper.GetUser()));    
             string retVal = "";
 
             try
-            {              
-                iModel.SetRemoveSelectedFromDuplicateList(marriage.ParseToGuidList());
+            {
+                _marriageSearch.SetRemoveSelectedFromDuplicateList(marriage.ParseToGuidList());
             }
             catch (Exception ex1)
             {
@@ -178,13 +179,13 @@ namespace MarriageService
 
         public string ReorderMarriages(string marriage)
         {
-            var iModel = new MarriageSearch(new Security(WebHelper.GetUser()));
+          //  var iModel = new MarriageSearch(new Security(WebHelper.GetUser()));
            
             string retVal = "";
 
             try
-            {           
-                iModel.SetReorderDupes(marriage.ToGuid());
+            {
+                _marriageSearch.SetReorderDupes(marriage.ToGuid());
             }
             catch (Exception ex1)
             {
@@ -198,13 +199,12 @@ namespace MarriageService
 
         public string SwitchSpouses(string marriage)
         {
-            var iModel = new MarriageSearch(new Security(WebHelper.GetUser()));
-
+    
             string retVal = "";
 
             try
             {
-                iModel.SwitchSpouses(marriage.ParseToGuidList());
+                _marriageSearch.SwitchSpouses(marriage.ParseToGuidList());
             }
             catch (Exception ex1)
             {
@@ -219,12 +219,12 @@ namespace MarriageService
 
         public string MergeMarriage(string marriage)
         {
-            var iModel = new MarriageSearch(new Security(WebHelper.GetUser()));
+      
             string retVal = "";
 
             try
-            {     
-                iModel.SetMergeSources(marriage.ToGuid());
+            {
+                _marriageSearch.SetMergeSources(marriage.ToGuid());
             }
             catch (Exception ex1)
             {
@@ -251,40 +251,35 @@ namespace MarriageService
 
             string retVal = "";
 
-              var iModel = new MarriageSearch(new Security(WebHelper.GetUser()));
-         
-
-
-
-                var serviceMarriage = new ServiceMarriage
-                    {
-                        MarriageId = MarriageId.ToGuid(),
-                        MarriageDate = MarriageDate,
-                        MaleCName = MaleCName,
-                        MaleSName = MaleSName,
-                        FemaleCName = FemaleCName,
-                        FemaleSName = FemaleSName,
-                        MaleNotes = MaleNotes,
-                        FemaleNotes = FemaleNotes,
-                        MarriageLocation = MarriageLocation,
-                        LocationId = LocationId,
-                        LocationCounty = LocationCounty,
-                        MaleLocation = MaleLocation,
-                        FemaleLocation = FemaleLocation,
-                        IsBanns = IsBanns.ToBool(),
-                        IsLicense = IsLicense.ToBool(),
-                        IsWidow = IsWidow.ToBool(),
-                        IsWidower = IsWidower.ToBool(),
-                        MaleOccupation = MaleOccupation,
-                        FemaleOccupation = FemaleOccupation,
-                        MaleBirthYear = MaleBirthYear.ToInt32(),
-                        FemaleBirthYear = FemaleBirthYear.ToInt32(),
-                        SourceDescription = SourceDescription 
-                    };
+            var serviceMarriage = new ServiceMarriage
+                {
+                    MarriageId = MarriageId.ToGuid(),
+                    MarriageDate = MarriageDate,
+                    MaleCName = MaleCName,
+                    MaleSName = MaleSName,
+                    FemaleCName = FemaleCName,
+                    FemaleSName = FemaleSName,
+                    MaleNotes = MaleNotes,
+                    FemaleNotes = FemaleNotes,
+                    MarriageLocation = MarriageLocation,
+                    LocationId = LocationId,
+                    LocationCounty = LocationCounty,
+                    MaleLocation = MaleLocation,
+                    FemaleLocation = FemaleLocation,
+                    IsBanns = IsBanns.ToBool(),
+                    IsLicense = IsLicense.ToBool(),
+                    IsWidow = IsWidow.ToBool(),
+                    IsWidower = IsWidower.ToBool(),
+                    MaleOccupation = MaleOccupation,
+                    FemaleOccupation = FemaleOccupation,
+                    MaleBirthYear = MaleBirthYear.ToInt32(),
+                    FemaleBirthYear = FemaleBirthYear.ToInt32(),
+                    SourceDescription = SourceDescription 
+                };
 
             try
-            {        
-                iModel.Save(serviceMarriage, Sources.ParseToGuidList(), MarriageWitness.DeSerializeWitnesses(MarriageWitnesses, MarriageDate, MarriageLocation,
+            {
+                _marriageSearch.Save(serviceMarriage, Sources.ParseToGuidList(), MarriageWitness.DeSerializeWitnesses(MarriageWitnesses, MarriageDate, MarriageLocation,
                                                      LocationId.ToGuid()),new MarriageValidator(serviceMarriage));                            
             }
             catch (Exception ex1)

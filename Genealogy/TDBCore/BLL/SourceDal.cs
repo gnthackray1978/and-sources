@@ -9,13 +9,15 @@ using TDBCore.Types.libs;
 
 namespace TDBCore.BLL
 {
-    public class SourceBll : BaseBll
+    public class SourceDal : BaseBll
     {
-        private readonly SourceTypesBll _sourceTypes;
+        private readonly SourceTypesDal _sourceTypes;
+       
 
-        public SourceBll()
+        public SourceDal()
         {
-            _sourceTypes = new SourceTypesBll();
+            _sourceTypes = new SourceTypesDal();
+           
         }
 
         public List<CensusSource> Get1841CensuSources(Guid sourceId)
@@ -124,9 +126,7 @@ namespace TDBCore.BLL
 
         public string MakeSourceString(Guid person)
         {
-            var sourceBll = new SourceBll();
-
-            return Enumerable.Aggregate(sourceBll.FillSourceTableByPersonOrMarriageId2(person), "", (current, source) => current + (Environment.NewLine + source.SourceRef));
+            return Enumerable.Aggregate(FillSourceTableByPersonOrMarriageId2(person), "", (current, source) => current + (Environment.NewLine + source.SourceRef));
 
         }
 

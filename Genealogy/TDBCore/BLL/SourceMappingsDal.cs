@@ -8,21 +8,17 @@ using TDBCore.Types.libs;
 
 namespace TDBCore.BLL
 {
-    public class SourceMappingsBll : BaseBll
+    public class SourceMappingsDal : BaseBll
     {
    
-        private readonly SourceMappingParishsBll _sourceMappingParishsBll;
+        private readonly SourceMappingParishsDal _sourceMappingParishsDal;
        
       
     
 
-        public SourceMappingsBll()
+        public SourceMappingsDal()
         {
-           
-            _sourceMappingParishsBll = new SourceMappingParishsBll();
-       
-         
-          
+            _sourceMappingParishsDal = new SourceMappingParishsDal();                        
         }
 
         public bool SetDefaultTreePerson(Guid sourceId, Guid personId)
@@ -151,14 +147,14 @@ namespace TDBCore.BLL
 
             foreach (Guid parishId in copyList)
             {                 
-                _sourceMappingParishsBll.InsertSourceMappingParish2(parishId, sourceRecordId, userId);
+                _sourceMappingParishsDal.InsertSourceMappingParish2(parishId, sourceRecordId, userId);
             }     
         }
 
 
         public void WriteFilesIdsToSource(Guid sourceId, List<Guid> fileIdList, int userId)
         {
-        //    SourceBll sourceBll = new SourceBll();
+        //    SourceDal sourceBll = new SourceDal();
             List<Guid> copyList = fileIdList;
 
             // if there are no selected sources and there are some in the source table

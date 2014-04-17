@@ -12,11 +12,22 @@ using TDBCore.Types.libs;
 
 namespace TDBCore.BLL
 {
-    public class DeathsBirthsBll :BaseBll
+    public class PersonDal :BaseBll
     {
+        private readonly SourceDal _sourceDal;
+        private readonly SourceMappingsDal _sourceMappingsDal;
+        private readonly ParishsDal _parishsBll;
+        private readonly RelationsDal _relationsDal;
 
- 
-        public void DeleteDeathBirthRecord2(Guid deathBirthRecId)
+        public PersonDal()
+        {
+            _sourceDal = new SourceDal();
+            _sourceMappingsDal = new SourceMappingsDal();
+            _parishsBll = new ParishsDal();
+            _relationsDal = new RelationsDal();
+        }
+
+        public void Delete(Guid deathBirthRecId)
         {
 
 
@@ -31,12 +42,8 @@ namespace TDBCore.BLL
 
 
         }
- 
-        #region update
-
-     
-  
-        public void UpdateBirthDeathRecord(ServicePerson person)
+           
+        public void Update(ServicePerson person)
         {
             var personEntity = ModelContainer.Persons.FirstOrDefault(o => o.Person_id == person.PersonId);
 
@@ -100,9 +107,8 @@ namespace TDBCore.BLL
 
 
         }
- 
     
-        private void UpdateBirthLocationId(Guid personId, Guid locationId)
+        private void UpdateLocationId(Guid personId, Guid locationId)
         {
 
           
@@ -133,7 +139,7 @@ namespace TDBCore.BLL
 
         }
 
-        private void UpdateBirthLocation2(Guid personId, string location)
+        private void UpdateLocation(Guid personId, string location)
         {
 
             var person = ModelContainer.Persons.FirstOrDefault(p => p.Person_id == personId);
@@ -145,7 +151,7 @@ namespace TDBCore.BLL
             ModelContainer.SaveChanges();
         }
 
-        private void UpdateUniqueRefs2(Guid personId, Guid uniqueRef, int totalEvents, int eventPriority)
+        private void UpdateUniqueRef(Guid personId, Guid uniqueRef, int totalEvents, int eventPriority)
         {
 
             var person = ModelContainer.Persons.FirstOrDefault(p => p.Person_id == personId);
@@ -159,7 +165,7 @@ namespace TDBCore.BLL
             ModelContainer.SaveChanges();
         }
 
-        public void UpdateDuplicateRefs2(Guid person1, Guid person2)
+        public void UpdateDuplicateRefs(Guid person1, Guid person2)
         {
         
             List<Person> effectedPeople = ModelContainer.Persons.Where(p => (p.Person_id == person2 || p.Person_id == person1) && p.UniqueRef == Guid.Empty).ToList();
@@ -195,57 +201,8 @@ namespace TDBCore.BLL
             ModelContainer.SaveChanges();
 
         }
-
-        #endregion
-
-        #region insert
- 
-        public Guid InsertPerson(Person person)
-        {
-            person.Person_id = Guid.NewGuid();
      
-
-            if (person.BaptismDateStr == null) person.BaptismDateStr = "";
-            if (person.BirthCounty == null) person.BirthCounty = "";
-            if (person.BirthDateStr == null) person.BirthDateStr = "";
-            if (person.BirthLocation == null) person.BirthLocation = "";            
-            if (person.ChristianName == null) person.ChristianName = "";           
-            if (person.DeathCounty == null) person.DeathCounty = "";
-            if (person.DeathDateStr == null) person.DeathDateStr = "";
-            if (person.DeathLocation == null) person.DeathLocation = "";
-            if (person.FatherChristianName == null) person.FatherChristianName = "";
-            if (person.FatherOccupation == null) person.FatherOccupation = "";
-            if (person.FatherSurname == null) person.FatherSurname = "";
-            if (person.MotherChristianName == null) person.MotherChristianName = "";
-            if (person.MotherSurname == null) person.MotherSurname = "";
-            if (person.Notes == null) person.Notes = "";
-            if (person.Occupation == null) person.Occupation = "";
-            if (person.OrigFatherSurname == null) person.OrigFatherSurname = "";
-            if (person.OrigMotherSurname == null) person.OrigMotherSurname = "";
-            if (person.OrigSurname == null) person.OrigSurname = "";
-            if (person.ReferenceDateStr == null) person.ReferenceDateStr = "";
-            if (person.ReferenceLocation == null) person.ReferenceLocation = "";
-            if (person.ReferenceLocationId == null) person.ReferenceLocationId = Guid.Empty;
-            if (person.Source == null) person.Source = "";
-            if (person.SpouseName == null) person.SpouseName = "";
-            if (person.SpouseSurname == null) person.SpouseSurname = "";
-            if (person.Surname == null) person.Surname = "";
-            if (person.UniqueRef == null) person.UniqueRef = Guid.Empty;
-            if (person.UserId == 0) person.UserId = 1;
-            if (person.TotalEvents == 0) person.TotalEvents = 1;
-            if (person.EventPriority == 0) person.EventPriority = 1;
-
-
-
-            ModelContainer.Persons.Add(person);
-
-            ModelContainer.SaveChanges();
-
-            return person.Person_id;
-        }
-         
-
-        public Guid InsertDeathBirthRecord(ServicePerson person)
+        public Guid Insert(ServicePerson person)
         {
 
             var personEntity = new Person
@@ -302,14 +259,8 @@ namespace TDBCore.BLL
 
             return personEntity.Person_id;
         }
- 
-        #endregion
-
-        #region selects
-
-       
-        
-        public ServicePerson GetDeathBirthRecordById(Guid personId)
+  
+        public ServicePerson Get(Guid personId)
         {
             var result = ModelContainer.Persons.FirstOrDefault(o => o.Person_id == personId && !o.IsDeleted);
             
@@ -318,7 +269,7 @@ namespace TDBCore.BLL
 
         }
         
-        public IList<ServicePerson> GetDataByDupeRef(Guid dupeRef)
+        public IList<ServicePerson> GetByDupeRef(Guid dupeRef)
         {
 
             var persons = ModelContainer.Persons.Where(o => o.UniqueRef == dupeRef && o.IsDeleted == false).ToList();
@@ -334,17 +285,15 @@ namespace TDBCore.BLL
 
             return person != null ? ModelContainer.Persons.Where(o => o.UniqueRef == person.UniqueRef && o.IsDeleted == false) : null;
         }
-
-        
-
-        public List<ServicePerson> GetFilterSimple2(PersonSearchFilter personSearchFilter)
+       
+        public List<ServicePerson> GetByFilter(PersonSearchFilter personSearchFilter)
         {
 
             Guid parishId = personSearchFilter.ParishString.ToGuid();
            
             if (parishId != Guid.Empty)
             {
-                var sourceBll = new SourceBll();
+                var sourceBll = new SourceDal();
 
                 sourceBll.GetParishSourceRecords(parishId).ForEach(p => personSearchFilter.SourceString += "," + p.SourceId.ToString());
 
@@ -409,15 +358,8 @@ namespace TDBCore.BLL
             return temp;
 
         }
-
-        
-      
-
-        #endregion
-
-
-
-        public void UpdateDeletedBirths()
+         
+        public void UpdateUniqueRefs()
         {
 
 
@@ -443,19 +385,17 @@ namespace TDBCore.BLL
                 int evtCount = 1;
                 foreach (Guid id in peopleToKeep)
                 {
-                    UpdateUniqueRefs2(id, newRef, peopleToKeep.Count, evtCount);
+                    UpdateUniqueRef(id, newRef, peopleToKeep.Count, evtCount);
                     evtCount++;
                 }
 
                 newRef = Guid.NewGuid();
-                UpdateUniqueRefs2(pROw.Person_id, newRef, 1, 1);
+                UpdateUniqueRef(pROw.Person_id, newRef, 1, 1);
             }
 
 
 
         }
-
-      
 
         public void MergeDuplicateRecords(Guid personId)
         {
@@ -468,9 +408,6 @@ namespace TDBCore.BLL
 
         private void MergeDuplicateRecord(Person newRecord)
         {
-       
-            var sourceBll = new SourceBll();
-            var sourceMappingsBll = new SourceMappingsBll();
             var sourceList = new List<Guid>();
 
             if (newRecord != null)
@@ -479,13 +416,13 @@ namespace TDBCore.BLL
                 foreach (var dupePerson in GetUniqRefDuplicates(newRecord.Person_id))
                 {
                     sourceList.AddRange(
-                        sourceBll.FillSourceTableByPersonOrMarriageId2(dupePerson.Person_id).Select(dp => dp.SourceId).
+                        _sourceDal.FillSourceTableByPersonOrMarriageId2(dupePerson.Person_id).Select(dp => dp.SourceId).
                             ToList());
 
-                    newRecord.MergeInto(dupePerson);
+                    newRecord.MergeInto(dupePerson, _sourceDal);
                 }
 
-                sourceMappingsBll.WritePersonSources2(newRecord.Person_id, sourceList, 1);
+                _sourceMappingsDal.WritePersonSources2(newRecord.Person_id, sourceList, 1);
 
                 ModelContainer.SaveChanges();
             }
@@ -493,7 +430,7 @@ namespace TDBCore.BLL
 
         }
 
-        private void UpdateTidyBirthLocations()
+        private void TidyPersonLocations()
         {
             // get all persons with no county
             // look in the countydictionary
@@ -514,18 +451,15 @@ namespace TDBCore.BLL
 
                 newLocation = newLocation.Replace(",,", ",");
 
-                UpdateBirthLocation2(prow.Person_id, newLocation);
+                UpdateLocation(prow.Person_id, newLocation);
             }
         }
  
-
         public void UpdateLocationIdsFromParishTable()
         {
 
-            UpdateTidyBirthLocations();
- 
-            var parishsBll = new ParishsBll();
-          
+            TidyPersonLocations();
+
             var dummyLocationdId = new Guid("A813A1FF-6093-4924-A7B2-C5D1AF6FF699");
 
             List<string> counties = ModelContainer.Persons.Where(p => p.BirthLocationId == dummyLocationdId).Select(o => o.BirthCounty).Distinct().ToList();
@@ -535,18 +469,18 @@ namespace TDBCore.BLL
                 string county1 = county;
                 foreach (var personRec in ModelContainer.Persons.Where(p => p.BirthLocationId == dummyLocationdId).Where(o => o.BirthCounty == county1))
                 {
-                    var var2 = parishsBll.GetParishsByCounty2(county).FirstOrDefault(p => personRec.BirthLocation.Contains(p.ParishName));
+                    var var2 = _parishsBll.GetParishsByCounty2(county).FirstOrDefault(p => personRec.BirthLocation.Contains(p.ParishName));
 
                     if (var2 != null)
                     {
-                        UpdateBirthLocationId(personRec.Person_id, var2.ParishId);
+                        UpdateLocationId(personRec.Person_id, var2.ParishId);
                       
                     }
 
                     var var3 = GetEntryByLocatAndCounty(personRec.BirthLocation, county);
                     if (var3 != null)
                     {
-                        if (var3.ParishId != null) UpdateBirthLocationId(personRec.Person_id, var3.ParishId.Value);
+                        if (var3.ParishId != null) UpdateLocationId(personRec.Person_id, var3.ParishId.Value);
                     }
 
                 }
@@ -570,7 +504,7 @@ namespace TDBCore.BLL
                 DateTools.CalcEstDates(pRow.BirthInt, pRow.BapInt, pRow.DeathInt, out estBirthYear,
                     out estDeathYear, out isEstBirth, out isEstDeath, pRow.FatherChristianName, pRow.MotherChristianName);
 
-                UpdateBirthDeathRecord(new ServicePerson
+                Update(new ServicePerson
                 {
                     PersonId = pRow.Person_id, 
                     IsMale = pRow.IsMale.ToString(),
@@ -615,13 +549,10 @@ namespace TDBCore.BLL
 
         public List<Guid> DelinkPersons(List<Guid> selectedRecordIds)
         {
-          
-            var relationsBll = new RelationsBll();
-
             Guid personA = selectedRecordIds[0];
 
 
-            relationsBll.DeleteRelationMapping(selectedRecordIds);
+            _relationsDal.DeleteRelationMapping(selectedRecordIds);
 
 
             // what we are left with is the identical unique refs in the persons table
@@ -645,7 +576,7 @@ namespace TDBCore.BLL
 
             foreach (Guid id in peopleToKeep)
             {
-                UpdateUniqueRefs2(id, newRef, peopleToKeep.Count, evtCount);
+                UpdateUniqueRef(id, newRef, peopleToKeep.Count, evtCount);
                 evtCount++;
             }
 
@@ -657,7 +588,7 @@ namespace TDBCore.BLL
             foreach (Guid personToRemove in selectedRecordIds)
             {
                 newRef = Guid.NewGuid();
-                UpdateUniqueRefs2(personToRemove, newRef, 1, 1);
+                UpdateUniqueRef(personToRemove, newRef, 1, 1);
             }
 
 
@@ -671,8 +602,6 @@ namespace TDBCore.BLL
 
             return parentGuids;
         }
-
-        
 
         public LocationDictionary GetEntryByLocatAndCounty(string locat, string county)
         {

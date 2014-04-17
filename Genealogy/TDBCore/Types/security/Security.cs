@@ -12,7 +12,7 @@ namespace TDBCore.Types.security
         private readonly string _userName = "";
         private string _persmission = "";
         private readonly bool _isSecurityEnabled = true;
-        readonly UserBll _users = new UserBll();
+        readonly UserDal _users = new UserDal();
 
         public Security(string userName, bool isSecurityEnabled =true)
         {

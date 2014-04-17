@@ -32,7 +32,7 @@ namespace UpdateSources
         private void processCSV()
         {
 
-            SourceBll sourceBll = new SourceBll();
+            SourceDal sourceDal = new SourceDal();
 
 
            // int idx = 0;
@@ -68,7 +68,7 @@ namespace UpdateSources
                 TDBCore.EntityModel.Source source = null;
 
                 if (csvRow.SourceId != Guid.Empty)
-                    source = sourceBll.FillSourceTableById2(csvRow.SourceId);
+                    source = sourceDal.FillSourceTableById2(csvRow.SourceId);
 
 
 
@@ -81,19 +81,19 @@ namespace UpdateSources
 
                 }
 
-                RelationsBll relationsBLL = new RelationsBll();             
-                SourceMappingsBll sourceMappingsBLL = new SourceMappingsBll();
+                RelationsDal relationsDal = new RelationsDal();             
+                SourceMappingsDal sourceMappingsDal = new SourceMappingsDal();
 
-                List<Person> persons = sourceBll.GetPersonsForSource(csvRow.SourceId);
+                List<Person> persons = sourceDal.GetPersonsForSource(csvRow.SourceId);
                 // list of persons for this source
 
-                List<RelationType> relationTypes = relationsBLL.GetRelationTypes2().ToList();
+                List<RelationType> relationTypes = relationsDal.GetRelationTypes2().ToList();
 
                 List<Relation> relations = new List<Relation>();
 
                 foreach (Person _person in persons)
                 {
-                    relations.AddRange(relationsBLL.GetRelationByChildOrParent(_person.Person_id).ToList()); ;
+                    relations.AddRange(relationsDal.GetRelationByChildOrParent(_person.Person_id).ToList()); ;
 
 
                 }
@@ -103,7 +103,7 @@ namespace UpdateSources
                 // so we've got the list of persons thats stored 
                 // compare it to whats in the key
 
-                //sourceMappingsBLL.
+                //SourceMappingsDal.
 
 
 
@@ -139,7 +139,7 @@ namespace UpdateSources
             //            TDBCore.EntityModel.Source source = null;
 
             //            if (csvRow.SourceId != Guid.Empty)
-            //                source = sourceBll.FillSourceTableById2(csvRow.SourceId);
+            //                source = SourceDal.FillSourceTableById2(csvRow.SourceId);
 
             //            if ( csvRow.SourceId != Guid.Empty)
             //            {

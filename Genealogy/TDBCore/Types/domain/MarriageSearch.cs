@@ -13,15 +13,15 @@ using TDBCore.Types.validators;
 
 namespace TDBCore.Types.domain
 {
-    public class MarriageSearch //: EditorBaseModel<Guid> 
+    public class MarriageSearch 
     {
-        readonly MarriagesBLL _marriagesDll = new MarriagesBLL();
-        readonly MarriageWitnessesBll _marriageWitnessesDll = new MarriageWitnessesBll();
-        readonly SourceBll _sourceDll = new SourceBll();
-        readonly SourceMappingsBll _sourceMappingsDll = new SourceMappingsBll();
-        readonly MarriageWitnessesBll _marriageWitnessBll = new MarriageWitnessesBll();
-        readonly SourceMappingsBll _sourceMappingsBll = new SourceMappingsBll();
-        readonly DeathsBirthsBll _deathsBirthsBll = new DeathsBirthsBll();
+        readonly MarriagesDal _marriagesDll = new MarriagesDal();
+        readonly MarriageWitnessesDal _marriageWitnessesDll = new MarriageWitnessesDal();
+        readonly SourceDal _sourceDll = new SourceDal();
+        readonly SourceMappingsDal _sourceMappingsDll = new SourceMappingsDal();
+        readonly MarriageWitnessesDal _marriageWitnessDal = new MarriageWitnessesDal();
+        readonly SourceMappingsDal _sourceMappingsDal = new SourceMappingsDal();
+        readonly PersonDal _personDal = new PersonDal();
 
 
 
@@ -124,7 +124,7 @@ namespace TDBCore.Types.domain
 
             if (!_security.IsValidEdit()) return "You dont have permission to edit!";
 
-            _sourceMappingsBll.DeleteSourcesForPersonOrMarriage(marriageId, 87);//.WritePersonSources2(personId, sources, _security.UserId());
+            _sourceMappingsDal.DeleteSourcesForPersonOrMarriage(marriageId, 87);//.WritePersonSources2(personId, sources, _security.UserId());
 
             return "";
         }
@@ -247,9 +247,9 @@ namespace TDBCore.Types.domain
 
             //get wits
             marriage = _marriagesDll.GetMarriageById2(marriageId);
-            marriage.Sources = _sourceMappingsBll.GetSourceGuidList(marriageId);
+            marriage.Sources = _sourceMappingsDal.GetSourceGuidList(marriageId);
 
-            var mw = _marriageWitnessBll.GetWitnessesForMarriage(marriageId);
+            var mw = _marriageWitnessDal.GetWitnessesForMarriage(marriageId);
 
             mw.PopulateServiceMarriage(marriage);
 
@@ -264,7 +264,7 @@ namespace TDBCore.Types.domain
 
             _marriagesDll.UpdateMarriage(pmarriage);
 
-            _sourceMappingsBll.WriteMarriageSources(pmarriage.MarriageId, sources, 1);
+            _sourceMappingsDal.WriteMarriageSources(pmarriage.MarriageId, sources, 1);
 
             SetWitnesses(pmarriage.MarriageId, witnesses);
 
@@ -281,7 +281,7 @@ namespace TDBCore.Types.domain
             pmarriage.MarriageId = _marriagesDll.InsertMarriage(pmarriage);
 
             if(sources.Count>0)
-                _sourceMappingsBll.WriteMarriageSources(pmarriage.MarriageId, sources, 1);
+                _sourceMappingsDal.WriteMarriageSources(pmarriage.MarriageId, sources, 1);
 
 
             SetWitnesses(pmarriage.MarriageId, witnesses);
@@ -292,14 +292,14 @@ namespace TDBCore.Types.domain
         {
 
             //delete existing entries
-            _marriageWitnessBll.DeleteWitnessesForMarriage(marriageId);
+            _marriageWitnessDal.DeleteWitnessesForMarriage(marriageId);
 
             foreach (var marriages in witnesses)
             {
-                _deathsBirthsBll.InsertPerson(marriages.Person);
+                _personDal.Insert(marriages.Person);
             }
 
-            _marriageWitnessBll.InsertWitnessesForMarriage(marriageId, witnesses);
+            _marriageWitnessDal.InsertWitnessesForMarriage(marriageId, witnesses);
 
         }
 

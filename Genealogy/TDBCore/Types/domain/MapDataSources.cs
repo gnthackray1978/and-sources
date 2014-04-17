@@ -13,8 +13,8 @@ namespace TDBCore.Types.domain
 {
     public class MapDataSources 
     {
-        readonly SourceBll _sourceBll = new SourceBll();
-        readonly ParishsBll _parishsBll = new ParishsBll();
+        readonly SourceDal _sourceDal = new SourceDal();
+        readonly ParishsDal _parishsDal = new ParishsDal();
         readonly ISecurity _security = new NoSecurity();
 
 
@@ -27,7 +27,7 @@ namespace TDBCore.Types.domain
         {
             if (!_security.IsvalidSelect()) return new List<CensusPlace>();
 
-            return _parishsBll.Get1841Census();
+            return _parishsDal.Get1841Census();
 
 
         }
@@ -39,7 +39,7 @@ namespace TDBCore.Types.domain
 
             if (!_security.IsvalidSelect()) return new List<ServiceSuperParish>();
 
-            var parishs = _parishsBll.GetParishsByLocationString(parishSearchFilter.Location).Select(o => new ServiceSuperParish
+            var parishs = _parishsDal.GetParishsByLocationString(parishSearchFilter.Location).Select(o => new ServiceSuperParish
             {
                 ParishCounty = o.County,
                 ParishDeposited = o.Deposited,
@@ -60,7 +60,7 @@ namespace TDBCore.Types.domain
         {           
             if (!_security.IsvalidSelect()) return new List<ServiceParishDataType>();
 
-            return _parishsBll.GetParishTypes().Select(o => new ServiceParishDataType { DataTypeId = o.dataTypeId, Description = o.description }).ToList();
+            return _parishsDal.GetParishTypes().Select(o => new ServiceParishDataType { DataTypeId = o.dataTypeId, Description = o.description }).ToList();
         }
 
         public List<ServiceSearchResult> GetSearchResults(ParishSearchFilter parishSearchFilter)
@@ -71,7 +71,7 @@ namespace TDBCore.Types.domain
 
             if (parishSearchFilter.ParishIds.Count > 0 && _security.IsvalidSelect())
             {
-                _sourceBll.GetSourceByParishString(parishSearchFilter.ParishIds.ParseToCSV(), parishSearchFilter.DateFrom, parishSearchFilter.DateTo);
+                _sourceDal.GetSourceByParishString(parishSearchFilter.ParishIds.ParseToCSV(), parishSearchFilter.DateFrom, parishSearchFilter.DateTo);
             }
 
 
@@ -83,7 +83,7 @@ namespace TDBCore.Types.domain
 
             if (!_security.IsvalidSelect()) return new List<ServiceParishCounter>();
 
-            return _parishsBll.GetParishCounter().Where(p => p.YearStart >= parishSearchFilter.DateFrom && p.YearEnd <= parishSearchFilter.DateTo).
+            return _parishsDal.GetParishCounter().Where(p => p.YearStart >= parishSearchFilter.DateFrom && p.YearEnd <= parishSearchFilter.DateTo).
                                                 Select(o => new ServiceParishCounter
                                                 {
                                                     Counter = o.Count.GetValueOrDefault(),
@@ -105,7 +105,7 @@ namespace TDBCore.Types.domain
 
             if (!_security.IsvalidSelect()) return serviceParishDetailObject;
 
-            var parishDetails = _parishsBll.GetParishDetail(parishSearchFilter.ParishIds.SafeFirst());
+            var parishDetails = _parishsDal.GetParishDetail(parishSearchFilter.ParishIds.SafeFirst());
 
             serviceParishDetailObject.serviceParishRecords = parishDetails.parishRecords.Select(o => new ServiceParishRecord
             {
@@ -122,7 +122,7 @@ namespace TDBCore.Types.domain
                 ParishTranscriptRecord = o.ParishTranscriptRecord
             }).ToList();
 
-            serviceParishDetailObject.serviceServiceMapDisplaySource = _sourceBll.GetParishSourceRecords(parishSearchFilter.ParishIds.SafeFirst()).Select(s => new ServiceMapDisplaySource
+            serviceParishDetailObject.serviceServiceMapDisplaySource = _sourceDal.GetParishSourceRecords(parishSearchFilter.ParishIds.SafeFirst()).Select(s => new ServiceMapDisplaySource
             {
                 DisplayOrder = s.DisplayOrder,
                 IsCopyHeld = s.IsCopyHeld,
