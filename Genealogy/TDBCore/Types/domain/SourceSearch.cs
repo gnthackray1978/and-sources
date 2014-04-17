@@ -17,11 +17,11 @@ namespace TDBCore.Types.domain
 {
     public class SourceSearch 
     {
-        readonly SourceBll _sourceBll = new SourceBll();
-        readonly SourceTypesBll _sourceTypesBll = new SourceTypesBll();
-        readonly FilesBll _filesBll = new FilesBll();
-        readonly SourceMappingParishsBll _sourceMappingParishsBll = new SourceMappingParishsBll();
-        readonly SourceMappingsBll _smBll = new SourceMappingsBll();
+        readonly SourceDal _sourceDal = new SourceDal();
+        readonly SourceTypesDal _sourceTypesDal = new SourceTypesDal();
+        readonly FilesDal _filesDal = new FilesDal();
+        readonly SourceMappingParishsDal _sourceMappingParishsDal = new SourceMappingParishsDal();
+        readonly SourceMappingsDal _smDal = new SourceMappingsDal();
 
 
         private readonly ISecurity _security;
@@ -50,16 +50,16 @@ namespace TDBCore.Types.domain
             switch (param)
             { 
                 case SourceSearchTypes.Standard:
-                    sourcesDataTable = _sourceBll.FillSourceTableByFilter(sourceSearchFilter).ToServiceSourceObject(shaper.Column, shaper.RecordPageSize, shaper.RecordStart);
+                    sourcesDataTable = _sourceDal.FillSourceTableByFilter(sourceSearchFilter).ToServiceSourceObject(shaper.Column, shaper.RecordPageSize, shaper.RecordStart);
                     break;
                 case SourceSearchTypes.Treesources:
-                    sourcesDataTable = _sourceBll.FillTreeSources(sourceSearchFilter).ToServiceSourceObject(shaper.Column, shaper.RecordPageSize, shaper.RecordStart);
+                    sourcesDataTable = _sourceDal.FillTreeSources(sourceSearchFilter).ToServiceSourceObject(shaper.Column, shaper.RecordPageSize, shaper.RecordStart);
                     break;             
                 case SourceSearchTypes.Censussource:
-                    sourcesDataTable.CensusSources = _sourceBll.Get1841CensuSources(!sourceSearchFilter.Sources.IsNullOrBelowMinSize() ? sourceSearchFilter.Sources.First() : Guid.Empty);
+                    sourcesDataTable.CensusSources = _sourceDal.Get1841CensuSources(!sourceSearchFilter.Sources.IsNullOrBelowMinSize() ? sourceSearchFilter.Sources.First() : Guid.Empty);
                     break;
                 case SourceSearchTypes.SourceIds:
-                    sourcesDataTable = _sourceBll.FillSourceTableBySourceIds(!sourceSearchFilter.Sources.IsNullOrBelowMinSize() ? sourceSearchFilter.Sources : new List<Guid>())
+                    sourcesDataTable = _sourceDal.FillSourceTableBySourceIds(!sourceSearchFilter.Sources.IsNullOrBelowMinSize() ? sourceSearchFilter.Sources : new List<Guid>())
                         .ToServiceSourceObject(shaper.Column, shaper.RecordPageSize, shaper.RecordStart);
                     break;
             }
@@ -71,7 +71,7 @@ namespace TDBCore.Types.domain
         {
             if (!_security.IsValidDelete()) throw new SecurityException("Missing delete permission");
          
-            sourceSearchFilter.Sources.ForEach(s => _sourceBll.DeleteSource2(s));
+            sourceSearchFilter.Sources.ForEach(s => _sourceDal.DeleteSource2(s));
                        
         }
 
@@ -89,10 +89,10 @@ namespace TDBCore.Types.domain
             switch (sourceTypes)
             {
                 case SourceTypes.Person:
-                    records.ForEach(p => _smBll.WritePersonSources2(p, sources, _security.UserId()));
+                    records.ForEach(p => _smDal.WritePersonSources2(p, sources, _security.UserId()));
                     break;
                 case SourceTypes.Marriage:
-                    records.ForEach(p => _smBll.WriteMarriageSources(p, sources, _security.UserId()));
+                    records.ForEach(p => _smDal.WriteMarriageSources(p, sources, _security.UserId()));
                     break;
                
                 default:
@@ -107,7 +107,7 @@ namespace TDBCore.Types.domain
 
             if (!_security.IsValidEdit()) return "You dont have permission to edit!";
 
-            records.ForEach(p => _smBll.DeleteSourcesForPersonOrMarriage(p, 87));
+            records.ForEach(p => _smDal.DeleteSourcesForPersonOrMarriage(p, 87));
 
             return "";
         }
@@ -117,7 +117,7 @@ namespace TDBCore.Types.domain
         {
             if (!_security.IsValidDelete()) throw new SecurityException("Missing delete permission");
 
-            _sourceBll.DeleteSource2(sourceDto.SourceId);
+            _sourceDal.DeleteSource2(sourceDto.SourceId);
 
         }
 
@@ -128,13 +128,13 @@ namespace TDBCore.Types.domain
 
             if (!_security.IsvalidSelect()) throw new SecurityException("Missing select permission");
 
-            sourceDto = _sourceBll.GetSource(sourceDto.SourceId);
+            sourceDto = _sourceDal.GetSource(sourceDto.SourceId);
 
-            sourceDto.Files = _filesBll.GetFilesByParent(sourceDto.SourceId);
+            sourceDto.Files = _filesDal.GetFilesByParent(sourceDto.SourceId);
 
-            sourceDto.SourceTypes = _sourceTypesBll.GetSourceTypeIds(sourceDto.SourceId);
+            sourceDto.SourceTypes = _sourceTypesDal.GetSourceTypeIds(sourceDto.SourceId);
 
-            sourceDto.Parishs = _sourceMappingParishsBll.GetParishIds(sourceDto.SourceId);
+            sourceDto.Parishs = _sourceMappingParishsDal.GetParishIds(sourceDto.SourceId);
 
             return sourceDto;
         }
@@ -143,7 +143,7 @@ namespace TDBCore.Types.domain
         {
             if (!_security.IsValidEdit()) throw new SecurityException("Missing edit permission");
 
-            _sourceBll.UpdateSource(sourceDto);
+            _sourceDal.UpdateSource(sourceDto);
 
             UpdateRelatedData(sourceDto);
         }
@@ -158,11 +158,11 @@ namespace TDBCore.Types.domain
 
         private void UpdateRelatedData(SourceDto sourceDto)
         {
-            _smBll.WriteFilesToSource(sourceDto.SourceId, sourceDto.Files, sourceDto.UserId);
+            _smDal.WriteFilesToSource(sourceDto.SourceId, sourceDto.Files, sourceDto.UserId);
 
-            _smBll.WriteSourceTypesToSource(sourceDto.SourceId, sourceDto.SourceTypes, sourceDto.UserId);
+            _smDal.WriteSourceTypesToSource(sourceDto.SourceId, sourceDto.SourceTypes, sourceDto.UserId);
 
-            _smBll.WriteParishsToSource(sourceDto.SourceId, sourceDto.Parishs, sourceDto.UserId);
+            _smDal.WriteParishsToSource(sourceDto.SourceId, sourceDto.Parishs, sourceDto.UserId);
         }
 
         public void Update(SourceDto sourceDto, IValidator validator = null)

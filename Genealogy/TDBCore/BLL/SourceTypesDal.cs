@@ -7,7 +7,7 @@ using TDBCore.Types.filters;
 
 namespace TDBCore.BLL
 {
-    public class SourceTypesBll : BaseBll
+    public class SourceTypesDal : BaseBll
     {               
         public void DeleteSourceTypes(List<int> sourceTypeIds)
         {

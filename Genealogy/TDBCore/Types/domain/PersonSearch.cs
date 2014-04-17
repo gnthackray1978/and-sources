@@ -16,9 +16,9 @@ namespace TDBCore.Types.domain
 {
     public class PersonSearch 
     {
-        readonly DeathsBirthsBll _deathsBirthsBll = new DeathsBirthsBll();
-        readonly SourceMappingsBll _sourceMappingsBll = new SourceMappingsBll();
-        readonly RelationsBll _relationsBll = new RelationsBll();
+        readonly PersonDal _personDal = new PersonDal();
+        readonly SourceMappingsDal _sourceMappingsDal = new SourceMappingsDal();
+        readonly RelationsDal _relationsDal = new RelationsDal();
  
         private readonly ISecurity _security;
 
@@ -47,7 +47,7 @@ namespace TDBCore.Types.domain
 
                     if (personSearchFilter.ParentId != Guid.Empty)
                     {
-                        tpServicePerson = _deathsBirthsBll.GetDataByDupeRef(personSearchFilter.ParentId);
+                        tpServicePerson = _personDal.GetByDupeRef(personSearchFilter.ParentId);
                     }
                        
                     break;
@@ -55,7 +55,7 @@ namespace TDBCore.Types.domain
 
                 case PersonSearchTypes.Simple:
 
-                    tpServicePerson = _deathsBirthsBll.GetFilterSimple2(personSearchFilter).OrderBy(o => o.BirthYear).ToList();
+                    tpServicePerson = _personDal.GetByFilter(personSearchFilter).OrderBy(o => o.BirthYear).ToList();
                       
                     break;
 
@@ -70,7 +70,7 @@ namespace TDBCore.Types.domain
         {
             if (!_security.IsValidDelete()) throw new SecurityException("Missing delete permission");
 
-            personIds.ForEach(p => _deathsBirthsBll.DeleteDeathBirthRecord2(p));           
+            personIds.ForEach(p => _personDal.Delete(p));           
         }
 
 
@@ -82,10 +82,10 @@ namespace TDBCore.Types.domain
 
             if (personId == Guid.Empty) return servicePerson;
 
-            servicePerson = _deathsBirthsBll.GetDeathBirthRecordById(personId);
+            servicePerson = _personDal.Get(personId);
 
             if (servicePerson != null)
-                servicePerson.Sources = _sourceMappingsBll.GetSourceGuidList(personId);
+                servicePerson.Sources = _sourceMappingsDal.GetSourceGuidList(personId);
 
             return servicePerson;
         }
@@ -94,18 +94,18 @@ namespace TDBCore.Types.domain
         {
             if (!_security.IsValidEdit()) throw new SecurityException("Missing edit permission");
 
-            _deathsBirthsBll.UpdateBirthDeathRecord(servicePerson);
+            _personDal.Update(servicePerson);
 
-            _sourceMappingsBll.WritePersonSources2(servicePerson.PersonId, sourceIds, _security.UserId());
+            _sourceMappingsDal.WritePersonSources2(servicePerson.PersonId, sourceIds, _security.UserId());
         }
 
         private void InsertNewRecord(ServicePerson servicePerson, List<Guid> sourceIds)
         {
             if (!_security.IsValidInsert()) throw new SecurityException("Missing insert permission");
             
-            _deathsBirthsBll.InsertDeathBirthRecord(servicePerson);
+            _personDal.Insert(servicePerson);
 
-            _sourceMappingsBll.WritePersonSources2(servicePerson.PersonId, sourceIds, _security.UserId());
+            _sourceMappingsDal.WritePersonSources2(servicePerson.PersonId, sourceIds, _security.UserId());
         }
 
         public void Save(ServicePerson servicePerson,List<Guid> sourceIds,  IValidator validator = null)
@@ -136,7 +136,7 @@ namespace TDBCore.Types.domain
                  
             }
 
-            _relationsBll.GetRelationsByMapId(persons, 1, _security.UserId()).ForEach(r => _deathsBirthsBll.UpdateDuplicateRefs2(r.PersonA, r.PersonB));
+            _relationsDal.GetRelationsByMapId(persons, 1, _security.UserId()).ForEach(r => _personDal.UpdateDuplicateRefs(r.PersonA, r.PersonB));
 
             return "";
         }
@@ -150,7 +150,7 @@ namespace TDBCore.Types.domain
                 throw new InvalidDataException("You need to select more than source!");
             }
 
-            _sourceMappingsBll.SetDefaultTreePerson(param, param);
+            _sourceMappingsDal.SetDefaultTreePerson(param, param);
 
             return "";
         }
@@ -165,14 +165,14 @@ namespace TDBCore.Types.domain
                 throw new InvalidDataException("You need to select more than source!");
             }
 
-            _deathsBirthsBll.DelinkPersons(persons);
+            _personDal.DelinkPersons(persons);
 
             return "";
         }
 
         public void UpdateDateEstimates()
         {
-            _deathsBirthsBll.UpdateDateEstimates();
+            _personDal.UpdateDateEstimates();
         
              
         }
@@ -183,7 +183,7 @@ namespace TDBCore.Types.domain
 
             if (person != Guid.Empty)
             {
-                _deathsBirthsBll.MergeDuplicateRecords(person);                
+                _personDal.MergeDuplicateRecords(person);                
             }
 
             return "";
@@ -191,12 +191,12 @@ namespace TDBCore.Types.domain
     
         public void UpdateDeletedBirths()
         {
-            _deathsBirthsBll.UpdateDeletedBirths();
+            _personDal.UpdateUniqueRefs();
         }
     
         public void UpdateLocationsFromParishList()
         {
-            _deathsBirthsBll.UpdateLocationIdsFromParishTable();
+            _personDal.UpdateLocationIdsFromParishTable();
         }
        
  

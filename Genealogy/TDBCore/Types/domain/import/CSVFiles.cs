@@ -7,9 +7,19 @@ namespace TDBCore.Types.domain.import
     {
         public static readonly IList<CSVField> MarriageFieldList = new ReadOnlyCollection<CSVField>(new [] { CSVField.MaleCName, CSVField.MaleSName, CSVField.MaleLocation, CSVField.MaleInfo,
             CSVField.FemaleCName, CSVField.FemaleSName, CSVField.FemaleLocation, CSVField.FemaleInfo, CSVField.Date, CSVField.MarriageLocation, 
-            CSVField.YearIntVal, CSVField.MarriageCounty, CSVField.Source, CSVField.Witness1, CSVField.Witness2, CSVField.Witness3, CSVField.Witness4, CSVField.OrigMaleSurname, CSVField.OrigFemaleSurname, 
+            CSVField.YearIntVal, CSVField.MarriageCounty, CSVField.Source, 
+            CSVField.Witness1CName, CSVField.Witness1SName, CSVField.Witness1Desc, 
+            CSVField.Witness2CName, CSVField.Witness2SName, CSVField.Witness2Desc, 
+            CSVField.Witness3CName, CSVField.Witness3SName, CSVField.Witness3Desc, 
+            CSVField.Witness4CName, CSVField.Witness4SName, CSVField.Witness4Desc, 
+            CSVField.Witness5CName, CSVField.Witness5SName, CSVField.Witness5Desc, 
+            CSVField.Witness6CName, CSVField.Witness6SName, CSVField.Witness6Desc, 
+            CSVField.OrigMaleSurname, CSVField.OrigFemaleSurname, 
             CSVField.MaleOccupation, CSVField.FemaleOccupation, CSVField.FemaleIsKnownWidow, CSVField.MaleIsKnownWidower, CSVField.IsBanns,
-            CSVField.IsLic,CSVField.SourceId,CSVField.MaleAge,CSVField.FemaleAge,CSVField.FemaleFather,CSVField.MaleFather,CSVField.FemaleFatherOccupation,CSVField.MaleFatherOccupation , CSVField.LocationId });
+            CSVField.IsLic,CSVField.SourceId,CSVField.MaleAge,CSVField.FemaleAge,
+            CSVField.FemaleFatherCName,CSVField.FemaleFatherSName,
+            CSVField.MaleFatherCName,CSVField.MaleFatherSName,
+            CSVField.FemaleFatherOccupation,CSVField.MaleFatherOccupation , CSVField.LocationId });
 
         public static readonly IList<CSVField> BDFieldList = new ReadOnlyCollection<CSVField>(new[] { CSVField.IsMale, CSVField.ChristianName, CSVField.Surname, CSVField.BirthLocation, 
             CSVField.BirthDateStr, CSVField.BaptismDateStr, CSVField.DeathDateStr, CSVField.DeathLocation, CSVField.FatherChristianName, CSVField.FatherSurname,

@@ -14,7 +14,7 @@ namespace TDBCore.Types.domain
 {
     public class SourceTypeSearch //: EditorBaseModel<int> 
     {
-        readonly SourceTypesBll _sourceTypesBll = new SourceTypesBll();
+        readonly SourceTypesDal _sourceTypesDal = new SourceTypesDal();
         
         readonly ISecurity _security = new NoSecurity();
      
@@ -34,14 +34,14 @@ namespace TDBCore.Types.domain
 
             if (validator != null && !validator.ValidEntry()) return new ServiceSourceTypeObject();
 
-            return _sourceTypesBll.GetSourceTypeByFilter(sourceTypeSearchFilter).ToServiceSourceTypeObject(shaper.Column, shaper.RecordPageSize, shaper.RecordStart);
+            return _sourceTypesDal.GetSourceTypeByFilter(sourceTypeSearchFilter).ToServiceSourceTypeObject(shaper.Column, shaper.RecordPageSize, shaper.RecordStart);
         }
 
         public void DeleteRecords(SourceTypeSearchFilter sourceTypeSearchFilter)
         {
             if (!_security.IsValidDelete()) return;
 
-            _sourceTypesBll.DeleteSourceTypes(sourceTypeSearchFilter.SourceTypeIds);
+            _sourceTypesDal.DeleteSourceTypes(sourceTypeSearchFilter.SourceTypeIds);
         }
 
 
@@ -49,7 +49,7 @@ namespace TDBCore.Types.domain
         {
             if (!_security.IsvalidSelect()) return new ServiceSourceType();
 
-            return _sourceTypesBll.GetSourceTypeById(serviceSourceType.TypeId);
+            return _sourceTypesDal.GetSourceTypeById(serviceSourceType.TypeId);
         }
 
         private void Edit(ServiceSourceType serviceSourceType)
@@ -57,7 +57,7 @@ namespace TDBCore.Types.domain
             if (!_security.IsValidEdit()) return;
 
         
-            _sourceTypesBll.UpdateSourceType(serviceSourceType);
+            _sourceTypesDal.UpdateSourceType(serviceSourceType);
 
         }
 
@@ -67,7 +67,7 @@ namespace TDBCore.Types.domain
             if (!_security.IsValidInsert()) return;
 
         
-            _sourceTypesBll.InsertSourceType(serviceSourceType);
+            _sourceTypesDal.InsertSourceType(serviceSourceType);
 
         }
 

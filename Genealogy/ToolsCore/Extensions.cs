@@ -197,12 +197,12 @@ namespace ToolsCore
         public static List<SourceFileReference> RefreshSourceFiles(DirectoryInfo sourceFolder, KeyType csvRow, TDBCore.EntityModel.Source source)
         {
             //refresh source files list in db
-            SourceBll sourceBll = new SourceBll();
+            SourceDal sourceDal = new SourceDal();
 
-            SourceMappingsBll sourceMappingsBll = new SourceMappingsBll();
-            FilesBll filesBll = new FilesBll();
+            SourceMappingsDal sourceMappingsDal = new SourceMappingsDal();
+            FilesDal filesDal = new FilesDal();
 
-            sourceMappingsBll.DeleteFilesForSource(csvRow.SourceId);
+            sourceMappingsDal.DeleteFilesForSource(csvRow.SourceId);
 
             List<Guid> fileIdsToAdd = new List<Guid>();
 
@@ -218,7 +218,7 @@ namespace ToolsCore
                 foreach (FileInfo _file in sourceFolder.GetFiles())
                 {
                     //_file.
-                    fileIdsToAdd.Add(filesBll.AddFile2(_file.Name, Path.Combine(csvRow.PhysicalPath, _file.Name), 1, ""));
+                    fileIdsToAdd.Add(filesDal.AddFile2(_file.Name, Path.Combine(csvRow.PhysicalPath, _file.Name), 1, ""));
 
                     filesToAdd.Add(new SourceFileReference() { FileId = fileIdsToAdd.Last(), SourceFileInfo = _file });
 
@@ -232,7 +232,7 @@ namespace ToolsCore
                             source.SourceNotes = contents;
 
 
-                            sourceBll.ModelContainer.SaveChanges();
+                            sourceDal.ModelContainer.SaveChanges();
                         }
                         else
                             Debug.WriteLine("didnt  write : " + _file.FullName);
@@ -253,7 +253,7 @@ namespace ToolsCore
                 {
                     foreach (FileInfo _file in admonDir.GetFiles())
                     {
-                        fileIdsToAdd.Add(filesBll.AddFile2(_file.Name, Path.Combine(csvRow.PhysicalPath, @"\admon\" + _file.Name), 1, ""));
+                        fileIdsToAdd.Add(filesDal.AddFile2(_file.Name, Path.Combine(csvRow.PhysicalPath, @"\admon\" + _file.Name), 1, ""));
                         //filesToAdd.Add(_file);
 
                         filesToAdd.Add(new SourceFileReference() { FileId = fileIdsToAdd.Last(), SourceFileInfo = _file });
@@ -264,7 +264,7 @@ namespace ToolsCore
                 {
                     foreach (FileInfo _file in willDir.GetFiles())
                     {
-                        fileIdsToAdd.Add(filesBll.AddFile2(_file.Name, Path.Combine(csvRow.PhysicalPath, @"\will\" + _file.Name), 1, ""));
+                        fileIdsToAdd.Add(filesDal.AddFile2(_file.Name, Path.Combine(csvRow.PhysicalPath, @"\will\" + _file.Name), 1, ""));
                        // filesToAdd.Add(_file);
                         filesToAdd.Add(new SourceFileReference() { FileId = fileIdsToAdd.Last(), SourceFileInfo = _file });
                     }
@@ -275,7 +275,7 @@ namespace ToolsCore
 
 
                 if (newSource != Guid.Empty && fileIdsToAdd.Count > 0)
-                    sourceMappingsBll.WriteFilesIdsToSource(newSource, fileIdsToAdd, 1);
+                    sourceMappingsDal.WriteFilesIdsToSource(newSource, fileIdsToAdd, 1);
                 else
                     Debug.WriteLine(csvRow.SourceRef + "no files to add or source is empty");
             }

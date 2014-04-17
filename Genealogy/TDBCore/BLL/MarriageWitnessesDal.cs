@@ -7,13 +7,20 @@ using TDBCore.Types.libs;
 
 namespace TDBCore.BLL
 {
-    public class MarriageWitnessesBll : BaseBll
+    public class MarriageWitnessesDal : BaseBll
     {
- 
+        private readonly PersonDal _personDal;
+
+        public MarriageWitnessesDal()
+        {
+            _personDal = new PersonDal();
+        }
+
 
         public List<MarriageWitness> GetWitnessesForMarriage(Guid marriageId)
         {
-            return ModelContainer.MarriageMapWitnesses.Where(m => m.Marriage.Marriage_Id == marriageId).Select(p => new MarriageWitness { Description = p.WitnessNote, Person = p.Person }).ToList();           
+            return ModelContainer.MarriageMapWitnesses.
+                Where(m => m.Marriage.Marriage_Id == marriageId).ToList().Select(p => p.Person != null ? new MarriageWitness { Description = p.WitnessNote, Person = p.Person.ToServicePerson() } : null).ToList();           
         }
 
         public string GetWitnesseStringForMarriage(Guid marriageId)
@@ -29,12 +36,16 @@ namespace TDBCore.BLL
 
             foreach (var dupePerson in persons.RemoveDuplicateReferences())
             {
-                ModelContainer.Persons.Remove(dupePerson.Person);
+                _personDal.Delete(dupePerson.Person.PersonId);
+                  
             }
            
-            foreach (var person in persons)
+            foreach (var personDto in persons)
             {
-                ModelContainer.MarriageMapWitnesses.Add(new MarriageMapWitness { Person = person.Person, Marriage = mToUpDate, WitnessNote = person.Description });
+                var person = ModelContainer.Persons.FirstOrDefault(p=>p.Person_id== personDto.Person.PersonId);
+
+                if(person!=null)
+                    ModelContainer.MarriageMapWitnesses.Add(new MarriageMapWitness { Person = person, Marriage = mToUpDate, WitnessNote = personDto.Description });
             }
              
             ModelContainer.SaveChanges();

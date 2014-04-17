@@ -103,17 +103,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLL\BaseBLL.cs" />
-    <Compile Include="BLL\DeathsBirthsBLL.cs" />
-    <Compile Include="BLL\FilesBLL.cs" />
-    <Compile Include="BLL\MarriagesBLL.cs" />
-    <Compile Include="BLL\MarriageWitnessesBLL.cs" />
-    <Compile Include="BLL\ParishsBLL.cs" />
-    <Compile Include="BLL\RelationsBLL.cs" />
-    <Compile Include="BLL\SourceBLL.cs" />
-    <Compile Include="BLL\SourceMappingParishsBLL.cs" />
-    <Compile Include="BLL\SourceMappingsBLL.cs" />
-    <Compile Include="BLL\SourceTypesBLL.cs" />
-    <Compile Include="BLL\UserBLL.cs" />
+    <Compile Include="BLL\PersonDal.cs" />
+    <Compile Include="BLL\FilesDal.cs" />
+    <Compile Include="BLL\MarriagesDal.cs" />
+    <Compile Include="BLL\MarriageWitnessesDal.cs" />
+    <Compile Include="BLL\ParishsDal.cs" />
+    <Compile Include="BLL\RelationsDal.cs" />
+    <Compile Include="BLL\SourceDal.cs" />
+    <Compile Include="BLL\SourceMappingParishsDal.cs" />
+    <Compile Include="BLL\SourceMappingsDal.cs" />
+    <Compile Include="BLL\SourceTypesDal.cs" />
+    <Compile Include="BLL\UserDal.cs" />
     <Compile Include="EntityModel\CountyDictionary.cs">
       <DependentUpon>GeneralModel.tt</DependentUpon>
     </Compile>
@@ -251,6 +251,7 @@
     <Compile Include="Types\DTOs\ServiceEventObject.cs" />
     <Compile Include="Types\DTOs\ServiceFile.cs" />
     <Compile Include="Types\DTOs\ServiceFileObject.cs" />
+    <Compile Include="Types\DTOs\ServiceMarriageImports.cs" />
     <Compile Include="Types\DTOs\Source.cs" />
     <Compile Include="Types\DTOs\SourceAjaxDto.cs" />
     <Compile Include="Types\DTOs\ServiceMapDisplaySource.cs" />

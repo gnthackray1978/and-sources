@@ -15,7 +15,7 @@ namespace TDBCore.Types.domain
 {
     public class ParishSearch  
     {
-        readonly ParishsBll _parishsBll = new ParishsBll();
+        readonly ParishsDal _parishsDal = new ParishsDal();
      
         private readonly ISecurity _iSecurity;
         private IValidator _validator = new Validator();
@@ -29,7 +29,7 @@ namespace TDBCore.Types.domain
         {
             if (!_iSecurity.IsValidDelete()) return "No delete permission";
 
-            _parishsBll.DeleteParishs(parishIds.ParseToGuidList());
+            _parishsDal.DeleteParishs(parishIds.ParseToGuidList());
  
             return parishIds;
         }
@@ -48,7 +48,7 @@ namespace TDBCore.Types.domain
             try
             {
                  
-                serviceParishObject.serviceParishs = _parishsBll.GetParishByFilter(parishSearchFilter);
+                serviceParishObject.serviceParishs = _parishsDal.GetParishByFilter(parishSearchFilter);
 
 
 
@@ -77,7 +77,7 @@ namespace TDBCore.Types.domain
         {
             if (parishSearchFilter.ParishIds.IsNullOrBelowMinSize()) return new List<string>();
 
-            return _parishsBll.GetParishNames(parishSearchFilter.ParishIds);
+            return _parishsDal.GetParishNames(parishSearchFilter.ParishIds);
         }
 
 
@@ -86,7 +86,7 @@ namespace TDBCore.Types.domain
         {
 
 
-            return _parishsBll.GetParishById(parishId);
+            return _parishsDal.GetParishById(parishId);
         }
 
         public void AddParish(ServiceParish serviceParish, IValidator iValidator = null)
@@ -113,7 +113,7 @@ namespace TDBCore.Types.domain
         {
             if (!_iSecurity.IsValidEdit()) return;
 
-            _parishsBll.UpdateParish(serviceParish);
+            _parishsDal.UpdateParish(serviceParish);
 
         }
 
@@ -121,7 +121,7 @@ namespace TDBCore.Types.domain
         {
             if (!_iSecurity.IsValidInsert()) return;
 
-            _parishsBll.InsertParish(serviceParish);
+            _parishsDal.InsertParish(serviceParish);
         }
     }
 }

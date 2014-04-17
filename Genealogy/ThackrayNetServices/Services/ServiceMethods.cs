@@ -219,9 +219,9 @@ namespace ANDServices
         {
             ServiceFileObject sfo = new ServiceFileObject();
 
-            FilesBll filesBLL = new FilesBll();
+            FilesDal filesDal = new FilesDal();
 
-            var filesMappedDataTable = filesBLL.GetFilesByParentId2(sourceId.ToGuid());
+            var filesMappedDataTable = filesDal.GetFilesByParentId2(sourceId.ToGuid());
 
 
 
