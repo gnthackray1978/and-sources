@@ -8,74 +8,28 @@ namespace TDBCore.BLL
 {
     public class BaseBll
     {
-        private string _errorCondition;
-        private string _connectionString = "";
+
         private static GeneralModelContainer _generalModelContainer; 
-
-        public BaseBll()
+        
+        protected GeneralModelContainer ModelContainer
         {
-            //System.Data.EntityClient.EntityConnection connStr = GetConn();//new System.Data.EntityClient.EntityConnection(@"metadata=res://*/CustomSearches.csdl|res://*/CustomSearches.ssdl|res://*/CustomSearches.msl;provider=System.Data.SqlClient;provider connection string="";Data Source=GRN-P005718\;Initial Catalog=ThackrayDB;Integrated Security=True;MultipleActiveResultSets=True"";");
-            
-            if (_generalModelContainer == null)
-            {
-               // Debug.WriteLine("Created new entity container: " + connStr);
-                _generalModelContainer = new GeneralModelContainer();
+            get { return _generalModelContainer ?? (_generalModelContainer = new GeneralModelContainer()); }
 
-              //  _generalModelContainer.Database.Connection.ConnectionString = GetNormalConn();
-
-                //BaseBll.generalModelContainer.Configuration.
-            }
-
-            
-            _connectionString = Properties.Settings.Default.ThackrayDBConnectionString;
-        }
-
-
-        public void Reset()
-        {
-          //  System.Data.EntityClient.EntityConnection connStr = this.GetConn();//new System.Data.EntityClient.EntityConnection(@"metadata=res://*/CustomSearches.csdl|res://*/CustomSearches.ssdl|res://*/CustomSearches.msl;provider=System.Data.SqlClient;provider connection string="";Data Source=GRN-P005718\;Initial Catalog=ThackrayDB;Integrated Security=True;MultipleActiveResultSets=True"";");
-
-            if (_generalModelContainer == null)
-            {
-                //Debug.WriteLine("Created new entity container: " + connStr);
-                _generalModelContainer = new GeneralModelContainer();
-
-              //  _generalModelContainer.Database.Connection.ConnectionString = GetNormalConn();
-            }
-
-
-            _connectionString = Properties.Settings.Default.ThackrayDBConnectionString;
-
-        }
-
-        public GeneralModelContainer ModelContainer
-        {
-            get
-            {
-                return _generalModelContainer;
-            }
             set
             {
                 _generalModelContainer = value;
             }
         }
 
-      
-
-        public string ErrorCondition
+        protected SqlConnection GetConnection()
         {
-            get { return _errorCondition; }
-            set { _errorCondition = value; }
-        }
-
-        public SqlConnection GetConnection()
-        {
-            var SQLConnection = new SqlConnection();
+            var sqlConnection = new SqlConnection();
 
             try
             {
-                SQLConnection.ConnectionString = _connectionString;
-                SQLConnection.Open();
+
+                sqlConnection.ConnectionString = Properties.Settings.Default.ThackrayDBConnectionString;
+                sqlConnection.Open();
 
                 // You can get the server version 
                 // SQLConnection.ServerVersion
@@ -83,10 +37,9 @@ namespace TDBCore.BLL
             catch (Exception Ex)
             {
                 // Try to close the connection
-                if (SQLConnection != null)
-                    SQLConnection.Dispose();              
+                sqlConnection.Dispose();              
             }
-            return SQLConnection;
+            return sqlConnection;
         }
     }
 }

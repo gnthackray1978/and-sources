@@ -13,14 +13,24 @@ namespace TDBCore.Types.domain
 {
     public class MapDataSources 
     {
-        readonly SourceDal _sourceDal = new SourceDal();
-        readonly ParishsDal _parishsDal = new ParishsDal();
+        readonly ISourceDal _sourceDal = new SourceDal();
+        readonly ISourceMappingsDal _sourceMappingsDal = new SourceMappingsDal();
+        readonly IPersonDal _personDal = new PersonDal();   
+        readonly IParishsDal _parishsDal = new ParishsDal();
         readonly ISecurity _security = new NoSecurity();
+        readonly IMarriagesDal _iMarriagesDal = new MarriagesDal();
+        readonly IMarriageWitnessesDal _marriageWitnessesDal = new MarriageWitnessesDal(); 
 
+        readonly MarriageSearch _marriageSearch;
+        readonly PersonSearch _personSearch;
 
         public MapDataSources(ISecurity security)
         {
             _security = security;
+
+            _marriageSearch = new MarriageSearch(new NoSecurity(), _iMarriagesDal, _marriageWitnessesDal, _sourceDal, _sourceMappingsDal, _personDal);
+            _personSearch = new PersonSearch(new NoSecurity());
+
         }
 
         public List<CensusPlace> Get1841CensusPlaces()
@@ -161,7 +171,7 @@ namespace TDBCore.Types.domain
 
             var spo = new ServicePersonObject();
 
-            var iModel = new PersonSearch(new NoSecurity());
+            
 
             string retVal = "";
 
@@ -195,13 +205,13 @@ namespace TDBCore.Types.domain
 
 
 
-                    spo = iModel.Search(PersonSearchTypes.Simple, personSearchFilter, new DataShaping());
+                    spo = _personSearch.Search(PersonSearchTypes.Simple, personSearchFilter, new DataShaping());
 
 
                 }
                 else
-                {                                
-                    spo = iModel.Search(PersonSearchTypes.Duplicates, new PersonSearchFilter(){ParentId = parentId.ToGuid()}, new DataShaping());
+                {
+                    spo = _personSearch.Search(PersonSearchTypes.Duplicates, new PersonSearchFilter() { ParentId = parentId.ToGuid() }, new DataShaping());
                 }
 
                  
@@ -220,13 +230,13 @@ namespace TDBCore.Types.domain
         private int GetMarriagesCount(string uniqref, string malecname, string malesname, string femalecname, string femalesname,
             string location, string lowerDate, string upperDate, string sourceFilter)
         {
-            var iModel = new MarriageSearch(new NoSecurity());
+            
             var serviceMarriageObject = new ServiceMarriageObject();
            
             try
             {
 
-              serviceMarriageObject=  iModel.Search(MarriageFilterTypes.Standard, new MarriageSearchFilter
+                serviceMarriageObject = _marriageSearch.Search(MarriageFilterTypes.Standard, new MarriageSearchFilter
                     {
                         MaleCName = malecname,
                         MaleSName = malesname,

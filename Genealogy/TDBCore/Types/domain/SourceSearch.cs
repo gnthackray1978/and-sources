@@ -17,11 +17,11 @@ namespace TDBCore.Types.domain
 {
     public class SourceSearch 
     {
-        readonly SourceDal _sourceDal = new SourceDal();
-        readonly SourceTypesDal _sourceTypesDal = new SourceTypesDal();
-        readonly FilesDal _filesDal = new FilesDal();
-        readonly SourceMappingParishsDal _sourceMappingParishsDal = new SourceMappingParishsDal();
-        readonly SourceMappingsDal _smDal = new SourceMappingsDal();
+        readonly ISourceDal _sourceDal;
+        readonly ISourceTypesDal _sourceTypesDal;
+        readonly IFilesDal _filesDal;
+        readonly ISourceMappingParishsDal _sourceMappingParishsDal;
+        readonly ISourceMappingsDal _smDal;
 
 
         private readonly ISecurity _security;
@@ -31,7 +31,11 @@ namespace TDBCore.Types.domain
 
         public SourceSearch(ISecurity security)
         {
-          
+            _sourceDal = new SourceDal();
+            _sourceTypesDal = new SourceTypesDal();
+            _filesDal = new FilesDal();
+            _sourceMappingParishsDal = new SourceMappingParishsDal();
+            _smDal = new SourceMappingsDal();
             _security = security;
         }
 

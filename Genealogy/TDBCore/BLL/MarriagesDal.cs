@@ -11,7 +11,7 @@ namespace TDBCore.BLL
 {
  
 
-    public class MarriagesDal : BaseBll
+    public class MarriagesDal : BaseBll, IMarriagesDal
     {
     
 
@@ -209,11 +209,6 @@ namespace TDBCore.BLL
    
         public Guid InsertMarriage(ServiceMarriage sm)
         {
-
-
-             
-
-            this.Reset();
 
             var marriage = new Marriage();
 

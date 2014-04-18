@@ -14,7 +14,7 @@ namespace TDBCore.Types.domain
 {
     public class SourceTypeSearch //: EditorBaseModel<int> 
     {
-        readonly SourceTypesDal _sourceTypesDal = new SourceTypesDal();
+        readonly ISourceTypesDal _sourceTypesDal;
         
         readonly ISecurity _security = new NoSecurity();
      
@@ -23,6 +23,7 @@ namespace TDBCore.Types.domain
         public SourceTypeSearch(ISecurity security)
         {
             _security = security;
+            _sourceTypesDal = new SourceTypesDal();
         }
 
       

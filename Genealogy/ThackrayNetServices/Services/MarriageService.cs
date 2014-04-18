@@ -3,7 +3,7 @@
 using System.ServiceModel;
 using System.ServiceModel.Activation;
 using ANDServices;
- 
+using TDBCore.BLL;
 using TDBCore.Types.DTOs;
 using TDBCore.Types.domain;
 using TDBCore.Types.enums;
@@ -20,9 +20,16 @@ namespace MarriageService
     {
         private readonly MarriageSearch _marriageSearch;
 
-        public MarriageService()
+        public MarriageService(IMarriagesDal iMarriagesDal,
+            IMarriageWitnessesDal iMarriageWitnessesDal,
+            ISourceDal iSourceDal, 
+            ISourceMappingsDal iSourceMappingsDal,
+            IPersonDal iPersonDal,
+            ISecurity iSecurity)
         {
-            _marriageSearch = new MarriageSearch(new Security(WebHelper.GetUser()));
+            _marriageSearch = new MarriageSearch(iSecurity,
+                iMarriagesDal,
+                iMarriageWitnessesDal,iSourceDal, iSourceMappingsDal,iPersonDal);            
         }
 
         public ServiceMarriage GetMarriage(string id)

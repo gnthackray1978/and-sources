@@ -16,9 +16,9 @@ namespace TDBCore.Types.domain
 {
     public class PersonSearch 
     {
-        readonly PersonDal _personDal = new PersonDal();
-        readonly SourceMappingsDal _sourceMappingsDal = new SourceMappingsDal();
-        readonly RelationsDal _relationsDal = new RelationsDal();
+        readonly IPersonDal _personDal;
+        readonly ISourceMappingsDal _sourceMappingsDal;
+        readonly IRelationsDal _relationsDal;
  
         private readonly ISecurity _security;
 
@@ -26,6 +26,9 @@ namespace TDBCore.Types.domain
         public PersonSearch(ISecurity security)
         {
             _security = security;
+            _personDal = new PersonDal();
+            _sourceMappingsDal = new SourceMappingsDal();
+            _relationsDal = new RelationsDal();
 
         }
 

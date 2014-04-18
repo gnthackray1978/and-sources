@@ -11,7 +11,7 @@ using ParishRecord = TDBCore.Types.DTOs.ParishRecord;
 
 namespace TDBCore.BLL
 {
-    public class ParishsDal : BaseBll
+    public class ParishsDal : BaseBll, IParishsDal
     {
              
         public List<CensusPlace> Get1841Census()

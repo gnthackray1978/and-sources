@@ -12,17 +12,17 @@ namespace TDBCore.Types.domain.import
 {
     public class CsImportCsv
     {
-        private readonly ParishsDal _parishsDal;
-        private readonly SourceMappingsDal _sourceMappingDal;
-        private readonly PersonDal _personDal;
- 
-        private readonly SourceDal _sourceDal;
-        private readonly SourceMappingParishsDal _sourceMappingParishDal;
-        
-  
-        private readonly SourceMappingsDal _sourceMappingsDal;
-        private readonly MarriagesDal _marriagesDal;
-        private readonly MarriageWitnessesDal _mwits;
+        private readonly IParishsDal _parishsDal;
+        private readonly ISourceMappingsDal _sourceMappingDal;
+        private readonly IPersonDal _personDal;
+
+        private readonly ISourceDal _sourceDal;
+        private readonly ISourceMappingParishsDal _sourceMappingParishDal;
+
+
+        private readonly ISourceMappingsDal _sourceMappingsDal;
+        private readonly IMarriagesDal _marriagesDal;
+        private readonly IMarriageWitnessesDal _mwits;
 
 
         public CsImportCsv()

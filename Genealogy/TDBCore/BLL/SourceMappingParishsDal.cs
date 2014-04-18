@@ -7,7 +7,7 @@ using TDBCore.EntityModel;
 
 namespace TDBCore.BLL
 {
-    public class SourceMappingParishsDal : BaseBll
+    public class SourceMappingParishsDal : BaseBll, ISourceMappingParishsDal
     {
         
         public List<Guid> GetParishIds(Guid sourceId)

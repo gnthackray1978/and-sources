@@ -7,7 +7,7 @@ using TDBCore.Types.libs;
 
 namespace TDBCore.BLL
 {
-    public class MarriageWitnessesDal : BaseBll
+    public class MarriageWitnessesDal : BaseBll, IMarriageWitnessesDal
     {
         private readonly PersonDal _personDal;
 

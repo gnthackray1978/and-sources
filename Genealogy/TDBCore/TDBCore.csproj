@@ -103,6 +103,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLL\BaseBLL.cs" />
+    <Compile Include="Interfaces\IUserDal.cs" />
+    <Compile Include="Interfaces\ISourceMappingsDal.cs" />
+    <Compile Include="Interfaces\ISourceTypesDal.cs" />
+    <Compile Include="Interfaces\ISourceMappingParishsDal.cs" />
+    <Compile Include="Interfaces\ISourceDal.cs" />
+    <Compile Include="Interfaces\IRelationsDal.cs" />
+    <Compile Include="Interfaces\IPersonDal.cs" />
+    <Compile Include="Interfaces\IParishsDal.cs" />
+    <Compile Include="Interfaces\IMarriageWitnessesDal.cs" />
+    <Compile Include="Interfaces\IMarriagesDal.cs" />
+    <Compile Include="Interfaces\IFilesDal.cs" />
     <Compile Include="BLL\PersonDal.cs" />
     <Compile Include="BLL\FilesDal.cs" />
     <Compile Include="BLL\MarriagesDal.cs" />

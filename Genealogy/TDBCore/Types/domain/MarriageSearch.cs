@@ -15,21 +15,27 @@ namespace TDBCore.Types.domain
 {
     public class MarriageSearch 
     {
-        readonly MarriagesDal _marriagesDll = new MarriagesDal();
-        readonly MarriageWitnessesDal _marriageWitnessesDll = new MarriageWitnessesDal();
-        readonly SourceDal _sourceDll = new SourceDal();
-        readonly SourceMappingsDal _sourceMappingsDll = new SourceMappingsDal();
-        readonly MarriageWitnessesDal _marriageWitnessDal = new MarriageWitnessesDal();
-        readonly SourceMappingsDal _sourceMappingsDal = new SourceMappingsDal();
-        readonly PersonDal _personDal = new PersonDal();
-
-
+        readonly IMarriagesDal _marriagesDll;
+        readonly IMarriageWitnessesDal _marriageWitnessesDll;
+        readonly ISourceDal _sourceDll;       
+        readonly ISourceMappingsDal _sourceMappingsDal;
+        readonly IPersonDal _personDal;
 
         private readonly ISecurity _security;
  
-        public MarriageSearch(ISecurity security)
+        public MarriageSearch(ISecurity security, 
+            IMarriagesDal iMarriagesDal,
+            IMarriageWitnessesDal imarriageWitnessesDll,
+            ISourceDal isourceDll,
+            ISourceMappingsDal isourceMappingsDll,
+            IPersonDal ipersonDal)
         {
             _security = security;
+            _marriagesDll = iMarriagesDal;
+            _marriageWitnessesDll = imarriageWitnessesDll;
+            _sourceDll = isourceDll;
+            _sourceMappingsDal = isourceMappingsDll;
+            _personDal = ipersonDal;
         }
 
 
@@ -103,7 +109,7 @@ namespace TDBCore.Types.domain
 
             _marriageWitnessesDll.InsertWitnessesForMarriage(marriageId, witnessList);
 
-            _sourceMappingsDll.WriteMarriageSources(marriageId, sourceList, 1);
+            _sourceMappingsDal.WriteMarriageSources(marriageId, sourceList, 1);
         }
 
         public void SetReorderDupes(Guid marriageId )
@@ -249,7 +255,7 @@ namespace TDBCore.Types.domain
             marriage = _marriagesDll.GetMarriageById2(marriageId);
             marriage.Sources = _sourceMappingsDal.GetSourceGuidList(marriageId);
 
-            var mw = _marriageWitnessDal.GetWitnessesForMarriage(marriageId);
+            var mw = _marriageWitnessesDll.GetWitnessesForMarriage(marriageId);
 
             mw.PopulateServiceMarriage(marriage);
 
@@ -292,14 +298,14 @@ namespace TDBCore.Types.domain
         {
 
             //delete existing entries
-            _marriageWitnessDal.DeleteWitnessesForMarriage(marriageId);
+            _marriageWitnessesDll.DeleteWitnessesForMarriage(marriageId);
 
             foreach (var marriages in witnesses)
             {
                 _personDal.Insert(marriages.Person);
             }
 
-            _marriageWitnessDal.InsertWitnessesForMarriage(marriageId, witnesses);
+            _marriageWitnessesDll.InsertWitnessesForMarriage(marriageId, witnesses);
 
         }
 

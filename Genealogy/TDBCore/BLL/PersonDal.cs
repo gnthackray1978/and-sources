@@ -12,7 +12,7 @@ using TDBCore.Types.libs;
 
 namespace TDBCore.BLL
 {
-    public class PersonDal :BaseBll
+    public class PersonDal :BaseBll, IPersonDal
     {
         private readonly SourceDal _sourceDal;
         private readonly SourceMappingsDal _sourceMappingsDal;
