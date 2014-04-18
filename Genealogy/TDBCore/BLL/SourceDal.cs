@@ -9,7 +9,7 @@ using TDBCore.Types.libs;
 
 namespace TDBCore.BLL
 {
-    public class SourceDal : BaseBll
+    public class SourceDal : BaseBll, ISourceDal
     {
         private readonly SourceTypesDal _sourceTypes;
        

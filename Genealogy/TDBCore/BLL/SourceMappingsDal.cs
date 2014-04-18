@@ -8,7 +8,7 @@ using TDBCore.Types.libs;
 
 namespace TDBCore.BLL
 {
-    public class SourceMappingsDal : BaseBll
+    public class SourceMappingsDal : BaseBll, ISourceMappingsDal
     {
    
         private readonly SourceMappingParishsDal _sourceMappingParishsDal;

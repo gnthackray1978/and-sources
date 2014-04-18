@@ -24,15 +24,17 @@ namespace ANDServices
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Required)]
     public class APIServices : IAnd
     {
+        private readonly IFilesDal _filesDal;
 
         public APIServices()
         {
             //
             // TODO: Add constructor logic here
             //
+            _filesDal = new FilesDal();
         }
 
-    
+
         public string TestLogin(string testParam)
         {
             string retVal = "could not get login ";
@@ -98,84 +100,6 @@ namespace ANDServices
             string christianName, string surname, string lowerDateRange, string upperDateRange, string location,
             string page_number, string page_size, string sort_col)
         {
-            //ServiceEventObject serviceParishObject = new ServiceEventObject();
-
-            //CombinedSearch i = new CombinedSearch();
-         
-            //string retVal = "";
-
-            //try
-            //{
-
-                
-
-            //    CombinedSearchOption combinedSearchOption = new CombinedSearchOption(chkIncludeBirths.ToBool(),
-            //                                            chkIncludeDeaths.ToBool(),
-            //                                            chkIncludeWitnesses.ToBool(),
-            //                                            chkIncludeParents.ToBool(),
-            //                                            chkIncludeParents.ToBool(),
-            //                                            chkIncludeMarriages.ToBool(),
-            //                                            chkIncludeWitnesses.ToBool(),
-            //                                            chkIncludeMarriages.ToBool(),
-            //                                            chkIncludeSpouses.ToBool(),
-            //                                            chkIncludePersonWithSpouses.ToBool());
-
-
-            //    i.SetFilterCName(christianName);
-            //    i.SetFilterSName(surname);
-
-            //    i.SetFilterEventSelection(combinedSearchOption);
-            //    i.SetFilterLocation(location);
-            //    i.SetFilterLowerDate(lowerDateRange);
-            //    i.SetFilterUpperDate(upperDateRange);
-
-
-
-
-            //    i.Refresh();
-
-
-
-
-            //    if (i.SearchEvents != null)
-            //    {
-            //        serviceParishObject.serviceEvents = i.SearchEvents.OrderBy(sort_col).Select(p => new ServiceEvent()
-            //        {
-            //            EventChristianName = p.ChristianName,
-            //            EventSurname = p.Surname,
-            //            LinkId = p.LinkId,
-            //            EventLocation = p.Location,
-            //            EventId = p.RecordId,
-            //            EventDate = p.EventYear,
-            //            EventDescription = CombinedSearchResult.GetEventString(p.EventType),
-            //            EventText = p.Description,
-            //            LinkTypeId = CombinedSearchResult.GetLinkTypeId(p.SearchEventLinkType)
-            //        }).ToList();
-
-            //        serviceParishObject.Batch = page_number.ToInt32();
-            //        serviceParishObject.BatchLength = page_size.ToInt32();
-            //        serviceParishObject.Total = serviceParishObject.serviceEvents.Count;
-
-            //        serviceParishObject.serviceEvents = serviceParishObject.serviceEvents.Skip(page_number.ToInt32() * page_size.ToInt32()).Take(page_size.ToInt32()).ToList();
-            //    }
-            //    else
-            //    {
-            //        serviceParishObject.Batch = page_number.ToInt32();
-            //        serviceParishObject.BatchLength = page_size.ToInt32();
-            //        serviceParishObject.Total = 0;
-            //        serviceParishObject.serviceEvents = new List<ServiceEvent>();
-            //    }
-            //}
-            //catch (Exception ex1)
-            //{
-            //    retVal = "Exception: " + ex1.Message;
-            //}
-            //finally
-            //{
-            //    if (retVal != "") retVal += Environment.NewLine;
-         
-            //    serviceParishObject.ErrorStatus = retVal;
-            //}
 
 
             return new ServiceEventObject();
@@ -219,9 +143,7 @@ namespace ANDServices
         {
             ServiceFileObject sfo = new ServiceFileObject();
 
-            FilesDal filesDal = new FilesDal();
-
-            var filesMappedDataTable = filesDal.GetFilesByParentId2(sourceId.ToGuid());
+            var filesMappedDataTable = _filesDal.GetFilesByParentId2(sourceId.ToGuid());
 
 
 

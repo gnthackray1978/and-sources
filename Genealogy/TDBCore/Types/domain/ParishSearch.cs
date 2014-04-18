@@ -15,7 +15,7 @@ namespace TDBCore.Types.domain
 {
     public class ParishSearch  
     {
-        readonly ParishsDal _parishsDal = new ParishsDal();
+        readonly IParishsDal _parishsDal;
      
         private readonly ISecurity _iSecurity;
         private IValidator _validator = new Validator();
@@ -23,6 +23,7 @@ namespace TDBCore.Types.domain
         public ParishSearch(ISecurity iSecurity)
         {
             _iSecurity = iSecurity;
+            _parishsDal = new ParishsDal();
         }
 
         public string Delete(string parishIds)

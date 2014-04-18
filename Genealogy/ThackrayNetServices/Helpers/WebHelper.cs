@@ -118,7 +118,7 @@ namespace ANDServices
             }
             catch (Exception ex1)
             {
-                throw ex1;
+             //   throw ex1;
             }
 
             return retVal;

@@ -8,7 +8,7 @@ using TDBCore.Types.libs;
 
 namespace TDBCore.BLL
 {
-    public class RelationsDal : BaseBll
+    public class RelationsDal : BaseBll, IRelationsDal
     {        
         public void DeleteRelationMapping(List<Guid> selectedRecordIds)
         {
@@ -144,8 +144,7 @@ namespace TDBCore.BLL
                 return relation.RelationId;
             }
 
-            ErrorCondition = "Couldnt insert relation";
-
+           
             return 0;
         }
          
