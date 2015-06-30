@@ -1,0 +1,166 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Batch Data Entry</title>
+        
+        
+        
+
+	    <link href="../Styles/common.css" rel="stylesheet" type="text/css" id = "lnk_common"/>
+        <link href="../Styles/editor_MainPage.css" rel="stylesheet" type="text/css" />
+        <link href="../Styles/html_search_screen.css" rel="stylesheet" type="text/css" />
+        <link href="../Styles/batchImporter.css" rel="stylesheet" type="text/css" />
+        <link href="../Styles/buttons.css" rel="stylesheet" type="text/css" />
+
+        <link href="../Styles/Custom/editablegrid.css" rel="stylesheet" type="text/css" />
+        <link href="../Styles/Custom/simple.css" rel="stylesheet" type="text/css" />
+
+
+        <link href="../scripts/jquery/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css" />
+        <script src="../Scripts/jquery/jquery.js" type="text/javascript"></script>
+        <script src="../Scripts/jquery/jquery-ui-1.8.16.custom.min.js" type="text/javascript"></script>
+
+        <script src="../Scripts/extensions.js" type="text/javascript"></script>
+
+        <script src="../scripts/plugins/editablegrid/editablegrid.js" type="text/javascript"></script>
+        <script src="../scripts/plugins/editablegrid/editablegrid_renderers.js" type="text/javascript"></script>
+        <script src="../scripts/plugins/editablegrid/editablegrid_editors.js" type="text/javascript"></script>
+		<script src="../scripts/plugins/editablegrid/editablegrid_validators.js" type="text/javascript"></script>
+		<script src="../scripts/plugins/editablegrid/editablegrid_utils.js" type="text/javascript"></script>
+		<script src="../scripts/plugins/editablegrid/editablegrid_charts.js" type="text/javascript"></script>
+        
+             	
+        <script src="../scripts/util_func.js" type="text/javascript"></script>
+        <script src="../Scripts/visiblePanels.js" type="text/javascript"></script>
+        <script src="../scripts/masters.js" type="text/javascript"></script>
+
+        <script src="../scripts/DataEntry/BatchEntry/batch_sources.js" type="text/javascript"></script>
+        <script src="../scripts/DataEntry/BatchEntry/batch_parishs.js" type="text/javascript"></script>
+        <script src="../scripts/DataEntry/BatchEntry/batch_core.js" type="text/javascript"></script>
+        <script src="../scripts/DataEntry/BatchEntry/batch_marriages.js" type="text/javascript"></script>
+        <script src="../scripts/DataEntry/BatchEntry/batch_persons.js" type="text/javascript"></script>
+        <script src="../scripts/DataEntry/BatchEntry/batch_references.js" type="text/javascript"></script>
+
+      
+	</head>
+	
+	<body>
+        <div class="mainbackground"></div>
+
+        <div id = "PageWrapper" class = "middle">
+
+        <div id = "1"></div>
+
+        <div class = "maincontent2">
+
+        <div id="header">
+            <h1>Batch Import</h1>
+
+            
+        </div>
+
+        <div id="left" class = "flt_gen">
+
+            <span >Column Options</span>
+            <br />
+            <div class ="filterbarcheck">
+              <!--  <input id="chkIncludeBirths" type="checkbox"/>Births<br />
+                <input id="chkIncludeDeaths" type="checkbox"/>Deaths<br />
+                <input id="chkIncludeRefs" type="checkbox"/>References<br />   -->              
+
+                <input id="chkIncludeBirths" type="radio" name="recType" value="births" checked="checked"/>Births<br />
+                <input id="chkIncludeDeaths" type="radio" name="recType" value="deaths" />Deaths<br /> 
+                <input id="chkIncludeRefs" type="radio" name="recType" value="references" />References<br />
+
+            </div>  
+            <br />
+            <span >Rows required</span>
+            <input id="txtRows" value ="5" type="text"/>
+            <br />
+            <br />
+            <div class="bottom_button">
+                <a id = 'display' href='' class="button" ><span>Create Rows</span></a>
+            </div>
+        </div>
+
+        
+        <div id="middle">
+
+             <div id = 'standcol' class = "flt_gen displayPanel" >
+                <span >Standard Columns</span>
+                <br />
+                <span >Birth County</span>
+                <input id="txtBirthCounty" type="text"/>
+                <br />
+
+                <span >Death County</span>
+                <input id="txtDeathCounty" type="text"/>
+                <br />
+
+                <span >Surname</span>
+                <input id="txtSurname" type="text"/>
+                <br />
+
+                <span >Father Surname</span>
+                <input id="txtFatherSurname" type="text"/>
+                <br />
+
+                <span >Source</span>
+                <input id="txtSource" type="text"/>
+                <br />
+
+
+
+            </div>
+        </div>
+
+        <div id="right">
+
+                <div id = 'selsource' class = "flt_gen displayPanel" >
+                    <span >Selected Sources</span>
+                    <br />
+                    <a id = 'selectsource' href ='' > Select </a>
+                    <div id="sourceLst"></div> 
+                    <br />
+                    <span >Selected Parishs</span>
+                    <br />
+                    <a id = 'selectparish' href ='' > Select </a>
+                    <div id="parishLst"></div>  
+                    
+                      
+                </div>
+        </div>
+
+        <div id="footer">
+
+
+		    <div id="wrap">
+			    <h1>Import Grid</h1> 
+
+                
+                <br />
+                <br />
+			    <!-- Feedback message zone -->
+			    <div id="message"></div>
+
+			    <!-- Grid contents -->
+			    <div id="tablecontent"></div>
+
+                <br />
+                <br />
+		        <a id = 'save' href='' class="button" ><span>Save</span></a>
+		    </div>
+	
+        </div>    
+        
+        </div>
+
+        <div id = "templabel"></div>
+
+        </div>
+
+    </body>
+
+</html>

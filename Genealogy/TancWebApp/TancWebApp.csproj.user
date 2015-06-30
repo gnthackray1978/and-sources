@@ -20,7 +20,7 @@
           <SQLDebugging>False</SQLDebugging>
           <ExternalProgram>
           </ExternalProgram>
-          <StartExternalURL>http://local.gnthackray.net:666/Default.html</StartExternalURL>
+          <StartExternalURL>http://local.gnthackray.net:666/Client/Default.html</StartExternalURL>
           <StartCmdLineArguments>
           </StartCmdLineArguments>
           <StartWorkingDirectory>

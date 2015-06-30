@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+     <title>Source Editor</title>
+
+    <link href="../Styles/Gothic/colourSchemes.css" rel="stylesheet" type="text/css" id = "lnk_colourScheme"/>
+
+    <link href="../Styles/pager.css" rel="stylesheet" type="text/css" />
+    <link href="../Styles/fonts.css" rel="stylesheet" type="text/css" />
+    <link href="../Styles/buttons.css" rel="stylesheet" type="text/css" />
+    <link href="../Styles/common.css" rel="stylesheet" type="text/css" id = "lnk_common"/>
+    <link href="../Styles/editor_MainPage.css" rel="stylesheet" type="text/css" />
+    <link href="../Styles/html_search_screen.css" rel="stylesheet" type="text/css" />
+    <link href="../Scripts/jquery/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css" />
+   
+     <link href="../Styles/subfilter.css" rel="stylesheet" type="text/css" />
+    <link href="../Styles/jquery.dataTables.css" rel="stylesheet" />
+
+    <script src="../scripts/jquery/jquery.js" type="text/javascript"></script>             
+ 
+    <script src="../Scripts/plugins/tableSorter/jquery.dataTables.min.js" type="text/javascript"></script>
+
+    <script src="../scripts/extensions.js" type="text/javascript"></script>
+    <script src="../scripts/visiblePanels.js" type="text/javascript"></script>
+    <script src="../scripts/util_func.js" type="text/javascript"></script>
+    <script src="../scripts/masters.js" type="text/javascript"></script>
+    <script src="../scripts/plugins/selectionTool/selectorBase.js" type="text/javascript"></script>
+    <script src="../scripts/plugins/selectionTool/selectorParishs.js" type="text/javascript"></script>
+    <script src="../scripts/plugins/selectionTool/selectorSourceTypes.js" type="text/javascript"></script>
+    <script src="../scripts/pager.js" type="text/javascript"></script>
+    <script src="../scripts/DataEntry/source_editor.js" type="text/javascript"></script>
+
+</head>
+<body>
+    <div class="mainbackground"></div>
+
+    <div id = "PageWrapper" class = "middle">
+
+    <div id = "1"></div>
+
+    <div class = "maincontent2">
+
+    <div class="editor_fltopt">               
+        <div class="editor_fltoptrow">
+            <a id = 'save' href='' class="button" ><span>Save</span></a>
+            <a id = 'return' href='' class="button" ><span>Return</span></a>
+
+            <a id = 'main' href=''  class="button" ><span>Main</span></a>
+            <a id = 'notes' href='' class="button" ><span>Notes</span></a>
+            <a id = 'files' href=''  class="button" ><span>Files</span></a> 
+        </div>
+    </div>
+
+    <div id="pMain" class = "displayPanel" >      
+
+
+
+
+    <div id = "col1">
+    
+   
+	<div id="col1i">
+    
+ 
+	    <b>Source Ref.</b>
+	    <br />
+        <textarea id = "txtSourceRef" rows="3" cols="27" class = "ntbx_person"></textarea>
+        <br />
+        <b>Description</b>
+	    <br />
+         <textarea id = "txtSourceDescription" rows="3" cols="27" class = "ntbx_person"></textarea>
+        <br />
+        <b>Date From</b>
+        <br />
+        <input id="txtLowerDate" type="text" value = "0" class = "ed_txt" />
+        <br />
+        <b>Date To</b>
+        <br />
+        <input id="txtUpperDate" type="text" value = "0" class = "ed_txt" />                            
+        <br />
+        <b>Original Location</b>
+	    <br />
+        <input id="txtOriginalLoc" class = "ed_txtwd"/>
+        <br />
+        <br />
+        <b>Options</b>
+        <br />
+        <br />
+        <div class="ed_chk">
+            <input id="chkIsCopyHeld" type="checkbox"/> Is Copy Held?<br />
+        </div>        
+        <div class="ed_chk">
+            <input id="chkIsViewed" type="checkbox"/> Is Viewed?<br />
+        </div> 
+        <div class="ed_chk">
+            <input id="chkIsThackrayFound" type="checkbox"/> Is Thackray Found?<br />
+        </div>
+  
+
+        <br />
+       
+
+	</div>
+	
+    <div id="col2i">
+      
+       <div id = "parishselector"></div>                     
+    </div>
+	
+    </div>
+
+	<div id="col2">
+      
+       <div id = "sourcetypeselector"></div>
+	</div>
+    </div>    
+
+
+    <div id="pMore" class = "hidePanel ntbx ">
+   
+      
+      
+     <b>Notes</b>
+    
+     <br />
+     <textarea id = "txtNotRdOnly" rows="30" cols="140"></textarea>
+
+    </div>
+        
+        
+     <div id="pAdd" class = "hidePanel">
+   
+      
+      
+     <b>Files</b>
+    
+         <div id="file-container">
+             <div id ="file-header">               
+                 <b>Description</b>              
+                 <div>
+                     <textarea id="new-descrip" rows="1" cols="50"  class='descrip-row'></textarea> <input id="new-add" type="button" value ="Clear" class='descrip-row'/><input id="new-save" type="button" value ="Save" class='descrip-row'/> 
+                  </div>
+                 <b>URL</b>
+                 <textarea id="new-url" rows="1" cols="50" ></textarea>
+                 <input id="new-id" type="hidden"/> 
+             </div>
+
+           
+            <div id ="file-wrapper">
+            <table id ="file-urls">
+                <thead>
+                <tr> <td> <b>Saved URLs</b>   </td><td></td><td></td></tr>
+                </thead>
+                <tbody id ="file-list">
+                         
+
+                </tbody>
+
+            </table>
+            </div>
+
+         </div>    
+
+    
+     </div>
+
+    </div>
+
+
+
+    </div> 
+   
+</body>
+</html>

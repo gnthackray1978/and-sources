@@ -7,7 +7,7 @@ using TancWebApp.Services;
 
 namespace TancWebApp
 {
-    public partial class MyApplication : NinjectHttpApplication
+    public class MyApplication : NinjectHttpApplication
         {
         protected override void OnApplicationStarted()
         {

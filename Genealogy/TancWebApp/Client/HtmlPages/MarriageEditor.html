@@ -1,0 +1,210 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Marriage Editor</title>
+
+    <link href="../Styles/Gothic/colourSchemes.css" rel="stylesheet" type="text/css" id = "lnk_colourScheme"/>
+
+    <link href="../Styles/pager.css" rel="stylesheet" type="text/css" />
+    <link href="../Styles/fonts.css" rel="stylesheet" type="text/css" />
+    <link href="../Styles/buttons.css" rel="stylesheet" type="text/css" />
+    <link href="../Styles/common.css" rel="stylesheet" type="text/css" id = "lnk_common"/>
+    <link href="../Styles/editor_MainPage.css" rel="stylesheet" type="text/css" />
+    <link href="../Styles/jquery.jgrowl.css" rel="stylesheet" type="text/css" />
+    <link href="../Styles/subfilter.css" rel="stylesheet" type="text/css" />
+
+
+    <link href="../scripts/jquery/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css" />
+    <script src="../scripts/jquery/jquery.js" type="text/javascript"></script>      
+    <script src="../scripts/jquery/jquery-ui-1.8.16.custom.min.js" type="text/javascript"></script>
+
+    <script src="../scripts/extensions.js" type="text/javascript"></script>
+    <script src="../scripts/visiblePanels.js" type="text/javascript"></script>
+    <script src="../scripts/util_func.js" type="text/javascript"></script>
+    <script src="../scripts/masters.js" type="text/javascript"></script>
+ 
+    <script src="../scripts/pager.js" type="text/javascript"></script>
+    <script src="../scripts/plugins/selectionTool/selectorBase.js" type="text/javascript"></script>
+    <script src="../scripts/plugins/selectionTool/selectorSources.js" type="text/javascript"></script>
+
+
+    <script src="../scripts/DataEntry/marriage_editor.js" type="text/javascript"></script>
+
+
+</head>
+<body>
+    <div class="mainbackground"></div>
+
+
+
+    <div id = "PageWrapper" class = "middle">
+
+    <div id = "1"></div>
+
+    <div class = "maincontent2">
+
+    <div class="editor_fltopt">               
+        <div class="editor_fltoptrow">
+            <a id = 'save' href='' class="button" ><span>Save</span></a>
+            <a id = 'return' href='' class="button" ><span>Return</span></a>
+
+            <a id = 'main' href=''class="button" ><span>Main</span></a>
+
+            <a id = 'more' href=''class="button" ><span>More</span></a>                       
+        </div>
+    </div>
+
+    <div id = "col1">
+    
+   
+	<div id="col1i">
+         
+	    <b>Marriage Date</b>
+	    <br />
+        <input id="txtMDate" class = "ed_dat" type="text"/>
+        <br />        
+        <b>Male Name</b>
+	    <br />
+        <input id="txtMaleName" class = "ed_txt" type="text"/>
+	    <input id="txtMaleSurname" class = "ed_txt" type="text"/>
+        <br />
+        <b>Female Name</b>
+	    <br />
+        <input id="txtFemaleName" class = "ed_txt" type="text"/>
+	    <input id="txtFemaleSurname" class = "ed_txt" type="text"/>
+        <br />
+        <b>Parish</b>
+	    <br />
+        <input id="txtParish" class = "ed_txtwd" type="text"/>
+        <br />
+        <b>County</b>
+	    <br />
+        <input id="txtCounty" class = "ed_txtwd" type="text"/>
+        
+        
+	    <br />
+        
+        <b>Male Location</b>
+        <br />
+        <input id="txtMaleLoc" class = "ed_txtwd" type="text"/>
+        <br />
+        <b>Female Location</b>
+        <br />
+        <input id="txtFemaleLoc" class = "ed_txtwd" type="text"/>
+        <br />
+        
+        <b>Male Occupation</b>
+        <br />
+        <input id="txtMOcc" class = "ed_txtwd" type="text"/>
+        <br />
+        <b>Female Occupation</b>
+        <br />
+        <input id="txtFOcc" class = "ed_txtwd" type="text"/>
+        <br />
+        <b>Male Notes</b>
+        <br />
+        <textarea id="txtMNot" class="ntbx"  ></textarea>
+        <br />
+        <b>Female Notes</b>
+        <br />                    
+        <textarea id="txtFNot" class = "ntbx"></textarea>
+
+
+	</div>
+        <div ID="col2i_marriage">
+            <b>Source</b>
+	        <br />
+            <input id="txtSource" class = "ed_txtwd" type="text"/>
+            <br />
+            <b>Male Birth Year</b>
+            <br />
+            <input id="txtMBYr" class = "ed_txtwd" type="text"/>
+            <br />
+            <b>Female Birth Year</b>
+            <br />
+            <input id="txtFBYr" class = "ed_txtwd" type="text"/>
+            <br />
+            <br />
+            <b>Witnesses</b>
+            <br />
+            <br />           
+            <span style="float:left; width: 125px"><b>Name</b></span>
+            <span style="float:left; width: 120px"><b>Surname</b></span>
+            <span style="float:left; width: 110px"><b>Description</b></span>
+            <br />
+            <input id="txtWit1c" class = "ed_txt" type="text"/>
+            <input id="txtWit1" class = "ed_txt" type="text"/>
+            <input id="txtWitDesc1" class = "ed_txt" type="text"/>
+            <br />
+            
+            <input id="txtWit2c" class = "ed_txt" type="text"/>
+            <input id="txtWit2" class = "ed_txt" type="text"/>
+            <input id="txtWitDesc2" class = "ed_txt" type="text"/>
+            <br />
+             
+            <input id="txtWit3c" class = "ed_txt" type="text"/>
+            <input id="txtWit3" class = "ed_txt" type="text"/>
+            <input id="txtWitDesc3" class = "ed_txt" type="text"/>
+
+            <br />
+            
+            <input id="txtWit4c" class = "ed_txt" type="text"/>
+            <input id="txtWit4" class = "ed_txt" type="text"/>
+            <input id="txtWitDesc4" class = "ed_txt" type="text"/>
+            <br /> 
+           
+            <input id="txtWit5c" class = "ed_txt" type="text"/>
+            <input id="txtWit5" class = "ed_txt" type="text"/>
+            <input id="txtWitDesc5" class = "ed_txt" type="text"/>
+            <br />
+           
+            <input id="txtWit6c" class = "ed_txt" type="text"/>
+            <input id="txtWit6" class = "ed_txt" type="text"/>
+            <input id="txtWitDesc6" class = "ed_txt" type="text"/>
+            <br />
+          
+            <input id="txtWit7c" class = "ed_txt" type="text"/>
+            <input id="txtWit7" class = "ed_txt" type="text"/>
+            <input id="txtWitDesc7" class = "ed_txt" type="text"/>
+
+            <br />
+          
+            <input id="txtWit8c" class = "ed_txt" type="text"/>
+            <input id="txtWit8" class = "ed_txt" type="text"/>
+            <input id="txtWitDesc8" class = "ed_txt" type="text"/>
+            <br /> 
+
+
+            <div>
+                <div class="chkbx">
+                    <input id="chkIsWid" type="checkbox"/> Is Widow<br />
+                </div>
+                <div class="chkbx">
+                    <input id="chkIsBann" type="checkbox"  /> Is Banns<br />
+                </div>
+            </div>
+            <br />
+
+            <div>
+                <div class="chkbx">
+                    <input id="chkIsWiw" type="checkbox" /> Is Widower<br />
+                </div>
+                <div class="chkbx">
+                    <input id="chkIsLic" type="checkbox" /> Is License<br />
+                </div>
+            </div>
+            <br />
+        </div>
+	
+    </div>
+
+	<div id="col2">
+      
+       <div id = "sourceselector"></div>
+	</div>
+    </div>      
+    </div> 
+
+
+</body>
+</html>
