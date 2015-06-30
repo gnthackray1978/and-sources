@@ -1,0 +1,149 @@
+﻿
+
+    
+/*main content
+  
+*/    
+
+    /* color: #FFFFFF;*/ /* */ /* color: #fff;*/ /* height: 100px;*/ /*  */ /*border-style: none;*/
+    
+    
+   /* border-width: 10px;*/
+ 
+
+.maincontent2, body
+{
+    /*  background-color: #000000;*/
+    color: #000000; /*  background: -webkit-gradient(linear, left top, left bottom, from(#000), to(#222)); /* For Mozilla/Gecko (Firefox etc) */ /*  background: -moz-linear-gradient(top, #000, #222); /* For Internet Explorer 5.5 - 7 */ /*    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#000000, endColorstr=#222222);
+ 
+}
+    
+    
+body
+{
+	
+	
+	/*background-repeat: no-repeat;*/
+}
+
+
+ .mybody
+{
+    margin: 0px;
+    padding: 0px;
+    border-width: 0px;
+    
+    height:800px;
+
+}    
+
+
+
+.defaultImage
+{
+   /* background-image: url('Images/Fewston_Feb_01.jpg'); 
+    width: 640px; 
+    height: 466px;  
+    margin-left: auto ; 
+    margin-right: auto ;*/
+}
+
+
+.st_bod tr.hed td, .mtrhed2, .fltcnt, .fc_cont
+{
+  /*  background-color: #000000;*/
+}
+
+
+
+
+
+.fc_hed, .fc_cont, .colhed, .maincontent2
+{
+    border-color: #000000;
+    
+}
+
+
+
+
+
+
+.maincontent2, .sf_pad-cont tr a, .sf_hed, .st_bod td a:visited, .st_bod tr#selecteditem, .st_bod tr a, .st_bod tr.hed a, .st_bod tr.hed td, .st_bod table.green, .fc_hed, .fc_colhed, .colhed, .CustomTabStyle .ajax__tab_header, .usr_topbar, .usrRow
+{
+    color: #000000;
+}
+    
+
+/*main search screen with header*/
+.fltbdy
+{
+  /*  border: medium solid #FFFFFF;
+        background-position: center top;
+	background-image: url('../../../Images/back2.jpg');
+    */
+}
+
+
+/*main search screen results body*/
+table.pink tbody, table.pink tr#selecteditem, table.pink tbody a
+{
+    color: #000000;
+}
+
+
+    
+/* headers from top of search screens */    
+.filterheadingrow, .item tr.hed a, .item tr.hed td
+{
+   
+    color: #000000;
+ 
+}
+
+
+.filterheadingrow
+{
+
+     color: #000000;   
+}
+
+
+/* filter heading row */  
+.item tr.hed, .filterheadingrow, .fc_hed, .colhed, .usr_topbar 
+{
+  /*  background-color: #000000;*/
+} 
+
+
+
+.sf_cont
+{
+	border-color: #F0F0F0;
+	background-color: #F0F0F0;
+}
+
+.sf_hed
+{
+	background-color: #BCC7D8;
+} 
+ 
+
+/*tab options at the top of screen*/
+.tabhed, .CustomTabStyle .ajax__tab_active .ajax__tab_tab, .CustomTabStyle a
+{
+    color: #808080;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

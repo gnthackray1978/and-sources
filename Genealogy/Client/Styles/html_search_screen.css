@@ -1,0 +1,608 @@
+﻿
+
+
+ 
+
+.fb_iframe_widget span,
+.fb_iframe_widget iframe {
+    width: 120px!important;
+    height: 25px!important;
+}
+
+
+div#floatingbar
+{
+overflow: hidden;
+width: 100%;
+height: 0px;
+position: absolute;
+bottom: 0;
+left: 0;
+}
+
+
+#minus
+{
+ -webkit-touch-callout: none;   
+ 
+    }
+
+
+
+.mar_txt
+{
+  /*  font-family: swirly;
+    color: #000000;*/
+    font-size: 80px;
+    font-weight: normal;
+    margin-bottom: 30px;
+}
+
+
+
+.fltbdy
+{
+	/*border: thin solid #000000;*/
+
+	position: relative;
+	width: 900px;
+	left: 297px;
+	top: 2px;
+} 
+
+
+
+.fltbar
+{
+
+    position: absolute;
+    width: 300px;
+    height: 900px;
+  
+}
+
+   
+.fltcnt
+{
+/*	border: thin solid #000000;*/
+	width: 100%;
+	position: relative;
+	clear: both;
+	min-height:900px;
+	/*height: 900px;*/
+	/*background-color: #EEFFFF; main background*/
+}
+
+.fltcnt
+{
+/*	border: thin solid #000000;*/
+	width: 100%;
+	position: relative;
+	clear: both;
+	min-height:900px;
+	/*height: 900px;*/
+	/*background-color: #EEFFFF; main background*/
+}
+
+
+/*  filter options main */
+.flomn
+{
+	/*border-style: solid;
+	border-width: thin;*/
+	float: left;
+/*	left: 50;*/
+	height: 20px;
+	 
+	padding: 6px;
+}    
+
+
+
+
+.floadd {
+	float :left;
+/*	left: 100;*/
+	height: 20px;
+	padding: 6px; 
+/*	border-style: solid;
+	border-width: thin;*/
+} 
+
+
+
+
+.fltopt
+{
+    
+    clear:both;
+/*	position: relative;*/
+
+/*	height:50px;*/
+}   
+
+
+
+/*contains the refresh button */
+.fltrsh
+{
+    	
+    clear: both; /*float:left;*/
+    left: 0; 
+/*    height: 40px;*/
+    padding: 5px;
+    text-align: left;
+ /*   margin-top: 20px;*/
+}
+
+
+.fltoptrow
+{
+	height: 40px;
+	position: relative;
+	clear: both;
+	top: 0px;
+	left: 0px;
+	width: 350px;
+}
+
+
+.flt_mv
+{
+    width: 250px;
+    height: 400px;
+
+}
+
+
+
+/*.fltlnk flt_mv*/
+
+/*float panel*/
+.fpan 
+{
+    float:left;
+	width: 50%;
+
+} 
+
+
+
+
+.mar_hedrow,.filterheadingrow
+{
+    
+    background-position: #5C443A; /*	background-color: #669900;*/ /*color: #000000;*/ /* padding: 0px 0px 0px 0px;*/
+    text-align: left;
+    text-transform: capitalize;
+ 
+    font-size: medium;
+    font-weight: bold;
+    line-height: 70px; /*  margin-top: 2px;*/
+    text-indent: 8px;
+    vertical-align: top;
+    left: 45px;
+    position: relative;
+}
+
+
+.filterheadingrowST
+{
+    left: 0px;
+}
+
+
+
+.flt_gen a
+{
+    display: block;
+    margin-left: 10px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+ .flt_gen
+{
+    
+    }
+
+.flt_gen select
+{
+    position: relative;
+	/*left: 10px;*/
+	width: 160px;
+	margin-bottom: 5px;
+	margin-left: 10px;
+}
+
+.flt_gen input
+{
+    position: relative;
+	/*left: 10px;*/
+	width: 160px;
+	margin-bottom: 5px;
+	margin-left: 10px;
+}
+
+.flt_gen span
+{
+    display:block;
+    position: relative;
+	text-align: left;
+	font-weight: bold;
+	margin-bottom: 2px;
+	margin-left: 10px;
+	
+    }
+
+/*.flt_gen div
+{
+ 
+	position: relative;
+	text-align: left;
+	font-weight: bold;
+	margin-bottom: 2px;
+	margin-left: 10px;
+}
+*/
+
+
+.linkPair a
+{
+    display: inline;
+    margin-left: 10px;
+}
+
+.flt_gen .filterbardatetext
+{
+    margin-left: 10px;
+}
+
+.flt_gen .filterbardatetext input
+{
+    margin-left: 0px;
+	/*position: relative;*/
+	width: 72px;
+	/*padding-left: 5px;*/
+	margin-bottom: 10px;
+	/*margin-left: 10px;*/
+}
+
+
+
+
+.flt_gen .filterbarcheck  
+{
+    margin-left: 10px;
+    width:200px;
+}
+
+
+.flt_gen .filterbarcheck input 
+{
+    position: relative; /*padding-left: 5px;*/
+    height: 15px;
+    width:15px;
+    margin-bottom: 10px;
+    margin-left: 0px;
+ 
+}
+
+.flt_gen .filterbarcheck label 
+{
+    width:200px;
+}
+
+
+
+
+
+.line
+{
+    position: absolute;    
+    
+    border-width: thin;
+    border-color: #000000;
+
+    width: 840px;
+    border-bottom-style: solid;
+    top: 50px;
+    left: 0px;
+}
+.squiggle
+{
+    /*background-position: center center;*/
+    position: absolute;
+    top: 39px;
+    left: 370px;
+    width: 100px;
+    height: 50px;
+    background-image: url('../Images/squiggle.png');
+    background-repeat: no-repeat;
+    z-index : 20;
+}    
+    
+    
+ .line_def
+{
+    position: absolute;    
+    
+    border-width: thin;
+    border-color: #000000;
+
+    width: 840px;
+    border-bottom-style: solid;
+    top: 50px;
+    left: 180px;
+}
+.squiggle_def
+{
+    /*background-position: center center;*/
+    position: absolute;
+    top: 39px;
+    left: 565px;
+    width: 100px;
+    height: 50px;
+    background-image: url('../Images/squiggle.png');
+    background-repeat: no-repeat;
+    z-index : 20;
+}    
+
+
+
+
+
+
+
+
+table.pink tr
+{
+
+    height: 10px;
+   /* overflow: scroll;*/
+   
+   
+   
+}
+
+table.pink td
+{
+   /* width : 20px;*/
+   /* height: 10px;*/
+   /* overflow: hidden;*/
+}
+
+table.pink td div
+{
+    
+  /*  width: 20px;*/
+    height: 20px;
+    overflow: hidden;
+   /* display: block;*/
+}
+
+table.pink td div.dates
+{
+    
+    width: 90px;
+    height: 20px;
+    overflow: hidden;
+   /* display: block;*/
+}
+
+
+table.pink
+{
+    width: 900px; /*border: medium solid #000000;*/ /*border-collapse: collapse;*/ /*color: #000000;*/
+
+}
+
+table.pink tbody
+{
+   /* overflow: auto;*/
+   /* height: 800px;*/
+    width: 1000px;
+    overflow-x: hidden;
+    
+    vertical-align: top;    
+}
+
+
+
+table.pink thead
+{
+
+
+}
+
+
+
+.item tr.hed td
+{
+    /*color: #000000;    */ /*border-style: none;*/
+    text-align: left;
+    text-transform: capitalize;
+    height: 70px;
+    font-size: medium;
+    font-weight: bold;
+    vertical-align: top;
+}
+
+.item tr.hed
+{
+    /*background-color: #669900;*/
+   
+  
+}
+/* header row link */
+.item tr.hed a
+{
+
+
+	text-decoration: none;
+	vertical-align: top;
+}
+
+.item a:visited
+{
+    font-weight: bold;
+    
+}
+
+.item tr a
+{
+	/*color: #000000;*/
+	text-decoration: none;
+}
+
+
+
+.item tr#selecteditem
+{
+ 
+	background:#3399FF;
+	/*border:1px solid #03476F;*/
+	/*color:#000000;*/
+}
+
+
+
+.item td a:visited  
+{
+	color:black;
+	text-decoration:line-through;
+}
+
+.item td a:hover 
+{ 
+	text-decoration:underline;
+}
+
+
+
+
+/* used currently on tree search form*/
+.highLightRow
+{
+    background:#3399FF;
+    }
+
+
+.filterTable
+{
+    width: 300px;
+  height:400px;
+    max-height: 400px;
+    top: 0px;
+   overflow: auto;
+}
+
+.filterTable a
+{
+    margin-left:0px;
+    }
+    
+    
+    
+
+
+
+/*column widths*/
+
+/*source types*/
+.st_description
+{
+    width: 550px;
+    
+}
+
+
+/*births and deaths*/
+.twodates
+{
+    
+   overflow:hidden;
+   max-height:10px;
+ /*  max-width:70px;*/
+   min-Width:90px;
+}
+    
+    
+.locat
+{
+    width: 50;
+    
+}
+
+.lnkedit
+{
+    width: 20;
+   
+    }
+    
+    
+.surname
+{
+ 
+   
+}
+
+.sources
+{
+    width: 20;
+  
+    }
+    
+    
+    
+  /*  table.pink td divtable.pink td div
+    
+    
+    
+    source filters*/
+
+    
+.sourcedate
+{
+    width :35px;
+    }
+    
+.sourceref
+{
+    overflow: hidden;
+    width: 250px;
+    max-height: 10px;
+    max-width: 250px;
+    padding-right: 5px;
+    padding-left: 5px;
+}
+    
+.foundat
+{
+        width :15px;
+    }
+    
+    
+    
+.source_d
+{
+    width :500px;   
+}
+
+
+
+.parent
+{
+    color:Black;
+}
+    
+.spouse
+{
+    color:Red;
+}
+
+
+.associatedTrees
+{
+    color:green;
+}

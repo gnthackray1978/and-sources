@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Person Search</title>
+    <link href="../Styles/Gothic/colourSchemes.css" rel="stylesheet" type="text/css" id = "lnk_colourScheme"/>
+    <link href="../Styles/pager.css" rel="stylesheet" type="text/css" />
+    <link href="../Styles/fonts.css" rel="stylesheet" type="text/css" />
+    <link href="../Styles/buttons.css" rel="stylesheet" type="text/css" />
+    <link href="../Styles/common.css" rel="stylesheet" type="text/css" id = "lnk_common"/>
+    <link href="../Styles/html_search_screen.css" rel="stylesheet" type="text/css" />
+    <link href="../Styles/jquery.jgrowl.css" rel="stylesheet" type="text/css" />
+ 
+    <script src="../scripts/jquery/jquery.js" type="text/javascript"></script>
+    <script src="../scripts/extensions.js" type="text/javascript"></script>
+    <script src="../scripts/visiblePanels.js" type="text/javascript"></script>
+    <script src="../scripts/util_func.js" type="text/javascript"></script>
+    <script src="../scripts/masters.js" type="text/javascript"></script> 
+    <script src="../scripts/pager.js" type="text/javascript"></script>
+    <script src="../scripts/SearchScreens/persons.js" type="text/javascript"></script>
+ 
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-32735680-1']);
+        _gaq.push(['_trackPageview']);
+        (function () {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+    
+</head>
+<body>
+    <div class="mainbackground">
+</div>
+    <div id = "PageWrapper" class = "middle">
+
+            <div id = "1"></div>
+
+            <div class = "maincontent">
+                <div class = "fltcnt">
+    
+                <div class = "fltbar">
+        
+                <div class="filterheadingrow">
+              
+                    <div class = "mar_txt">PERSONS</div>                 
+                </div>
+            
+                <div class="fltopt">               
+                    <div class="fltoptrow">
+                        <a id='refresh' href='' class="button" ><span>Refresh</span></a>                           
+                    </div>
+                    <div class="fltoptrow">
+                        <a id='main' href='' class="button" ><span>Main</span></a>
+                        <a id='more' href='' class="button" ><span>More</span></a>           
+                    </div>                 
+                </div>
+                            
+                <div class = "flt_mv">
+                    <div id="filterbar">
+
+                    <div id="pMain" class = "displayPanel flt_gen" >
+
+                    <span >Name</span>
+                    <input id="txtCName" type="text"/>
+                    <br />
+                    <input id="txtSName" type="text"/>                   
+                    <br />
+                    <span >Father Name</span>
+                    <input id="txtFCName" type="text"/>
+                    <br />
+                    <input id="txtFSName" type="text"/>
+                    <br />
+                    <span >Mother Name</span>
+                    <input id="txtMCName" type="text"/>
+                    <br />
+                    <input id="txtMSName" type="text"/>
+                    <br />
+                    <span >Spouse</span>
+                    <input id="txtSpouse" type="text"/>
+                    <br />             
+                    <span >Location</span>
+                    <input id="txtLocation" type="text"/>
+                    <br />
+                    <span >County</span>
+                    <input id="txtCounty" type="text"/>
+                    <br />
+                    <span>Date Range</span>                
+                    <div class ="filterbardatetext">
+                        <input id="txtLowerDateRangeLower" type="text" value = "1700" />
+                        <input id="txtLowerDateRangeUpper" type="text" value = "1720" />                    
+                    </div>
+                    <br />
+                       
+                    <div class ="filterbarcheck">
+                        <input id="chkIncludeTree" type="checkbox"/>Filter Tree Entries<br />
+                        <input id="chkIncludeBirths" type="checkbox"/>Filter Only Births<br />
+                        <input id="chkIncludeDeaths" type="checkbox"/>Filter Only Deaths<br />                 
+                        <input id="chkIncludeSources" type="checkbox" />Filter with Sources<br />    
+                    </div>  
+                    <br />                 
+                    <span id="reccount">0 Persons</span>   
+                    <br />
+                    <br />
+                    <br />
+                                            
+                          
+                    </div>
+               
+                    <div id="pMore" class = "hidePanel">
+                                                
+                    <div>
+                        <div class="fpan flt_gen">
+                            <span >Join Options</span>    
+                            <br />                           
+                            <a id='add' href='' >Add Record</a>                                
+                            <br />
+                            <a id='delete' href='' >Delete Record</a>                                
+                            <br />
+                            <a id='remove' href='' >Remove Link</a>
+                            <br />
+                            <a id='merge' href='' >Merge Sources</a>
+                            <br />                                                       
+                        </div>
+                        <div class="fpan flt_gen">                                                          
+                            <span >.</span> 
+                            <br />
+                            <a id='dupes' href='' >Set Duplicates</a>                                
+                            <br />
+                            <a id='print' href='' >Printable Results</a>
+                            <br />
+                            <a id='upests' href='' >Update Estimates</a>
+                            <br />
+                            <a id='asslocs' href='' >Assign Locations</a>
+                            <br />                             
+                        </div>
+                    </div>
+                        
+                    <div class = "flt_gen">                                                              
+                        <br />
+                        <select id="tree-select"  class = "flt_gen">                        
+                        </select>
+                        <br />
+                         <br />
+                        <a id='remove-trees' href='' >Remove Trees</a>
+                        <br />
+                        <a id='add-tree' href='' >Add Tree</a>
+                        <br />
+                        
+                    </div>   
+
+                    </div>
+                    </div>
+                </div>
+                
+                </div>
+
+
+
+                <div class = "fltbdy">
+                <div class = "line"></div>
+                <div class = "squiggle"></div>
+
+                <div class ="item" >
+                <table class="pink">
+                        <thead>
+                            <tr id="Tr2" runat="server" class="hed">
+
+                            <td class="sources">
+                                <a href='' ><span>Src</span></a>   
+                            </td>
+
+                            <td class = "lnkedit">                                                                        
+                            </td>
+                            <td class = "twodates">
+                                <a id ='sbint' href='' ><span>B</span></a> 
+                                <a id ='sdint' href='' ><span>D</span></a> 
+                            </td>
+                            <td class = "locat">
+                                <a id ='sbloc' href='' ><span>Locat.</span></a>
+                            </td>
+                            <td class = "surname">
+                                <a id ='sname' href='' ><span>Name</span></a>
+                            </td>
+                            <td class = "surname">
+                                <a id ='ssurname' href='' ><span>Surname</span></a> 
+                            </td>
+                            <td class = "surname">
+                                <a id ='sfather' href='' ><span>Father/ <br /> Spouse</span></a> 
+                            </td>
+                            <td class = "surname">
+                                <a id ='smother' href='' ><span>Mother</span></a>
+                            </td>
+                            <td class = "surname">
+                           
+                            </td>                                                                  
+                                <td class="surname">
+                                    <a id='sinfo' href=''><span>Ref.</span></a>
+                                </td>          
+                            </tr>
+                        </thead>
+                        <tbody id = "search_bdy">
+                        </tbody>
+                </table>
+
+              
+                <br />
+                </div>
+                
+                <div class="fltbrow">    
+                <div id="pager" class = "pager"></div>
+                </div>                             
+                </div>
+
+                </div>
+
+                <br />
+
+            </div>        
+
+    </div>  
+
+</body>
+</html>

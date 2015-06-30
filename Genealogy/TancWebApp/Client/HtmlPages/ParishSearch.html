@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Parish Search</title>
+    <link href="../Styles/Gothic/colourSchemes.css" rel="stylesheet" type="text/css" id = "lnk_colourScheme"/>
+
+    <link href="../Styles/pager.css" rel="stylesheet" type="text/css" />
+    <link href="../Styles/fonts.css" rel="stylesheet" type="text/css" />
+    <link href="../Styles/buttons.css" rel="stylesheet" type="text/css" />
+    <link href="../Styles/common.css" rel="stylesheet" type="text/css" id = "lnk_common"/>
+    <link href="../Styles/html_search_screen.css" rel="stylesheet" type="text/css" />
+
+    <link href="../Styles/jquery.jgrowl.css" rel="stylesheet" type="text/css" />
+ 
+
+    <script src="../scripts/jquery/jquery.js" type="text/javascript"></script>     
+ 
+    <script src="../scripts/extensions.js" type="text/javascript"></script>    
+    <script src="../scripts/visiblePanels.js" type="text/javascript"></script>
+
+    <script src="../scripts/util_func.js" type="text/javascript"></script>
+    <script src="../scripts/masters.js" type="text/javascript"></script>
+ 
+    <script src="../scripts/pager.js" type="text/javascript"></script>
+
+    <script src="../scripts/SearchScreens/parishs.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="mainbackground"></div>
+
+    <div id = "PageWrapper" class = "middle">
+
+            <div id = "1"></div>
+
+            <div class = "maincontent">
+                <div class = "fltcnt">
+    
+                <div class = "fltbar">
+        
+                <div class="filterheadingrow">
+              
+                    <div class = "mar_txt">PARISHS</div>                 
+                </div>
+            
+                <div class="fltopt">               
+                    <div class="fltoptrow">
+                        <a id = "refresh"  href='' class="button" ><span>Refresh</span></a>   
+                    </div>
+                    <div class="fltoptrow">
+                        <a id = "main" href=''  class="button" ><span>Main</span></a>
+                        <a id = "more" href='' class="button" ><span>More</span></a>            
+                    </div>                 
+                </div>
+                            
+                <div class = "flt_mv">
+                    <div id="filterbar">
+
+
+
+                    <div id="pMain" class = "displayPanel flt_gen" >
+
+                    <span >Deposited</span>
+                    <input id="txtDeposited" type="text"/>
+                    <br />                     
+                    <span >Name</span>
+                    <input id="txtName" type="text"/>
+                    <br />                    
+                    <span >County</span>
+                    <input id="txtCounty" type="text"/>
+                    <br />
+                                                                                                               
+                    <br />                 
+                    <span id="reccount">Parishs ..</span>   
+                    <br />
+                    <br />
+                    <br />
+                                            
+                          
+                    </div>
+               
+                    <div id="pMore" class = "hidePanel">
+                   
+                    <div class = "flt_gen">
+                    <span >Options</span>    
+                    <br />
+                    <a id = 'add' href=''>Add Record</a>
+                    <br />
+                    <a id = 'delete' href='' >Delete Record</a>
+                    <br />
+
+                    </div>   
+
+                    </div>
+
+
+                    <div id="rLink" class = "hidePanel">
+                        <div class = "flt_gen">
+                        <a id = 'select_return' href='' >Return selection</a>
+                        </div>  
+                    </div>
+
+                    </div>
+                </div>
+                
+                </div>
+
+
+
+                <div class = "fltbdy">
+                <div class = "line"></div>
+                <div class = "squiggle"></div>
+
+                <div class ="item" >
+                <table class="pink">
+                        <thead>
+                            <tr id="Tr2" runat="server" class="hed">
+
+                            <td >
+                                <a id = 'pname' href='../HtmlPages/ParishSearch.html' onclick = "sort('ParishName');return false"  ><span>Name</span></a>   
+                            </td>
+                            <td >
+                                <a id = 'pdeposited' href='../HtmlPages/ParishSearch.html' onclick = "sort('ParishDeposited');return false"  ><span>Dep</span></a>                           
+                            </td>
+                            <td >
+                                <a href='' ><span>Edit</span></a>
+                            </td>
+                            <td >
+                                <a id = 'pparent' href='../HtmlPages/ParishSearch.html' onclick = "sort('ParishParent');return false"  ><span>Parent</span></a>
+                            </td>
+                            <td >
+                                <a id = 'pstartyear' href='../HtmlPages/ParishSearch.html' onclick = "sort('ParishStartYear');return false"  ><span>Start</span></a> 
+                            </td>
+                            <td >
+                                <a id = 'pendyear' href='../HtmlPages/ParishSearch.html' onclick = "sort('ParishEndYear');return false"  ><span>End</span></a> 
+                            </td>
+                            <td >
+                                <a id = 'pcounty' href='../HtmlPages/ParishSearch.html' onclick = "sort('ParishCounty');return false"  ><span>County</span></a>
+                            </td>
+                                                                                            
+                                   
+                            </tr>
+                        </thead>
+                        <tbody id = "search_bdy">
+                        </tbody>
+                </table>
+
+              
+                <br />
+                </div>
+                
+                <div class="fltbrow">    
+                <div id="pager" class = "pager"></div>
+                </div>                             
+                </div>
+
+                </div>
+
+                <br />
+
+            </div>        
+
+    </div> 
+</body>
+</html>

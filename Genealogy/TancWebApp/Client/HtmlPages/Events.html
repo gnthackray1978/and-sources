@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    
+    <title>Event Search</title>
+    <link href="../Styles/Gothic/colourSchemes.css" rel="stylesheet" type="text/css" id = "lnk_colourScheme"/>
+
+    <link href="../Styles/pager.css" rel="stylesheet" type="text/css" />
+    <link href="../Styles/fonts.css" rel="stylesheet" type="text/css" />
+    <link href="../Styles/buttons.css" rel="stylesheet" type="text/css" />
+    <link href="../Styles/common.css" rel="stylesheet" type="text/css" id = "lnk_common"/>
+    <link href="../Styles/html_search_screen.css" rel="stylesheet" type="text/css" />
+
+    <link href="../Styles/jquery.jgrowl.css" rel="stylesheet" type="text/css" />
+ 
+    <script src="../scripts/jquery/jquery.js" type="text/javascript"></script>     
+    <script src="../scripts/extensions.js" type="text/javascript"></script>    
+    <script src="../scripts/visiblePanels.js" type="text/javascript"></script>
+
+    <script src="../scripts/util_func.js" type="text/javascript"></script>
+    <script src="../scripts/masters.js" type="text/javascript"></script>
+ 
+    <script src="../scripts/pager.js" type="text/javascript"></script>
+
+    <script src="../scripts/SearchScreens/events.js" type="text/javascript"></script>
+
+
+</head>
+<body>
+    <div class="mainbackground"></div>
+
+    <div id = "PageWrapper" class = "middle">
+
+            <div id = "1"></div>
+
+            <div class = "maincontent">
+                <div class = "fltcnt">
+    
+                <div class = "fltbar">
+        
+                <div class="filterheadingrow">              
+                    <div class = "mar_txt">EVENTS</div>                 
+                </div>
+            
+                <div class="fltopt">               
+                    <div class="fltoptrow">
+                        <a id='refresh' href='' class="button" ><span>Refresh</span></a>                           
+                    </div>
+                    <div class="fltoptrow">
+                        <a id='main' href='' class="button" ><span>Main</span></a>
+                        <a id='more' href='' class="button" ><span>More</span></a>            
+                    </div>                 
+                </div>
+                            
+                <div class = "flt_mv">
+                    <div id="filterbar">
+
+                    <div id="pMain" class = "displayPanel flt_gen" >
+                        <br />
+                        <br />  
+                        <span >Name</span>
+                        <input id="txtCName" type="text"/>
+                        <br />
+                        <input id="txtSName" type="text"/>
+                        <br />
+                        <span >Parish</span>
+                        <input id="txtLocation" type="text"/>
+                        <br />
+                        <span >Date Range</span>
+
+                        <div class ="filterbardatetext">
+                            <input id="txtLowerDateRange" type="text" value = "1700" />
+                            <input id="txtUpperDateRange" type="text" value = "1720" />                    
+                        </div>
+                        
+                        <br />
+                       
+                        <div class ="filterbarcheck">
+                            <input id="chkIncludeParents" type="checkbox"/>Filter Parenting TotalEvents<br />
+                            <input id="chkIncludeBirths" type="checkbox"/>Filter Births<br />
+                            <input id="chkIncludeDeaths" type="checkbox"/>Filter Deaths<br />   
+                            <input id="chkIncludeMarriages" type="checkbox"/>Filter Marriages<br />
+                            <input id="chkIncludeWitnesses" type="checkbox"/>Filter Witnesses<br />
+                            <input id="chkIncludeSpouses" type="checkbox"/>Filter Spouses<br />   
+                            <input id="chkIncludePersonWithSpouses" type="checkbox"/>Filter Persons Spouses<br />              
+                        </div>  
+
+                    </div>
+               
+                   <div id="pMore" class = "hidePanel">
+                   
+                    <div class = "flt_gen">
+                    <span >Options</span>    
+                  
+
+                    </div>   
+
+                    </div>
+                    </div>
+                </div>
+                
+                </div>
+
+
+
+                <div class = "fltbdy">
+                <div class = "line"></div>
+                <div class = "squiggle"></div>
+
+                <div class ="item" >
+                <table class="pink">
+                        <thead>
+                            <tr id="Tr2" runat="server" class="hed">
+
+                            <td >
+                                <a id = 'year_hed'  href='' ><span>Date</span></a>   
+                            </td>
+                            <td >
+                                <a href=''><span>Description</span></a>                           
+                            </td>
+                            <td >
+                                <a href=''><span>Name</span></a>
+                            </td>
+                            <td >
+                                <a id = 'surname_hed'  href='' ><span>Surname</span></a>
+                            </td>
+                            <td >
+                                <a id = 'locat_hed'  href='' ><span>Location</span></a> 
+                            </td>
+                            <td >
+                                <a href=''><span>Notes</span></a> 
+                            </td>
+                           
+                                                                                            
+                                   
+                            </tr>
+                        </thead>
+                        <tbody id = "search_bdy">
+                        </tbody>
+                </table>
+
+              
+                <br />
+                </div>
+                
+                <div class="fltbrow">    
+                <div id="pager" class = "pager"></div>
+                </div>                             
+                </div>
+
+                </div>
+
+                <br />
+
+            </div>        
+
+    </div> 
+</body>
+</html>

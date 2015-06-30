@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Parish</title>
+
+    <link href="../Styles/fonts.css" rel="stylesheet" type="text/css" />
+    <link href="../Styles/buttons.css" rel="stylesheet" type="text/css" />
+    <link href="../Styles/common.css" rel="stylesheet" type="text/css" id = "lnk_common"/>
+    <link href="../Styles/editor_MainPage.css" rel="stylesheet" type="text/css" />
+    <!--<link href="../Styles/html_search_screen.css" rel="stylesheet" type="text/css" />-->
+
+    <script src="../scripts/jquery/jquery.js" type="text/javascript"></script>
+    <script src="../scripts/extensions.js" type="text/javascript"></script>
+    <script src="../scripts/visiblePanels.js" type="text/javascript"></script>
+    <script src="../scripts/util_func.js" type="text/javascript"></script>
+    <script src="../scripts/masters.js" type="text/javascript"></script>  
+    <script src="../scripts/DataEntry/parish_editor.js" type="text/javascript"></script>
+
+
+</head>
+<body>
+
+    <div class="mainbackground"></div>
+
+    <div id = "PageWrapper" class = "middle">
+
+    <div id = "1"></div>
+
+    <div class = "maincontent2">
+
+    <div class="editor_fltopt">               
+        <div class="editor_fltoptrow">
+            <a id ='save' href='' class="button" ><span>Save</span></a>
+            <a id= 'return' href='' class="button" ><span>Return</span></a>
+                      
+        </div>
+    </div>
+
+ 
+     <div id = "col1">
+    
+   
+	<div id="col1i">
+	     
+
+	    <b>Parish Name</b>
+	    <br />
+        <input ID="txtParishName" class = "ed_txtwd"/>
+        <br />
+        <b>Parish County</b>
+	    <br />
+        <input ID="txtParishCounty" class = "ed_txtwd"/>
+        <br />
+        <b>Parish Registers Deposited</b>
+	    <br />
+        <input ID="txtParishDeposited"  class = "ed_txtwd"/>
+	    
+        <br />
+        <b>Parent Parish</b>
+	    <br />
+        <input ID="txtParentParish" class = "ed_txtwd"/>
+	    <br />
+
+        <b>Parish Start Year</b>
+	    <br />
+        <input  ID="txtParStartYear" class = "ed_dat"/>
+        <br />
+        <b>Parish End Year</b>
+	    <br />
+        <input  ID="txtParEndYear" class = "ed_dat"/>
+        
+        
+        <br />
+        <b>X Location</b>
+	    <br />
+        <input  ID="txtXLocat" class = "ed_dat"/>
+        <br />
+        <b>Y Location</b>
+	    <br />
+        <input  ID="txtYLocat" class = "ed_dat"/>
+        
+
+	</div>
+	<div ID="col2i">
+        <b>Notes</b>
+        <br />
+        
+        <textarea id = "txtNotes" rows="10" cols="76" class ="ntbx_person" ></textarea>
+       
+       
+        <br />
+        </div>
+	
+    </div>
+    
+
+    </div>  
+
+    </div>
+
+</body>
+</html>
