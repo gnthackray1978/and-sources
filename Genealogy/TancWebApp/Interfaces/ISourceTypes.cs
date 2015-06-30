@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.ServiceModel;
 using System.ServiceModel.Web;
-using System.Web;
-using ANDServices;
-using TDBCore.Types;
+using TancWebApp.URIMappings;
 using TDBCore.Types.DTOs;
 
-namespace AndServices.Interfaces
+namespace TancWebApp.Interfaces
 {
     [ServiceContract]
     public interface ISourceTypes

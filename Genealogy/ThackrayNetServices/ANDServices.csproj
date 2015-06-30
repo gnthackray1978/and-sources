@@ -106,31 +106,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Services\MarriageService.cs" />
-    <Compile Include="Services\ParishService.cs" />
-    <Compile Include="Services\PersonService.cs" />
-    <Compile Include="Services\ServiceMethods.cs" />
-    <Compile Include="Services\SourceService.cs" />
-    <Compile Include="Services\SourceTypeService.cs" />
-    <Compile Include="Helpers\WebHelper.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\IAnd.cs" />
-    <Compile Include="Interfaces\IMarriageService.cs" />
-    <Compile Include="Interfaces\IParishService.cs" />
-    <Compile Include="Interfaces\IPersonService.cs" />
-    <Compile Include="Interfaces\ISourceService.cs" />
-    <Compile Include="Interfaces\ISourceTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="URIMappings\diagrams.cs" />
-    <Compile Include="URIMappings\events.cs" />
-    <Compile Include="URIMappings\marriages.cs" />
-    <Compile Include="URIMappings\misc.cs" />
-    <Compile Include="URIMappings\parishs.cs" />
-    <Compile Include="URIMappings\persons.cs" />
-    <Compile Include="URIMappings\sourceMappings.cs" />
-    <Compile Include="URIMappings\sourceTypes.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,23 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Activation;
- 
-using TDBCore.BLL;
-using System.Web.Security;
 using System.ServiceModel.Web;
-using System.Diagnostics;
-using System.Reflection;
+using System.Web.Security;
 using Facebook;
+using TancWebApp.Helpers;
+using TancWebApp.Interfaces;
+using TDBCore.BLL;
 using TDBCore.Types.DTOs;
-using TDBCore.Types.domain;
 using TDBCore.Types.libs;
-using PersonService = PersonService.PersonService;
 
-
-namespace ANDServices
+namespace TancWebApp.Services
 {
 
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall, ConcurrencyMode = ConcurrencyMode.Multiple)]

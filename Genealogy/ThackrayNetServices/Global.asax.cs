@@ -11,15 +11,15 @@ namespace ThackrayNetServices
 
         protected void Application_Start(object sender, EventArgs e)
         {
-            System.Web.Routing.RouteTable.Routes.Ignore("{resource}.axd/{*pathInfo}");
-            System.Web.Routing.RouteTable.Routes.Ignore("{*allashx}", new { allashx = @".*\.ashx(/.*)?" });
-            System.Web.Routing.RouteTable.Routes.Ignore("");
+            //System.Web.Routing.RouteTable.Routes.Ignore("{resource}.axd/{*pathInfo}");
+            //System.Web.Routing.RouteTable.Routes.Ignore("{*allashx}", new { allashx = @".*\.ashx(/.*)?" });
+            //System.Web.Routing.RouteTable.Routes.Ignore("");
 
-            System.Web.Routing.RouteTable.Routes.Add(new System.ServiceModel.Activation.ServiceRoute("APIServices",
-                new System.ServiceModel.Activation.WebServiceHostFactory(), typeof(ANDServices.APIServices)));
+            //System.Web.Routing.RouteTable.Routes.Add(new System.ServiceModel.Activation.ServiceRoute("APIServices",
+            //    new System.ServiceModel.Activation.WebServiceHostFactory(), typeof(ANDServices.APIServices)));
 
-            System.Web.Routing.RouteTable.Routes.Add(new System.ServiceModel.Activation.ServiceRoute("PersonService",
-               new System.ServiceModel.Activation.WebServiceHostFactory(), typeof(PersonService.PersonService)));
+            //System.Web.Routing.RouteTable.Routes.Add(new System.ServiceModel.Activation.ServiceRoute("PersonService",
+            //   new System.ServiceModel.Activation.WebServiceHostFactory(), typeof(PersonService.PersonService)));
 
         }
 
