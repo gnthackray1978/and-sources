@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using Facebook;
 using System.ServiceModel.Web;
+using Facebook;
 
-namespace ANDServices
+namespace TancWebApp.Helpers
 {
     /// <summary>
     /// Summary description for WebExtensions

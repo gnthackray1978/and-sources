@@ -1,6 +1,6 @@
 ﻿ 
 
-namespace ANDServices
+namespace TancWebApp.URIMappings
 {
     public static class UriSourceMappings
     {

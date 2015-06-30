@@ -1,17 +1,17 @@
 ﻿using System;
 using System.ServiceModel;
 using System.ServiceModel.Activation;
-using ANDServices;
+using TancWebApp.Helpers;
+using TancWebApp.Interfaces;
 using TDBCore.Types;
-using TDBCore.Types.DTOs;
 using TDBCore.Types.domain;
+using TDBCore.Types.DTOs;
 using TDBCore.Types.enums;
 using TDBCore.Types.libs;
 using TDBCore.Types.security;
 using TDBCore.Types.validators;
 
-
-namespace PersonService
+namespace TancWebApp.Services
 {
 
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall, ConcurrencyMode = ConcurrencyMode.Multiple)]

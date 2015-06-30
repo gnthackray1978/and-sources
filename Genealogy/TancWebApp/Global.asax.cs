@@ -3,6 +3,7 @@ using System.Web.Routing;
 using Ninject;
 using Ninject.Extensions.Wcf;
 using Ninject.Web.Common;
+using TancWebApp.Services;
 
 namespace TancWebApp
 {
@@ -14,17 +15,17 @@ namespace TancWebApp
             RouteTable.Routes.Ignore("{*allashx}", new { allashx = @".*\.ashx(/.*)?" });
             RouteTable.Routes.Ignore("");
 
-            RouteTable.Routes.Add(new ServiceRoute("ParishService",  new NinjectWebServiceHostFactory(), typeof(ParishService.ParishService)));
+            RouteTable.Routes.Add(new ServiceRoute("ParishService",  new NinjectWebServiceHostFactory(), typeof(ParishService)));
 
-            RouteTable.Routes.Add(new ServiceRoute("PersonService",  new NinjectWebServiceHostFactory(), typeof(PersonService.PersonService)));
+            RouteTable.Routes.Add(new ServiceRoute("PersonService",  new NinjectWebServiceHostFactory(), typeof(PersonService)));
 
-            RouteTable.Routes.Add(new ServiceRoute("MarriageService", new NinjectWebServiceHostFactory(), typeof(MarriageService.MarriageService)));
+            RouteTable.Routes.Add(new ServiceRoute("MarriageService", new NinjectWebServiceHostFactory(), typeof(MarriageService)));
 
-            RouteTable.Routes.Add(new ServiceRoute("SourceTypes", new NinjectWebServiceHostFactory(), typeof(SourceTypeService.SourceTypeService)));
+            RouteTable.Routes.Add(new ServiceRoute("SourceTypes", new NinjectWebServiceHostFactory(), typeof(SourceTypeService)));
 
-            RouteTable.Routes.Add(new ServiceRoute("Sources", new NinjectWebServiceHostFactory(), typeof(SourceService.SourceService)));
+            RouteTable.Routes.Add(new ServiceRoute("Sources", new NinjectWebServiceHostFactory(), typeof(SourceService)));
 
-            RouteTable.Routes.Add(new ServiceRoute("", new NinjectWebServiceHostFactory(), typeof(ANDServices.APIServices)));
+            RouteTable.Routes.Add(new ServiceRoute("", new NinjectWebServiceHostFactory(), typeof(APIServices)));
 
             base.OnApplicationStarted();
         }
