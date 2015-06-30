@@ -91,8 +91,7 @@ AncUtils.prototype = {
                 $this.addClass('highLightRow');
             }
         }); //end each
-
-
+      
 
 
         return selection;

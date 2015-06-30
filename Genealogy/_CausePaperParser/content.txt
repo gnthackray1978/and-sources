@@ -1,0 +1,240 @@
+﻿Participant:John   Ellis [Ellis]
+Role:plaintiff
+Details:male; Churchwarden of Dewsbury
+Employment:Cloth Miller
+Location:Dewsbury (YorkshireWestRiding) 
+Place(s):Dewsbury Mills (Dewsbury Mills) : undefined
+
+
+
+Participant:John   Tweedale [Tweedale]
+Role:plaintiff
+Details:male; Churchwarden of Dewsbury
+Employment:Woolstapler
+Location:Dewsbury (YorkshireWestRiding) 
+Place(s):Dewsbury (Dewsbury) : ecclesiastical parish
+
+
+
+Participant:John   Buckworth [Buckworth]
+Role:plaintiff
+Details:male; Clerk (Reverend)
+Employment:Vicar of Dewsbury
+Location:Dewsbury (YorkshireWestRiding) 
+Place(s):Dewsbury (Dewsbury) : ecclesiastical parish
+
+
+
+Participant:George   Lawton [Lawton]
+Role:prosecution proctor
+Details:male
+Employment:Notary Public
+Location:York (York) : city
+
+
+
+Participant:Percival   Terrey [Terry]
+Role:defendant
+Details:male; Churchwarden of Ossett
+Location:Dewsbury (YorkshireWestRiding) 
+Place(s):Ossett (Ossett) : township
+
+
+
+Participant:William   Harrop [Harrap;  Harrop]
+Role:defendant
+Details:male; Churchwarden of Ossett
+Location:Dewsbury (YorkshireWestRiding) 
+Place(s):Ossett (Ossett) : township
+
+
+
+Participant:Joseph   Nettleton [Nettleton]
+Role:defendant
+Details:male; Churchwarden of Soothill
+Location:Dewsbury (YorkshireWestRiding) 
+Place(s):Soothill (Soothill) : township
+Unclear which Soothill is meant.
+
+
+
+Participant:Timothy   Harrop [Harrop]
+Role:defendant
+Details:male; Churchwarden of Soothill
+Location:Dewsbury (YorkshireWestRiding) 
+Place(s):Soothill (Soothill) : township
+Unclear which Soothill is meant.
+
+
+
+Participant:James Robert   Frear [Fryer]
+Role:defence proctor
+Details:male
+Employment:Notary Public
+
+
+Participant:Inhabitants of Soothill 
+Role:defendant
+Details:undefined
+Location:Dewsbury (YorkshireWestRiding) 
+Place(s):Soothill (Soothill) : township
+Unclear which Soothill is meant.
+
+
+
+Participant:Inhabitants of Ossett 
+Role:defendant
+Details:undefined
+Location:Dewsbury (YorkshireWestRiding) 
+Place(s):Ossett (Ossett) : township
+
+
+
+Participant:David   Stephenson [Stephenson]
+Role:witness
+Details:male; 46
+Employment:Manufacturer
+Location:Dewsbury (YorkshireWestRiding) 
+Place(s):Chickenley (Chickenly) : undefined
+
+
+
+Participant:Joseph   Archer [Archer]
+Role:witness
+Details:male; Gentleman
+Location:Dewsbury (YorkshireWestRiding) 
+Place(s):Ossett (Ossett) : township
+
+
+
+Participant:James   Brigg [Briggs]
+Role:witness
+Details:male; Churchwarden of Ossett
+Location:Dewsbury (YorkshireWestRiding) 
+Place(s):Ossett (Ossett) : township
+
+
+
+Participant:James   Newell [Newell]
+Role:witness
+Details:male; Churchwarden of Soothill
+Location:Dewsbury (YorkshireWestRiding) 
+Place(s):Soothill (Soothill) : township
+Unclear which Soothill is meant.
+
+
+
+Participant:Rueben   Riley [Riley]
+Role:witness
+Details:male; Churchwarden of Soothill
+Location:Dewsbury (YorkshireWestRiding) 
+Place(s):Soothill (Soothill) : township
+Unclear which Soothill is meant.
+
+
+
+Participant:William   Rhodes [Rhodes]
+Role:witness
+Details:male; Gentleman
+Location:Dewsbury (YorkshireWestRiding) 
+Place(s):Earls Heaton (Earls Heaton) : undefined
+
+
+
+Participant:Titus Senior   Brook [Brooke]
+Role:witness
+Details:male
+Employment:Druggist
+Location:Dewsbury (YorkshireWestRiding) 
+Place(s):Dewsbury (Dewsbury) : ecclesiastical parish
+
+
+
+Participant:Abram   Greenwood [Greenwood]
+Role:witness
+Details:male; 66; Esquire
+Location:Dewsbury (YorkshireWestRiding) 
+Place(s):Dewsbury Moor (Dewsbury Moor) : undefined
+
+
+
+Participant:Richard   Oldroyd [Oldroyd]
+Role:witness
+Details:male
+Employment:Farmer
+Location:Dewsbury (YorkshireWestRiding) 
+Place(s):Chidswell (Chidswell) : undefined
+
+
+
+Participant:William   Scargill [Scargill]
+Role:witness
+Details:male
+Employment:Farmer
+Location:Dewsbury (YorkshireWestRiding) 
+Place(s):Chidswell (Chidswell) : undefined
+
+
+
+Participant:Joshua   Greaves [Greaves]
+Role:witness
+Details:male
+Employment:Farmer
+Location:Dewsbury (YorkshireWestRiding) 
+Place(s):Chidswell (Chidswell) : undefined
+
+
+
+Participant:James   Greaves [Greaves]
+Role:witness
+Details:male
+Employment:Farmer
+Location:Dewsbury (YorkshireWestRiding) 
+Place(s):Chidswell (Chidswell) : undefined
+
+
+
+Participant:Benjamin   Thackeray [Thackray]
+Role:witness
+Details:male
+Employment:Clothier; Bell Ringer at Dewsbury Church
+Location:Dewsbury (YorkshireWestRiding) 
+Place(s):Dewsbury (Dewsbury) : ecclesiastical parish
+
+
+
+Participant:Joseph   Robinson [Robinson]
+Role:witness
+Details:male
+Employment:Cockmaker
+Location:Dewsbury (YorkshireWestRiding) 
+Place(s):Dewsbury (Dewsbury) : undefined
+Former residence
+Mirfield (YorkshireWestRiding) 
+Mirfield (Mirfield) : ecclesiastical parish
+
+
+
+Participant:Thomas   Oldroyd [Oldroyd]
+Role:witness
+Details:male; Gentleman; Churchwarden of Dewsbury
+Location:Dewsbury (YorkshireWestRiding) 
+Place(s):Dewsbury (Dewsbury) : township
+
+
+
+Participant:Richard   Ward [Ward]
+Role:witness
+Details:male
+Employment:Woolstapler
+Location:Dewsbury (YorkshireWestRiding) 
+Place(s):Dewsbury (Dewsbury) : township
+
+
+
+Participant:Jonathan   Greenwood [Greenwood]
+Role:witness
+Details:male
+Employment:Surgeon
+Location:Dewsbury (YorkshireWestRiding) 
+Place(s):Dewsbury (Dewsbury) : ecclesiastical parish

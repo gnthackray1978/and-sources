@@ -7,7 +7,7 @@ namespace CSVImporter
 {
     class Program
     {
-        const string Destination = @"J:\Google Drive\familyhist\Images\CausePapers\persons.csv";
+        const string Destination = @"G:\Google Drive\familyhist\Images\persons.csv";
 
 
         static void Main(string[] args)
@@ -18,9 +18,9 @@ namespace CSVImporter
             {
                 //csImportCsv.ImportSources(Destination, 1);
 
-                //CreatePersonCSV(csImportCsv);
+                CreatePersonCSV(csImportCsv);
 
-                csImportCsv.ImportPersonCSV(Destination);
+            //    csImportCsv.ImportPersonCSV(Destination);
             }
             catch (Exception e)
             {
