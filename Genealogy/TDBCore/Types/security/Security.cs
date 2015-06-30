@@ -14,7 +14,7 @@ namespace TDBCore.Types.security
         private readonly bool _isSecurityEnabled = true;
         readonly UserDal _users = new UserDal();
 
-        public Security(string userName, bool isSecurityEnabled =true)
+        public Security(string userName, bool isSecurityEnabled =false)
         {
             _userName = userName;
             _isSecurityEnabled = isSecurityEnabled;

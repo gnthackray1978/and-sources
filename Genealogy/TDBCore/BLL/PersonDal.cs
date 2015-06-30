@@ -96,8 +96,10 @@ namespace TDBCore.BLL
                 personEntity.BirthLocationId = person.BirthLocationId.ToGuid();
                 personEntity.DeathLocationId = person.DeathLocationId.ToGuid();
                 personEntity.ReferenceLocationId = person.ReferenceLocationId.ToGuid();
-                personEntity.TotalEvents = person.Events.ToInt32();
-                
+
+                if (person.Events!= null)
+                    personEntity.TotalEvents = person.Events.ToInt32();
+            
                 personEntity.UniqueRef = person.UniqueReference.ToGuid();
           
 
@@ -204,35 +206,36 @@ namespace TDBCore.BLL
      
         public Guid Insert(ServicePerson person)
         {
+            //todo fix the service person so it cant contain nulls!!
 
             var personEntity = new Person
                 {
                     IsMale = person.IsMale.ToBool(),
-                    ChristianName = person.ChristianName,
-                    Surname = person.Surname,
-                    BirthLocation = person.BirthLocation,
-                    BirthDateStr = person.Birth,
-                    BaptismDateStr = person.Baptism,
-                    DeathDateStr = person.Death,
-                    ReferenceDateStr = person.ReferenceDate,
-                    DeathLocation = person.DeathLocation,
-                    FatherChristianName = person.FatherChristianName,
-                    FatherSurname = person.FatherSurname,
-                    MotherChristianName = person.MotherChristianName,
-                    MotherSurname = person.MotherSurname,
-                    Notes = person.Notes,
-                    Source = person.SourceDescription,
+                    ChristianName = person.ChristianName ?? "",
+                    Surname = person.Surname ?? "",
+                    BirthLocation = person.BirthLocation ?? "",
+                    BirthDateStr = person.Birth ?? "",
+                    BaptismDateStr = person.Baptism ?? "",
+                    DeathDateStr = person.Death ?? "",
+                    ReferenceDateStr = person.ReferenceDate ?? "",
+                    DeathLocation = person.DeathLocation ?? "",
+                    FatherChristianName = person.FatherChristianName ?? "",
+                    FatherSurname = person.FatherSurname ?? "",
+                    MotherChristianName = person.MotherChristianName ?? "",
+                    MotherSurname = person.MotherSurname ?? "",
+                    Notes = person.Notes ?? "",
+                    Source = person.SourceDescription ?? "",
                     BapInt = person.BaptismYear,
                     BirthInt = person.BirthYear,
                     DeathInt = person.DeathYear,
                     ReferenceDateInt =person.ReferenceDate.ParseToValidYear(),// DateTools.GetDateYear(),
-                    ReferenceLocation = person.ReferenceLocation,
-                    BirthCounty = person.BirthCounty,
-                    DeathCounty = person.DeathCounty,
-                    Occupation = person.Occupation,
-                    FatherOccupation = person.FatherOccupation,
-                    SpouseName = person.SpouseChristianName,
-                    SpouseSurname = person.SpouseSurname,
+                    ReferenceLocation = person.ReferenceLocation ?? "",
+                    BirthCounty = person.BirthCounty ?? "",
+                    DeathCounty = person.DeathCounty ?? "",
+                    Occupation = person.Occupation ?? "",
+                    FatherOccupation = person.FatherOccupation ?? "",
+                    SpouseName = person.SpouseChristianName ?? "",
+                    SpouseSurname = person.SpouseSurname ?? "",
                     UserId = 1,
                     BirthLocationId = person.BirthLocationId.ToGuid(),
                     DeathLocationId = person.DeathLocationId.ToGuid(),
@@ -257,6 +260,7 @@ namespace TDBCore.BLL
 
             ModelContainer.SaveChanges();
 
+            person.PersonId = personEntity.Person_id;
             return personEntity.Person_id;
         }
   

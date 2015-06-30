@@ -29,7 +29,7 @@ namespace TancWebApp
             this.Bind<ISourceMappingsDal>().To<SourceMappingsDal>().InRequestScope();
             this.Bind<ISourceTypesDal>().To<SourceTypesDal>().InRequestScope();
             this.Bind<IUserDal>().To<UserDal>().InRequestScope();             
-            this.Bind<ISecurity>()  .To<Security>().InRequestScope() .WithConstructorArgument("userName", WebHelper.GetUser()).WithConstructorArgument("isSecurityEnabled", true); ;
+            this.Bind<ISecurity>()  .To<Security>().InRequestScope() .WithConstructorArgument("userName", WebHelper.GetUser()).WithConstructorArgument("isSecurityEnabled", false); ;
 
 
 

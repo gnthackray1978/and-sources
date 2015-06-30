@@ -14,3 +14,5 @@ _ReSharper.*
 *.docstates
 *.csproj.ReSharper
 *.dotcover
+
+Genealogy/packages
