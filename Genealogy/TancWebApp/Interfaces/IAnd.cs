@@ -19,7 +19,7 @@ namespace TancWebApp.Interfaces
         void Upload(string fileName, Stream stream);
 
         //diags
-
+        
  
 
 
@@ -34,7 +34,7 @@ namespace TancWebApp.Interfaces
 
 
         [OperationContract]
-        [WebGet(ResponseFormat = WebMessageFormat.Json, UriTemplate = UriMappingsEvents.GetEvents)]
+        [WebGet(ResponseFormat = WebMessageFormat.Json, UriTemplate = UriMappingsMisc.GetEvents)]
         ServiceEventObject GetEvents(string chkIncludeBirths, string chkIncludeDeaths, string chkIncludeWitnesses, string chkIncludeParents, string chkIncludeMarriages, string chkIncludeSpouses, string chkIncludePersonWithSpouses,
                                                 string christianName, string surname, string lowerDateRange, string upperDateRange, string location,
                                                 string page_number, string page_size, string sort_col);

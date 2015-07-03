@@ -16,7 +16,10 @@ $(document).ready(function () {
 var AncPersonEditor = function () {
     this.qryStrUtils = new QryStrUtils();
     this.ancUtils = new AncUtils();
-    
+    this.DEFAULT_GET_URL = '/PersonService/Person';
+    this.DEFAULT_ADD_URL = '/PersonService/Add';
+    this.DEFAULT_SEARCHPAGE_URL = '../HtmlPages/PersonSearch.html';
+
     this.postParams = {
 
         url: '',
@@ -50,7 +53,7 @@ AncPersonEditor.prototype = {
         var params = {};
         params[0] = this.qryStrUtils.getParameterByName('id', '');
 
-        this.ancUtils.twaGetJSON("/PersonService/Person", params, $.proxy(this.processData, this));
+        this.ancUtils.twaGetJSON(this.DEFAULT_GET_URL, params, $.proxy(this.processData, this));
     },
 
 
@@ -117,15 +120,15 @@ AncPersonEditor.prototype = {
 
     },
     save: function () {
-        this.postParams.url = '/PersonService/Add';
+        this.postParams.url = this.DEFAULT_ADD_URL;
         this.postParams.data = this.GetPersonRecord();
         this.ancUtils.twaPostJSON(this.postParams);
     },
 
     saveReturn: function () {
         this.postParams.refreshmethod = function () { 
-        window.location = '../HtmlPages/PersonSearch.html' + window.location.hash; };
-        this.postParams.url = '/PersonService/Add';
+        window.location = this.DEFAULT_SEARCHPAGE_URL + window.location.hash; };
+        this.postParams.url = this.DEFAULT_ADD_URL;
         this.postParams.data = this.GetPersonRecord();
         this.ancUtils.twaPostJSON(this.postParams);
     }

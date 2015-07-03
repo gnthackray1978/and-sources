@@ -20,6 +20,20 @@ $(document).ready(function () {
 var AncPersons = function () {
     this.qryStrUtils = new QryStrUtils();
     this.ancUtils = new AncUtils();
+    this.DEFAULT_PERSONSELECT_URL = '/PersonService/Get/Select';
+    this.DEFAULT_PERSONDELETE_URL = '/PersonService/Delete';
+    this.DEFAULT_PERSONASSIGNLOCATS_URL = '/PersonService/AssignLocats';
+    this.DEFAULT_PERSONSETDUPES_URL = '/PersonService/SetDuplicate';
+    this.DEFAULT_PERSONUPDATEDATES_URL = '/PersonService/UpdateDates';
+    this.DEFAULT_PERSONREMOVELINKS_URL = '/PersonService/RemoveLinks';
+    this.DEFAULT_PERSONMERGE_URL = '/PersonService/MergePersons';
+    this.DEFAULT_SETSOURCE_URL = '/Sources/AddPersonTreeSource';
+    this.DEFAULT_REMOVESOURCE_URL = '/Sources/RemoveTreeSources';
+
+    this.DEFAULT_SOURCESELECT_URL = '/Sources/Select';
+    this.DEFAULT_PERSONEDITOR_URL = '../HtmlPages/PersonEditor.html';
+    this.DEFAULT_SOURCEEDITOR_URL = '../HtmlPages/SourceEditor.html';
+
     this.selection = [];
     this.parishId = '';
 
@@ -132,6 +146,7 @@ AncPersons.prototype = {
                    
          //         'add-tree' 
     },
+
     createQryString: function () {
 
         var args = {
@@ -194,7 +209,7 @@ AncPersons.prototype = {
         params[19] = '30';
         params[20] = String(this.qryStrUtils.getParameterByName('sort_col', 'BirthInt'));
 
-        this.ancUtils.twaGetJSON('/PersonService/Get/Select', params, $.proxy(this.processData, this));
+        this.ancUtils.twaGetJSON(this.DEFAULT_PERSONSELECT_URL, params, $.proxy(this.processData, this));
 
         this.createQryString();
 
@@ -232,7 +247,7 @@ AncPersons.prototype = {
             dupeEvents.push({ key: 'd' + _idx, value: sourceInfo.UniqueReference });
 
 
-            tableBody += '<td><a href="../HtmlPages/PersonEditor.html' + _loc + '"><div> Edit </div></a></td>';
+            tableBody += '<td><a href="' + this.DEFAULT_PERSONEDITOR_URL + _loc + '"><div> Edit </div></a></td>';
 
 
             if (sourceInfo.SourceDateStr == '')
@@ -282,7 +297,7 @@ AncPersons.prototype = {
             _loc = window.location.hash;
             _loc = that.qryStrUtils.updateStrForQry(_loc, 'id', sourceInfo.SourceId);
 
-            tableBody += '<td><a href="../HtmlPages/SourceEditor.html' + _loc + '"><div>' + sourceInfo.SourceRef + '</div></a></td>';
+            tableBody += '<td><a href="' + this.DEFAULT_SOURCEEDITOR_URL + _loc + '"><div>' + sourceInfo.SourceRef + '</div></a></td>';
             
             
             tableBody += '</tr>';
@@ -345,7 +360,7 @@ AncPersons.prototype = {
         params[14] = '30';
         params[15] = 'sdate';
 
-        this.ancUtils.twaGetJSON('/Sources/Select', params, function (data) {
+        this.ancUtils.twaGetJSON(this.DEFAULT_SOURCESELECT_URL, params, function (data) {
             var tableBody = '';
             $.each(data.serviceSources, function (source, sourceInfo) {
                 //<option value="volvo">Volvo</option> //sourceInfo.SourceDesc           
@@ -361,64 +376,76 @@ AncPersons.prototype = {
         this.qryStrUtils.updateQryPar('_parentId', id);
         this.getPersons('1');
     },
+
     processSelect: function (evt) {
         this.ancUtils.handleSelection(evt, this.selection, '#search_bdy tr', "#person_id");
     },
+
     getLink: function (toPage) {
         this.qryStrUtils.updateQryPar('page', toPage);
         this.getPersons('1');
     },
+
     sort: function (sort_col) {
         this.ancUtils.sort_inner(sort_col);
         this.getPersons('1');
     },
+
     addPerson: function (path) {
-        window.location.href = '../HtmlPages/PersonEditor.html#' + this.qryStrUtils.makeIdQryString('id', path);
+        window.location.href = this.DEFAULT_PERSONEDITOR_URL + '#' + this.qryStrUtils.makeIdQryString('id', path);
     },
 
     DeleteRecord: function () {
-        this.postParams.url = '/PersonService/Delete';
+        this.postParams.url = this.DEFAULT_PERSONDELETE_URL;
         this.postParams.data = { personId: this.ancUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
     },
+
     PrintableResult: function () {
 
     },
+
     AssignLocations: function () {
-        this.postParams.url = '/PersonService/AssignLocats';
+        this.postParams.url = this.DEFAULT_PERSONASSIGNLOCATS_URL;
         this.ancUtils.twaPostJSON(this.postParams);
     },
+
     SetDuplicates: function () {
-        this.postParams.url = '/PersonService/SetDuplicate';
+        this.postParams.url = this.DEFAULT_PERSONSETDUPES_URL;
         this.postParams.data = { persons: this.ancUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
     },
+
     UpdateEstimates: function () {
-        this.ancUtils.twaGetJSON('/PersonService/UpdateDates', '', function () { });
+        this.ancUtils.twaGetJSON(this.DEFAULT_PERSONUPDATEDATES_URL, '', function () { });
     },
+
     SetRelation: function (relationid) {
-        this.postParams.url = '/PersonService/SetDuplicate';
+        this.postParams.url = this.DEFAULT_PERSONSETDUPES_URL;
         this.postParams.data = { persons: this.ancUtils.convertToCSV(this.selection), relationType: relationid };
         this.ancUtils.twaPostJSON(this.postParams);
     },
+
     SetRemoveLink: function () {
-        this.postParams.url = '/PersonService/RemoveLinks';
+        this.postParams.url = this.DEFAULT_PERSONREMOVELINKS_URL;
         this.postParams.data = { person: this.ancUtils.convertToCSV(this.selection)};
         this.ancUtils.twaPostJSON(this.postParams);
     },
     
     SetMergeSources: function(){
-        this.postParams.url = '/PersonService/MergePersons';
+        this.postParams.url = this.DEFAULT_PERSONMERGE_URL;
         this.postParams.data = { person: this.ancUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
     },
+
     SetSources: function () {
-        this.postParams.url = '/Sources/AddPersonTreeSource';              
+        this.postParams.url = this.DEFAULT_SETSOURCE_URL;
         this.postParams.data = { record:this.ancUtils.convertToCSV(this.selection),sources: $("#tree-select").val()};
         this.ancUtils.twaPostJSON(this.postParams);
     },
+
     RemoveSources: function () {
-        this.postParams.url = '/Sources/RemoveTreeSources';
+        this.postParams.url = this.DEFAULT_REMOVESOURCE_URL;
         this.postParams.data = { record: this.ancUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
     }

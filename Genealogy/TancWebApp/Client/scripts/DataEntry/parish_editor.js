@@ -15,6 +15,9 @@ $(document).ready(function () {
 var AncParishEditor = function () {
     this.qryStrUtils = new QryStrUtils();
     this.ancUtils = new AncUtils();
+    this.DEFAULT_GET_URL = '/ParishService/GetParish';
+    this.DEFAULT_ADD_URL = '/ParishService/Add';
+    this.DEFAULT_SEARCHPAGE_URL = '../HtmlPages/ParishSearch.html';
 
     this.postParams = {
 
@@ -43,9 +46,8 @@ AncParishEditor.prototype = {
         var params = {};
         params[0] = this.qryStrUtils.getParameterByName('id', '');
         
-        this.ancUtils.twaGetJSON("/ParishService/GetParish", params, $.proxy(this.processData, this));
+        this.ancUtils.twaGetJSON(this.DEFAULT_GET_URL, params, $.proxy(this.processData, this));
     },
-
 
     processData: function (data) {
 
@@ -63,8 +65,6 @@ AncParishEditor.prototype = {
         $('#txtXLocat').val(data.ParishLat);
         $('#txtYLocat').val(data.ParishLong);
         $('#txtNotes').val(data.ParishNote);
-
-
     },
 
     GetParishRecord: function (rowIdx) {
@@ -87,14 +87,14 @@ AncParishEditor.prototype = {
     },
     
     save: function () {
-        this.postParams.url = '/ParishService/Add';
+        this.postParams.url = this.DEFAULT_ADD_URL;
         this.postParams.data = this.GetParishRecord();
         this.ancUtils.twaPostJSON(this.postParams);
     },
 
     saveReturn: function () {
-        this.postParams.refreshmethod = function () { window.location = '../HtmlPages/ParishSearch.html' + window.location.hash; };
-        this.postParams.url = '/ParishService/Add';
+        this.postParams.refreshmethod = function () { window.location = this.DEFAULT_SEARCHPAGE_URL + window.location.hash; };
+        this.postParams.url = this.DEFAULT_ADD_URL;
         this.postParams.data = this.GetParishRecord();
         this.ancUtils.twaPostJSON(this.postParams);
     }

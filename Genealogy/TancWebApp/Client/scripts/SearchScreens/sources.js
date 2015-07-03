@@ -22,6 +22,11 @@ $(document).ready(function () {
 var AncSources = function () {
     this.qryStrUtils = new QryStrUtils();
     this.ancUtils = new AncUtils();
+    this.DEFAULT_SOURCESELECT_URL = '/Sources/Select';
+    this.DEFAULT_SOURCEDELETE_URL = '/Sources/Delete';
+    this.DEFAULT_BATCHENTRY_URL = '../HtmlPages/batchEntry.html';
+    this.DEFAULT_SOURCEEDITOR_URL = '../HtmlPages/SourceEditor.html';
+
     this.selection = [];
     this.parishId = '';
 
@@ -119,7 +124,7 @@ AncSources.prototype = {
         params[14] = '30';
         params[15] = this.qryStrUtils.getParameterByName('sort_col', 'sdate');
     
-        this.ancUtils.twaGetJSON('/Sources/Select', params, $.proxy(this.processData, this));
+        this.ancUtils.twaGetJSON(this.DEFAULT_SOURCESELECT_URL, params, $.proxy(this.processData, this));
 
         this.createQryString();
         return false;
@@ -146,7 +151,7 @@ AncSources.prototype = {
 
         var _loc = '#?scs=' + sources + '&parl=' + parishs;
 
-        var url = '../HtmlPages/batchEntry.html' + _loc;
+        var url = this.DEFAULT_BATCHENTRY_URL + _loc;
 
         window.location.href = url;
     },
@@ -191,7 +196,7 @@ AncSources.prototype = {
             var _loc = window.location.hash;
             _loc = that.qryStrUtils.updateStrForQry(_loc, 'id', sourceInfo.SourceId);
 
-            tableBody += '<td><a href="../HtmlPages/SourceEditor.html' + _loc + '"><div> Edit </div></a></td>';
+            tableBody += '<td><a href="' + this.DEFAULT_SOURCEEDITOR_URL + _loc + '"><div> Edit </div></a></td>';
 
             tableBody += '<td class = "sourceref" ><a  id= "s' + _idx + '" href="" ><div title="' + sourceInfo.SourceRef + '">' + sourceInfo.SourceRef + '</div></a></td>';
 
@@ -244,10 +249,10 @@ AncSources.prototype = {
         this.getSources();
     },
     addSource: function (path) {
-        window.location.href = '../HtmlPages/SourceEditor.html#' + this.qryStrUtils.makeIdQryString('id', path);
+        window.location.href = this.DEFAULT_SOURCEEDITOR_URL + '#' + this.qryStrUtils.makeIdQryString('id', path);
     },
     deleteSources: function () {
-        this.postParams.url = '/Sources/Delete';
+        this.postParams.url = this.DEFAULT_SOURCEDELETE_URL;
         this.postParams.data = { sourceId: this.ancUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
     },

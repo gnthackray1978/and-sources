@@ -17,6 +17,10 @@ var AncSourceTypeEditor = function () {
     this.qryStrUtils = new QryStrUtils();
     this.ancUtils = new AncUtils();
 
+    this.DEFAULT_GET_URL = '/SourceTypes/Id';
+    this.DEFAULT_ADD_URL = '/SourceTypes/Add';
+    this.DEFAULT_SEARCHPAGE_URL = '../HtmlPages/SourceTypesSearch.html';
+
     this.postParams = {
         url: '',
         data: '',
@@ -42,7 +46,7 @@ AncSourceTypeEditor.prototype = {
         var params = {};
         params[0] = this.qryStrUtils.getParameterByName('id', '');
 
-        this.ancUtils.twaGetJSON("/SourceTypes/Id", params, $.proxy(this.processData, this));
+        this.ancUtils.twaGetJSON(this.DEFAULT_GET_URL, params, $.proxy(this.processData, this));
     },
     processData: function (data) {
         $('#txtOrder').val(data.Order);
@@ -61,14 +65,14 @@ AncSourceTypeEditor.prototype = {
     
     },
     save: function () {
-        this.postParams.url = '/SourceTypes/Add';
+        this.postParams.url = this.DEFAULT_ADD_URL;
         this.postParams.data = this.GetSourceTypeRecord();
         this.ancUtils.twaPostJSON(this.postParams);
     },
 
     saveReturn: function () {
-        this.postParams.refreshmethod = function () { window.location = '../HtmlPages/SourceTypesSearch.html' + window.location.hash; };
-        this.postParams.url = '/SourceTypes/Add';
+        this.postParams.refreshmethod = function () { window.location = this.DEFAULT_SEARCHPAGE_URL + window.location.hash; };
+        this.postParams.url = this.DEFAULT_ADD_URL;
         this.postParams.data = this.GetSourceTypeRecord();
         this.ancUtils.twaPostJSON(this.postParams);
     }

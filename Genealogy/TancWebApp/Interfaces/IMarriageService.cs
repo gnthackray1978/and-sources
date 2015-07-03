@@ -13,7 +13,7 @@ namespace TancWebApp.Interfaces
 
 
         [OperationContract]
-        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = UriMarriageMappings.AddMarriage, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = UriMappingMarriage.AddMarriage, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
         string AddMarriage(
                     string FemaleLocationId,
                     string LocationId,
@@ -45,11 +45,11 @@ namespace TancWebApp.Interfaces
             );
 
         [OperationContract]
-        [WebGet(ResponseFormat = WebMessageFormat.Json, UriTemplate = UriMarriageMappings.GetMarriage)]
+        [WebGet(ResponseFormat = WebMessageFormat.Json, UriTemplate = UriMappingMarriage.GetMarriage)]
         ServiceMarriage GetMarriage(string id);
 
         [OperationContract]
-        [WebGet(ResponseFormat = WebMessageFormat.Json, UriTemplate = UriMarriageMappings.GetMarriages)]
+        [WebGet(ResponseFormat = WebMessageFormat.Json, UriTemplate = UriMappingMarriage.GetMarriages)]
         ServiceMarriageObject GetMarriages(string uniqref,
                                                 string malecname,
                                                 string malesname,
@@ -70,28 +70,28 @@ namespace TancWebApp.Interfaces
 
 
         [OperationContract]
-        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = UriMarriageMappings.DeleteMarriages, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = UriMappingMarriage.DeleteMarriages, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
         string DeleteMarriages(string marriageIds);
 
 
         [OperationContract]
-        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = UriMarriageMappings.SetMarriageDuplicate, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = UriMappingMarriage.SetMarriageDuplicate, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
         string SetMarriageDuplicate(string marriages);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = UriMarriageMappings.MergeMarriages, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = UriMappingMarriage.MergeMarriages, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
         string MergeMarriage(string marriage);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = UriMarriageMappings.RemoveMarriageLinks, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = UriMappingMarriage.RemoveMarriageLinks, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
         string RemoveMarriageLink(string marriage);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = UriMarriageMappings.ReorderMarriages, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = UriMappingMarriage.ReorderMarriages, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
         string ReorderMarriages(string marriage);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = UriMarriageMappings.SwitchSpouses, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = UriMappingMarriage.SwitchSpouses, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
         string SwitchSpouses(string marriage);
 
  

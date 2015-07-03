@@ -314,14 +314,13 @@
     <Compile Include="Services\ServiceMethods.cs" />
     <Compile Include="Services\SourceService.cs" />
     <Compile Include="Services\SourceTypeService.cs" />
-    <Compile Include="URIMappings\diagrams.cs" />
-    <Compile Include="URIMappings\events.cs" />
-    <Compile Include="URIMappings\marriages.cs" />
-    <Compile Include="URIMappings\misc.cs" />
-    <Compile Include="URIMappings\parishs.cs" />
-    <Compile Include="URIMappings\persons.cs" />
-    <Compile Include="URIMappings\sourceMappings.cs" />
-    <Compile Include="URIMappings\sourceTypes.cs" />
+    <Compile Include="UriMappingConstants\diagrams.cs" />
+    <Compile Include="UriMappingConstants\marriages.cs" />
+    <Compile Include="UriMappingConstants\misc.cs" />
+    <Compile Include="UriMappingConstants\parishs.cs" />
+    <Compile Include="UriMappingConstants\persons.cs" />
+    <Compile Include="UriMappingConstants\sourceMappings.cs" />
+    <Compile Include="UriMappingConstants\sourceTypes.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Client\HtmlPages\tests\questions.csv" />
