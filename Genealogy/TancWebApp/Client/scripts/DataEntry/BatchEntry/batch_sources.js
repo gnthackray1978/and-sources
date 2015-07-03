@@ -10,6 +10,8 @@ var BatchSources = function () {
 
     this.sourceparam = 'scs';
     this.parishparam = 'parl';
+
+    this.DEFAULT_SOURCEGETNAME_URL = '/Sources/GetSourceNames';
 }
 
 
@@ -17,23 +19,23 @@ var BatchSources = function () {
 BatchSources.prototype = {
 
     isValidSources: function () {
-        var source_names = this.getSourcesNamesFromForm();
-        if (source_names == '')
+    
+        if (this.getSourcesNamesFromForm() == '')
             return false;
         else
             return true;
-        return true;
-    }
-    ,getSourceLst: function() {
+    
+    },
+
+    getSourceLst: function () {
         var params = {};
         var scs = this.qryStrUtils.getParameterByName(this.sourceparam, '');     
         params[0] = scs;
-        this.ancUtils.twaGetJSON('/Sources/GetSourceNames', params , $.proxy(this.processsourcetypes, this)) ;//processsourcetypes);
+        this.ancUtils.twaGetJSON(this.DEFAULT_SOURCEGETNAME_URL, params, $.proxy(this.processsourcetypes, this));//processsourcetypes);
         return false;
-    }
+    },
 
-
-     ,processsourcetypes:function(data) {
+    processsourcetypes: function (data) {
         var tableBody = '';
         var count = 0;
         tableBody += '<table class = "data_list">';
@@ -48,10 +50,9 @@ BatchSources.prototype = {
         tableBody += '</table>';
         $('#sourceLst').html(tableBody);
 
-    }
+     },
 
-
-     ,getSourcesNamesFromForm:function() {
+     getSourcesNamesFromForm: function () {
 
         var result = '';
     
