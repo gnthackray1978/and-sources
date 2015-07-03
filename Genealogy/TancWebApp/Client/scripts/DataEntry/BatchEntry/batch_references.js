@@ -10,6 +10,9 @@ var BatchReferences = function (grid, batchcore) {
     this.ancUtils = new AncUtils();
     this.qryStrUtils = new QryStrUtils();
     this.batchCore = batchcore;
+
+    this.DEFAULT_SOURCETYPESELECT_URL = '/SourceTypes/Select';
+    this.DEFAULT_SOURCEADD = '/Sources/Add';
 }
 
 
@@ -30,7 +33,7 @@ BatchReferences.prototype.displayReferences = function (rowsrequired, displayDat
     params[2] = '100';
     params[3] = 'SourceTypeDesc';
 
-    this.ancUtils.twaGetJSON('/SourceTypes/Select', params, function (data) {
+    this.ancUtils.twaGetJSON(this.DEFAULT_SOURCETYPESELECT_URL, params, function (data) {
         var content = '';
 
         $.each(data.serviceSources, function (source, sourceInfo) {
@@ -137,7 +140,7 @@ BatchReferences.prototype.saveReference = function (rowIdx) {
     var args = { rowid: rowIdx, data: '' };
 
     var postParams = {
-        url: '/Sources/Add',
+        url: this.DEFAULT_SOURCEADD,
         data: this.GetRefenceRecord(rowIdx),
         idparam: 'id',
         refreshmethod: $.proxy(this.batchCore.recordAdded, this.batchCore),

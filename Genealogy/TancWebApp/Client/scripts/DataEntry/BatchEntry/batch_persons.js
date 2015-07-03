@@ -7,6 +7,8 @@
 
 
 var BatchBirths = function (grid, batchcore) {
+    this.DEFAULT_ADD_URL = '/PersonService/Add';
+
     this.editableGrid = grid;
     this.rowcount = 0;
     this.surname = '';
@@ -325,7 +327,7 @@ BatchBirths.prototype.saveBirth = function (rowIdx) {
     var args = { rowid: rowIdx, data: '' };
 
    var postParams = {
-        url: '/PersonService/Add',
+       url: this.DEFAULT_ADD_URL,
         data: this.GetBirthRecord(rowIdx),
         idparam: 'id',
         refreshmethod: $.proxy(this.batchCore.recordAdded, this.batchCore),
@@ -342,7 +344,7 @@ BatchBirths.prototype.saveDeath = function (rowIdx) {
     var args = {rowid: rowIdx, data: ''};
 
     var postParams = {
-        url: '/PersonService/Add',
+        url: this.DEFAULT_ADD_URL,
         data: this.GetDeathRecord(rowIdx),
         idparam: 'id',
         refreshmethod: $.proxy(this.batchCore.recordAdded, this.batchCore),

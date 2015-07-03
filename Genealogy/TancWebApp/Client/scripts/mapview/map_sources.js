@@ -4,6 +4,11 @@
 var MapSources = function () {
     this.qryStrUtils = new QryStrUtils();
     this.ancUtils = new AncUtils();
+
+    this.DEFAULT_SOURCEEDITOR_URL = '../HtmlPages/SourceEditor.html';
+    this.DEFAULT_PERSONSEARCH_URL = '../HtmlPages/PersonSearch.html';
+    this.DEFAULT_MARRIAGESEARCH_URL = '../HtmlPages/MarriageSearch.html';
+
 }
 
 
@@ -18,7 +23,7 @@ MapSources.prototype = {
 
     //        tableBody += '<td><a href="../Forms/FrmEditSource.aspx' + _loc + '"><div> Edit </div></a></td>';
 
-        window.location = '../Forms/FrmEditSource.aspx?id=' + sourceId;
+        window.location = this.DEFAULT_SOURCEEDITOR_URL + '?id=' + sourceId;
 
     },
 
@@ -26,8 +31,8 @@ MapSources.prototype = {
 
         var transTable = '';
 
-        var qry = '../HtmlPages/PersonSearch.html#?active=1&cname=&sname=thack&fcname=&fsname=&mcname=&msname=&locat=&count=&ldrl=1500&ldru=1900&inct=true&incb=false&incd=false&parid=' + parishId;
-        var mqry = '../HtmlPages/MarriageSearch.html#?active=1&mcname=&msname=&fcname=&fsname=&locat=&ldrl=1400&ldru=1900&parid=' + parishId;
+        var qry = this.DEFAULT_PERSONSEARCH_URL +  '#?active=1&cname=&sname=thack&fcname=&fsname=&mcname=&msname=&locat=&count=&ldrl=1500&ldru=1900&inct=true&incb=false&incd=false&parid=' + parishId;
+        var mqry = this.DEFAULT_MARRIAGESEARCH_URL + '#?active=1&mcname=&msname=&fcname=&fsname=&locat=&ldrl=1400&ldru=1900&parid=' + parishId;
 
 
         transTable += '<span class = "tab_title"><a href = "' + qry + '">' + personCount + ' Persons</a><span>  </span><a href = "' + mqry + '">' + marriageCount + ' Marriages</a>  </span>';

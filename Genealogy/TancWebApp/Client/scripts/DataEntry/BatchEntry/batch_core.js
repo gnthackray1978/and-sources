@@ -17,6 +17,9 @@ $(document).ready(function () {
 
 
 var BatchCore = function () {
+    this.DEFAULT_PARISHSEARCHPAGE_URL = '../HtmlPages/ParishSearch.html';
+    this.DEFAULT_SOURCESEARCHPAGE_URL = '../HtmlPages/SourceSearch.html';
+
 
     this.editableGrid = new EditableGrid("DemoGrid");
     this.bp = new BatchParishs();
@@ -187,7 +190,7 @@ BatchCore.prototype = {
         _loc = this.qryStrUtils.updateStrForQry(_loc, this.parishparam, '');
         _loc = _loc.replace('#', '');
 
-        var url = '../HtmlPages/ParishSearch.html#' + _loc;
+        var url = this.DEFAULT_PARISHSEARCHPAGE_URL + '#' + _loc;
 
         window.location.href = url;
     },
@@ -203,7 +206,7 @@ BatchCore.prototype = {
         _loc = _loc.replace('#', '');
 
 
-        var url = '../HtmlPages/SourceSearch.html#' + _loc;
+        var url = this.DEFAULT_SOURCESEARCHPAGE_URL + '#' + _loc;
 
         window.location.href = url;
 

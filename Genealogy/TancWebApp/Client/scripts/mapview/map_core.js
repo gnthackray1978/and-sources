@@ -26,6 +26,14 @@ $(document).ready(function () {
 });
 
 var GeneralMap = function () {
+    this.DEFAULT_PARISHTYPES_URL = '/ParishService/GetParishsTypes';
+    this.DEFAULT_PARISHLOCATIONS_URL = '/ParishService/GetParishsFromLocations';
+    this.DEFAULT_PARISHDETAILS_URL = '/ParishService/GetParishDetails';
+    this.DEFAULT_PARISHSEARCH_URL = '/ParishService/GetSearchResults';
+
+    this.DEFAULT_CHURCHICON_URL = '../Images/icons/32x32/church_symbol2.png';
+    this.DEFAULT_ALTCHURCHICON_URL = '../Images/icons/icon_church.gif';
+
     this.qryStrUtils = new QryStrUtils();
     this.ancUtils = new AncUtils();
     this.mapParishs = new MapParishs();
@@ -98,7 +106,7 @@ GeneralMap.prototype = {
         });
         this.setMapDetail();
         var params = {};
-        this.ancUtils.twaGetJSON('/ParishService/GetParishsTypes', params, $.proxy(this.mapParishs.loadParishTypes, this.mapParishs));
+        this.ancUtils.twaGetJSON(this.DEFAULT_PARISHTYPES_URL, params, $.proxy(this.mapParishs.loadParishTypes, this.mapParishs));
 
     //    var that = this;
 
@@ -117,8 +125,6 @@ GeneralMap.prototype = {
 
         this.DrawMap();
     },
-
-
 
     DrawMap: function () {
 
@@ -149,7 +155,6 @@ GeneralMap.prototype = {
 
     },
 
-
     loadParish: function (locats) {
         // var url = getHost() + "/ParishService/GetParishsFromLocations";
 
@@ -162,7 +167,7 @@ GeneralMap.prototype = {
             params[0] = locats;
         }
 
-        this.ancUtils.twaGetJSON('/ParishService/GetParishsFromLocations', params,
+        this.ancUtils.twaGetJSON(this.DEFAULT_PARISHLOCATIONS_URL, params,
             $.proxy(this.parishResults, this)
 
         );
@@ -188,7 +193,7 @@ GeneralMap.prototype = {
 
                 var homeLatLng = new google.maps.LatLng(sourceInfo.ParishX, sourceInfo.ParishY);
 
-                var image = '../Images/icons/32x32/church_symbol2.png';
+                var image = that.DEFAULT_CHURCHICON_URL;
                 var marker = new google.maps.Marker({
                     position: homeLatLng,
                     map: that.map,
@@ -224,7 +229,6 @@ GeneralMap.prototype = {
 
 
     },
-
 
     createInfoWindowContent: function (parishId, parishName, marker) {
 
@@ -271,7 +275,7 @@ GeneralMap.prototype = {
 
 
         if (infowindowloaded == 0) {
-            this.ancUtils.twaGetJSON('/ParishService/GetParishDetails', params, $.proxy(function (result) {
+            this.ancUtils.twaGetJSON(this.DEFAULT_PARISHDETAILS_URL, params, $.proxy(function (result) {
 
 
 
@@ -346,8 +350,6 @@ GeneralMap.prototype = {
         }
     },
 
-
-
     MakeSquareCSV: function (_rec) {
 
         var locationString = "";
@@ -362,6 +364,7 @@ GeneralMap.prototype = {
         return locationString;
 
     },
+
     MakeLocation: function (latx, laty) {
 
 
@@ -575,7 +578,7 @@ GeneralMap.prototype = {
                 while (markerIdx < this.markersArray.length) {
                     var _id = this.markersArray[markerIdx].get('id');
                     if (_id == sourceInfo.ParishId) {
-                        this.markersArray[markerIdx].setIcon('../Images/icons/icon_church.gif');
+                        this.markersArray[markerIdx].setIcon(this.DEFAULT_ALTCHURCHICON_URL);
                         break;
                     }
 
@@ -586,7 +589,7 @@ GeneralMap.prototype = {
             });
         }
 
-        this.ancUtils.twaGetJSON('/ParishService/GetSearchResults', params, processSearchResults);
+        this.ancUtils.twaGetJSON(this.DEFAULT_PARISHSEARCH_URL, params, processSearchResults);
 
 
 
@@ -608,277 +611,5 @@ GeneralMap.prototype = {
         });
 
     }
-
-
-
 }
-
-//var markersArray = [];
-//
-//var parishTypes = null;
-//var downloadedArea = new Array();
-//var displayedMarker = new Array();
-//var infoWindows = new Array();
-//
-//
-//var zoomLevel = 0;
-//var map = null;
-//
-//$(document).ready(function () {
-//
-//    localCreate('#1', initMap);
-//});
-//
-// 
-//
-//function localCreate(selectorid, readyfunction) {
-//
-//    facebookReady = readyfunction;
-//
-//    var headersection = '';
-//
-//    headersection += '<div id="fb-root">';
-//    headersection += '<fb:login-button autologoutlink="true" &nbsp;perms="email,user_birthday,status_update,publish_stream"></fb:login-button>';
-//    headersection += '</div>';
-//
-//    $(selectorid).html(headersection);
-//}
-//
-//function donothing() {
-//
-//
-//}
-
-//function initMap() {
-//
-//    //        var latlng = new google.maps.LatLng(-34.397, 150.644);
-//    //        var myOptions = {
-//    //            zoom: 8,
-//    //            center: latlng,
-//    //            mapTypeId: google.maps.MapTypeId.ROADMAP
-//    //        };
-//    //        var map = new google.maps.Map(document.getElementById("map_canvas"),
-//    //        myOptions);
-//
-//
-//
-//    var latLng = new google.maps.LatLng(53.957700, -1.082290);
-//    var homeLatLng = new google.maps.LatLng(53.957700, -1.082290);
-//
-//    var parishId = getParameterByName('pid');
-//    var cx = getParameterByName('cx');
-//    var cy = getParameterByName('cy');
-//
-//    if (cx != null && cy != null) {
-//        latLng = new google.maps.LatLng(cx, cy);
-//    }
-//
-//
-//    geocoder = new google.maps.Geocoder();
-//    var mapDiv = document.getElementById('map_canvas');
-//
-//    map = new google.maps.Map(mapDiv, {
-//        center: latLng,
-//        zoom: 12
-//            ,
-//        mapTypeId: 'Border View',
-//        draggableCursor: 'pointer',
-//        draggingCursor: 'pointer',
-//
-//        mapTypeControlOptions: { mapTypeIds: ['Border View'] },
-//
-//        zoomControl: true,
-//        zoomControlOptions: {
-//            style: google.maps.ZoomControlStyle.LARGE,
-//            position: google.maps.ControlPosition.TOP_RIGHT
-//        },
-//
-//        panControl: true,
-//        panControlOptions: {
-//            position: google.maps.ControlPosition.TOP_RIGHT
-//        }
-//    });
-//
-//    setMapDetail();
-//
-//    //  var url = getHost() + "/ParishService/GetParishsFromLocations";
-//
-//    var params = {};
-//
-//
-//    //        $.ajaxSetup({ cache: false });
-//    //        $.getJSON(getHost() + "/ParishService/GetParishsTypes", params, loadParishTypes);
-//
-//    twaGetJSON('/ParishService/GetParishsTypes', params, loadParishTypes);
-//
-//    google.maps.event.addListener(map, 'dragend', function () {
-//        DrawMap();
-//    });
-//
-//    google.maps.event.addListener(map, 'zoom_changed', function () {
-//        DrawMap();
-//    });
-//
-//
-//
-//
-//    DrawMap();
-//
-//
-//};
-
-//function DrawMap() {
-//
-//    // closer you get the higher the zoomlevel is
-//
-//
-//    zoomLevel = map.getZoom();
-//
-//    if (zoomLevel < 12) {
-//        deleteOverlays();
-//    }
-//    else {
-//        var bounds = map.getCenter();
-//
-//        var newLocation = MakeLocation(bounds.lat(), bounds.lng());
-//
-//        if (newLocation != "") {
-//            loadParish(newLocation);
-//        }
-//    }
-//
-//    //  trimMarkers();
-//
-//}
-
-//function createInfoWindowContent(parishId, parishName, marker) {
-//
-//    var params = {};
-//    params[0] = parishId;
-//    // $.ajaxSetup({ cache: false });
-//
-//    //$.getJSON(getHost() + "/ParishService/GetParishDetails", params, function (result) {
-//
-//    var infowindowloaded = 0;
-//
-//    //basically cache what we've already downloaded
-//    // we have a array of downloaded info window content
-//
-//
-//    $.each(infoWindows, function (key, value) {
-//
-//        // we have downloaded this one before
-//        if (value.pid == parishId) {
-//            if (value.isopen == 0) {
-//                infoWindows[key].isopen = 1;
-//                var infowindow = new google.maps.InfoWindow({
-//                    content: value.infowindow
-//                });
-//
-//                infowindow.open(map, marker);
-//                
-//                var idx = key;
-//
-//                google.maps.event.addListener(infowindow, 'closeclick', function () {
-//                    updateQryPar('pid', '');
-//                    infoWindows[idx].isopen = 0;
-//
-//                });
-//            }
-//            infowindowloaded = 1;
-//        }
-//
-//    });
-//
-//    
-//
-//    if (infowindowloaded ==0) {
-//
-//        twaGetJSON('/ParishService/GetParishDetails', params, function (result) {
-//
-//            //window.location.hash = sourceInfo.ParishId;
-//
-//            //updateQryPar('pid', parishId);
-//
-//            var bounds = map.getBounds();
-//
-//            var centre = bounds.getCenter();
-//            //lat(), bounds.lng()
-//
-//
-//            updateQryPar('cx', centre.lat());
-//            updateQryPar('cy', centre.lng());
-//            updateQryPar('pid', parishId);
-//
-//            var headersection = '';
-//
-//            headersection += '<div id="' + parishId + '" class = "info_cont">';
-//
-//            headersection += '<div class = "title">' + parishName + ' </div>';
-//            headersection += '<div class = "tabhed">';
-//            headersection += '<a href=\'\' onclick="masterShowTab(\'1\');return false" ><span>Transcripts</span></a>';
-//            headersection += '<a href=\'\' onclick="masterShowTab(\'2\');return false" ><span>Registers</span></a>';
-//            headersection += '<a href=\'\' onclick="masterShowTab(\'3\');return false" ><span>Sources</span></a>';
-//            headersection += '</div>';
-//
-//            headersection += '<div id="panelA" class = "displayPanel">';
-//            headersection += '<div class = "mtrlnk">';
-//            headersection += generateTranscripts(result.serviceParishTranscripts);
-//            headersection += '</div>';
-//            headersection += '</div>';
-//
-//            headersection += '<div id="panelB" class = "hidePanel">';
-//            headersection += '<div class = "mtrlnk">';
-//            headersection += generateRegisters(result.serviceParishRecords);
-//            headersection += '</div>';
-//            headersection += '</div>';
-//
-//            headersection += '<div id="panelC" class = "hidePanel">';
-//            headersection += '<div class = "mtrlnk">';
-//            headersection += generateSources(result.serviceServiceMapDisplaySource, parishId, parishName, result.MarriageCount, result.PersonCount);
-//            headersection += '</div>';
-//            headersection += '</div>';
-//            headersection += '</div>'; //end container
-//
-//
-//
-//
-//
-//            var infowindow = new google.maps.InfoWindow({
-//                content: headersection
-//            });
-//
-//            //infowindow.
-//            infowindow.open(map, marker);
-//
-//            var infowindowentry = {};
-//
-//            infowindowentry.pid = parishId;
-//            infowindowentry.isopen = 1;
-//            infowindowentry.infowindow = headersection;
-//
-//
-//            var idx = infoWindows.push(infowindowentry);
-//
-//            google.maps.event.addListener(infowindow, 'closeclick', function () {
-//                updateQryPar('pid', '');
-//                infoWindows[idx - 1].isopen = 0;
-//            });
-//
-//
-//
-//
-//
-//            masterShowTab(1);
-//
-//
-//        });      //end     $.getJSON(url, params, function () {
-//
-//    }
-//
-//
-//
-//}
-
-
  

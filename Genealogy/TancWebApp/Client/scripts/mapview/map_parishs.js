@@ -6,7 +6,7 @@ var MapParishs = function () {
     this.qryStrUtils = new QryStrUtils();
     this.ancUtils = new AncUtils();
     this.parishTypes = null;
-
+    this.DEFAULT_PARISHDETAILS_URL = '/ParishService/GetParishDetails';
 }
 
 
@@ -37,7 +37,7 @@ MapParishs.prototype = {
             params[0] = locats;
         }
 
-        this.ancUtils.twaGetJSON('/ParishService/GetParishDetails', params, resultFunc);
+        this.ancUtils.twaGetJSON(this.DEFAULT_PARISHDETAILS_URL, params, resultFunc);
     },
 
     loadParishTypes: function (data) {
