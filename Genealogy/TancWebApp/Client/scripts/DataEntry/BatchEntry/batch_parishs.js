@@ -4,6 +4,8 @@
 
 var BatchParishs = function () {
 
+    this.DEFAULT_GETPARISHNAME_URL = '/ParishService/GetParishNames';
+
     this.ancUtils = new AncUtils();
     this.qryStrUtils = new QryStrUtils();
 
@@ -22,7 +24,7 @@ BatchParishs.prototype = {
         //   $.ajaxSetup({ cache: false });
         //   $.getJSON(parishListURL, params, processParishs);
 
-        this.ancUtils.twaGetJSON("/ParishService/GetParishNames", params, $.proxy(this.processParishs, this));
+        this.ancUtils.twaGetJSON(this.DEFAULT_GETPARISHNAME_URL, params, $.proxy(this.processParishs, this));
         return false;
     },
 

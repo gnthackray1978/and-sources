@@ -19,6 +19,11 @@ $(document).ready(function () {
 var AncEvents = function () {
     this.qryStrUtils = new QryStrUtils();
     this.ancUtils = new AncUtils();
+    this.DEFAULT_SELECT_URL = '/Events/GetEvents/Select';
+    this.DEFAULT_MARRIAGEEDITOR_URL = '../HtmlPages/MarriageEditor.html';
+    this.DEFAULT_PERSONEDITOR_URL = '../HtmlPages/PersonEditor.html';
+    this.DEFAULT_SOURCEEDITOR_URL = '../HtmlPages/SourceEditor.html';
+
     this.selection = [];
  
     this.postParams = { 
@@ -157,7 +162,7 @@ AncEvents.prototype = {
         params[13] = '30';
         params[14] = this.qryStrUtils.getParameterByName('sort_col', 'BirthInt');
     
-        this.ancUtils.twaGetJSON('/Events/GetEvents/Select', params, $.proxy(this.processData, this));
+        this.ancUtils.twaGetJSON(this.DEFAULT_SELECT_URL, params, $.proxy(this.processData, this));
     
         this.createQryString();
     
@@ -185,17 +190,17 @@ AncEvents.prototype = {
     
             //person
             if (sourceInfo.LinkTypeId == 1) {
-                tableBody += '<td><a href="../HtmlPages/PersonEditor.html' + _loc + '"><div>'+ sourceInfo.EventDescription+'</div></a></td>';
+                tableBody += '<td><a href="' +this.DEFAULT_PERSONEDITOR_URL + _loc + '"><div>'+ sourceInfo.EventDescription+'</div></a></td>';
             }
     
             //marriage
             if (sourceInfo.LinkTypeId == 2) {
-                tableBody += '<td><a href="../HtmlPages/MarriageEditor.html' + _loc + '"><div>' + sourceInfo.EventDescription + '</div></a></td>';
+                tableBody += '<td><a href="' + this.DEFAULT_MARRIAGEEDITOR_URL + _loc + '"><div>' + sourceInfo.EventDescription + '</div></a></td>';
             }
     
             //source
             if (sourceInfo.LinkTypeId == 4) {
-                tableBody += '<td><a href="../HtmlPages/SourceEditor.html' + _loc + '"><div>' + sourceInfo.EventDescription + '</div></a></td>';
+                tableBody += '<td><a href="' + this.DEFAULT_PERSONEDITOR_URL + _loc + '"><div>' + sourceInfo.EventDescription + '</div></a></td>';
             }
     
             tableBody += '<td><div>' + sourceInfo.EventChristianName + '</div></td>';

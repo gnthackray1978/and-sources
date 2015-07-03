@@ -15,6 +15,11 @@ $(document).ready(function () {
 var AncSourceEditor = function () {
     this.qryStrUtils = new QryStrUtils();
     this.ancUtils = new AncUtils();
+
+    this.DEFAULT_GET_URL = '/Sources/GetSource';
+    this.DEFAULT_ADD_URL = '/Sources/Add';
+    this.DEFAULT_SEARCHPAGE_URL = '../HtmlPages/SourceSearch.html';
+
     this.ancSelectorParishs = new AncSelectorParishs();
     this.ancSelectorSourceTypes = new AncSelectorSourceTypes();
     this.fileTable = null;
@@ -61,7 +66,7 @@ AncSourceEditor.prototype = {
        var params = {};
        params[0] = this.qryStrUtils.getParameterByName('id', '');
 
-       this.ancUtils.twaGetJSON("/Sources/GetSource", params, $.proxy(this.processData, this));
+       this.ancUtils.twaGetJSON(this.DEFAULT_GET_URL, params, $.proxy(this.processData, this));
    },
 
    processData: function(data) {
@@ -236,7 +241,7 @@ AncSourceEditor.prototype = {
         return data;
     },
 
-    GetFileData:function() {
+   GetFileData:function() {
         
         var nodes = this.fileTable.fnGetNodes();
         var hidx = 0;
@@ -275,15 +280,15 @@ AncSourceEditor.prototype = {
     },
 
    save: function () {
-        this.postParams.url = '/Sources/Add';
+       this.postParams.url = this.DEFAULT_ADD_URL;
         this.postParams.data = this.GetSourceRecord();
         this.ancUtils.twaPostJSON(this.postParams);
    },
 
    saveReturn: function () {
         this.postParams.refreshmethod = function () { 
-        window.location = '../HtmlPages/SourceSearch.html' + window.location.hash; };
-        this.postParams.url = '/Sources/Add';
+        window.location = this.DEFAULT_SEARCHPAGE_URL + window.location.hash; };
+        this.postParams.url = this.DEFAULT_ADD_URL;
         this.postParams.data = this.GetSourceRecord();
         this.ancUtils.twaPostJSON(this.postParams);
    }

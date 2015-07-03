@@ -14,6 +14,13 @@ $(document).ready(function () {
 var AncParishs = function () {
     this.qryStrUtils = new QryStrUtils();
     this.ancUtils = new AncUtils();
+
+    this.DEFAULT_BATCHENTRY_URL = '../HtmlPages/batchEntry.html';
+    this.DEFAULT_PARISHEDITOR_URL = '../HtmlPages/ParishEditor.html';
+    this.DEFAULT_PARISHSELECT_URL = '/ParishService/GetParishs/Select';
+    this.DEFAULT_PARISHDELETE_URL = '/ParishService/Delete';
+
+
     this.selection = [];
   
     this.postParams = {
@@ -92,7 +99,7 @@ AncParishs.prototype = {
 
         var _loc = '#?scs=' + sources + '&parl=' + parishs;
 
-        var url = '../HtmlPages/batchEntry.html' + _loc;
+        var url = this.DEFAULT_BATCHENTRY_URL + _loc;
 
         window.location.href = url;
     },
@@ -119,7 +126,7 @@ AncParishs.prototype = {
         params[4] = '30';
         params[5] = String(this.qryStrUtils.getParameterByName('sort_col', 'ParishName'));
 
-        this.ancUtils.twaGetJSON('/ParishService/GetParishs/Select', params, $.proxy(this.processData, this));
+        this.ancUtils.twaGetJSON(this.DEFAULT_PARISHSELECT_URL, params, $.proxy(this.processData, this));
 
         this.createQryString();
 
@@ -152,7 +159,7 @@ AncParishs.prototype = {
             selectEvents.push({ key: 's' + _idx, value: sourceInfo.ParishId });
 
             tableBody += '<td><div>' + sourceInfo.ParishDeposited + '</div></td>';
-            tableBody += '<td><a href="../HtmlPages/ParishEditor.html' + _loc + '"><div> Edit </div></a></td>';
+            tableBody += '<td><a href="' + this.DEFAULT_PARISHEDITOR_URL + _loc + '"><div> Edit </div></a></td>';
             tableBody += '<td><div>' + sourceInfo.ParishParent + '</div></td>';
             tableBody += '<td><div>' + sourceInfo.ParishStartYear + '</div></td>';
             tableBody += '<td><div>' + sourceInfo.ParishEndYear + '</div></td>';
@@ -201,12 +208,12 @@ AncParishs.prototype = {
         this.getParishs('1');
     },
     DeleteRecord: function () {
-        this.postParams.url = '/ParishService/Delete';
+        this.postParams.url = this.DEFAULT_PARISHDELETE_URL;
         this.postParams.data = { parishIds: this.ancUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
     },
     AddParish: function () {
-        window.location.href = '../HtmlPages/ParishEditor.html#' + this.qryStrUtils.makeIdQryString('id', '00000000-0000-0000-0000-000000000000');
+        window.location.href = this.DEFAULT_PARISHEDITOR_URL + '#' + this.qryStrUtils.makeIdQryString('id', '00000000-0000-0000-0000-000000000000');
     }
 };
 

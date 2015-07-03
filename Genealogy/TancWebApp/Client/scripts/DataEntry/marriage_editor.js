@@ -19,12 +19,12 @@ $(document).ready(function () {
 });
 
 
-
-
-
 var AncMarriageEditor = function () {
     this.qryStrUtils = new QryStrUtils();
     this.ancUtils = new AncUtils();
+    this.DEFAULT_GET_URL = '/MarriageService/Marriage';
+    this.DEFAULT_ADD_URL = '/MarriageService/Add';
+    this.DEFAULT_SEARCHPAGE_URL = '../HtmlPages/MarriageSearch.html';
 
     this.postParams = {
 
@@ -54,13 +54,11 @@ AncMarriageEditor.prototype = {
     },
 
     load: function () {
-        console.log('marriage editor load');
         var params = {};
         params[0] = this.qryStrUtils.getParameterByName('id', '');
 
-        this.ancUtils.twaGetJSON("/MarriageService/Marriage", params, $.proxy(this.processData, this));
+        this.ancUtils.twaGetJSON(this.DEFAULT_GET_URL, params, $.proxy(this.processData, this));
     },
-
 
     processData: function (data) {
 
@@ -240,14 +238,14 @@ AncMarriageEditor.prototype = {
         return record;
     },
     save: function () {
-        this.postParams.url = '/MarriageService/Add';
+        this.postParams.url = this.DEFAULT_ADD_URL;
         this.postParams.data = this.GetMarriageRecord();
         this.ancUtils.twaPostJSON(this.postParams);
     },
 
     saveReturn: function () {
-        this.postParams.refreshmethod = function () { window.location = '../HtmlPages/MarriageSearch.html' + window.location.hash; };
-        this.postParams.url = '/MarriageService/Add';
+        this.postParams.refreshmethod = function () { window.location = this.DEFAULT_SEARCHPAGE_URL + window.location.hash; };
+        this.postParams.url = this.DEFAULT_ADD_URL;
         this.postParams.data = this.GetMarriageRecord();
         this.ancUtils.twaPostJSON(this.postParams);
     }

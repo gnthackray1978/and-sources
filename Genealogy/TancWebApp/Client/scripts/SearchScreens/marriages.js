@@ -19,6 +19,19 @@ $(document).ready(function () {
 var AncMarriages = function () {
     this.qryStrUtils = new QryStrUtils();
     this.ancUtils = new AncUtils();
+    this.DEFAULT_MARRIAGESELECT_URL = '/MarriageService/Get/Select';
+    this.DEFAULT_SOURCESSELECT_URL = '/Sources/Select';
+    this.DEFAULT_MARRIAGEEDITOR_URL = '../HtmlPages/MarriageEditor.html';
+    this.DEFAULT_MARRIAGEDELETE_URL = '/MarriageService/Delete';
+    this.DEFAULT_MARRIAGEDUPLICATE_URL = '/MarriageService/SetDuplicate';
+    this.DEFAULT_MARRIAGEREMOVELINK_URL = '/MarriageService/RemoveLinks';
+    this.DEFAULT_MARRIAGEREORDER_URL = '/MarriageService/ReorderMarriages';
+    this.DEFAULT_MARRIAGEMERGE_URL = '/MarriageService/MergeMarriages';
+    this.DEFAULT_MARRIAGESWITCHSPOUSES_URL = '/MarriageService/SwitchSpouses';
+    this.DEFAULT_MARRIAGESETSOURCE_URL = '/Sources/AddMarriageTreeSource';
+    this.DEFAULT_MARRIAGEREMOVESOURCE_URL = '/Sources/RemoveTreeSources';
+
+
     this.selection = [];
     this.parishId = '';
     this.postParams = { 
@@ -133,7 +146,7 @@ AncMarriages.prototype = {
         params[12] = '30';
         params[13] = this.qryStrUtils.getParameterByName('sort_col', 'MarriageDate');
 
-        this.ancUtils.twaGetJSON('/MarriageService/Get/Select', params, $.proxy(this.marriageResult, this));
+        this.ancUtils.twaGetJSON(this.DEFAULT_MARRIAGESELECT_URL, params, $.proxy(this.marriageResult, this));
 
         this.createQryString();
 
@@ -160,7 +173,7 @@ AncMarriages.prototype = {
         params[14] = '30';
         params[15] = 'sdate';
 
-        this.ancUtils.twaGetJSON('/Sources/Select', params, function (data) {
+        this.ancUtils.twaGetJSON(this.DEFAULT_SOURCESSELECT_URL, params, function (data) {
             var tableBody = '';
             $.each(data.serviceSources, function (source, sourceInfo) {
                 //<option value="volvo">Volvo</option> //sourceInfo.SourceDesc           
@@ -171,9 +184,7 @@ AncMarriages.prototype = {
          
         return false;
     },
-
-    
-
+   
     marriageResult: function (data) {
 
         console.time('result');
@@ -211,7 +222,7 @@ AncMarriages.prototype = {
             tableBody += '<td><a id= "s' + _idx + '" href=""><div>' + sourceInfo.MarriageDate + '</div></a></td>';
             selectEvents.push({ key: 's' + _idx, value: sourceInfo.MarriageId });
 
-            tableBody += '<td><a href="../HtmlPages/MarriageEditor.html' + _loc + '"><div> Edit </div></a></td>';
+            tableBody += '<td><a href="'+this.DEFAULT_MARRIAGEEDITOR_URL + _loc + '"><div> Edit </div></a></td>';
 
             tableBody += '<td><div>' + sourceInfo.MaleCName + '</div></td>';
             
@@ -290,49 +301,53 @@ AncMarriages.prototype = {
     },
 
     DeleteRecord: function () {
-        this.postParams.url = '/MarriageService/Delete';
+        this.postParams.url = this.DEFAULT_MARRIAGEDELETE_URL;
         this.postParams.data = { marriageIds: this.ancUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
     },
 
     SetDuplicates: function () {
-        this.postParams.url = '/MarriageService/SetDuplicate';
+        this.postParams.url = this.DEFAULT_MARRIAGEDUPLICATE_URL;
         this.postParams.data = { marriages: this.ancUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
     },
 
     SetRemoveLink: function () {
-        this.postParams.url = '/MarriageService/RemoveLinks';
+        this.postParams.url = this.DEFAULT_MARRIAGEREMOVELINK_URL;
         this.postParams.data = { marriage: this.ancUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
     },
+
     Reorder: function () {
-        this.postParams.url = '/MarriageService/ReorderMarriages';
+        this.postParams.url = this.DEFAULT_MARRIAGEREORDER_URL;
         this.postParams.data = { marriage: this.ancUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
     },
+
     SetMergeMarriages: function () {
-        this.postParams.url = '/MarriageService/MergeMarriages';
+        this.postParams.url = this.DEFAULT_MARRIAGEMERGE_URL;
         this.postParams.data = { marriage: this.ancUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
     },
 
     addMarriage: function (path) {
-        window.location.href = '../HtmlPages/MarriageEditor.html#' + this.qryStrUtils.makeIdQryString('id', path);
+        window.location.href = this.DEFAULT_MARRIAGEEDITOR_URL +'#' + this.qryStrUtils.makeIdQryString('id', path);
     },
+
     SwitchSpouses: function () {
-        this.postParams.url = '/MarriageService/SwitchSpouses';
+        this.postParams.url = this.DEFAULT_MARRIAGESWITCHSPOUSES_URL;
         this.postParams.data = { marriage: this.ancUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
-    }
-    ,
+    },
+
     SetSources: function () {
-        this.postParams.url = '/Sources/AddMarriageTreeSource';
+        this.postParams.url = this.DEFAULT_MARRIAGESETSOURCE_URL;
         this.postParams.data = { record: this.ancUtils.convertToCSV(this.selection), sources: $("#tree-select").val() };
         this.ancUtils.twaPostJSON(this.postParams);
     },
+
     RemoveSources: function () {
-        this.postParams.url = '/Sources/RemoveTreeSources';
+        this.postParams.url = this.DEFAULT_MARRIAGEREMOVESOURCE_URL;
         this.postParams.data = { record: this.ancUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
     }

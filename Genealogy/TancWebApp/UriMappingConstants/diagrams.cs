@@ -1,7 +1,7 @@
 ﻿namespace TancWebApp.URIMappings
 {
 
-    public static class UriMappingsDiag
+    public static class UriMappingDiagram
     {
 
         //tree

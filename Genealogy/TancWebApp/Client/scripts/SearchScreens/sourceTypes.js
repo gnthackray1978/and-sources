@@ -14,6 +14,10 @@ $(document).ready(function () {
 var AncSourceTypes = function () {
     this.qryStrUtils = new QryStrUtils();
     this.ancUtils = new AncUtils();
+    this.DEFAULT_SOURCETYPESELECT_URL = '/SourceTypes/Select';
+    this.DEFAULT_SOURCETYPEDELETE_URL = '/SourceTypes/Delete';
+    this.DEFAULT_SOURCETYPEEDITOR_URL = '../HtmlPages/SourceTypeEditor.html';
+
     this.selection = [];
   
     this.postParams = {
@@ -72,7 +76,7 @@ AncSourceTypes.prototype = {
         params[2] = '30';
         params[3] = String(this.qryStrUtils.getParameterByName('sort_col', 'SourceTypeDesc'));
 
-        this.ancUtils.twaGetJSON('/SourceTypes/Select', params, $.proxy(this.processData, this));
+        this.ancUtils.twaGetJSON(this.DEFAULT_SOURCETYPESELECT_URL, params, $.proxy(this.processData, this));
 
         this.createQryString();
 
@@ -110,7 +114,7 @@ AncSourceTypes.prototype = {
             selectEvents.push({ key: 's' + _idx, value: sourceInfo.TypeId });
 
             tableBody += '<td><div>' + sourceInfo.Order + '</div></td>';
-            tableBody += '<td><a href="../HtmlPages/SourceTypeEditor.html' + _loc + '"><div> Edit </div></a></td>';
+            tableBody += '<td><a href="' + this.DEFAULT_SOURCETYPEEDITOR_URL + _loc + '"><div> Edit </div></a></td>';
 
             tableBody += '</tr>';
         });
@@ -155,12 +159,12 @@ AncSourceTypes.prototype = {
         this.getSourceTypes();
     },
     DeleteRecord: function () {
-        this.postParams.url = '/SourceTypes/Delete';
+        this.postParams.url = this.DEFAULT_SOURCETYPEDELETE_URL;
         this.postParams.data = { sourceIds: this.ancUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
     },
     AddSourceType: function () {
-        window.location.href = '../HtmlPages/SourceTypeEditor.html#' + this.qryStrUtils.makeIdQryString('id', '0');
+        window.location.href = this.DEFAULT_SOURCETYPEEDITOR_URL + '#' + this.qryStrUtils.makeIdQryString('id', '0');
     }
 
 }
