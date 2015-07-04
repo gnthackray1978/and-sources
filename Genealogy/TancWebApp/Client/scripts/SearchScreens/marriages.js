@@ -19,6 +19,7 @@ $(document).ready(function () {
 var AncMarriages = function () {
     this.qryStrUtils = new QryStrUtils();
     this.ancUtils = new AncUtils();
+    this.pager = new Pager();
     this.DEFAULT_MARRIAGESELECT_URL = '/MarriageService/Get/Select';
     this.DEFAULT_SOURCESSELECT_URL = '/Sources/Select';
     this.DEFAULT_MARRIAGEEDITOR_URL = '../HtmlPages/MarriageEditor.html';
@@ -261,7 +262,7 @@ AncMarriages.prototype = {
                 Context: this
             };
 
-            this.ancUtils.createpager(pagerparams);
+            this.pager.createpager(pagerparams);
 
             $('#reccount').html(data.Total + ' Marriages');
         }

@@ -14,6 +14,7 @@ $(document).ready(function () {
 var AncParishs = function () {
     this.qryStrUtils = new QryStrUtils();
     this.ancUtils = new AncUtils();
+    this.pager = new Pager();
 
     this.DEFAULT_BATCHENTRY_URL = '../HtmlPages/batchEntry.html';
     this.DEFAULT_PARISHEDITOR_URL = '../HtmlPages/ParishEditor.html';
@@ -182,9 +183,7 @@ AncParishs.prototype = {
                 Context: this
             };
 
-            this.ancUtils.createpager(pagerparams);
-
-            // $('#pager').html(createpager(data.Batch, data.BatchLength, data.Total, 'getLink'));
+            this.pager.createpager(pagerparams);
 
             $('#reccount').html(data.Total + ' Parishs');
         }

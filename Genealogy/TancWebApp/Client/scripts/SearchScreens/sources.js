@@ -22,6 +22,7 @@ $(document).ready(function () {
 var AncSources = function () {
     this.qryStrUtils = new QryStrUtils();
     this.ancUtils = new AncUtils();
+    this.pager = new Pager();
     this.DEFAULT_SOURCESELECT_URL = '/Sources/Select';
     this.DEFAULT_SOURCEDELETE_URL = '/Sources/Delete';
     this.DEFAULT_BATCHENTRY_URL = '../HtmlPages/batchEntry.html';
@@ -216,9 +217,7 @@ AncSources.prototype = {
             //create pager based on results
 
             $('#reccount').html(data.Total + ' Sources');
-
-            // $('#pager').html(createpager(data.Batch, data.BatchLength, data.Total, 'getLink'));
-
+            
             var pagerparams = { ParentElement: 'pager',
                 Batch: data.Batch,
                 BatchLength: data.BatchLength,
@@ -227,7 +226,7 @@ AncSources.prototype = {
                 Context: this
             };
 
-            this.ancUtils.createpager(pagerparams);
+            this.pager.createpager(pagerparams);
         }
         else {
             $('#search_bdy').html(tableBody);
