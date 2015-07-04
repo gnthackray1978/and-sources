@@ -14,6 +14,7 @@ $(document).ready(function () {
 var AncSourceTypes = function () {
     this.qryStrUtils = new QryStrUtils();
     this.ancUtils = new AncUtils();
+    this.pager = new Pager();
     this.DEFAULT_SOURCETYPESELECT_URL = '/SourceTypes/Select';
     this.DEFAULT_SOURCETYPEDELETE_URL = '/SourceTypes/Delete';
     this.DEFAULT_SOURCETYPEEDITOR_URL = '../HtmlPages/SourceTypeEditor.html';
@@ -133,9 +134,7 @@ AncSourceTypes.prototype = {
                 Context: this
             };
 
-            this.ancUtils.createpager(pagerparams);
-
-            //$('#pager').html(createpager(data.Batch, data.BatchLength, data.Total, 'getLink'));
+            this.pager.createpager(pagerparams);
 
             $('#reccount').html(data.Total + ' Source Types');
         }

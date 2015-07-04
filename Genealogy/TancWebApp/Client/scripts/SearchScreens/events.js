@@ -19,6 +19,8 @@ $(document).ready(function () {
 var AncEvents = function () {
     this.qryStrUtils = new QryStrUtils();
     this.ancUtils = new AncUtils();
+    this.pager = new Pager();
+
     this.DEFAULT_SELECT_URL = '/Events/GetEvents/Select';
     this.DEFAULT_MARRIAGEEDITOR_URL = '../HtmlPages/MarriageEditor.html';
     this.DEFAULT_PERSONEDITOR_URL = '../HtmlPages/PersonEditor.html';
@@ -227,7 +229,7 @@ AncEvents.prototype = {
                     Context: this
                 };
     
-            this.ancUtils.createpager(pagerparams);
+            this.pager.createpager(pagerparams);
      
         }
         else {

@@ -20,6 +20,7 @@ $(document).ready(function () {
 var AncPersons = function () {
     this.qryStrUtils = new QryStrUtils();
     this.ancUtils = new AncUtils();
+    this.pager = new Pager();
     this.DEFAULT_PERSONSELECT_URL = '/PersonService/Get/Select';
     this.DEFAULT_PERSONDELETE_URL = '/PersonService/Delete';
     this.DEFAULT_PERSONASSIGNLOCATS_URL = '/PersonService/AssignLocats';
@@ -323,7 +324,7 @@ AncPersons.prototype = {
                 Context: this
             };
 
-            this.ancUtils.createpager(pagerparams);
+            this.pager.createpager(pagerparams);
 
             $('#reccount').html(data.Total + ' Persons');
 

@@ -3,6 +3,7 @@
 var SourceTypeLookup = function () {
     this.qryStrUtils = new QryStrUtils();
     this.ancUtils = new AncUtils();
+    this.pager = new Pager();
     this.selection = new Array();
     this.DEFAULT_SELECT_URL = '/SourceTypes/Select';
 }
@@ -49,7 +50,7 @@ SourceTypeLookup.prototype = {
             Context: this
         };
 
-        this.ancUtils.createpager(pagerparams);
+        this.pager.createpager(pagerparams);
 
         this.selectTypes();
     },

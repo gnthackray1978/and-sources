@@ -1,116 +1,150 @@
-﻿
+﻿var Pager = function () {
+    
+};
 
-function createpager(currentPage, recordsPerPage, totalRecords, functionname) {
-
-
-
-    // we need page size
-    // total num records
-
-    // ok !
-    // calc how many pages we need
-
-    //            totalRecords = 103;//21 pages
-    //            recordsPerPage = 5;
-    //            currentPage = 19;
-
-    // this needs 8 pages of records
-    // which is 2 blocks!
+Pager.prototype = {
 
 
-    var blocksize = 5;
 
-    var remainderPages = totalRecords % recordsPerPage;
-    var totalRequiredPages = (totalRecords - remainderPages) / recordsPerPage;
+    _addlinks: function (dupeEvents, func, context) {
+        for (var i = 0; i < dupeEvents.length; i++) {
 
-    if (remainderPages > 0)
-        totalRequiredPages++;
+            $('body').off("click", "#" + dupeEvents[i].key);
 
 
-    // number of blocks of pages!
-    //  5 -((8 % 5)) = 2
-    // 2 + 8 /
-  //  var //reqnumberblocks = ((recordsPerPage - (totalRequiredPages % recordsPerPage)) + totalRequiredPages) / recordsPerPage;
-    var pagerBody = '';
+            //     $("#" + dupeEvents[i].key).unbind("click");
 
-    if (totalRequiredPages <= blocksize) {
-        var idx0 = 0;
 
-        while (idx0 < totalRequiredPages) {
-            pagerBody += "<a href='' onClick ='" + functionname + "(" + idx0 + ");return false' class = 'pagerlink'>" + String(idx0 + 1) + "</a>";
-            idx0++;
+            //console.log('creating event for : ' + dupeEvents[i].key);
+
+            var somecrap = function (idx, val) {
+                //probably not efficient to do this multiple times
+                //this can be a future optimization.
+
+
+                $('body').on("click", "#" + dupeEvents[idx].key, $.proxy(function () {
+                    var va = val;
+
+                    //console.log('clicked with : ' + va);
+
+                    if (va !== null)
+                        func.call(context, va);
+                    else
+                        func.call(context);
+
+                    return false;
+                }, context));
+
+            };
+
+            somecrap(i, dupeEvents[i].value);
+
         }
-    }
-    else {
+
+    },
+
+    //ParentElement: $('#pager'),
+    //Batch: data.Batch,
+    //BatchLength: data.BatchLength,
+    //Total: data.Total,
+    //Function: this.getLink,
+    //Context: this
+    createpager: function (pagerparams) {
+
+        var clickEvents = new Array();
+
+        //   dupeEvents.push({ key: '#d' + _idx, value: sourceInfo.XREF });
 
 
+        var blocksize = 5;
 
+        var remainderPages = pagerparams.Total % pagerparams.BatchLength;
+        var totalRequiredPages = (pagerparams.Total - remainderPages) / pagerparams.BatchLength;
 
-        var startpage = currentPage - (currentPage % blocksize);
+        if (remainderPages > 0)
+            totalRequiredPages++;
 
-        var limit = 0;
+        var pagerBody = '';
 
-        //  alert(totalRequiredPages);
+        if (totalRequiredPages <= blocksize) {
+            var idx0 = 0;
 
-        //5 + 5 > 8 
-        if ((startpage + blocksize) > totalRequiredPages) {
+            while (idx0 < totalRequiredPages) {
 
-            limit = totalRequiredPages;
+                pagerBody += "<a id='cp_" + idx0 + "' href='' class = 'pagerlink'>" + String(idx0 + 1) + "</a>";
+                clickEvents.push({ key: 'cp_' + idx0, value: idx0 });
+                idx0++;
+            }
         }
         else {
-            limit = startpage + blocksize;
+            var startpage = pagerparams.Batch - (pagerparams.Batch % blocksize);
+            var limit = 0;
 
-        }
+            if ((startpage + blocksize) > totalRequiredPages) {
 
-        //   alert(startpage + ' ' + limit);
-
-
-        if (startpage >= blocksize) {
-            pagerBody += "<a href='' onClick ='" + functionname + "(" + 0 + ");return false' class = 'pagerlink'>First</a>";
-
-            // work out how far back to move the pager when the '..' is clicked.
-            // if we are at the end of the record and there is only a few pages available
-            // then the .. should be moved back to the start of block of pages boundary 
-            // eg 01234 56789 1011121314 the block boundaries would be 0 5 and 10
-
-            var countPagesAvailable = (limit - startpage);
-//            if (countPagesAvailable < blocksize) {
-//                pagerBody += "<a href='' onClick ='" + functionname + "(" + (startpage - (blocksize+ countPagesAvailable)) + ");return false' class = 'pagerlink'>..</a>";
-
-//            } else {
-
-                pagerBody += "<a href='' onClick ='" + functionname + "(" + (startpage - blocksize) + ");return false' class = 'pagerlink'>..</a>";
-           // }
-
-        }
-
-        var idx = startpage;
-        while (idx < limit) {
-            if (idx == currentPage) {
-                pagerBody += "<a href='' onClick ='" + functionname + "(" + idx + ");return false' class = 'pagerlink_selected'>" + String(idx + 1) + "</a>";
+                limit = totalRequiredPages;
             }
             else {
-                pagerBody += "<a href='' onClick ='" + functionname + "(" + idx + ");return false' class = 'pagerlink'>" + String(idx + 1) + "</a>";
+                limit = startpage + blocksize;
+
             }
-            idx++;
+
+            //   alert(startpage + ' ' + limit);
+
+
+            if (startpage >= blocksize) {
+                pagerBody += "<a id='cp_0' href='' class = 'pagerlink'>First</a>";
+                clickEvents.push({ key: 'cp_0', value: 0 });
+
+                // work out how far back to move the pager when the '..' is clicked.
+                // if we are at the end of the record and there is only a few pages available
+                // then the .. should be moved back to the start of block of pages boundary 
+                // eg 01234 56789 1011121314 the block boundaries would be 0 5 and 10
+
+                var countPagesAvailable = (limit - startpage);
+
+                var linkPage = (startpage - blocksize);
+
+                pagerBody += "<a id='cp_" + linkPage + "' href='' class = 'pagerlink'>..</a>";
+
+                clickEvents.push({ key: 'cp_' + linkPage, value: linkPage });
+            }
+
+            var idx = startpage;
+            while (idx < limit) {
+                if (idx == pagerparams.Batch) {
+                    pagerBody += "<a id='cp_" + idx + "' href='' class = 'pagerlink_selected'>" + String(idx + 1) + "</a>";
+                    clickEvents.push({ key: 'cp_' + idx, value: idx });
+                }
+                else {
+                    pagerBody += "<a id='cp_" + idx + "' href='' class = 'pagerlink' >" + String(idx + 1) + "</a>";
+                    clickEvents.push({ key: 'cp_' + idx, value: idx });
+                }
+                idx++;
+            }
+
+
+            if (idx < totalRequiredPages) {
+
+                var remainderAvailablePages = totalRequiredPages % blocksize;
+                //zero based
+
+                startpage += blocksize;
+                startpage++;
+
+                pagerBody += "<a id='cp_" + startpage + "' href='' class = 'pagerlink'>..</a>";
+                clickEvents.push({ key: 'cp_' + startpage, value: startpage });
+
+                pagerBody += "<a id='cp_" + (totalRequiredPages - remainderAvailablePages) + "' href='' class = 'pagerlink'>Last</a>";
+                clickEvents.push({ key: 'cp_' + (totalRequiredPages - remainderAvailablePages), value: (totalRequiredPages - remainderAvailablePages) });
+
+            }
         }
 
+        // set pager html
+        $('#' + pagerparams.ParentElement).html(pagerBody);
 
-        if (idx < totalRequiredPages) {
-
-            var remainderAvailablePages = totalRequiredPages % blocksize;
-            //zero based
-
-            startpage += blocksize;
-            startpage++;
-
-            pagerBody += "<a href='' onClick ='" + functionname + "(" + startpage + ");return false' class = 'pagerlink'>..</a>";
-
-            pagerBody += "<a href='' onClick ='" + functionname + "(" + (totalRequiredPages - remainderAvailablePages) + ");return false' class = 'pagerlink'>Last</a>";
-        }
-
-
-
+        // add click TotalEvents
+        this._addlinks(clickEvents, pagerparams.Function, pagerparams.Context);
     }
-    return pagerBody;
-}
+};
