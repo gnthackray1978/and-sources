@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<table>
+
+	<metadata>
+		<column name='name' label='NAME' datatype='string' editable='true'></column>
+		<column name='firstname' label='FIRSTNAME' datatype='string' editable='true'></column>
+		<column name='age' label='AGE' datatype='integer' editable='true'></column>
+		<column name='height' label='HEIGHT' datatype='double(m,2)' bar='false' editable='true'></column>
+		<column name='country' label='COUNTRY' datatype='string' editable='true'>
+			<values>
+				<group label='Europe'>
+					<value value='be'>Belgium</value>
+					<value value='fr'>France</value>
+					<value value='uk'>Great-Britain</value>
+					<value value='nl'>Nederland</value>
+				</group>
+				<group label='America'>
+					<value value='br'>Brazil</value>
+					<value value='ca'>Canada</value>
+					<value value='us'>USA</value>
+				</group>
+				<group label='Africa'>
+					<value value='ng'>Nigeria</value>
+					<value value='za'>South-Africa</value>
+					<value value='zw'>Zimbabwe</value>
+				</group>
+			</values>
+		</column>
+		<column name='email' label='EMAIL' datatype='email' editable='true'></column>
+		<column name='freelance' label='FREELANCE' datatype='boolean' editable='true'></column>
+		<column name='lastvisit' label='LAST VISIT' datatype='date' editable='true'></column>
+		<column name='action' label='' datatype='html' editable='false'></column>
+	</metadata>
+
+	<data>
+
+		<!-- NB: It is recommended to name your columns. 
+			 This way you can give them in any order and skip some columns if you want. 
+		-->
+		<row id="1">
+			<column name="continent">eu</column>
+			<column name="country">uk</column>
+			<column name="age">33</column>
+			<column name="name">Duke</column>
+			<column name="firstname">Patience</column>
+			<column name="height">1.842</column>
+			<column name="email">patience.duke@gmail.com</column>
+			<column name="lastvisit">11/12/2002</column>
+		</row>
+
+
+
+  </data>
+</table>
