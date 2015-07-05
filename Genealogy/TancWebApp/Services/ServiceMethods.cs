@@ -9,7 +9,7 @@ using System.ServiceModel.Web;
 using System.Web.Security;
 using Facebook;
 using TancWebApp.Helpers;
-using TancWebApp.Interfaces;
+using TancWebApp.Services.Contracts;
 using TDBCore.BLL;
 using TDBCore.Types.DTOs;
 using TDBCore.Types.libs;

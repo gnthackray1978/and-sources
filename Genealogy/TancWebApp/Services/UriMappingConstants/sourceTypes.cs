@@ -1,4 +1,4 @@
-﻿namespace TancWebApp.URIMappings
+﻿namespace TancWebApp.Services.UriMappingConstants
 {
     public static class UriSourceTypesMappings
     {

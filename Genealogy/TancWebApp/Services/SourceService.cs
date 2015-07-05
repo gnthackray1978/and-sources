@@ -5,7 +5,7 @@ using System.ServiceModel;
 using System.ServiceModel.Activation;
 using System.Web.Script.Serialization;
 using TancWebApp.Helpers;
-using TancWebApp.Interfaces;
+using TancWebApp.Services.Contracts;
 using TDBCore.Types.domain;
 using TDBCore.Types.DTOs;
 using TDBCore.Types.enums;
