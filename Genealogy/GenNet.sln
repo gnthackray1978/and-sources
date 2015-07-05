@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Website", "Website", "{C9D6
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TDBCore", "TDBCore\TDBCore.csproj", "{3DF715DA-4279-43AF-AF42-49C47083D62F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TancWebApp", "TancWebApp\TancWebApp.csproj", "{A35FF297-E52A-4ADC-A707-6F0DA206098D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenServices", "TancWebApp\GenServices.csproj", "{A35FF297-E52A-4ADC-A707-6F0DA206098D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UpdateSources", "UpdateSources\UpdateSources.csproj", "{AD106360-91A1-46D0-B665-23EA321B64CB}"
 EndProject

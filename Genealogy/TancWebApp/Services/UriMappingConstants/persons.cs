@@ -1,6 +1,6 @@
 ﻿
 
-namespace TancWebApp.URIMappings
+namespace TancWebApp.Services.UriMappingConstants
 {
 
 

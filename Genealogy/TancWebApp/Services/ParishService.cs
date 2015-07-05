@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.ServiceModel;
 using System.ServiceModel.Activation;
 using TancWebApp.Helpers;
+using TancWebApp.Services.Contracts;
 using TDBCore.Types.domain;
 using TDBCore.Types.DTOs;
 using TDBCore.Types.filters;
 using TDBCore.Types.libs;
 using TDBCore.Types.security;
 using TDBCore.Types.validators;
-using TancWebApp.Interfaces;
 
 namespace TancWebApp.Services
 {

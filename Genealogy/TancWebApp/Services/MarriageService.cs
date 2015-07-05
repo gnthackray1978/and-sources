@@ -2,7 +2,7 @@
 using System.ServiceModel;
 using System.ServiceModel.Activation;
 using TancWebApp.Helpers;
-using TancWebApp.Interfaces;
+using TancWebApp.Services.Contracts;
 using TDBCore.BLL;
 using TDBCore.Types.domain;
 using TDBCore.Types.DTOs;

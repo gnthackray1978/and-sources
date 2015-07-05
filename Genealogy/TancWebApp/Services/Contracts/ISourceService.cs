@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.ServiceModel;
 using System.ServiceModel.Web;
-using TancWebApp.URIMappings;
+using TancWebApp.Services.UriMappingConstants;
 using TDBCore.Types.DTOs;
 
-namespace TancWebApp.Interfaces
+namespace TancWebApp.Services.Contracts
 {
     [ServiceContract]
     public interface ISourceService
