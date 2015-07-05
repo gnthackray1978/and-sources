@@ -19,6 +19,7 @@ $(document).ready(function () {
 
 var AncPersons = function () {
     this.qryStrUtils = new QryStrUtils();
+    this.selectorTools = new SelectorTools();
     this.ancUtils = new AncUtils();
     this.pager = new Pager();
     this.DEFAULT_PERSONSELECT_URL = '/PersonService/Get/Select';
@@ -336,9 +337,9 @@ AncPersons.prototype = {
         }
 
 
-        this.ancUtils.addlinks(dupeEvents, this.loadDupes, this);
+        this.selectorTools.addlinks(dupeEvents, this.loadDupes, this);
 
-        this.ancUtils.addlinks(selectEvents, this.processSelect, this);
+        this.selectorTools.addlinks(selectEvents, this.processSelect, this);
     },
 
     getSources: function () {
@@ -379,7 +380,7 @@ AncPersons.prototype = {
     },
 
     processSelect: function (evt) {
-        this.ancUtils.handleSelection(evt, this.selection, '#search_bdy tr', "#person_id");
+        this.selectorTools.handleSelection(evt, this.selection, '#search_bdy tr', "#person_id");
     },
 
     getLink: function (toPage) {
@@ -388,7 +389,7 @@ AncPersons.prototype = {
     },
 
     sort: function (sort_col) {
-        this.ancUtils.sort_inner(sort_col);
+        this.qryStrUtils.sort_inner(sort_col);
         this.getPersons('1');
     },
 
@@ -398,7 +399,7 @@ AncPersons.prototype = {
 
     DeleteRecord: function () {
         this.postParams.url = this.DEFAULT_PERSONDELETE_URL;
-        this.postParams.data = { personId: this.ancUtils.convertToCSV(this.selection) };
+        this.postParams.data = { personId: this.qryStrUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
     },
 
@@ -413,7 +414,7 @@ AncPersons.prototype = {
 
     SetDuplicates: function () {
         this.postParams.url = this.DEFAULT_PERSONSETDUPES_URL;
-        this.postParams.data = { persons: this.ancUtils.convertToCSV(this.selection) };
+        this.postParams.data = { persons: this.qryStrUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
     },
 
@@ -423,31 +424,31 @@ AncPersons.prototype = {
 
     SetRelation: function (relationid) {
         this.postParams.url = this.DEFAULT_PERSONSETDUPES_URL;
-        this.postParams.data = { persons: this.ancUtils.convertToCSV(this.selection), relationType: relationid };
+        this.postParams.data = { persons: this.qryStrUtils.convertToCSV(this.selection), relationType: relationid };
         this.ancUtils.twaPostJSON(this.postParams);
     },
 
     SetRemoveLink: function () {
         this.postParams.url = this.DEFAULT_PERSONREMOVELINKS_URL;
-        this.postParams.data = { person: this.ancUtils.convertToCSV(this.selection)};
+        this.postParams.data = { person: this.qryStrUtils.convertToCSV(this.selection)};
         this.ancUtils.twaPostJSON(this.postParams);
     },
     
     SetMergeSources: function(){
         this.postParams.url = this.DEFAULT_PERSONMERGE_URL;
-        this.postParams.data = { person: this.ancUtils.convertToCSV(this.selection) };
+        this.postParams.data = { person: this.qryStrUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
     },
 
     SetSources: function () {
         this.postParams.url = this.DEFAULT_SETSOURCE_URL;
-        this.postParams.data = { record:this.ancUtils.convertToCSV(this.selection),sources: $("#tree-select").val()};
+        this.postParams.data = { record:this.qryStrUtils.convertToCSV(this.selection),sources: $("#tree-select").val()};
         this.ancUtils.twaPostJSON(this.postParams);
     },
 
     RemoveSources: function () {
         this.postParams.url = this.DEFAULT_REMOVESOURCE_URL;
-        this.postParams.data = { record: this.ancUtils.convertToCSV(this.selection) };
+        this.postParams.data = { record: this.qryStrUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
     }
 

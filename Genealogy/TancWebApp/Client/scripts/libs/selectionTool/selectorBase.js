@@ -20,6 +20,7 @@
 var AncSelectorBase = function () {
     this.qryStrUtils = new QryStrUtils();
     this.ancUtils = new AncUtils();
+    this.selectorTools = new SelectorTools();
     this.selection = new Array();
     this.context_data = {};
     this.pager = new Pager();
@@ -118,7 +119,7 @@ AncSelectorBase.prototype = {
 
         if (newSources.length > 0) {
             var params = {};
-            params[0] = this.ancUtils.convertToCSV(newSources);
+            params[0] = this.qryStrUtils.convertToCSV(newSources);
 
             var successmethod = function (data) {
                 var rows = new Array();
@@ -165,7 +166,7 @@ AncSelectorBase.prototype = {
 
         $('#' + this.context_data.search_hed).html(tableBody);
 
-        this.ancUtils.addlinks(selectEvents, this.removeFromSelection, this);
+        this.selectorTools.addlinks(selectEvents, this.removeFromSelection, this);
     },
 
 
@@ -186,7 +187,7 @@ AncSelectorBase.prototype = {
 
             $('#' + sourceId + '.selected_source').remove();
 
-            this.qryStrUtils.updateQryPar(this.context_data.param_name, this.ancUtils.convertToCSV(selectedSourceIds));
+            this.qryStrUtils.updateQryPar(this.context_data.param_name, this.qryStrUtils.convertToCSV(selectedSourceIds));
         }
 
     },
@@ -238,7 +239,7 @@ AncSelectorBase.prototype = {
             $('#' + this.context_data.search_body).html(tableBody); //'#search_bdy'         
         }
 
-        this.ancUtils.addlinks(selectEvents, this.addToSelection, this);
+        this.selectorTools.addlinks(selectEvents, this.addToSelection, this);
 
         this.refreshSelected();
 
@@ -266,7 +267,7 @@ AncSelectorBase.prototype = {
                 selectedSourceIds.push(sourceId);
             }
 
-            this.qryStrUtils.updateQryPar(this.context_data.param_name, this.ancUtils.convertToCSV(selectedSourceIds));
+            this.qryStrUtils.updateQryPar(this.context_data.param_name, this.qryStrUtils.convertToCSV(selectedSourceIds));
         }
 
         this.refreshSelected();

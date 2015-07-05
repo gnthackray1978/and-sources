@@ -14,6 +14,7 @@ $(document).ready(function () {
 var AncSourceTypes = function () {
     this.qryStrUtils = new QryStrUtils();
     this.ancUtils = new AncUtils();
+    this.selectorTools = new SelectorTools();
     this.pager = new Pager();
     this.DEFAULT_SOURCETYPESELECT_URL = '/SourceTypes/Select';
     this.DEFAULT_SOURCETYPEDELETE_URL = '/SourceTypes/Delete';
@@ -144,13 +145,13 @@ AncSourceTypes.prototype = {
             $('#reccount').html('0 Source Types');
         }
 
-        this.ancUtils.addlinks(selectEvents, this.processSelect, this);
+        this.selectorTools.addlinks(selectEvents, this.processSelect, this);
     },
     processSelect: function (evt) {
-        this.ancUtils.handleSelection(evt, this.selection, '#search_bdy tr', "#SourceTypeId");
+        this.selectorTools.handleSelection(evt, this.selection, '#search_bdy tr', "#SourceTypeId");
     },
     sort: function (sort_col) {
-        this.ancUtils.sort_inner(sort_col);
+        this.qryStrUtils.sort_inner(sort_col);
         this.getSourceTypes();
     },
     getLink: function (toPage) {
@@ -159,7 +160,7 @@ AncSourceTypes.prototype = {
     },
     DeleteRecord: function () {
         this.postParams.url = this.DEFAULT_SOURCETYPEDELETE_URL;
-        this.postParams.data = { sourceIds: this.ancUtils.convertToCSV(this.selection) };
+        this.postParams.data = { sourceIds: this.qryStrUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
     },
     AddSourceType: function () {

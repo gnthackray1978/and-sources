@@ -1,133 +1,10 @@
-var FB;
+﻿var FB;
 
-
-
-// UTIL CLASS
-//
-
-
-var AncUtils = function () {    
-    this.localfb= FB;
+var AncUtils = function () {
+    this.localfb = FB;
 };
 
-
 AncUtils.prototype = {
-
-    pad: function (number, length) {
-
-        var str = '' + number;
-        while (str.length < length) {
-            str = '0' + str;
-        }
-
-        return str;
-
-    },
-
-    convertToCSV: function (array) {
-        var csvStr = '';
-
-        $.each(array, function (intIdx, objVal) {
-            if (intIdx == 0)
-                csvStr += objVal;
-            else
-                csvStr += ',' + objVal;
-        })
-
-        return csvStr;
-    },
-
-    sort_inner: function (sort_col, param_name) {
-
-        var col_name = 'sort_col';
-
-        if (param_name != undefined && param_name != '')
-            col_name = param_name;
-
-        var existing_col = this.getParameterByName(col_name);
-
-        if (existing_col) {
-
-            if (existing_col.indexOf(sort_col) >= 0) {
-                if (existing_col.indexOf('DESC') < 0) {
-                    sort_col += ' DESC';
-                }
-            }
-        }
-
-        this.updateQryPar(col_name, sort_col);
-    },
-
-    handleSelection: function (evt, selection, bodytag, id) {
-
-
-        if (evt != undefined) {
-            var arIdx = jQuery.inArray(evt, selection);
-
-            if (arIdx == -1) {
-                selection.push(evt);
-            }
-            else {
-                selection.splice(arIdx, 1);
-            }
-        }
-
-
-        $(bodytag).each(function () {
-            $this = $(this);
-
-            var quantity = $this.find(id).val();
-            arIdx = jQuery.inArray(quantity, selection);
-
-            if (arIdx == -1) {
-                $this.removeClass('highLightRow');
-            }
-            else {
-                $this.addClass('highLightRow');
-            }
-        }); //end each
-      
-
-
-        return selection;
-    },
-
-    addlinks: function (dupeEvents, func, context) {
-        for (var i = 0; i < dupeEvents.length; i++) {
-
-            $('body').off("click", "#" + dupeEvents[i].key);
-
-
-       //     $("#" + dupeEvents[i].key).unbind("click");
-            
-
-            //console.log('creating event for : ' + dupeEvents[i].key);
-
-            var somecrap = function (idx, val) {
-                //probably not efficient to do this multiple times
-                //this can be a future optimization.
-
-
-                $('body').on("click","#" + dupeEvents[idx].key, $.proxy(function () {
-                    var va = val;
-
-                    //console.log('clicked with : ' + va);
-
-                    if (va !== null)
-                        func.call(context, va);
-                    else
-                        func.call(context);
-
-                    return false;
-                }, context));
-
-            };
-
-            somecrap(i, dupeEvents[i].value);
-
-        }
-
-    },
 
     getHost: function () {
         if (window.location.hostname.indexOf("local") == -1)
@@ -136,7 +13,6 @@ AncUtils.prototype = {
             return 'http://local.gnthackray.net:666';
     },
 
-    // gets json set
     twaGetJSON: function (url, paramsArg, methodArg, fbArg) {
         var aburl = this.getHost() + url;
         $.ajaxSetup({ cache: false });
@@ -148,12 +24,11 @@ AncUtils.prototype = {
             success: methodArg,
             beforeSend: $.proxy(this._addFBToHeader(), this),
             error: function (request, status, error) {
-            //    alert(request.responseText);
+                //    alert(request.responseText);
             }
         });
     },
 
-    //ANCUTILS
     twaPostJSON: function (postParams) {
 
         //        var postParams = { url: '',
@@ -176,10 +51,10 @@ AncUtils.prototype = {
 
             if (error != '' && error != null) {
                 //yes
-          
+
                 $('#errorDialog').html(error);
                 $("#errorDialog").dialog();
-                
+
             }
             else {
                 //everything was fine - supposedly.
@@ -220,11 +95,9 @@ AncUtils.prototype = {
         return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
     },
 
-  
-
-    //beforeSend: function (xhr) { passToProxy(xhr, url); }
-    // sets facebook token to request header
     _addFBToHeader: function () {
+        //beforeSend: function (xhr) { passToProxy(xhr, url); }
+        // sets facebook token to request header
         return function (xhr) {
             var access_token = '';
             if (this.localfb != null) {

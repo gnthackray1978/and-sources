@@ -245,7 +245,7 @@ AncEvents.prototype = {
     },
     sort: function(sort_col) {
     
-        this.ancUtils.sort_inner(sort_col);
+        this.qryStrUtils.sort_inner(sort_col);
         this.getEvents();
     }
 

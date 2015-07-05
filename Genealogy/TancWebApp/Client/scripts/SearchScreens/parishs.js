@@ -14,6 +14,7 @@ $(document).ready(function () {
 var AncParishs = function () {
     this.qryStrUtils = new QryStrUtils();
     this.ancUtils = new AncUtils();
+    this.selectorTools = new SelectorTools();
     this.pager = new Pager();
 
     this.DEFAULT_BATCHENTRY_URL = '../HtmlPages/batchEntry.html';
@@ -193,13 +194,13 @@ AncParishs.prototype = {
             $('#reccount').html('0 Parishs');
         }
 
-        this.ancUtils.addlinks(selectEvents, this.processSelect, this);
+        this.selectorTools.addlinks(selectEvents, this.processSelect, this);
     },
     processSelect: function (evt) {
-        this.ancUtils.handleSelection(evt, this.selection, '#search_bdy tr', "#ParishId");
+        this.selectorTools.handleSelection(evt, this.selection, '#search_bdy tr', "#ParishId");
     },
     sort: function (sort_col) {
-        this.ancUtils.sort_inner(sort_col);
+        this.qryStrUtils.sort_inner(sort_col);
         this.getParishs('1');
     },
     getLink: function (toPage) {
@@ -208,7 +209,7 @@ AncParishs.prototype = {
     },
     DeleteRecord: function () {
         this.postParams.url = this.DEFAULT_PARISHDELETE_URL;
-        this.postParams.data = { parishIds: this.ancUtils.convertToCSV(this.selection) };
+        this.postParams.data = { parishIds: this.qryStrUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
     },
     AddParish: function () {

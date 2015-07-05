@@ -1,8 +1,10 @@
 ﻿
 
 var SourceTypeLookup = function () {
+
     this.qryStrUtils = new QryStrUtils();
     this.ancUtils = new AncUtils();
+    this.selectorTools = new SelectorTools();
     this.pager = new Pager();
     this.selection = new Array();
     this.DEFAULT_SELECT_URL = '/SourceTypes/Select';
@@ -40,7 +42,7 @@ SourceTypeLookup.prototype = {
 
         $('#sourcetype_lookup_body').html(tableBody);
 
-        this.ancUtils.addlinks(selectEvents, this.selectTypes, this);
+        this.selectorTools.addlinks(selectEvents, this.selectTypes, this);
 
         var pagerparams = { ParentElement: 'filter_pager',
             Batch: data.Batch,
@@ -67,7 +69,7 @@ SourceTypeLookup.prototype = {
    
         var stds = this.qryStrUtils.getParameterByName('stids', '');
    
-        var stypeSelection = this.ancUtils.handleSelection(String(stypeIds), stds.split(','), '#sourcetype_lookup_body tr', "input");
+        var stypeSelection = this.selectorTools.handleSelection(String(stypeIds), stds.split(','), '#sourcetype_lookup_body tr', "input");
 
         if (stypeSelection != undefined) {
 
@@ -80,9 +82,9 @@ SourceTypeLookup.prototype = {
                 }
             }
 
-            this.qryStrUtils.updateQryPar('stids', this.ancUtils.convertToCSV(tp));
+            this.qryStrUtils.updateQryPar('stids', this.qryStrUtils.convertToCSV(tp));
 
-            $('#selected_types').val(this.ancUtils.convertToCSV(tp));
+            $('#selected_types').val(this.qryStrUtils.convertToCSV(tp));
 
         }
 

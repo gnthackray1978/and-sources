@@ -18,6 +18,7 @@ $(document).ready(function () {
 
 var AncMarriages = function () {
     this.qryStrUtils = new QryStrUtils();
+    this.selectorTools = new SelectorTools();
     this.ancUtils = new AncUtils();
     this.pager = new Pager();
     this.DEFAULT_MARRIAGESELECT_URL = '/MarriageService/Get/Select';
@@ -273,9 +274,9 @@ AncMarriages.prototype = {
         }
 
 
-        this.ancUtils.addlinks(dupeEvents, this.loadDupes, this);
+        this.selectorTools.addlinks(dupeEvents, this.loadDupes, this);
 
-        this.ancUtils.addlinks(selectEvents, this.processSelect, this);
+        this.selectorTools.addlinks(selectEvents, this.processSelect, this);
         console.timeEnd('getMarriages');
         console.timeEnd('result');
         console.log('result ended');
@@ -288,7 +289,7 @@ AncMarriages.prototype = {
 
     processSelect: function (evt) {
         console.log('processSelect');
-        this.ancUtils.handleSelection(evt, this.selection, '#search_bdy tr', "#MarriageId");
+        this.selectorTools.handleSelection(evt, this.selection, '#search_bdy tr', "#MarriageId");
     },
 
     getLink: function (toPage) {
@@ -297,37 +298,37 @@ AncMarriages.prototype = {
     },
 
     sort: function (sort_col) {
-        this.ancUtils.sort_inner(sort_col);
+        this.qryStrUtils.sort_inner(sort_col);
         this.getMarriages('1');
     },
 
     DeleteRecord: function () {
         this.postParams.url = this.DEFAULT_MARRIAGEDELETE_URL;
-        this.postParams.data = { marriageIds: this.ancUtils.convertToCSV(this.selection) };
+        this.postParams.data = { marriageIds: this.qryStrUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
     },
 
     SetDuplicates: function () {
         this.postParams.url = this.DEFAULT_MARRIAGEDUPLICATE_URL;
-        this.postParams.data = { marriages: this.ancUtils.convertToCSV(this.selection) };
+        this.postParams.data = { marriages: this.qryStrUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
     },
 
     SetRemoveLink: function () {
         this.postParams.url = this.DEFAULT_MARRIAGEREMOVELINK_URL;
-        this.postParams.data = { marriage: this.ancUtils.convertToCSV(this.selection) };
+        this.postParams.data = { marriage: this.qryStrUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
     },
 
     Reorder: function () {
         this.postParams.url = this.DEFAULT_MARRIAGEREORDER_URL;
-        this.postParams.data = { marriage: this.ancUtils.convertToCSV(this.selection) };
+        this.postParams.data = { marriage: this.qryStrUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
     },
 
     SetMergeMarriages: function () {
         this.postParams.url = this.DEFAULT_MARRIAGEMERGE_URL;
-        this.postParams.data = { marriage: this.ancUtils.convertToCSV(this.selection) };
+        this.postParams.data = { marriage: this.qryStrUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
     },
 
@@ -337,19 +338,19 @@ AncMarriages.prototype = {
 
     SwitchSpouses: function () {
         this.postParams.url = this.DEFAULT_MARRIAGESWITCHSPOUSES_URL;
-        this.postParams.data = { marriage: this.ancUtils.convertToCSV(this.selection) };
+        this.postParams.data = { marriage: this.qryStrUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
     },
 
     SetSources: function () {
         this.postParams.url = this.DEFAULT_MARRIAGESETSOURCE_URL;
-        this.postParams.data = { record: this.ancUtils.convertToCSV(this.selection), sources: $("#tree-select").val() };
+        this.postParams.data = { record: this.qryStrUtils.convertToCSV(this.selection), sources: $("#tree-select").val() };
         this.ancUtils.twaPostJSON(this.postParams);
     },
 
     RemoveSources: function () {
         this.postParams.url = this.DEFAULT_MARRIAGEREMOVESOURCE_URL;
-        this.postParams.data = { record: this.ancUtils.convertToCSV(this.selection) };
+        this.postParams.data = { record: this.qryStrUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
     }
 };
