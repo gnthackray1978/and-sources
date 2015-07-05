@@ -6,6 +6,33 @@ var QryStrUtils = function () { }
 
 QryStrUtils.prototype = {
 
+    pad: function (number, length) {
+
+        var str = '' + number;
+        while (str.length < length) {
+            str = '0' + str;
+        }
+
+        return str;
+
+    },
+
+    convertToCSV: function (array) {
+        var csvStr = '';
+
+        $.each(array, function (intIdx, objVal) {
+            if (intIdx == 0)
+                csvStr += objVal;
+            else
+                csvStr += ',' + objVal;
+        })
+
+        return csvStr;
+    },
+
+
+
+
     makeIdQryString: function (paramName, path) {
 
         var _loc = window.location.hash;
@@ -149,8 +176,28 @@ QryStrUtils.prototype = {
             return match && decodeURIComponent(codedUri);
 
 
-    }
+    },
+    
+    sort_inner: function (sort_col, param_name) {
 
+        var col_name = 'sort_col';
+
+        if (param_name != undefined && param_name != '')
+            col_name = param_name;
+
+        var existing_col = this.getParameterByName(col_name);
+
+        if (existing_col) {
+
+            if (existing_col.indexOf(sort_col) >= 0) {
+                if (existing_col.indexOf('DESC') < 0) {
+                    sort_col += ' DESC';
+                }
+            }
+        }
+
+        this.updateQryPar(col_name, sort_col);
+    }
 
 
 }

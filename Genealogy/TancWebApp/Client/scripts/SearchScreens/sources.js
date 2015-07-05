@@ -21,6 +21,7 @@ $(document).ready(function () {
 
 var AncSources = function () {
     this.qryStrUtils = new QryStrUtils();
+    this.selectorTools = new SelectorTools();
     this.ancUtils = new AncUtils();
     this.pager = new Pager();
     this.DEFAULT_SOURCESELECT_URL = '/Sources/Select';
@@ -234,13 +235,13 @@ AncSources.prototype = {
         }
 
 
-        this.ancUtils.addlinks(selectEvents, this.processSelect, this);
+        this.selectorTools.addlinks(selectEvents, this.processSelect, this);
     },
     processSelect: function (evt) {
-        this.ancUtils.handleSelection(evt, this.selection, '#search_bdy tr', "#source_id");
+        this.selectorTools.handleSelection(evt, this.selection, '#search_bdy tr', "#source_id");
     },
     sort: function (sort_col) {
-        this.ancUtils.sort_inner(sort_col);
+        this.qryStrUtils.sort_inner(sort_col);
         this.getSources();
     },
     getLink: function (toPage) {
@@ -252,7 +253,7 @@ AncSources.prototype = {
     },
     deleteSources: function () {
         this.postParams.url = this.DEFAULT_SOURCEDELETE_URL;
-        this.postParams.data = { sourceId: this.ancUtils.convertToCSV(this.selection) };
+        this.postParams.data = { sourceId: this.qryStrUtils.convertToCSV(this.selection) };
         this.ancUtils.twaPostJSON(this.postParams);
     },
     printableSources: function () {
