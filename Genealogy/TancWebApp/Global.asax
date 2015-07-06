@@ -1,1 +1,0 @@
-﻿<%@ Application CodeFile="Global.asax.cs" Inherits="TancWebApp.MyApplication" Language="C#" %>
