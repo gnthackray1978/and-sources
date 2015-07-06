@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Website", "Website", "{C9D6
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TDBCore", "TDBCore\TDBCore.csproj", "{3DF715DA-4279-43AF-AF42-49C47083D62F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenServices", "TancWebApp\GenServices.csproj", "{A35FF297-E52A-4ADC-A707-6F0DA206098D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenOnline", "GenOnline\GenOnline.csproj", "{A35FF297-E52A-4ADC-A707-6F0DA206098D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_CausePaperParser", "Tools\_CausePaperParser\_CausePaperParser.csproj", "{AD1D8B2B-7079-4F76-8B5D-57D5A2A578B7}"
 EndProject
