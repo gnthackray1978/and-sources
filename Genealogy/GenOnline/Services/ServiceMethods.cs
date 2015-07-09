@@ -10,6 +10,7 @@ using System.Web.Security;
 using Facebook;
 using GenOnline.Helpers;
 using GenOnline.Services.Contracts;
+using TancWebApp.Helpers;
 using TDBCore.BLL;
 using TDBCore.Types.DTOs;
 using TDBCore.Types.libs;
@@ -35,24 +36,28 @@ namespace GenOnline.Services
         public string TestLogin(string testParam)
         {
             string retVal = "could not get login ";
-            string token = WebOperationContext.Current.IncomingRequest.Headers["fb"];
+           // string token = WebOperationContext.Current.IncomingRequest.Headers["fb"];
 
-            if (token != null && token.Length != 0)
+
+            var f = new FacebookHelper("205401136237103", "e2bae4f7b2ffa301366c119107df79b1");
+
+            var token = f.AccessToken;
+
+            if (string.IsNullOrEmpty(token)) return retVal;
+
+
+            var fbc = new FacebookClient(token);
+
+            var me2 = (IDictionary<string, object>)fbc.Get("/me");
+
+
+            if (me2.ContainsKey("name"))
             {
+                retVal = (string)me2["name"];
 
-                Facebook.FacebookClient fbc = new FacebookClient(token);
-
-                var me2 = (IDictionary<string, object>)fbc.Get("/me");
-
-
-                if (me2.ContainsKey("name"))
-                {
-                    retVal = (string)me2["name"];
-
-                }
-
-                Debug.WriteLine("user id" + WebHelper.GetUser());
             }
+
+            Debug.WriteLine("user id" + WebHelper.GetUser());
 
 
             return retVal;
@@ -109,32 +114,28 @@ namespace GenOnline.Services
 
         public string GetLoggedInUser()
         {
-
-            MembershipUser muser = null;
-            string returnValue = "";
+            string user;
 
             try
             {
-                muser = Membership.GetUser();
-                returnValue = muser.UserName;
 
+                var f = new FacebookHelper("205401136237103", "e2bae4f7b2ffa301366c119107df79b1");
+
+                var test = f.AccessToken;
+
+                user = WebHelper.GetUser();
             }
-            catch (Exception ex1)
+            catch (Exception e)
             {
-                returnValue = "Guest,Error: " + ex1.Message;
+                user = e.Message;
+                 
             }
+       
+
+            return user;
 
 
-            return returnValue;
         }
-
-       
-
-       
-
-
-
-   
 
         public ServiceFileObject GetFilesForSource(string sourceId, string page_number, string page_size)
         {
@@ -168,12 +169,10 @@ namespace GenOnline.Services
 
        
     }
-
-
-
-
-
 }
+
+
+
 
 
 

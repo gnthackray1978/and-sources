@@ -7,6 +7,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <NameOfLastUsedPublishProfile>gendb</NameOfLastUsedPublishProfile>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>
@@ -20,7 +21,7 @@
           <SQLDebugging>False</SQLDebugging>
           <ExternalProgram>
           </ExternalProgram>
-          <StartExternalURL>http://local.gnthackray.net:666/Client/HtmlPages/Default.html</StartExternalURL>
+          <StartExternalURL>http://local.gendb.net:666/Client/HtmlPages/Default.html</StartExternalURL>
           <StartCmdLineArguments>
           </StartCmdLineArguments>
           <StartWorkingDirectory>

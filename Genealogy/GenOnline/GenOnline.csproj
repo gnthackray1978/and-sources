@@ -56,6 +56,9 @@
       <HintPath>..\packages\Facebook.6.0.16\lib\net40-client\Facebook.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.2.2.0\lib\net40\Ninject.dll</HintPath>
     </Reference>
@@ -326,6 +329,9 @@
     <Folder Include="Client\Images\icons\16x16\" />
     <Folder Include="Client\Images\icons\22x22\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\PublishProfiles\gendb.pubxml" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -341,7 +347,7 @@
           <AutoAssignPort>False</AutoAssignPort>
           <DevelopmentServerPort>0</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://local.gnthackray.net:666/</IISUrl>
+          <IISUrl>http://local.gendb.net:666/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

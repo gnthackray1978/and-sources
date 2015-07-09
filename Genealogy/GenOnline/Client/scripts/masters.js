@@ -93,7 +93,7 @@ JSMaster.prototype = {
         headersection += '<div>';
         headersection += '<div id="panelA" class = "displayPanel">';
         headersection += '<div class = "mtrlnk">';
-        headersection += '<a id="lnk_home"      href=\'' + that.urlroot + '/Default.html\'><span>Home</span></a>';
+        headersection += '<a id="lnk_home"      href=\'' + that.urlroot + '/HtmlPages/Default.html\'><span>Home</span></a>';
         headersection += '<a id="lnk_marriages" href=\'' + that.urlroot + '/HtmlPages/MarriageSearch.html\'><span>Marriages</span></a>';
         headersection += '<a id="lnk_persons"   href=\'' + that.urlroot + '/HtmlPages/PersonSearch.html\'><span>Persons</span></a>';
         headersection += '<a id="lnk_sources"   href=\'' + that.urlroot + '/HtmlPages/SourceSearch.html\'><span>Sources</span></a>';
