@@ -28,7 +28,9 @@ namespace TDBCore.BLL
             try
             {
 
-                sqlConnection.ConnectionString = Properties.Settings.Default.ThackrayDBConnectionString;
+                //sqlConnection.ConnectionString = Properties.Settings.Default.ThackrayDBConnectionString;
+                sqlConnection.ConnectionString = Properties.Settings.Default.gendbnet;
+
                 sqlConnection.Open();
 
                 // You can get the server version 

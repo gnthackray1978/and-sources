@@ -16,3 +16,4 @@ _ReSharper.*
 *.dotcover
 
 Genealogy/packages
+Genealogy/GenOnline/Properties/PublishProfiles
