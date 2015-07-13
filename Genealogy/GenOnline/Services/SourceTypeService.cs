@@ -27,7 +27,7 @@ namespace GenOnline.Services
                 SourceTypeIds = typeIds.ParseToIntList()
             };
          
-            var sourceTypeSearch = new SourceTypeSearch(new Security(WebHelper.GetUser()));
+            var sourceTypeSearch = new SourceTypeSearch(new Security(new WebUser()));
 
 
             return sourceTypeSearch.Search(sourceTypeSearchFilter,new DataShaping(), new SourceTypeSearchValidator(sourceTypeSearchFilter)).serviceSources.Select(p=>p.Description).ToList();           
@@ -45,7 +45,7 @@ namespace GenOnline.Services
             
             try
             {
-                var sourceTypeEditor = new SourceTypeSearch(new Security(WebHelper.GetUser()));
+                var sourceTypeEditor = new SourceTypeSearch(new Security(new WebUser()));
 
 
                 serviceSourceType = sourceTypeEditor.Get(serviceSourceType);
@@ -78,7 +78,7 @@ namespace GenOnline.Services
             };
 
             var validator = new SourceTypeSearchValidator(sourceTypeSearchFilter);
-            var sourceTypeSearch = new SourceTypeSearch(new Security(WebHelper.GetUser()));
+            var sourceTypeSearch = new SourceTypeSearch(new Security(new WebUser()));
 
             try
             {                       
@@ -102,7 +102,7 @@ namespace GenOnline.Services
         public string DeleteSourceTypes(string sourceIds)
         {
             string retVal = "";
-            var sourceTypeSearch = new SourceTypeSearch(new Security(WebHelper.GetUser()));
+            var sourceTypeSearch = new SourceTypeSearch(new Security(new WebUser()));
 
             try
             {
@@ -143,7 +143,7 @@ namespace GenOnline.Services
 
             try
             {
-                var sourceTypeEditor = new SourceTypeSearch(new Security(WebHelper.GetUser()));
+                var sourceTypeEditor = new SourceTypeSearch(new Security(new WebUser()));
 
     
                 sourceTypeEditor.Update(serviceSourceType, sourceTypeValidator);

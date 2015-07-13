@@ -23,7 +23,7 @@ namespace GenOnline.Services
 
         public string AddMarriageSources(string record, string sources)
         {
-            var iModel = new SourceSearch(new Security(WebHelper.GetUser()));
+            var iModel = new SourceSearch(new Security(new WebUser()));
             string retVal = "";
 
             try
@@ -41,7 +41,7 @@ namespace GenOnline.Services
 
         public string AddPersonSources(string record, string sources)
         {
-            var iModel = new SourceSearch(new Security(WebHelper.GetUser()));
+            var iModel = new SourceSearch(new Security(new WebUser()));
             string retVal = "";
 
             try
@@ -60,7 +60,7 @@ namespace GenOnline.Services
         public string RemoveTreeSources(string record)
         {
             string retVal = "";
-            var iModel = new SourceSearch(new Security(WebHelper.GetUser()));
+            var iModel = new SourceSearch(new Security(new WebUser()));
 
             try
             {
@@ -78,7 +78,7 @@ namespace GenOnline.Services
         public List<CensusSource> Get1841CensusSources(Guid sourceId)
         {
             var serviceSourceObject = new ServiceSourceObject();                     
-            var iModel = new SourceSearch(new Security(WebHelper.GetUser()));
+            var iModel = new SourceSearch(new Security(new WebUser()));
 
             string retVal = "";
             try
@@ -108,7 +108,7 @@ namespace GenOnline.Services
 
             var ssobj = new SourceDto();
 
-            var iModel = new SourceSearch(new Security(WebHelper.GetUser()));
+            var iModel = new SourceSearch(new Security(new WebUser()));
           
             string retVal = "";
               
@@ -135,7 +135,7 @@ namespace GenOnline.Services
         {
             var serviceSourceObject = new ServiceSourceObject();   
                       
-            var iModel = new SourceSearch(new Security(WebHelper.GetUser()));
+            var iModel = new SourceSearch(new Security(new WebUser()));
 
             string retVal = "";
             try
@@ -186,7 +186,7 @@ namespace GenOnline.Services
                 };
 
              
-            var iModel = new SourceSearch(new Security(WebHelper.GetUser()));
+            var iModel = new SourceSearch(new Security(new WebUser()));
 
             try
             {
@@ -211,7 +211,7 @@ namespace GenOnline.Services
         {
     
       
-            var iModel = new SourceSearch(new Security(WebHelper.GetUser()));
+            var iModel = new SourceSearch(new Security(new WebUser()));
 
             var retVal = "";
             try
@@ -285,7 +285,7 @@ namespace GenOnline.Services
                 };
 
 
-            var iModel = new SourceSearch(new Security(WebHelper.GetUser()));
+            var iModel = new SourceSearch(new Security(new WebUser()));
 
             try
             {

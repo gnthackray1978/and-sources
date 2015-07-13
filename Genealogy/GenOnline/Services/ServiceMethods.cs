@@ -32,38 +32,6 @@ namespace GenOnline.Services
             _filesDal = new FilesDal();
         }
 
-
-        public string TestLogin(string testParam)
-        {
-            string retVal = "could not get login ";
-           // string token = WebOperationContext.Current.IncomingRequest.Headers["fb"];
-
-
-            var f = new FacebookHelper("205401136237103", "e2bae4f7b2ffa301366c119107df79b1");
-
-            var token = f.AccessToken;
-
-            if (string.IsNullOrEmpty(token)) return retVal;
-
-
-            var fbc = new FacebookClient(token);
-
-            var me2 = (IDictionary<string, object>)fbc.Get("/me");
-
-
-            if (me2.ContainsKey("name"))
-            {
-                retVal = (string)me2["name"];
-
-            }
-
-            Debug.WriteLine("user id" + WebHelper.GetUser());
-
-
-            return retVal;
-        }
-
-
         public void Upload(string fileName, Stream stream)
         {
 
@@ -91,11 +59,7 @@ namespace GenOnline.Services
             //fileToupload.Dispose();
 
         }
-
-
-      
-
-
+    
         // events
 
         public ServiceEventObject GetEvents(string chkIncludeBirths, string chkIncludeDeaths, string chkIncludeWitnesses, string chkIncludeParents, string chkIncludeMarriages, string chkIncludeSpouses, string chkIncludePersonWithSpouses,
@@ -118,12 +82,7 @@ namespace GenOnline.Services
 
             try
             {
-
-                var f = new FacebookHelper("205401136237103", "e2bae4f7b2ffa301366c119107df79b1");
-
-                var test = f.AccessToken;
-
-                user = WebHelper.GetUser();
+                user = WebHelper.GetUserName();
             }
             catch (Exception e)
             {
@@ -131,10 +90,7 @@ namespace GenOnline.Services
                  
             }
        
-
             return user;
-
-
         }
 
         public ServiceFileObject GetFilesForSource(string sourceId, string page_number, string page_size)
@@ -167,7 +123,41 @@ namespace GenOnline.Services
 
 
 
-       
+
+
+        public string GetLoggedInUserName()
+        {
+            string user;
+
+            try
+            {
+                user = WebHelper.GetUserName();
+            }
+            catch (Exception e)
+            {
+                user = e.Message;
+
+            }
+
+            return user;
+        }
+
+        public string GetLoggedInUserId()
+        {
+            string user;
+
+            try
+            {
+                user = WebHelper.GetUser();
+            }
+            catch (Exception e)
+            {
+                user = e.Message;
+
+            }
+
+            return user;
+        }
     }
 }
 

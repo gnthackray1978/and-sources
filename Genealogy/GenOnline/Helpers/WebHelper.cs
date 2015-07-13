@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.ServiceModel.Web;
 using Facebook;
+using TancWebApp.Helpers;
 
 namespace GenOnline.Helpers
 {
@@ -65,57 +66,40 @@ namespace GenOnline.Helpers
         }
 
 
+        private static IDictionary<string, object> GetFbDic()
+        {
+            var f = new FacebookHelper("205401136237103", "e2bae4f7b2ffa301366c119107df79b1");
+
+            var token = f.AccessToken;
+
+            if (string.IsNullOrEmpty(token)) return null;
+
+            var fbc = new FacebookClient(token);
+
+            var me2 = (IDictionary<string, object>)fbc.Get("/me");
+
+            return me2;
+        }
+
         public static string GetUser()
         {
 
             string retVal = "x x x ";
-            string idVal = "";
-            long facebookId = 0;
 
 
             try
             {
-                if (WebOperationContext.Current != null)
+           
+                var fbdic = GetFbDic();
+
+                if (fbdic == null) return retVal;
+
+                if (fbdic.ContainsKey("id"))
                 {
-                    var token = WebOperationContext.Current.IncomingRequest.Headers["fb"];
+                    retVal = (string)fbdic["id"];
 
-
-                    if (!WebOperationContext.Current.IncomingRequest.UriTemplateMatch.BaseUri.Host.Contains("local.gendb.net"))
-                    {
-
-                        if (!string.IsNullOrEmpty(token))
-                        {
-
-                            var fbc = new FacebookClient(token);
-
-                            var me2 = (IDictionary<string, object>) fbc.Get("/me");
-
-
-                            if (me2.ContainsKey("name"))
-                            {
-                                retVal = (string) me2["name"];
-
-                            }
-
-                            if (me2.ContainsKey("id"))
-                            {
-                                idVal = (string) me2["id"];
-
-                            }
-
-
-                            retVal = idVal; // userGuid.ToString();
-                        }
-                        else
-                        {
-                            throw new Exception("Token Not Received");
-                        }
-                    }
-                    else
-                    {
-                        retVal = "localaccess";
-                    }
                 }
+
             }
             catch (Exception ex1)
             {
@@ -126,6 +110,33 @@ namespace GenOnline.Helpers
             return retVal;
         }
 
+
+        public static string GetUserName()
+        {
+
+            string retVal = "x x x ";
+
+            try
+            {
+
+                var fbdic = GetFbDic();
+
+                if (fbdic == null) return retVal;
+
+                if (fbdic.ContainsKey("name"))
+                {
+                    retVal = (string)fbdic["name"];
+
+                }
+            }
+            catch (Exception ex1)
+            {
+                throw ex1;
+
+            }
+
+            return retVal;
+        }
     }
 
 

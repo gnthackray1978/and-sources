@@ -15,6 +15,7 @@ _ReSharper.*
 *.csproj.ReSharper
 *.dotcover
 
+Genealogy/GenOnline/Client
 Genealogy/packages
 Genealogy/GenOnline/Properties/PublishProfiles
-Genealogy/Client
+

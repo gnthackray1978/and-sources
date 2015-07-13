@@ -8,6 +8,11 @@ namespace GenOnline.Services.Contracts
     [ServiceContract]
     public interface IPersonService
     {
+        // persons
+        [OperationContract]
+        [WebGet(ResponseFormat = WebMessageFormat.Json, UriTemplate = UriPersonMappings.Test)]
+        string TestPerson();
+
 
         // persons
         [OperationContract]

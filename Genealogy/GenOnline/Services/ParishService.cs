@@ -27,7 +27,7 @@ namespace GenOnline.Services
         // parishs
         public ServiceParishObject GetParishs(string deposited, string name, string county, string page_number, string page_size, string sort_col)
         {
-            var parishSearch = new ParishSearch(new Security(WebHelper.GetUser()));
+            var parishSearch = new ParishSearch(new Security(new WebUser()));
           
             var psf =new ParishSearchFilter
             {
@@ -46,7 +46,7 @@ namespace GenOnline.Services
 
          
             string retVal = "";
-            var parishSearch = new ParishSearch(new Security(WebHelper.GetUser()));
+            var parishSearch = new ParishSearch(new Security(new WebUser()));
             
             try
             {
@@ -67,7 +67,7 @@ namespace GenOnline.Services
 
         public List<string> GetParishNames(string parishIds)
         {
-            var parishSearch = new ParishSearch(new Security(WebHelper.GetUser()));
+            var parishSearch = new ParishSearch(new Security(new WebUser()));
       
             return parishSearch.GetParishNames(new ParishSearchFilter
             {
@@ -87,7 +87,7 @@ namespace GenOnline.Services
                                   ParishName, ParishParent,
                                   ParishNote, ParishCounty, ParishDeposited);
 
-            var pe = new ParishSearch(new Security(WebHelper.GetUser()));
+            var pe = new ParishSearch(new Security(new WebUser()));
 
 
 
@@ -129,7 +129,7 @@ namespace GenOnline.Services
             string retVal = "";
             try
             {
-                var pe = new ParishSearch(new Security(WebHelper.GetUser()));
+                var pe = new ParishSearch(new Security(new WebUser()));
                 parish = pe.GetParish(parishId.ToGuid());
             }
             catch (Exception ex1)
@@ -156,7 +156,7 @@ namespace GenOnline.Services
 
         public List<ServiceSuperParish> GetParishsFromLocations(string parishLocation)
         {
-            var mapDataSources = new MapDataSources(new Security(WebHelper.GetUser()));
+            var mapDataSources = new MapDataSources(new Security(new WebUser()));
                         
             return mapDataSources.GetParishsFromLocations(new ParishSearchFilter { Location = parishLocation });
         }
@@ -170,7 +170,7 @@ namespace GenOnline.Services
 
         public List<ServiceSearchResult> GetSearchResults(string parishIds, string startYear, string endYear)
         {
-            var mapDataSources = new MapDataSources(new Security(WebHelper.GetUser()));
+            var mapDataSources = new MapDataSources(new Security(new WebUser()));
                        
             return mapDataSources.GetSearchResults(new ParishSearchFilter
             {
@@ -182,7 +182,7 @@ namespace GenOnline.Services
 
         public List<ServiceParishCounter> GetParishCounters(string startYear, string endYear)
         {
-            var mapDataSources = new MapDataSources(new Security(WebHelper.GetUser()));
+            var mapDataSources = new MapDataSources(new Security(new WebUser()));
               
             return mapDataSources.GetParishCounters(new ParishSearchFilter
             {
@@ -194,7 +194,7 @@ namespace GenOnline.Services
 
         public ServiceParishDetailObject GetParishDetail(string parishId)
         {
-            var parishSearch = new MapDataSources(new Security(WebHelper.GetUser()));
+            var parishSearch = new MapDataSources(new Security(new WebUser()));
             var serviceParishDetailObject = new ServiceParishDetailObject();
             string retVal = "";
 
