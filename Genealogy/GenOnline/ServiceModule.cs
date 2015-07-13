@@ -1,5 +1,4 @@
 ﻿using System;
-using GenOnline.Helpers;
 using Ninject;
 using Ninject.Extensions.Wcf;
 using Ninject.Parameters;
@@ -29,9 +28,12 @@ namespace GenOnline
             this.Bind<ISourceMappingsDal>().To<SourceMappingsDal>().InRequestScope();
             this.Bind<ISourceTypesDal>().To<SourceTypesDal>().InRequestScope();
             this.Bind<IUserDal>().To<UserDal>().InRequestScope();             
-            this.Bind<ISecurity>()  .To<Security>().InRequestScope() .WithConstructorArgument("userName", WebHelper.GetUser()).WithConstructorArgument("isSecurityEnabled", false); ;
+          //  this.Bind<ISecurity>()  .To<Security>().InRequestScope() .WithConstructorArgument("userName",WebHelper.GetUser).WithConstructorArgument("isSecurityEnabled", false); ;
 
 
+            this.Bind<ISecurity>().To<Security>().InRequestScope().WithConstructorArgument("user", new WebUser()).WithConstructorArgument("isSecurityEnabled", false); ;
+            
+            
 
         }
     }

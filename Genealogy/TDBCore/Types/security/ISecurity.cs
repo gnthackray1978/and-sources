@@ -14,4 +14,9 @@ namespace TDBCore.Types.security
          int UserId();
          string PermissionState();
     }
+
+    public interface IUser
+    {
+        string GetUser();
+    }
 }

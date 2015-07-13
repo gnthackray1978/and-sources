@@ -9,7 +9,7 @@ namespace GenOnline.Services.UriMappingConstants
         //person
 
 
-
+        public const string Test = "/Test";
         public const string UpdateDateEstimates = "/UpdateDates";
         public const string AssignLocations = "/AssignLocats";
 

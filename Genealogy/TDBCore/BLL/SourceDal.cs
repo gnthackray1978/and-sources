@@ -376,7 +376,7 @@ namespace TDBCore.BLL
                 && o.SourceDateTo != null 
                 && o.SourceMappingParishs.Any(a => a.Parish.ParishId == parishId));
 
-            var sourceRecords = sources.Select(srow => new SourceRecord
+            var sourceRecords = sources.ToList().Select(srow => new SourceRecord
             {
                 SourceId = srow.SourceId,
                 IsCopyHeld = srow.IsCopyHeld.GetValueOrDefault(),
@@ -385,8 +385,8 @@ namespace TDBCore.BLL
                 OriginalLocation = srow.OriginalLocation,
                 SourceDesc = srow.SourceDescription,
                 SourceRef = srow.SourceRef,
-                YearStart = srow.SourceDate.Value,
-                YearEnd = srow.SourceDateTo.Value,
+                YearStart = srow.SourceDate.GetValueOrDefault(),
+                YearEnd = srow.SourceDateTo.GetValueOrDefault(),
                 sourceTYpes = _sourceTypes.GetSourceTypeBySourceId2(srow.SourceId).Select(st => st.SourceTypeId).ToList()
                  
             }).ToList();

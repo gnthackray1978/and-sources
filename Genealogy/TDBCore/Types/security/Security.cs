@@ -7,16 +7,21 @@ using TDBCore.BLL;
 
 namespace TDBCore.Types.security
 {
+  
+
     public class Security:ISecurity
     {
-        private readonly string _userName = "";
+       
         private string _persmission = "";
         private readonly bool _isSecurityEnabled = true;
         readonly UserDal _users = new UserDal();
+        private readonly IUser _user;
 
-        public Security(string userName, bool isSecurityEnabled =false)
+        public Security(IUser user, bool isSecurityEnabled = false)
         {
-            _userName = userName;
+            
+            _user = user;
+
             _isSecurityEnabled = isSecurityEnabled;
         }
 
@@ -30,7 +35,8 @@ namespace TDBCore.Types.security
                 return true;
             }
 
-            var role = _users.GetUserRole(_userName);
+          
+            var role = _users.GetUserRole(_user.GetUser());
 
             if (role == 1 || role == 2)
             {
@@ -49,8 +55,8 @@ namespace TDBCore.Types.security
                 Debug.WriteLine("security bypassed for test");
                 return true;
             }
-  
-            var role = _users.GetUserRole(_userName);
+
+            var role = _users.GetUserRole(_user.GetUser());
 
             if (role == 1 || role == 2)
             {
@@ -73,8 +79,8 @@ namespace TDBCore.Types.security
                 return true;
 
             }
-           
-            int userId = _users.GetUserRole(_userName);
+
+            int userId = _users.GetUserRole(_user.GetUser());
             if (userId == 1 || userId == 2)
             {
                 _persmission = "";

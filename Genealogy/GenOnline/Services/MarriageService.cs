@@ -61,7 +61,7 @@ namespace GenOnline.Services
             string femalesname, string location, string lowerDate, string upperDate, string sourceFilter, string parishFilter, string marriageWitness,
             string page_number, string page_size, string sort_col)
         {                  
-            //var iModel = new MarriageSearch(new Security(WebHelper.GetUser()));
+            //var iModel = new MarriageSearch(new Security(new WebUser()));
           
 
             var serviceMarriageObject = new ServiceMarriageObject();
@@ -167,7 +167,7 @@ namespace GenOnline.Services
 
         public string RemoveMarriageLink(string marriage)
         {
-           // var iModel = new MarriageSearch(new Security(WebHelper.GetUser()));    
+           // var iModel = new MarriageSearch(new Security(new WebUser()));    
             string retVal = "";
 
             try
@@ -186,7 +186,7 @@ namespace GenOnline.Services
 
         public string ReorderMarriages(string marriage)
         {
-          //  var iModel = new MarriageSearch(new Security(WebHelper.GetUser()));
+          //  var iModel = new MarriageSearch(new Security(new WebUser()));
            
             string retVal = "";
 

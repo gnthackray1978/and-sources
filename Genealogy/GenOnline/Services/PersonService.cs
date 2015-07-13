@@ -19,11 +19,32 @@ namespace GenOnline.Services
     public class PersonService :IPersonService
     {
 
+        public string TestPerson()
+        {
+            string error = "xxx";
 
+            //try
+            //{
+            //    var sp = new ServicePerson();
+            //    var iModel = new PersonSearch(new Security(new WebUser()));
+
+            //    Guid g = Guid.Parse("de9937f4-5850-463f-af99-25c381fe5f3");
+                
+            //    sp = iModel.Get(g);
+
+            //    error = sp.ChristianName + " " + sp.Surname;
+            //}
+            //catch (Exception ex1)
+            //{
+            //    error = "Exception: " + ex1.Message;
+            //}
+
+            return error;
+        }
 
         public void AssignLocations()
         {
-            var iModel = new PersonSearch(new Security(WebHelper.GetUser()));
+            var iModel = new PersonSearch(new Security(new WebUser()));
 
             iModel.UpdateLocationsFromParishList();
         }
@@ -32,7 +53,7 @@ namespace GenOnline.Services
 
         public void UpdateDateEstimates()
         {
-            var iModel = new PersonSearch(new Security(WebHelper.GetUser()));
+            var iModel = new PersonSearch(new Security(new WebUser()));
 
             iModel.UpdateDateEstimates();
         }
@@ -43,7 +64,7 @@ namespace GenOnline.Services
         {
             string retVal = "";
 
-            var iModel = new PersonSearch(new Security(WebHelper.GetUser()));
+            var iModel = new PersonSearch(new Security(new WebUser()));
 
             try
             {
@@ -62,7 +83,7 @@ namespace GenOnline.Services
         {
             string retVal = "";
 
-            var iModel = new PersonSearch(new Security(WebHelper.GetUser()));
+            var iModel = new PersonSearch(new Security(new WebUser()));
            
             try
             {
@@ -80,7 +101,7 @@ namespace GenOnline.Services
         {
             string retVal = "";
 
-            var iModel = new PersonSearch(new Security(WebHelper.GetUser()));
+            var iModel = new PersonSearch(new Security(new WebUser()));
          
             try
             {
@@ -97,7 +118,7 @@ namespace GenOnline.Services
         public string SetPersonRelation(string persons, string relationType)
         {
             string retVal = "";
-            var iModel = new PersonSearch(new Security(WebHelper.GetUser()));
+            var iModel = new PersonSearch(new Security(new WebUser()));
     
             try
             {                               
@@ -117,7 +138,7 @@ namespace GenOnline.Services
         {
             string retVal = "";
 
-            var iModel = new PersonSearch(new Security(WebHelper.GetUser()));
+            var iModel = new PersonSearch(new Security(new WebUser()));
            
             try
             {                                  
@@ -149,7 +170,7 @@ namespace GenOnline.Services
              refloc, fatheroccupation, spousesurname, spousechristianname, years, months, weeks, days);
 
           
-          var iModel = new PersonSearch(new Security(WebHelper.GetUser()));
+          var iModel = new PersonSearch(new Security(new WebUser()));
 
 
             datebirthstr = DateTools.MakeDateString(datebapstr, datebirthstr, datedeath, years, months, weeks, days);
@@ -207,7 +228,7 @@ namespace GenOnline.Services
         public ServicePerson GetPerson(string id)
         {
             var sp = new ServicePerson();
-            var iModel = new PersonSearch(new Security(WebHelper.GetUser()));
+            var iModel = new PersonSearch(new Security(new WebUser()));
                      
             try
             {
@@ -252,7 +273,7 @@ namespace GenOnline.Services
             var spo = new ServicePersonObject();
 
 
-            var iModel = new PersonSearch(new Security(WebHelper.GetUser()));
+            var iModel = new PersonSearch(new Security(new WebUser()));
            
             try
             {
@@ -314,6 +335,8 @@ namespace GenOnline.Services
 
 
 
-        
+
+
+      
     }
 }
