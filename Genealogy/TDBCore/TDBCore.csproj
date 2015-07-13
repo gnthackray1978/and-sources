@@ -103,6 +103,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLL\BaseBLL.cs" />
+    <Compile Include="EntityModel\Log.cs">
+      <DependentUpon>GeneralModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\IUserDal.cs" />
     <Compile Include="Interfaces\ISourceMappingsDal.cs" />
     <Compile Include="Interfaces\ISourceTypesDal.cs" />

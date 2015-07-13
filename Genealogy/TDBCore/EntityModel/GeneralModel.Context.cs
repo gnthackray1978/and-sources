@@ -8,7 +8,7 @@
 //------------------------------------------------------------------------------
 
 namespace TDBCore.EntityModel
-{ 
+{
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
@@ -47,6 +47,7 @@ namespace TDBCore.EntityModel
         public virtual DbSet<MarriageMapWitness> MarriageMapWitnesses { get; set; }
         public virtual DbSet<ParishCounter> ParishCounter { get; set; }
         public virtual DbSet<uvw_1841Census> uvw_1841Census { get; set; }
+        public virtual DbSet<Log> Log { get; set; }
     
         public virtual ObjectResult<Source> GetSourcesBySourceTypes(string sourceRef, Nullable<int> sourceDateToUpper, Nullable<int> sourceDateLower, Nullable<int> sourceDateToLower, Nullable<int> sourceDateUpper, Nullable<int> userID, string originalLocation, Nullable<System.DateTime> dateAddedUpper, Nullable<System.DateTime> dateAddedLower, Nullable<bool> isThackrayFound, Nullable<bool> isThackrayFoundInverted, Nullable<bool> isViewedInvert, Nullable<bool> isViewed, Nullable<bool> isCopyHeldInverted, Nullable<bool> isCopyHeld, string types)
         {

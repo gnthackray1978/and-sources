@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="GeneralModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="GeneralModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="CountyDictionary">
           <Key>
             <PropertyRef Name="dictId" />
@@ -295,6 +295,15 @@
           <Property Name="SourceDateAdded" Type="nchar" MaxLength="12" />
           <Property Name="SourceUserAdded" Type="int" />
           <Property Name="SourceTypeOrder" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="LogId" />
+          </Key>
+          <Property Name="LogId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LogDate" Type="datetime" Nullable="false" />
+          <Property Name="LogType" Type="int" Nullable="false" />
+          <Property Name="LogData" Type="nvarchar" MaxLength="4000" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -719,6 +728,7 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
           <EntitySet Name="SourceMappings" EntityType="Self.SourceMappings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sources" EntityType="Self.Sources" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SourceTypes" EntityType="Self.SourceTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Log" EntityType="Self.Log" Schema="GeorgeT" store:Type="Tables" />
           <EntitySet Name="uvw_1841Census" EntityType="Self.uvw_1841Census" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [uvw_1841Census].[SourceId] AS [SourceId], 
@@ -1052,6 +1062,7 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
             <Parameter Name="spouse" Mode="In" Type="String" />
             <Parameter Name="sourceSearch" Mode="In" Type="Boolean" />
           </FunctionImport>
+          <EntitySet Name="Log" EntityType="GeneralModel.Log" />
         </EntityContainer>
         <EntityType Name="Marriage">
           <Key>
@@ -1617,6 +1628,15 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
           <Property Type="String" Name="SourceRef" Nullable="false" MaxLength="500" />
           <Property Type="Guid" Name="RefSourceId" Nullable="false" />
         </ComplexType>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="LogId" />
+          </Key>
+          <Property Name="LogId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LogDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LogType" Type="Int32" Nullable="false" />
+          <Property Name="LogData" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2280,6 +2300,16 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="Log">
+            <EntityTypeMapping TypeName="GeneralModel.Log">
+              <MappingFragment StoreEntitySet="Log">
+                <ScalarProperty Name="LogData" ColumnName="LogData" />
+                <ScalarProperty Name="LogType" ColumnName="LogType" />
+                <ScalarProperty Name="LogDate" ColumnName="LogDate" />
+                <ScalarProperty Name="LogId" ColumnName="LogId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -2302,7 +2332,7 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <edmx:Diagram Name="GeneralModel" ZoomLevel="74">
+      <edmx:Diagram Name="GeneralModel" ZoomLevel="167">
         <edmx:EntityTypeShape EntityType="GeneralModel.Marriage" Width="1.5" PointX="21.875" PointY="0.625" Height="9.6723437499999978" IsExpanded="false" />
         <edmx:EntityTypeShape EntityType="GeneralModel.Parish" Width="1.5" PointX="3.375" PointY="1.75" Height="3.7109993489583326" IsExpanded="false" />
         <edmx:EntityTypeShape EntityType="GeneralModel.SourceMappingParish" Width="2.25" PointX="6" PointY="0.5" Height="1.9802864583333326" IsExpanded="false" />
@@ -2363,7 +2393,7 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
           <edmx:ConnectorPoint PointX="3.375" PointY="2.6824446614583337" />
           <edmx:ConnectorPoint PointX="2.25" PointY="2.6824446614583337" />
         </edmx:AssociationConnector>
-        <edmx:EntityTypeShape EntityType="GeneralModel.Person" Width="1.5" PointX="0.75" PointY="4.75" Height="10.441549479166667" IsExpanded="false" />
+        <edmx:EntityTypeShape EntityType="GeneralModel.Person" Width="1.5" PointX="0.75" PointY="4.75" Height="10.441549479166667" IsExpanded="true" />
         <edmx:AssociationConnector Association="GeneralModel.FK_Relations_Persons">
           <edmx:ConnectorPoint PointX="2.25" PointY="13.809736269531257" />
           <edmx:ConnectorPoint PointX="13.40625" PointY="13.809736269531257" />
@@ -2402,6 +2432,7 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
         </edmx:AssociationConnector>
         <edmx:EntityTypeShape EntityType="GeneralModel.ParishCounter" Width="1.5" PointX="8.375" PointY="8.75" Height="2.5571907552083388" IsExpanded="false" />
         <edmx:EntityTypeShape EntityType="GeneralModel.uvw_1841Census" Width="1.5" PointX="3.375" PointY="9.75" Height="2.1725878906250031" IsExpanded="false" />
+        <edmx:EntityTypeShape EntityType="GeneralModel.Log" Width="1.5" PointX="5.375" PointY="7.75" />
       </edmx:Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
