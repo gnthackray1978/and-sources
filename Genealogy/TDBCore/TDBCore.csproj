@@ -103,9 +103,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLL\BaseBLL.cs" />
+    <Compile Include="BLL\LogDal.cs" />
     <Compile Include="EntityModel\Log.cs">
       <DependentUpon>GeneralModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\ILogDal.cs" />
     <Compile Include="Interfaces\IUserDal.cs" />
     <Compile Include="Interfaces\ISourceMappingsDal.cs" />
     <Compile Include="Interfaces\ISourceTypesDal.cs" />
@@ -242,6 +244,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Types\domain\LogSearch.cs" />
     <Compile Include="Types\domain\MapDataSources.cs" />
     <Compile Include="Types\domain\MarriageSearch.cs" />
     <Compile Include="Types\domain\ParishSearch.cs" />
@@ -252,6 +255,8 @@
     <Compile Include="Types\DTOs\CensusPlace.cs" />
     <Compile Include="Types\DTOs\CensusSource.cs" />
     <Compile Include="Types\DTOs\FileBasicInfo.cs" />
+    <Compile Include="Types\DTOs\LogDto.cs" />
+    <Compile Include="Types\DTOs\LogSearch.cs" />
     <Compile Include="Types\DTOs\MarriageResult.cs" />
     <Compile Include="Types\DTOs\MarriageWitness.cs" />
     <Compile Include="Types\DTOs\ParishCollection.cs" />

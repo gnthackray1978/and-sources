@@ -9,6 +9,6 @@ namespace TDBCore.Interfaces
     public interface ILogDal
     {
         int AddLog(LogDto log);
-        List<LogDto> GetLogsByDate(LogSearch searchOptions);
+        List<LogDto> GetLogsByParams(LogSearch searchOptions);
     }
 }

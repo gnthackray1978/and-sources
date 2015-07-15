@@ -20,10 +20,10 @@ namespace TDBCore.Types.domain
         private readonly ISecurity _iSecurity;
         private IValidator _validator = new Validator();
   
-        public ParishSearch(ISecurity iSecurity)
+        public ParishSearch(ISecurity iSecurity, IParishsDal iParishsDal)
         {
             _iSecurity = iSecurity;
-            _parishsDal = new ParishsDal();
+            _parishsDal = iParishsDal;
         }
 
         public string Delete(string parishIds)

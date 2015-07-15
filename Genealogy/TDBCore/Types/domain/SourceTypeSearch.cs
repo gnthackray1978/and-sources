@@ -20,10 +20,10 @@ namespace TDBCore.Types.domain
      
 
 
-        public SourceTypeSearch(ISecurity security)
+        public SourceTypeSearch(ISecurity security, ISourceTypesDal iSourceTypesDal)
         {
             _security = security;
-            _sourceTypesDal = new SourceTypesDal();
+            _sourceTypesDal = iSourceTypesDal;
         }
 
       

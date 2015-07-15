@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.ServiceModel;
+using System.ServiceModel.Channels;
 using System.ServiceModel.Web;
 using Facebook;
 using TancWebApp.Helpers;
@@ -37,8 +39,27 @@ namespace GenOnline.Helpers
 
     public class WebHelper
     {
+        public static string GetRequestIp()
+        {
+            string requestAddress = "";
 
-         
+            try
+            {
+                OperationContext context = OperationContext.Current;
+                MessageProperties messageProperties = context.IncomingMessageProperties;
+                var endpointProperty = messageProperties[RemoteEndpointMessageProperty.Name] as RemoteEndpointMessageProperty;
+
+                if (endpointProperty != null) requestAddress = endpointProperty.Address + ":" + endpointProperty.Port;
+            }
+            catch (Exception e)
+            {
+                ///todo tidy this up
+                requestAddress = e.Message;
+            }
+           
+            return requestAddress;
+        }
+
         public static string MakeReturn(string recordId, string error)
         {
             return "Id=" + recordId + "&Error=" + error;

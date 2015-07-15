@@ -18,5 +18,8 @@ namespace TDBCore.EntityModel
         public System.DateTime LogDate { get; set; }
         public int LogType { get; set; }
         public string LogData { get; set; }
+        public string LogException { get; set; }
+        public string LogStackTrace { get; set; }
+        public string LogSource { get; set; }
     }
 }

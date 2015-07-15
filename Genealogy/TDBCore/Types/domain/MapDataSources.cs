@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TDBCore.BLL;
+using TDBCore.Interfaces;
 using TDBCore.Types.DTOs;
  
 using TDBCore.Types.enums;
@@ -70,12 +71,15 @@ namespace TDBCore.Types.domain
         {           
             if (!_security.IsvalidSelect()) return new List<ServiceParishDataType>();
 
+
+
             return _parishsDal.GetParishTypes().Select(o => new ServiceParishDataType { DataTypeId = o.dataTypeId, Description = o.description }).ToList();
         }
 
         public List<ServiceSearchResult> GetSearchResults(ParishSearchFilter parishSearchFilter)
         { //|| parishIds != "YORKSHIRE"
             var ssresults = new List<ServiceSearchResult>();
+
 
             if (!_security.IsvalidSelect()) return new List<ServiceSearchResult>();
 
@@ -108,15 +112,14 @@ namespace TDBCore.Types.domain
 
 
         public ServiceParishDetailObject GetParishDetail(ParishSearchFilter parishSearchFilter)
-        {
-
-
+        {           
             var serviceParishDetailObject = new ServiceParishDetailObject();
 
             if (!_security.IsvalidSelect()) return serviceParishDetailObject;
 
+          
             var parishDetails = _parishsDal.GetParishDetail(parishSearchFilter.ParishIds.SafeFirst());
-
+         
             serviceParishDetailObject.serviceParishRecords = parishDetails.parishRecords.Select(o => new ServiceParishRecord
             {
                 DataType = o.dataType,
@@ -125,13 +128,13 @@ namespace TDBCore.Types.domain
                 ParishRecordType = o.parishRecordType,
                 StartYear = o.startYear
             }).ToList();
-
+          
             serviceParishDetailObject.serviceParishTranscripts = parishDetails.parishTranscripts.Select(o => new ServiceParishTranscript
             {
                 ParishId = o.ParishId,
                 ParishTranscriptRecord = o.ParishTranscriptRecord
             }).ToList();
-
+          
             serviceParishDetailObject.serviceServiceMapDisplaySource = _sourceDal.GetParishSourceRecords(parishSearchFilter.ParishIds.SafeFirst()).Select(s => new ServiceMapDisplaySource
             {
                 DisplayOrder = s.DisplayOrder,
@@ -146,15 +149,15 @@ namespace TDBCore.Types.domain
                 YearStart = s.YearStart
             }).ToList();
 
-
+       
             var sourceStr =
                 serviceParishDetailObject.serviceServiceMapDisplaySource.Select(p => p.SourceId).ToList().ParseToCSV();
-
+          
             serviceParishDetailObject.PersonCount = GetPersonsCount("", "", "thac", "", "", "", "", "", "", "1400", "1950", "false", "false", "false", sourceStr, "", "");
-
+       
             serviceParishDetailObject.MarriageCount = GetMarriagesCount("", "", "", "", "", "", "0", "0", sourceStr);
 
-
+      
             return serviceParishDetailObject;
         }
 

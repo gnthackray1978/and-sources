@@ -4,6 +4,7 @@ using Ninject.Extensions.Wcf;
 using Ninject.Parameters;
 using Ninject.Web.Common;
 using TDBCore.BLL;
+using TDBCore.Interfaces;
 using TDBCore.Types.security;
 
 namespace GenOnline
@@ -27,14 +28,10 @@ namespace GenOnline
             this.Bind<ISourceMappingParishsDal>().To<SourceMappingParishsDal>().InRequestScope();
             this.Bind<ISourceMappingsDal>().To<SourceMappingsDal>().InRequestScope();
             this.Bind<ISourceTypesDal>().To<SourceTypesDal>().InRequestScope();
-            this.Bind<IUserDal>().To<UserDal>().InRequestScope();             
-          //  this.Bind<ISecurity>()  .To<Security>().InRequestScope() .WithConstructorArgument("userName",WebHelper.GetUser).WithConstructorArgument("isSecurityEnabled", false); ;
-
-
+            this.Bind<IUserDal>().To<UserDal>().InRequestScope();
+            this.Bind<ILogDal>().To<LogDal>().InRequestScope();                    
             this.Bind<ISecurity>().To<Security>().InRequestScope().WithConstructorArgument("user", new WebUser()).WithConstructorArgument("isSecurityEnabled", false); ;
-            
-            
-
+                      
         }
     }
 }

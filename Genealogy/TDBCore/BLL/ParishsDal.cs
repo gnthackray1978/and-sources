@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using TDBCore.EntityModel;
 using System.Diagnostics;
+using TDBCore.Interfaces;
+using TDBCore.Types.domain;
 using TDBCore.Types.DTOs;
 using TDBCore.Types.filters;
 using TDBCore.Types.libs;
+using TDBCore.Types.security;
 using ParishRecord = TDBCore.Types.DTOs.ParishRecord;
 
 

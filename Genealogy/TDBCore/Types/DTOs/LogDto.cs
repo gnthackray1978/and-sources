@@ -13,5 +13,11 @@ namespace TDBCore.Types.DTOs
 
         public string LogData { get; set; }
 
+        public string LogStackTrace { get; set; }
+
+        public string LogSource { get; set; }
+
+        public string LogException { get; set; }
+
     }
 }

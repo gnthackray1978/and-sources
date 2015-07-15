@@ -5,6 +5,7 @@ using System.ServiceModel;
 using System.ServiceModel.Activation;
 using GenOnline.Helpers;
 using GenOnline.Services.Contracts;
+using TDBCore.BLL;
 using TDBCore.Types.domain;
 using TDBCore.Types.DTOs;
 using TDBCore.Types.filters;
@@ -18,7 +19,16 @@ namespace GenOnline.Services
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Required)]
     public class SourceTypeService : ISourceTypes
     {
+
+        private readonly SourceTypeSearch _sourceTypeSearch;
+
         // source types
+
+        public SourceTypeService(ISourceTypesDal isSourceTypesDal,
+            ISecurity iSecurity)
+        {
+            _sourceTypeSearch = new SourceTypeSearch(new Security(new WebUser()),isSourceTypesDal);
+        }
 
         public List<string> GetSourceTypeNames(string typeIds)
         {             
@@ -26,11 +36,8 @@ namespace GenOnline.Services
             {
                 SourceTypeIds = typeIds.ParseToIntList()
             };
-         
-            var sourceTypeSearch = new SourceTypeSearch(new Security(new WebUser()));
 
-
-            return sourceTypeSearch.Search(sourceTypeSearchFilter,new DataShaping(), new SourceTypeSearchValidator(sourceTypeSearchFilter)).serviceSources.Select(p=>p.Description).ToList();           
+            return _sourceTypeSearch.Search(sourceTypeSearchFilter, new DataShaping(), new SourceTypeSearchValidator(sourceTypeSearchFilter)).serviceSources.Select(p => p.Description).ToList();           
         }
 
         public ServiceSourceType GetSourceType(string TypeId)
@@ -38,17 +45,12 @@ namespace GenOnline.Services
       
             string retVal = "";
 
-
-
             var serviceSourceType = new ServiceSourceType() { TypeId = TypeId.ToInt32() };
-
             
             try
             {
-                var sourceTypeEditor = new SourceTypeSearch(new Security(new WebUser()));
 
-
-                serviceSourceType = sourceTypeEditor.Get(serviceSourceType);
+                serviceSourceType = _sourceTypeSearch.Get(serviceSourceType);
 
             }
             catch (Exception ex1)
@@ -78,11 +80,10 @@ namespace GenOnline.Services
             };
 
             var validator = new SourceTypeSearchValidator(sourceTypeSearchFilter);
-            var sourceTypeSearch = new SourceTypeSearch(new Security(new WebUser()));
-
+            
             try
-            {                       
-                serviceSourceTypeObject = sourceTypeSearch.Search(sourceTypeSearchFilter,new DataShaping(){RecordPageSize = page_size.ToInt32(),RecordStart = page_number.ToInt32()}, validator);           
+            {
+                serviceSourceTypeObject = _sourceTypeSearch.Search(sourceTypeSearchFilter, new DataShaping() { RecordPageSize = page_size.ToInt32(), RecordStart = page_number.ToInt32() }, validator);           
             }
             catch (Exception ex1)
             {
@@ -102,11 +103,10 @@ namespace GenOnline.Services
         public string DeleteSourceTypes(string sourceIds)
         {
             string retVal = "";
-            var sourceTypeSearch = new SourceTypeSearch(new Security(new WebUser()));
-
+            
             try
             {
-                sourceTypeSearch.DeleteRecords(new SourceTypeSearchFilter()
+                _sourceTypeSearch.DeleteRecords(new SourceTypeSearchFilter()
                 {
                     SourceTypeIds = sourceIds.ParseToIntList()
                 });
@@ -130,8 +130,6 @@ namespace GenOnline.Services
 
             string retVal = "";
 
-
-
             var serviceSourceType = new ServiceSourceType()
                 {
                     TypeId = TypeId.ToInt32(),
@@ -143,11 +141,7 @@ namespace GenOnline.Services
 
             try
             {
-                var sourceTypeEditor = new SourceTypeSearch(new Security(new WebUser()));
-
-    
-                sourceTypeEditor.Update(serviceSourceType, sourceTypeValidator);
-
+                _sourceTypeSearch.Update(serviceSourceType, sourceTypeValidator);
             }
             catch (Exception ex1)
             {

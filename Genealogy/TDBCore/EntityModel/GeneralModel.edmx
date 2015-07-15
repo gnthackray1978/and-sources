@@ -304,6 +304,9 @@
           <Property Name="LogDate" Type="datetime" Nullable="false" />
           <Property Name="LogType" Type="int" Nullable="false" />
           <Property Name="LogData" Type="nvarchar" MaxLength="4000" />
+          <Property Name="LogException" Type="text" />
+          <Property Name="LogStackTrace" Type="text" />
+          <Property Name="LogSource" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1636,6 +1639,9 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
           <Property Name="LogDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="LogType" Type="Int32" Nullable="false" />
           <Property Name="LogData" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="LogException" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="LogStackTrace" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="LogSource" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2303,6 +2309,9 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
           <EntitySetMapping Name="Log">
             <EntityTypeMapping TypeName="GeneralModel.Log">
               <MappingFragment StoreEntitySet="Log">
+                <ScalarProperty Name="LogSource" ColumnName="LogSource" />
+                <ScalarProperty Name="LogStackTrace" ColumnName="LogStackTrace" />
+                <ScalarProperty Name="LogException" ColumnName="LogException" />
                 <ScalarProperty Name="LogData" ColumnName="LogData" />
                 <ScalarProperty Name="LogType" ColumnName="LogType" />
                 <ScalarProperty Name="LogDate" ColumnName="LogDate" />
