@@ -1,9 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.ServiceModel;
 using System.ServiceModel.Activation;
+using System.ServiceModel.Channels;
+using System.Threading;
+using System.Web;
 using GenOnline.Helpers;
 using GenOnline.Services.Contracts;
+using TDBCore.BLL;
+using TDBCore.Interfaces;
 using TDBCore.Types.domain;
 using TDBCore.Types.DTOs;
 using TDBCore.Types.filters;
@@ -13,22 +19,29 @@ using TDBCore.Types.validators;
 
 namespace GenOnline.Services
 {
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall, ConcurrencyMode = ConcurrencyMode.Multiple)]
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall, ConcurrencyMode = ConcurrencyMode.Single)]
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Required)]
     public class ParishService : IParishService
     {
-        public List<CensusPlace> Get1841CensusPlaces()
-        {
-       
-            var mapDataSources = new MapDataSources(new NoSecurity());
+        private readonly ParishSearch _parishSearch;
+        private readonly MapDataSources _mapDataSources;
+        private readonly TDBCore.Types.domain.LogSearch _logSearch;
 
-            return mapDataSources.Get1841CensusPlaces();
+        public ParishService(ISecurity iSecurity, IParishsDal iParishsDal, ILogDal iLogDal)
+        {
+            _logSearch = new TDBCore.Types.domain.LogSearch(iSecurity,iLogDal);
+            _parishSearch = new ParishSearch(iSecurity,iParishsDal);
+            _mapDataSources = new MapDataSources(new NoSecurity());
+        }
+
+
+        public List<CensusPlace> Get1841CensusPlaces()
+        {                 
+            return _mapDataSources.Get1841CensusPlaces();
         }
         // parishs
         public ServiceParishObject GetParishs(string deposited, string name, string county, string page_number, string page_size, string sort_col)
-        {
-            var parishSearch = new ParishSearch(new Security(new WebUser()));
-          
+        {          
             var psf =new ParishSearchFilter
             {
                 County = county,
@@ -36,21 +49,15 @@ namespace GenOnline.Services
                 Name = name
             };
 
- 
-
-            return parishSearch.StandardSearch(psf, new DataShaping(){RecordPageSize = page_size.ToInt32() , RecordStart = page_number.ToInt32()});
+            return _parishSearch.StandardSearch(psf, new DataShaping() { RecordPageSize = page_size.ToInt32(), RecordStart = page_number.ToInt32() });
         }
 
         public string DeleteParishs(string parishIds)
-        {
-
-         
-            string retVal = "";
-            var parishSearch = new ParishSearch(new Security(new WebUser()));
-            
+        {         
+            var retVal = "";          
             try
             {
-                retVal = parishSearch.Delete(parishIds);
+                retVal = _parishSearch.Delete(parishIds);
             }
             catch (Exception ex1)
             {
@@ -67,9 +74,7 @@ namespace GenOnline.Services
 
         public List<string> GetParishNames(string parishIds)
         {
-            var parishSearch = new ParishSearch(new Security(new WebUser()));
-      
-            return parishSearch.GetParishNames(new ParishSearchFilter
+            return _parishSearch.GetParishNames(new ParishSearchFilter
             {
                 ParishIds = parishIds.ParseToGuidList()
             });
@@ -86,11 +91,7 @@ namespace GenOnline.Services
                                   ParishLat, ParishLong,
                                   ParishName, ParishParent,
                                   ParishNote, ParishCounty, ParishDeposited);
-
-            var pe = new ParishSearch(new Security(new WebUser()));
-
-
-
+           
             string retVal = "";
 
           
@@ -110,8 +111,8 @@ namespace GenOnline.Services
             };
 
             try
-            {                 
-                pe.AddParish(sp, new ParishValidator { ServiceParish = sp });
+            {
+                _parishSearch.AddParish(sp, new ParishValidator { ServiceParish = sp });
             }
             catch (Exception ex1)
             {
@@ -129,8 +130,7 @@ namespace GenOnline.Services
             string retVal = "";
             try
             {
-                var pe = new ParishSearch(new Security(new WebUser()));
-                parish = pe.GetParish(parishId.ToGuid());
+                parish = _parishSearch.GetParish(parishId.ToGuid());
             }
             catch (Exception ex1)
             {
@@ -145,34 +145,63 @@ namespace GenOnline.Services
         }
 
 
-       
-
-
-
-
-
-
-
-
         public List<ServiceSuperParish> GetParishsFromLocations(string parishLocation)
         {
-            var mapDataSources = new MapDataSources(new Security(new WebUser()));
-                        
-            return mapDataSources.GetParishsFromLocations(new ParishSearchFilter { Location = parishLocation });
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
+
+            _logSearch.WriteLog("GetParishsFromLocations: " + parishLocation, 1, WebHelper.GetRequestIp(),null);
+
+            var results = new List<ServiceSuperParish>();
+
+            try
+            {
+                results = _mapDataSources.GetParishsFromLocations(new ParishSearchFilter { Location = parishLocation }); ;
+            }
+            catch (Exception exception)
+            {
+                _logSearch.WriteLog("GetParishsFromLocations", 1, WebHelper.GetRequestIp(), exception);
+            }
+
+
+            stopWatch.Stop();
+            // Get the elapsed time as a TimeSpan value.
+            TimeSpan ts = stopWatch.Elapsed;
+
+            _logSearch.WriteLog("GetParishsFromLocations finished in " + ts.TotalMilliseconds, 1, WebHelper.GetRequestIp(), null);
+            return results;
         }
 
         public List<ServiceParishDataType> GetParishTypes()
         {
-            var mapDataSources = new MapDataSources(new NoSecurity());
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
 
-            return mapDataSources.GetParishTypes();
+            _logSearch.WriteLog("GetParishTypes", 1, WebHelper.GetRequestIp(), null);    
+
+            var results = new List<ServiceParishDataType>();
+
+            try
+            {
+                results = _mapDataSources.GetParishTypes();
+            }
+            catch (Exception exception)
+            {
+                _logSearch.WriteLog("GetParishTypes", 1, WebHelper.GetRequestIp(), exception);             
+            }
+
+            stopWatch.Stop();
+            // Get the elapsed time as a TimeSpan value.
+            TimeSpan ts = stopWatch.Elapsed;
+
+            _logSearch.WriteLog("GetParishTypes finished in " + ts.TotalMilliseconds, 1, WebHelper.GetRequestIp(), null);
+
+            return results;
         }
 
         public List<ServiceSearchResult> GetSearchResults(string parishIds, string startYear, string endYear)
-        {
-            var mapDataSources = new MapDataSources(new Security(new WebUser()));
-                       
-            return mapDataSources.GetSearchResults(new ParishSearchFilter
+        {            
+            return _mapDataSources.GetSearchResults(new ParishSearchFilter
             {
                 ParishIds = parishIds.ParseToGuidList(),
                 DateFrom = startYear.ToInt32(),
@@ -181,10 +210,8 @@ namespace GenOnline.Services
         }
 
         public List<ServiceParishCounter> GetParishCounters(string startYear, string endYear)
-        {
-            var mapDataSources = new MapDataSources(new Security(new WebUser()));
-              
-            return mapDataSources.GetParishCounters(new ParishSearchFilter
+        {            
+            return _mapDataSources.GetParishCounters(new ParishSearchFilter
             {
                 DateFrom = startYear.ToInt32(),
                 DateTo = endYear.ToInt32()
@@ -194,16 +221,20 @@ namespace GenOnline.Services
 
         public ServiceParishDetailObject GetParishDetail(string parishId)
         {
-            var parishSearch = new MapDataSources(new Security(new WebUser()));
+            _logSearch.WriteLog("GetParishDetail", 1, WebHelper.GetRequestIp(), null);
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
+
             var serviceParishDetailObject = new ServiceParishDetailObject();
             string retVal = "";
 
             try
-            {  
-                serviceParishDetailObject = parishSearch.GetParishDetail(new ParishSearchFilter { ParishIds = new List<Guid> { parishId.ToGuid() } });
+            {
+                serviceParishDetailObject = _mapDataSources.GetParishDetail(new ParishSearchFilter { ParishIds = new List<Guid> { parishId.ToGuid() } });
             }
             catch (Exception ex1)
             {
+                _logSearch.WriteLog("GetParishDetail", 1, WebHelper.GetRequestIp(), ex1); 
                 retVal = "Exception: " + ex1.Message;
             }
             finally
@@ -213,7 +244,11 @@ namespace GenOnline.Services
                 serviceParishDetailObject.ErrorStatus = retVal;
             }
 
+            stopWatch.Stop();
+            // Get the elapsed time as a TimeSpan value.
+            TimeSpan ts = stopWatch.Elapsed;
 
+            _logSearch.WriteLog("GetParishDetail finished in " + ts.TotalMilliseconds, 1, WebHelper.GetRequestIp(), null);
             return serviceParishDetailObject;
         }
     }
