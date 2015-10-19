@@ -112,7 +112,8 @@ namespace TDBCore.Types.libs
                     UniqueRef = m.UniqueRef.ToString(),
                     Sources = m.MarriageSource,
                     TotalEvents = m.MarriageTotalEvents.ToString(),
-                    LinkedTrees = m.SourceTrees
+                    LinkedTrees = m.SourceTrees,
+                    Notes = m.Notes
                 }).ToList()
             };
 
@@ -245,8 +246,9 @@ namespace TDBCore.Types.libs
                 BirthCounty = person.BirthCounty,
                 BirthLocation = person.BirthLocation,
                 BirthLocationId = person.BirthLocationId.ToString(),
-                BirthYear = person.BirthInt,
+                BirthYear = person.BirthInt == 0 ? person.BapInt : person.BirthInt,
                 ChristianName = person.ChristianName,
+                DeathYear = person.DeathInt,
                 Death = person.DeathDateStr,
                 DeathCounty = person.DeathCounty,
                 DeathLocation = person.DeathLocation,
@@ -268,8 +270,11 @@ namespace TDBCore.Types.libs
                 SpouseSurname = person.SpouseSurname,
                 Surname = person.Surname,
                 UniqueReference = person.UniqueRef.ToString(),
-                Events = person.TotalEvents.ToString()
-                                       
+                Events = person.TotalEvents.ToString(),
+                SourceParishName = "",
+                SourceDateInt = 0,
+                SourceDateStr = "",
+                SourceRef = ""
             };
 
             return sp;

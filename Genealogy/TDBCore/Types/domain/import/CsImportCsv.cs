@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Text;
 using TDBCore.BLL;
 using TDBCore.EntityModel;
@@ -41,7 +42,10 @@ namespace TDBCore.Types.domain.import
             _mwits = new MarriageWitnessesDal();
         }
 
-
+        public void ImportFromGoogle()
+        {           
+            ImportPersonCSVFromGoogle(@"https://docs.google.com/spreadsheets/d/1nmAHAtyTSeqVNZ0oV0pW1gRSIiuok61ejEsOcy3rZvs/pub?output=csv");
+        }
 
         public string CreatePersonCSV()
         {
@@ -67,7 +71,7 @@ namespace TDBCore.Types.domain.import
             return joined;
         }
 
-        public void ImportPersonCSV(string path)
+        public void ImportPersonCSVFromFile(string path)
         {
             var lineList = new List<string>(System.IO.File.ReadAllLines(path, Encoding.ASCII));
 
@@ -76,7 +80,31 @@ namespace TDBCore.Types.domain.import
 
             lineList.RemoveAt(0);
 
-            string[] allLines = lineList.ToArray();
+
+            ImportPersonCSV(lineList.ToArray());
+        }
+
+        public void ImportPersonCSVFromGoogle(string path)
+        {            
+            string csv = new WebClient().DownloadString(path);
+
+            var lineList = csv.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None).ToList();
+
+ 
+            if (IsCombinedHandleError(lineList, CSVFiles.BDFieldList))
+                return;
+
+            lineList.RemoveAt(0);
+
+          
+            ImportPersonCSV(lineList.ToArray());
+
+
+        }
+
+        public void ImportPersonCSV(string[] allLines)
+        {
+            
            
             var query = allLines.Select(line => new {line, data = line.Split(',')}).Select(@t => new ServicePerson
 

@@ -18,7 +18,9 @@ namespace CSVImporter
             {
                 //csImportCsv.ImportSources(Destination, 1);
 
-                CreatePersonCSV(csImportCsv);
+                //CreatePersonCSV(csImportCsv);
+
+                csImportCsv.ImportFromGoogle();
 
             //    csImportCsv.ImportPersonCSV(Destination);
             }

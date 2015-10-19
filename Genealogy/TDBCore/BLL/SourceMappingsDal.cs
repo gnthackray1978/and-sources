@@ -564,7 +564,7 @@ namespace TDBCore.BLL
 
         public string GetSourceGuidList(Guid? recordId)
         {
-            List<Guid> retTab = ModelContainer.SourceMappings.Where(o => o.Person.Person_id == recordId || o.Marriage.Marriage_Id == recordId).Select(_ => _.Source.SourceId).ToList();
+            List<Guid> retTab = ModelContainer.SourceMappings.Where(o => (o.Person.Person_id == recordId || o.Marriage.Marriage_Id == recordId) && o.Source != null).Select(_ => _.Source.SourceId).ToList();
 
             string retVal = retTab.Aggregate("", (current, g) => current + ("," + g.ToString()));
 
