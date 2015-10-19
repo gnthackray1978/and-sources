@@ -312,7 +312,11 @@ namespace GenOnline.Services
                 {
                     
                     spo = iModel.Search(PersonSearchTypes.Duplicates, new PersonSearchFilter {ParentId = parentId},
-                                        new DataShaping {RecordStart = 0});
+                                        new DataShaping
+                                        {
+                                            RecordStart = 0,
+                                            RecordPageSize=25
+                                        });
 
                 }
                   

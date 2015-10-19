@@ -181,7 +181,8 @@ namespace TDBCore.BLL
                                                              MarriageYear = p.YearIntVal.GetValueOrDefault(),
                                                              UniqueRef = p.UniqueRef.GetValueOrDefault(),
                                                              UniqueRefStr = p.UniqueRef.GetValueOrDefault(),
-                                                             SourceTrees = p.links
+                                                             SourceTrees = p.links,
+                                                             Notes = p.MaleInfo + Environment.NewLine + p.FemaleInfo
                                                          }).ToList();
 
 

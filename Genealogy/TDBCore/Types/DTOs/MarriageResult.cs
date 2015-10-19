@@ -30,7 +30,7 @@ namespace TDBCore.Types.DTOs
 
         public int MarriageTotalEvents { get; set; }
 
-
+        public string Notes { get; set; }
 
     }
 }

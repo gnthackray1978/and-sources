@@ -15,7 +15,7 @@ namespace TDBCore.Types.DTOs
         public string UniqueRef { get; set; }
         public string Sources { get; set; }
         public string TotalEvents { get; set; }
-        
+        public string Notes { get; set; }
         public string LinkedTrees { get; set; }
     }
 }
