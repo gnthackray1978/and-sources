@@ -6,6 +6,7 @@ using System.Net;
 using System.Text;
 using TDBCore.BLL;
 using TDBCore.EntityModel;
+using TDBCore.Interfaces;
 using TDBCore.Types.DTOs;
 using TDBCore.Types.libs;
 
@@ -16,6 +17,7 @@ namespace TDBCore.Types.domain.import
         private readonly IParishsDal _parishsDal;
         private readonly ISourceMappingsDal _sourceMappingDal;
         private readonly IPersonDal _personDal;
+        private readonly IBatchDal _batchDal;
 
         private readonly ISourceDal _sourceDal;
         private readonly ISourceMappingParishsDal _sourceMappingParishDal;
@@ -29,7 +31,7 @@ namespace TDBCore.Types.domain.import
         public CsImportCsv()
         {
             _parishsDal = new ParishsDal();
-          
+            _batchDal = new BatchDal();
     
           
             _sourceDal = new SourceDal();
@@ -69,6 +71,11 @@ namespace TDBCore.Types.domain.import
 
 
             return joined;
+        }
+
+        public void RemoveBatch(Guid batchId) 
+        {
+            _batchDal.RemoveBatch(batchId);
         }
 
         public void ImportPersonCSVFromFile(string path)
@@ -176,27 +183,45 @@ namespace TDBCore.Types.domain.import
                 PersonId = @t.data.Get(CSVFiles.BDFieldList,CSVField.PersonId).ToGuid()
             });
 
+            var batchId = Guid.NewGuid();
+            var startTime = DateTime.Now;
+
             foreach (var team in query)
             {
-                if (team.BirthYear == 0 && team.BaptismYear == 0 && team.DeathYear ==0 && team.ReferenceYear==0)
-                {
-                    Debug.WriteLine("Person not inserted: invalid date");
-                }
-                else
-                {                     
-                    if(team.PersonId == Guid.Empty)
-                        team.PersonId = _personDal.Insert(team);
-                    else
-                        _personDal.Update(team);
-                }
-                if (team.PersonId != Guid.Empty)
-                {
-                    _sourceMappingDal.Insert(team.SourceId, null, null, 1, team.PersonId, DateTime.Today.ToShortDateString(), null);
-                }
-                else
-                {
-                    Debug.WriteLine("Person not inserted: personid is empty");                   
-                }
+                Console.WriteLine("person id:" +team.PersonId.ToString());
+                Console.WriteLine("SourceId id:" + team.SourceId.ToString());
+                Console.WriteLine("BirthLocationId id:" + team.BirthLocationId.ToString());
+                Console.WriteLine("DeathLocationId id:" + team.DeathLocationId.ToString());
+
+              
+
+                //if (team.BirthYear == 0 && team.BaptismYear == 0 && team.DeathYear ==0 && team.ReferenceYear==0)
+                //{
+                //    Debug.WriteLine("Person not inserted: invalid date");
+                //}
+                //else
+                //{                     
+                //    if(team.PersonId == Guid.Empty)
+                //        team.PersonId = _personDal.Insert(team);
+                //    else
+                //        _personDal.Update(team);
+//
+                //  _batchDal.AddRecord(new BatchDto { 
+                //    Id = Guid.NewGuid(),
+                //    BatchId = batchId,
+                //    PersonId = team.PersonId,
+                //    TimeRun = startTime
+                //});
+                //}
+                
+                //if (team.PersonId != Guid.Empty)
+                //{
+                //    _sourceMappingDal.Insert(team.SourceId, null, null, 1, team.PersonId, DateTime.Today.ToShortDateString(), null);
+                //}
+                //else
+                //{
+                //    Debug.WriteLine("Person not inserted: personid is empty");                   
+                //}
 
             }
 

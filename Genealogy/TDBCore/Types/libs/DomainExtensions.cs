@@ -147,6 +147,22 @@ namespace TDBCore.Types.libs
             return spo;
         }
 
+        public static ServiceBatchObject ToServiceBatchObject(this List<BatchDto> batchList, string sortColumn, int pageSize, int pageNumber)
+        {
+            var sbo = new ServiceBatchObject { batchContents = batchList.ToList() };
+
+            sbo.Total = sbo.batchContents.Count;
+
+            if (pageSize != 0)
+            {
+                sbo.Batch = pageNumber;
+                sbo.BatchLength = pageSize;
+                sbo.batchContents = sbo.batchContents.Skip(pageNumber * pageSize).Take(pageSize).ToList();
+            }
+
+            return sbo;
+        }
+
         public static SourceAjaxDto ToSourceAjaxDto(this SourceDto sourceDto)
         {
 

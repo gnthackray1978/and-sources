@@ -17,6 +17,10 @@ namespace GenOnline.Services.Contracts
         [WebGet(ResponseFormat = WebMessageFormat.Json, UriTemplate = UriMappingsMisc.GetLoggedInUserId)]
         string GetLoggedInUserId();
 
+        [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = UriMappingsMisc.DoNothing, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
+        string DoNothing();
+
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = UriMappingsMisc.UploadFile)]
