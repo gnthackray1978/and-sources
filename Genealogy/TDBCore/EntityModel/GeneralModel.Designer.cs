@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\George\Documents\Source\Repos\and-sources\Genealogy\TDBCore\EntityModel\GeneralModel.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\george\Documents\Repos\and-sources\Genealogy\TDBCore\EntityModel\GeneralModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

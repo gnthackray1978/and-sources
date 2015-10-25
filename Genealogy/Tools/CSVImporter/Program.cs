@@ -20,7 +20,11 @@ namespace CSVImporter
 
                 //CreatePersonCSV(csImportCsv);
 
-                csImportCsv.ImportFromGoogle();
+             //   csImportCsv.ImportFromGoogle();
+
+                Guid g = new Guid("05F1063B-D5D8-4886-A993-75EBC29DEAAF");
+
+                csImportCsv.RemoveBatch(g);
 
             //    csImportCsv.ImportPersonCSV(Destination);
             }

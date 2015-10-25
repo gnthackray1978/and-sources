@@ -14,6 +14,7 @@ using TancWebApp.Helpers;
 using TDBCore.BLL;
 using TDBCore.Types.DTOs;
 using TDBCore.Types.libs;
+using System.Net;
 
 namespace GenOnline.Services
 {
@@ -71,7 +72,14 @@ namespace GenOnline.Services
             return new ServiceEventObject();
         }
 
+        public string DoNothing() 
+        {
+          //  Console.WriteLine("test");
+           // WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.InternalServerError;
+          //  WebOperationContext.Current.OutgoingResponse.StatusDescription = "DoNothing failed";
 
+            return WebHelper.MakeJSONReturn(Guid.Empty.ToString(), true);
+        }
 
 
         // misc
@@ -127,19 +135,22 @@ namespace GenOnline.Services
 
         public string GetLoggedInUserName()
         {
-            string user;
+            //string user;
 
-            try
-            {
-                user = WebHelper.GetUserName();
-            }
-            catch (Exception e)
-            {
-                user = e.Message;
+            //try
+            //{
+            //    user = WebHelper.GetUserName();
+            //}
+            //catch (Exception e)
+            //{
+            //    user = e.Message;
 
-            }
+            //}
 
-            return user;
+            
+            return WebHelper.MakeJSONReturn(Guid.Empty.ToString(),true);
+
+            //return user;
         }
 
         public string GetLoggedInUserId()

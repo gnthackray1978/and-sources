@@ -65,6 +65,11 @@ namespace GenOnline.Helpers
             return "Id=" + recordId + "&Error=" + error;
         }
 
+        public static string MakeJSONReturn(string recordId, bool success) 
+        { 
+            return "{ \"SUCCESS\": "+ success.ToString() + ", \"ID\": " + recordId + " }";
+        }
+
         public static void WriteParams(params string[] parameters)
         {
 

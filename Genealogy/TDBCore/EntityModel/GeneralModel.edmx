@@ -296,6 +296,20 @@
           <Property Name="SourceUserAdded" Type="int" />
           <Property Name="SourceTypeOrder" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="BatchLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="BatchId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="TimeRun" Type="datetime" Nullable="false" />
+          <Property Name="PersonId" Type="uniqueidentifier" />
+          <Property Name="MarriageId" Type="uniqueidentifier" />
+          <Property Name="SourceId" Type="uniqueidentifier" />
+          <Property Name="ParishId" Type="uniqueidentifier" />
+          <Property Name="IsDeleted" Type="bit" />
+          <Property Name="Ref" Type="nvarchar" MaxLength="1000" />
+        </EntityType>
         <EntityType Name="Log">
           <Key>
             <PropertyRef Name="LogId" />
@@ -731,6 +745,7 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
           <EntitySet Name="SourceMappings" EntityType="Self.SourceMappings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sources" EntityType="Self.Sources" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SourceTypes" EntityType="Self.SourceTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BatchLog" EntityType="Self.BatchLog" Schema="GeorgeT" store:Type="Tables" />
           <EntitySet Name="Log" EntityType="Self.Log" Schema="GeorgeT" store:Type="Tables" />
           <EntitySet Name="uvw_1841Census" EntityType="Self.uvw_1841Census" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -1066,6 +1081,7 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
             <Parameter Name="sourceSearch" Mode="In" Type="Boolean" />
           </FunctionImport>
           <EntitySet Name="Log" EntityType="GeneralModel.Log" />
+          <EntitySet Name="BatchLog" EntityType="GeneralModel.BatchLog" />
         </EntityContainer>
         <EntityType Name="Marriage">
           <Key>
@@ -1642,6 +1658,20 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
           <Property Name="LogException" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="LogStackTrace" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="LogSource" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="BatchLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="TimeRun" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PersonId" Type="Guid" />
+          <Property Name="MarriageId" Type="Guid" />
+          <Property Name="SourceId" Type="Guid" />
+          <Property Name="ParishId" Type="Guid" />
+          <Property Name="BatchId" Type="Guid" Nullable="false" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <Property Name="Ref" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2319,6 +2349,21 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="BatchLog">
+            <EntityTypeMapping TypeName="GeneralModel.BatchLog">
+              <MappingFragment StoreEntitySet="BatchLog">
+                <ScalarProperty Name="Ref" ColumnName="Ref" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="BatchId" ColumnName="BatchId" />
+                <ScalarProperty Name="ParishId" ColumnName="ParishId" />
+                <ScalarProperty Name="SourceId" ColumnName="SourceId" />
+                <ScalarProperty Name="MarriageId" ColumnName="MarriageId" />
+                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+                <ScalarProperty Name="TimeRun" ColumnName="TimeRun" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -2341,7 +2386,7 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <edmx:Diagram Name="GeneralModel" ZoomLevel="167">
+      <edmx:Diagram Name="GeneralModel" ZoomLevel="75">
         <edmx:EntityTypeShape EntityType="GeneralModel.Marriage" Width="1.5" PointX="21.875" PointY="0.625" Height="9.6723437499999978" IsExpanded="false" />
         <edmx:EntityTypeShape EntityType="GeneralModel.Parish" Width="1.5" PointX="3.375" PointY="1.75" Height="3.7109993489583326" IsExpanded="false" />
         <edmx:EntityTypeShape EntityType="GeneralModel.SourceMappingParish" Width="2.25" PointX="6" PointY="0.5" Height="1.9802864583333326" IsExpanded="false" />
@@ -2442,6 +2487,7 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
         <edmx:EntityTypeShape EntityType="GeneralModel.ParishCounter" Width="1.5" PointX="8.375" PointY="8.75" Height="2.5571907552083388" IsExpanded="false" />
         <edmx:EntityTypeShape EntityType="GeneralModel.uvw_1841Census" Width="1.5" PointX="3.375" PointY="9.75" Height="2.1725878906250031" IsExpanded="false" />
         <edmx:EntityTypeShape EntityType="GeneralModel.Log" Width="1.5" PointX="5.375" PointY="7.75" />
+        <edmx:EntityTypeShape EntityType="GeneralModel.BatchLog" Width="1.5" PointX="8.375" PointY="4.75" />
       </edmx:Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

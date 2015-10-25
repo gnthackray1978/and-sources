@@ -4,6 +4,7 @@ using GenOnline.Services;
 using Ninject;
 using Ninject.Extensions.Wcf;
 using Ninject.Web.Common;
+using TancWebApp.Services;
 
 namespace GenOnline
 {
@@ -24,6 +25,8 @@ namespace GenOnline
             RouteTable.Routes.Add(new ServiceRoute("SourceTypes", new NinjectWebServiceHostFactory(), typeof(SourceTypeService)));
 
             RouteTable.Routes.Add(new ServiceRoute("Sources", new NinjectWebServiceHostFactory(), typeof(SourceService)));
+
+            RouteTable.Routes.Add(new ServiceRoute("Batches", new NinjectWebServiceHostFactory(), typeof(BatchService)));
 
             RouteTable.Routes.Add(new ServiceRoute("", new NinjectWebServiceHostFactory(), typeof(APIServices)));
 

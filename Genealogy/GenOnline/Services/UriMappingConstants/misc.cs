@@ -10,6 +10,8 @@
         public const string GetLoggedInUserId = "/LoggedInUserId";
        
         public const string GetLoggedInUserName = "/LoggedInUserName";
+
+        public const string DoNothing = "/DoNothing";
         
         public const string AddFile = "/user/Set";
 

@@ -62,18 +62,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.0\lib\net40\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="Gedcom, Version=1.0.3480.40193, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Resources\Gedcom.dll</HintPath>
-    </Reference>
-    <Reference Include="GedcomParser, Version=1.0.3327.36310, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Resources\GedcomParser.dll</HintPath>
-    </Reference>
-    <Reference Include="GedLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Resources\GedLib.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
@@ -103,10 +91,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLL\BaseBLL.cs" />
+    <Compile Include="BLL\BatchDal.cs" />
     <Compile Include="BLL\LogDal.cs" />
+    <Compile Include="EntityModel\BatchLog.cs">
+      <DependentUpon>GeneralModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="EntityModel\Log.cs">
       <DependentUpon>GeneralModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\IBatchDal.cs" />
     <Compile Include="Interfaces\ILogDal.cs" />
     <Compile Include="Interfaces\IUserDal.cs" />
     <Compile Include="Interfaces\ISourceMappingsDal.cs" />
@@ -244,6 +237,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Types\domain\BatchSearch.cs" />
     <Compile Include="Types\domain\LogSearch.cs" />
     <Compile Include="Types\domain\MapDataSources.cs" />
     <Compile Include="Types\domain\MarriageSearch.cs" />
@@ -251,9 +245,11 @@
     <Compile Include="Types\domain\PersonSearch.cs" />
     <Compile Include="Types\domain\SourceSearch.cs" />
     <Compile Include="Types\domain\SourceTypeSearch.cs" />
+    <Compile Include="Types\DTOs\BatchDto.cs" />
     <Compile Include="Types\DTOs\CensusPerson.cs" />
     <Compile Include="Types\DTOs\CensusPlace.cs" />
     <Compile Include="Types\DTOs\CensusSource.cs" />
+    <Compile Include="Types\DTOs\ServiceBatchObject.cs" />
     <Compile Include="Types\DTOs\FileBasicInfo.cs" />
     <Compile Include="Types\DTOs\LogDto.cs" />
     <Compile Include="Types\DTOs\LogSearch.cs" />
@@ -302,6 +298,7 @@
     <Compile Include="Types\enums\PersonSearchTypes.cs" />
     <Compile Include="Types\enums\SourceTypes.cs" />
     <Compile Include="Types\enums\SourceSearchTypes.cs" />
+    <Compile Include="Types\filters\BatchSearchFilter.cs" />
     <Compile Include="Types\filters\MarriageSearchFilter.cs" />
     <Compile Include="Types\filters\ParishSearchFilter.cs" />
     <Compile Include="Types\filters\SourceSearchFilter.cs" />
@@ -323,6 +320,7 @@
     <Compile Include="Types\security\ISecurity.cs" />
     <Compile Include="Types\security\NoSecurity.cs" />
     <Compile Include="Types\security\Security.cs" />
+    <Compile Include="Types\validators\BatchValidator.cs" />
     <Compile Include="Types\validators\IValidator.cs" />
     <Compile Include="Types\validators\MarriageSearchValidator.cs" />
     <Compile Include="Types\validators\MarriageValidation.cs" />
