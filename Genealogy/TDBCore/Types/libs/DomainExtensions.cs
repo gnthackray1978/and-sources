@@ -147,17 +147,17 @@ namespace TDBCore.Types.libs
             return spo;
         }
 
-        public static ServiceBatchObject ToServiceBatchObject(this List<BatchDto> batchList, string sortColumn, int pageSize, int pageNumber)
+        public static ServiceBatchObject ToServiceBatchObject(this List<ShortBatch> batchList, string sortColumn, int pageSize, int pageNumber)
         {
-            var sbo = new ServiceBatchObject { batchContents = batchList.ToList() };
+            var sbo = new ServiceBatchObject { Batches = batchList.ToList() };
 
-            sbo.Total = sbo.batchContents.Count;
+            sbo.Total = sbo.Batches.Count;
 
             if (pageSize != 0)
             {
                 sbo.Batch = pageNumber;
                 sbo.BatchLength = pageSize;
-                sbo.batchContents = sbo.batchContents.Skip(pageNumber * pageSize).Take(pageSize).ToList();
+                sbo.Batches = sbo.Batches.Skip(pageNumber * pageSize).Take(pageSize).ToList();
             }
 
             return sbo;

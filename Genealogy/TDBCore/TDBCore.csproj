@@ -267,6 +267,7 @@
     <Compile Include="Types\DTOs\ServiceFile.cs" />
     <Compile Include="Types\DTOs\ServiceFileObject.cs" />
     <Compile Include="Types\DTOs\ServiceMarriageImports.cs" />
+    <Compile Include="Types\DTOs\ShortBatch.cs" />
     <Compile Include="Types\DTOs\Source.cs" />
     <Compile Include="Types\DTOs\SourceAjaxDto.cs" />
     <Compile Include="Types\DTOs\ServiceMapDisplaySource.cs" />

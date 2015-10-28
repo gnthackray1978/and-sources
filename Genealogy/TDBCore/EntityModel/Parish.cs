@@ -27,8 +27,8 @@ namespace TDBCore.EntityModel
         public string ParishRegistersDeposited { get; set; }
         public string ParishNotes { get; set; }
         public string ParentParish { get; set; }
-        public Nullable<int> ParishStartYear { get; set; }
-        public Nullable<int> ParishEndYear { get; set; }
+        public int ParishStartYear { get; set; }
+        public int ParishEndYear { get; set; }
         public string ParishCounty { get; set; }
         public Nullable<decimal> ParishX { get; set; }
         public Nullable<decimal> ParishY { get; set; }

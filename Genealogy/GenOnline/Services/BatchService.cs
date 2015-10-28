@@ -48,9 +48,8 @@ namespace TancWebApp.Services
 
         public string InsertPersons(string sheetUrl)
         {
-            Guid newBatch = Guid.Empty;
-            bool success = false;
-
+            var newBatch = Guid.Empty;
+            
             try
             {
                 newBatch = _batchSearch.ImportPersonCSVFromGoogle(sheetUrl);
@@ -60,14 +59,13 @@ namespace TancWebApp.Services
                  WebOperationContext.Current.OutgoingResponse.StatusDescription = e.Message;
             }
 
-            return WebHelper.MakeJSONReturn(newBatch.ToString(), success);
+            return WebHelper.MakeJSONReturn(newBatch.ToString(), newBatch != Guid.Empty);
         }
 
         public string InsertMarriages(string sheetUrl)
         {            
-            Guid newBatch = Guid.Empty;
-            bool success = false;
-
+            var newBatch = Guid.Empty;
+           
             try
             {
                 newBatch = _batchSearch.ImportMarriageCSVFromGoogle(sheetUrl);
@@ -77,14 +75,14 @@ namespace TancWebApp.Services
                  WebOperationContext.Current.OutgoingResponse.StatusDescription = e.Message;
             }
 
-            return WebHelper.MakeJSONReturn(newBatch.ToString(), success);
+            return WebHelper.MakeJSONReturn(newBatch.ToString(), newBatch != Guid.Empty);
         }
 
 
         public string InsertSources(string sheetUrl)
         {
-            Guid newBatch = Guid.Empty;
-            bool success = false;
+            var newBatch = Guid.Empty;
+         
 
             try
             {
@@ -96,13 +94,13 @@ namespace TancWebApp.Services
                 WebOperationContext.Current.OutgoingResponse.StatusDescription = e.Message;
             }
 
-            return WebHelper.MakeJSONReturn(newBatch.ToString(), success);
+            return WebHelper.MakeJSONReturn(newBatch.ToString(), newBatch != Guid.Empty);
         }
 
         public string InsertParishs(string sheetUrl)
         {
-            Guid newBatch = Guid.Empty;
-            bool success = false;
+            var newBatch = Guid.Empty;
+            
 
             try
             {
@@ -114,12 +112,20 @@ namespace TancWebApp.Services
                 WebOperationContext.Current.OutgoingResponse.StatusDescription = e.Message;
             }
 
-            return WebHelper.MakeJSONReturn(newBatch.ToString(), success);
+            return WebHelper.MakeJSONReturn(newBatch.ToString(), newBatch != Guid.Empty );
         }
 
         public string RemoveBatch(string batchId)
         {
-            _batchSearch.RemoveBatch(batchId.ToGuid());
+            try
+            {
+                _batchSearch.RemoveBatch(batchId.ToGuid());
+            }
+            catch (Exception e)
+            {
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.InternalServerError;
+                WebOperationContext.Current.OutgoingResponse.StatusDescription = e.Message;
+            }
 
             return WebHelper.MakeJSONReturn(batchId.ToString(), true);
         }
@@ -127,9 +133,9 @@ namespace TancWebApp.Services
         public ServiceBatchObject GetBatch(string batch_ref,string page_number, string page_size, string sort_col)
         {
 
-            ServiceBatchObject serviceBatchObject = new ServiceBatchObject();
+            var serviceBatchObject = new ServiceBatchObject();
 
-            BatchSearchFilter batchSearchFilter = new BatchSearchFilter();
+            var batchSearchFilter = new BatchSearchFilter();
 
             var validator = new BatchValidator();
 
@@ -141,6 +147,8 @@ namespace TancWebApp.Services
             }
             catch (Exception e)
             {
+                if (WebOperationContext.Current == null) return serviceBatchObject;
+
                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.InternalServerError;
                 WebOperationContext.Current.OutgoingResponse.StatusDescription = e.Message;
             }

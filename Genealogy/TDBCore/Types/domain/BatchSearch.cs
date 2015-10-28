@@ -61,7 +61,7 @@ namespace TDBCore.Types.domain
 
             if (validator != null && !validator.ValidEntry()) return new ServiceBatchObject();
 
-            return _batchDal.GetBatchs(batchSearchFilter).ToServiceBatchObject(shaper.Column, shaper.RecordPageSize, shaper.RecordStart);
+            return _batchDal.GetBatchList(batchSearchFilter).ToServiceBatchObject(shaper.Column, shaper.RecordPageSize, shaper.RecordStart);
         }
 
         public void DeleteBatch(BatchSearchFilter sourceTypeSearchFilter)

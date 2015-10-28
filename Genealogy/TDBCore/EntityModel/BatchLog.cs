@@ -23,5 +23,6 @@ namespace TDBCore.EntityModel
         public System.Guid BatchId { get; set; }
         public Nullable<bool> IsDeleted { get; set; }
         public string Ref { get; set; }
+        public string GoogleSheet { get; set; }
     }
 }

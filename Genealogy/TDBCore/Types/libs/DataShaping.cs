@@ -15,7 +15,7 @@ namespace TDBCore.Types.libs
         public int RecordStart { get; set; }
 
 
-
+        public int TotalRecords { get; set; }
 
     }
 }
