@@ -48,16 +48,13 @@ namespace TDBCore.Types.domain
 
             try
             {
-                 
-                serviceParishObject.serviceParishs = _parishsDal.GetParishByFilter(parishSearchFilter);
 
-
-
+                serviceParishObject.serviceParishs = _parishsDal.GetParishByFilter(parishSearchFilter, shaper);
                 serviceParishObject.Batch = shaper.RecordStart;
                 serviceParishObject.BatchLength = shaper.RecordPageSize;
-                serviceParishObject.Total = serviceParishObject.serviceParishs.Count;
+                serviceParishObject.Total = shaper.TotalRecords;
 
-                serviceParishObject.serviceParishs = serviceParishObject.serviceParishs.Skip(shaper.RecordStart * shaper.RecordPageSize).Take(shaper.RecordPageSize).ToList();
+                serviceParishObject.serviceParishs = serviceParishObject.serviceParishs;
  
             }
             catch (Exception ex1)

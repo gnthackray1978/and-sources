@@ -1,4 +1,6 @@
-﻿using TDBCore.Types.filters;
+﻿using System;
+using TDBCore.Types.filters;
+using TDBCore.Types.libs;
 
 namespace TDBCore.Types.validators
 {
@@ -14,6 +16,11 @@ namespace TDBCore.Types.validators
 
         public bool ValidEntry()
         {
+
+            if (_sm.Source.ToGuid() != Guid.Empty)
+            {
+                return true;
+            }
 
             if (_sm.UpperDate == 0 && _sm.LowerDate == 0 && _sm.Parish != "")
             {

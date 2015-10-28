@@ -14,7 +14,9 @@ namespace TDBCore.Interfaces
 
         void RemoveBatch(Guid batchId);
 
-        List<BatchDto> GetBatchs(BatchSearchFilter searchFilter);
+        List<BatchDto> GetBatchsAndContents(BatchSearchFilter searchFilter);
+
+        List<ShortBatch> GetBatchList(BatchSearchFilter searchFilter);
 
      
     }

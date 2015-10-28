@@ -94,8 +94,8 @@ namespace TDBCore.BLL
                     ParishId =  pe.ParishId,
                     ParishLat = (double)pe.ParishX.GetValueOrDefault(),
                     ParishLong = (double)pe.ParishY.GetValueOrDefault(),
-                    ParishEndYear = pe.ParishEndYear.GetValueOrDefault(),
-                    ParishStartYear = pe.ParishStartYear.GetValueOrDefault(),
+                    ParishEndYear = pe.ParishEndYear,
+                    ParishStartYear = pe.ParishStartYear,
                     ParishName = pe.ParishName,
                     ParishNote = pe.ParishNotes,
                     ParishParent = pe.ParentParish                       
@@ -105,7 +105,7 @@ namespace TDBCore.BLL
         }
 
 
-        public List<ServiceParish> GetParishByFilter(ParishSearchFilter parishSearchFilter)
+        public List<ServiceParish> GetParishByFilter(ParishSearchFilter parishSearchFilter, DataShaping dataShaping)
         {
             IQueryable<Parish> parishDataTable;
 
@@ -123,19 +123,23 @@ namespace TDBCore.BLL
                     o.ParishRegistersDeposited.Contains(parishSearchFilter.Deposited) && o.ParishCounty.Contains(parishSearchFilter.County));
             }
 
-            return parishDataTable.ToList().Select(p=> new ServiceParish
-                {
-                    ParishCounty = p.ParishCounty,
-                    ParishDeposited = p.ParishRegistersDeposited,
-                    ParishId = p.ParishId,
-                    ParishEndYear = p.ParishEndYear.GetValueOrDefault(),
-                    ParishStartYear = p.ParishStartYear.GetValueOrDefault(),
-                    ParishName = p.ParishName,
-                    ParishParent = p.ParentParish,
-                    ParishNote = p.ParishNotes
-                   
+            dataShaping.TotalRecords = parishDataTable.Count();
 
-                }).ToList();
+            return parishDataTable.OrderBy(o=>o.ParishName).Skip(dataShaping.RecordStart * dataShaping.RecordPageSize).Take(dataShaping.RecordPageSize).Select(p => new ServiceParish
+            {
+                ParishCounty = p.ParishCounty,
+                ParishDeposited = p.ParishRegistersDeposited,
+                ParishId = p.ParishId,
+                ParishEndYear = p.ParishEndYear,
+                ParishStartYear = p.ParishStartYear,
+                ParishName = p.ParishName,
+                ParishParent = p.ParentParish,
+                ParishNote = p.ParishNotes
+
+
+            }).ToList();
+
+            //serviceParishObject.serviceParishs.Skip(shaper.RecordStart * shaper.RecordPageSize).Take(shaper.RecordPageSize).ToList();
         }
       
  

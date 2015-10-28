@@ -18,7 +18,7 @@ namespace TDBCore.BLL
 
         Parish GetParishById2(Guid parishId);
         ServiceParish GetParishById(Guid parishId);
-        List<ServiceParish> GetParishByFilter(ParishSearchFilter parishSearchFilter);
+        List<ServiceParish> GetParishByFilter(ParishSearchFilter parishSearchFilter, DataShaping dataShaping);
         List<RectangleD> GetLocationList(string param);
         ParishCollection GetParishDetail(Guid parishId);
         List<SilverParish> GetParishsByLocationString(string locations);

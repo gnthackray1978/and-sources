@@ -74,12 +74,12 @@ namespace TDBCore.BLL
             }
         }
 
-        public List<Types.DTOs.BatchDto> GetBatchs(BatchSearchFilter searchFilter)
+        public List<BatchDto> GetBatchsAndContents(BatchSearchFilter searchFilter)
         {
 
             //search filter current unused
 
-            List<BatchDto> retList = new List<BatchDto>();
+            var retList = new List<BatchDto>();
 
             foreach (var b in ModelContainer.BatchLog.ToList()) {
                 retList.Add(new BatchDto
@@ -97,6 +97,15 @@ namespace TDBCore.BLL
             }
 
             return retList;
+        }
+
+        public List<ShortBatch> GetBatchList(BatchSearchFilter searchFilter)
+        {
+            //search filter current unused
+            return ModelContainer.BatchLog.ToList().GroupBy(g => g.BatchId).Select(b => new ShortBatch
+            {
+                BatchId = b.First().BatchId, TimeRun = b.First().TimeRun, Ref = b.First().Ref, IsDeleted = b.First().IsDeleted.GetValueOrDefault()
+            }).ToList();
         }
     }
 }

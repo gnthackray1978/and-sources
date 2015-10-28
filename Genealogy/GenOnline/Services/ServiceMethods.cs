@@ -135,22 +135,19 @@ namespace GenOnline.Services
 
         public string GetLoggedInUserName()
         {
-            //string user;
+            string user;
 
-            //try
-            //{
-            //    user = WebHelper.GetUserName();
-            //}
-            //catch (Exception e)
-            //{
-            //    user = e.Message;
+            try
+            {
+                user = WebHelper.GetUserName();
+            }
+            catch (Exception e)
+            {
+                user = e.Message;
 
-            //}
+            }
 
-            
-            return WebHelper.MakeJSONReturn(Guid.Empty.ToString(),true);
-
-            //return user;
+            return user;
         }
 
         public string GetLoggedInUserId()
