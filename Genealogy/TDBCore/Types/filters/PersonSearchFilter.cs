@@ -29,6 +29,10 @@ namespace TDBCore.Types
         public bool IsIncludeSources { get; set; }
 
         public Guid ParentId { get; set; }
-       
+
+        public string OthersideChristianName { get; set; }
+        public string OthersideSurname { get; set; }
+        public string OthersideRelationship { get; set; }
+
     }
 }

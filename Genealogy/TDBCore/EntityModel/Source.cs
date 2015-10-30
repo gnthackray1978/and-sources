@@ -35,6 +35,8 @@ namespace TDBCore.EntityModel
         public int UserId { get; set; }
         public string SourceNotes { get; set; }
         public Nullable<int> SourceFileCount { get; set; }
+        public int SourcePersonCount { get; set; }
+        public int SourceMarriageCount { get; set; }
     
         public virtual ICollection<SourceMappingParish> SourceMappingParishs { get; set; }
         public virtual ICollection<SourceMapping> SourceMappings { get; set; }

@@ -4,6 +4,7 @@ using System.Linq;
 using TDBCore.EntityModel;
 using TDBCore.Types.DTOs;
 using TDBCore.Types.filters;
+using TDBCore.Types.libs;
 
 namespace TDBCore.BLL
 {
@@ -16,7 +17,7 @@ namespace TDBCore.BLL
         void UpdateSource(SourceDto sourceAjaxDto);
         void DeleteSource2(Guid sourceId);
         List<ServiceSource> FillSourceTableBySourceIds(List<Guid> ssf);
-        List<ServiceSource> FillSourceTableByFilter(SourceSearchFilter ssf);
+        List<ServiceSource> FillSourceTableByFilter(SourceSearchFilter ssf, DataShaping dataShaping);
         List<ServiceSearchResult> GetSourceByParishString(string parishs, int startYear, int endYear);
         List<SourceRecord> GetParishSourceRecords(Guid parishId);
         Source FillSourceTableById2(Guid sourceId);

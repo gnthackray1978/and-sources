@@ -20,5 +20,15 @@ namespace TDBCore.Types.filters
         public bool CensusSources1841 { get; set; }
         public bool CensusPlaces1841 { get; set; }
         public bool IncludeDefaultPerson { get; set; }
+        public int MarriageCount { get; set; }
+        public int PersonCount { get; set; }
+
+        public int LrStart { get; set; }
+        public int LrEnd { get; set; }
+
+        public int UrStart { get; set; }
+        public int UrEnd { get; set; }
+
+
     }
 }

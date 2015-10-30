@@ -127,7 +127,7 @@ namespace TDBCore.Types.domain
 
         #region person
 
-        public void ImportPersonCSVFromFile(string path)
+        public void ImportPersonCSVFromFile(string path, string batchRef)
         {
             var lineList = new List<string>(System.IO.File.ReadAllLines(path, Encoding.ASCII));
 
@@ -137,11 +137,11 @@ namespace TDBCore.Types.domain
             lineList.RemoveAt(0);
 
 
-            ImportPersonCSV(lineList.ToArray());
+            ImportPersonCSV(lineList.ToArray(), batchRef);
         }
 
 
-        public Guid ImportPersonCSVFromGoogle(string path)
+        public Guid ImportPersonCSVFromGoogle(string path, string batchRef)
         {            
             string csv = new WebClient().DownloadString(path);
 
@@ -153,14 +153,14 @@ namespace TDBCore.Types.domain
 
             lineList.RemoveAt(0);
 
-          
-            return ImportPersonCSV(lineList.ToArray());
+
+            return ImportPersonCSV(lineList.ToArray(), batchRef);
 
 
         }
 
 
-        public Guid ImportPersonCSV(string[] allLines)
+        public Guid ImportPersonCSV(string[] allLines, string batchRef)
         {
 
 
@@ -262,7 +262,8 @@ namespace TDBCore.Types.domain
                         Id = Guid.NewGuid(),
                         BatchId = batchId,
                         PersonId = team.PersonId,
-                        TimeRun = startTime
+                        TimeRun = startTime,
+                        Ref = batchRef
                     });
                 }
 
@@ -286,7 +287,7 @@ namespace TDBCore.Types.domain
 
 
         #region marriages
-        public Guid ImportMarriageCSVFromGoogle(string path)
+        public Guid ImportMarriageCSVFromGoogle(string path, string batchRef)
         {
             string csv = new WebClient().DownloadString(path);
 
@@ -299,10 +300,10 @@ namespace TDBCore.Types.domain
             lineList.RemoveAt(0);
 
 
-            return ImportMarCSV(lineList.ToArray());
+            return ImportMarCSV(lineList.ToArray(), batchRef);
         }
 
-        public Guid ImportMarriageCSVFromFile(string path)
+        public Guid ImportMarriageCSVFromFile(string path,string batchRef)
         {
             var lineList = new List<string>(System.IO.File.ReadAllLines(path, Encoding.ASCII));
 
@@ -312,9 +313,9 @@ namespace TDBCore.Types.domain
             lineList.RemoveAt(0);
 
 
-            return ImportMarCSV(lineList.ToArray());
+            return ImportMarCSV(lineList.ToArray(), batchRef);
         }
-        public Guid ImportMarCSV(string[] allLines)
+        public Guid ImportMarCSV(string[] allLines, string batchRef)
         {
 
             // var allLines = new List<string>(System.IO.File.ReadAllLines(path));
@@ -448,7 +449,8 @@ namespace TDBCore.Types.domain
                     Id = Guid.NewGuid(),
                     BatchId = batchId,
                     MarriageId = team.MarriageId,
-                    TimeRun = startTime
+                    TimeRun = startTime,
+                    Ref =  batchRef
                 });
 
 
@@ -554,7 +556,7 @@ namespace TDBCore.Types.domain
 
 
         #region sources
-        public Guid ImportSourceCSVFromGoogle(string path)
+        public Guid ImportSourceCSVFromGoogle(string path, string batchRef)
         {
             string csv = new WebClient().DownloadString(path);
 
@@ -567,13 +569,13 @@ namespace TDBCore.Types.domain
             lineList.RemoveAt(0);
 
 
-            return ImportSources(lineList);
+            return ImportSources(lineList, batchRef);
 
 
         }
 
 
-        public Guid ImportSources(List<string> allLines)
+        public Guid ImportSources(List<string> allLines, string batchRef)
         {
 
            // var allLines = new List<string>(System.IO.File.ReadAllLines(path));
@@ -631,7 +633,8 @@ namespace TDBCore.Types.domain
                     Id = Guid.NewGuid(),
                     BatchId = batchId,
                     SourceId = team.SourceId,
-                    TimeRun = startTime
+                    TimeRun = startTime,
+                    Ref = batchRef
                 });
             }
 

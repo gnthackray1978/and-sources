@@ -46,13 +46,13 @@ namespace TancWebApp.Services
         }
 
 
-        public string InsertPersons(string sheetUrl)
+        public string InsertPersons(string sheetUrl, string batchRef)
         {
             var newBatch = Guid.Empty;
             
             try
             {
-                newBatch = _batchSearch.ImportPersonCSVFromGoogle(sheetUrl);
+                newBatch = _batchSearch.ImportPersonCSVFromGoogle(sheetUrl, batchRef);
             }
             catch (Exception e) {
                  WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.InternalServerError;
@@ -62,13 +62,13 @@ namespace TancWebApp.Services
             return WebHelper.MakeJSONReturn(newBatch.ToString(), newBatch != Guid.Empty);
         }
 
-        public string InsertMarriages(string sheetUrl)
+        public string InsertMarriages(string sheetUrl, string batchRef)
         {            
             var newBatch = Guid.Empty;
            
             try
             {
-                newBatch = _batchSearch.ImportMarriageCSVFromGoogle(sheetUrl);
+                newBatch = _batchSearch.ImportMarriageCSVFromGoogle(sheetUrl, batchRef);
             }
             catch (Exception e) {
                  WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.InternalServerError;
@@ -79,14 +79,14 @@ namespace TancWebApp.Services
         }
 
 
-        public string InsertSources(string sheetUrl)
+        public string InsertSources(string sheetUrl, string batchRef)
         {
             var newBatch = Guid.Empty;
          
 
             try
             {
-                newBatch = _batchSearch.ImportSourceCSVFromGoogle(sheetUrl);
+                newBatch = _batchSearch.ImportSourceCSVFromGoogle(sheetUrl, batchRef);
             }
             catch (Exception e)
             {
@@ -97,7 +97,7 @@ namespace TancWebApp.Services
             return WebHelper.MakeJSONReturn(newBatch.ToString(), newBatch != Guid.Empty);
         }
 
-        public string InsertParishs(string sheetUrl)
+        public string InsertParishs(string sheetUrl, string batchRef)
         {
             var newBatch = Guid.Empty;
             

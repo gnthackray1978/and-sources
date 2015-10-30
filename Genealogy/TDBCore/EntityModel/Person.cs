@@ -47,9 +47,6 @@ namespace TDBCore.EntityModel
         public System.DateTime DateAdded { get; set; }
         public System.DateTime DateLastEdit { get; set; }
         public int UserId { get; set; }
-        public string OrigSurname { get; set; }
-        public string OrigFatherSurname { get; set; }
-        public string OrigMotherSurname { get; set; }
         public string Occupation { get; set; }
         public string ReferenceLocation { get; set; }
         public string ReferenceDateStr { get; set; }
@@ -68,6 +65,9 @@ namespace TDBCore.EntityModel
         public bool IsEstBirth { get; set; }
         public bool IsEstDeath { get; set; }
         public bool IsDeleted { get; set; }
+        public string OthersideChristianName { get; set; }
+        public string OthersideSurname { get; set; }
+        public string OthersideRelationship { get; set; }
     
         public virtual ICollection<Relation> RelationA { get; set; }
         public virtual ICollection<Relation> RelationB { get; set; }
