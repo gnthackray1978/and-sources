@@ -7,7 +7,7 @@ namespace CSVImporter
 {
     class Program
     {
-        const string Destination = @"G:\Google Drive\familyhist\Images\persons.csv";
+        const string Destination = @"E:\GoogleDrive\familyhist\datadump\sors.csv";
 
 
         static void Main(string[] args)
@@ -16,17 +16,9 @@ namespace CSVImporter
 
             try
             {
-                //csImportCsv.ImportSources(Destination, 1);
 
-                //CreatePersonCSV(csImportCsv);
+                CreateSourceCSV(csImportCsv);
 
-             //   csImportCsv.ImportFromGoogle();
-
-                Guid g = new Guid("05F1063B-D5D8-4886-A993-75EBC29DEAAF");
-
-                csImportCsv.RemoveBatch(g);
-
-            //    csImportCsv.ImportPersonCSV(Destination);
             }
             catch (Exception e)
             {
@@ -61,6 +53,19 @@ namespace CSVImporter
 
 
             File.WriteAllText(Destination, csImportCsv.CreatePersonCSV());
+
+            if (File.Exists(Destination))
+            {
+                Process.Start("explorer.exe", Destination);
+            }
+        }
+
+        private static void CreateMarriageCSV(CsImportCsv csImportCsv)
+        {
+
+
+
+            File.WriteAllText(Destination, csImportCsv.CreateMarCSV());
 
             if (File.Exists(Destination))
             {

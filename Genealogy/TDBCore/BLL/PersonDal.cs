@@ -247,9 +247,9 @@ namespace TDBCore.BLL
                     EstDeathYearInt = 0,
                     IsEstBirth = false,
                     IsEstDeath = false,
-                    OrigSurname = "",
-                    OrigFatherSurname = "",
-                    OrigMotherSurname = "",
+                    OthersideChristianName = person.OthersideChristianName,
+                    OthersideSurname = person.OthersideSurname,
+                    OthersideRelationship = person.OthersideRelationship,
                     Person_id = Guid.NewGuid(),
                     DateAdded = DateTime.Today,
                     DateLastEdit = DateTime.Today
@@ -315,7 +315,7 @@ namespace TDBCore.BLL
                 personSearchFilter.FatherChristianName, personSearchFilter.FatherSurname,
                 personSearchFilter.MotherChristianName, personSearchFilter.MotherSurname,
                 personSearchFilter.SourceString, personSearchFilter.Location, personSearchFilter.LowerDate,
-                                                personSearchFilter.UpperDate, personSearchFilter.County, personSearchFilter.SpouseChristianName, personSearchFilter.IsIncludeSources).Select(p => new ServicePerson
+                                                personSearchFilter.UpperDate, personSearchFilter.County, personSearchFilter.SpouseChristianName,personSearchFilter.OthersideChristianName,personSearchFilter.OthersideSurname,personSearchFilter.OthersideRelationship, personSearchFilter.IsIncludeSources).Select(p => new ServicePerson
                                                     {
                                                                                            PersonId = p.Person_id,
                                                                                            ChristianName = p.ChristianName,
@@ -344,8 +344,13 @@ namespace TDBCore.BLL
                                                                                            SourceDateStr = p.SourceDateStr,
                                                                                            SourceParishName = p.SourceParishName,
                                                                                            SourceRef = p.SourceRef,
-                                                                                           SourceId = p.RefSourceId
-                                                                                           
+                                                                                           SourceId = p.RefSourceId,
+                                                                                           OthersideChristianName = p.ChristianName,
+                                                                                           OthersideSurname = p.OthersideSurname,
+                                                                                           OthersideRelationship = p.OthersideRelationship,
+                                                                                           ReferenceDate = p.ReferenceDateStr,
+                                                                                           ReferenceLocation = p.ReferenceLocation,
+                                                                                           ReferenceYear = p.ReferenceDateInt
                                                                                        }).ToList();
 
 

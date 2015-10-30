@@ -11,6 +11,8 @@ namespace TDBCore.Types.DTOs
         public string SourceRef { get; set; }
         public string SourceDesc { get; set; }
         public int FileCount { get; set; }
+        public int PersonCount { get; set; }
+        public int MarriageCount { get; set; }
 
     }
 }

@@ -11,7 +11,7 @@ namespace TDBCore.BLL
 {
     public class BatchDal : BaseBll, IBatchDal
     {
-        public Guid AddRecord(Types.DTOs.BatchDto batchDto)
+        public Guid AddRecord(BatchDto batchDto)
         {
             
             var newBatch = new BatchLog

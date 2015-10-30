@@ -219,7 +219,7 @@ namespace TDBCore.BLL
             return result;
         }
 
-        public List<ServiceSource> FillSourceTableByFilter(SourceSearchFilter ssf)
+        public List<ServiceSource> FillSourceTableByFilter(SourceSearchFilter ssf, DataShaping dataShaping)
         {
 
             List<ServiceSource> result;
@@ -273,18 +273,29 @@ namespace TDBCore.BLL
             string listOfSourcesStr =ssf.SourceTypes.ParseToCSV();
 
             
-            int sourceL = ssf.FromYear;
-            int sourceU = ssf.ToYear;
+            int sourceL = ssf.LrStart;
+            int sourceU = ssf.LrEnd;
 
-            int sourceToL = ssf.FromYear;
+            int sourceToL = ssf.UrStart;
 
-            int sourceToU = ssf.ToYear;
+            int sourceToU = ssf.UrEnd;
 
 
 
 
             if (listOfSourcesStr == "")
             {
+                dataShaping.TotalRecords = ModelContainer.Sources.Count(o => (o.IsCopyHeld == isCopyHoldLocal || o.IsCopyHeld == isCopyHoldLocalAlt) &&
+                                                                             (o.IsThackrayFound == isThackrayLocalFound || o.IsThackrayFound == isThackrayLocalFoundAlt) &&
+                                                                             o.SourceDescription.Contains(ssf.Description) &&
+                                                                             (o.IsViewed == isViewedLocal || o.IsViewed == isViewedLocalAlt) &&
+                                                                             o.OriginalLocation.Contains(ssf.OriginalLocation) &&
+
+                                                                             o.SourceDate >= sourceL && o.SourceDate <= sourceU &&
+                                                                             o.SourceDateTo >= sourceToL && o.SourceDateTo <= sourceToU &&
+
+                                                                             o.SourceRef.Contains(ssf.Ref));
+
                 result = ModelContainer.Sources.Where(o => (o.IsCopyHeld == isCopyHoldLocal || o.IsCopyHeld == isCopyHoldLocalAlt) &&
                                             (o.IsThackrayFound == isThackrayLocalFound || o.IsThackrayFound == isThackrayLocalFoundAlt) &&
                                             o.SourceDescription.Contains(ssf.Description) &&
@@ -293,15 +304,18 @@ namespace TDBCore.BLL
                                             
                                             o.SourceDate >= sourceL && o.SourceDate <= sourceU &&
                                             o.SourceDateTo >= sourceToL && o.SourceDateTo <= sourceToU &&
-
+                                            o.SourceMarriageCount >= ssf.MarriageCount &&
+                                            o.SourcePersonCount >= ssf.PersonCount &&
                                             o.SourceRef.Contains(ssf.Ref)).Select(p=> new ServiceSource
                                                 {
                                                     SourceDesc = p.SourceDescription,
                                                     SourceId = p.SourceId,
                                                     SourceRef = p.SourceRef,
                                                     SourceYear = p.SourceDate,
-                                                    SourceYearTo = p.SourceDateTo                                                    
-                                                }).ToList();
+                                                    SourceYearTo = p.SourceDateTo,
+                                                    MarriageCount = p.SourceMarriageCount,
+                                                    PersonCount = p.SourcePersonCount
+                                                }).OrderBy(o=>o.SourceId).Skip(dataShaping.RecordStart * dataShaping.RecordPageSize).Take(dataShaping.RecordPageSize).ToList();
             }
             else
             {
@@ -318,14 +332,20 @@ namespace TDBCore.BLL
                     isViewedLocalAlt,
                     isCopyHoldLocal,
                     isCopyHoldLocalAlt,
-                    listOfSourcesStr).Select(p => new ServiceSource
+                    listOfSourcesStr,ssf.MarriageCount,ssf.PersonCount).Select(p => new ServiceSource
                     {
                         SourceDesc = p.SourceDescription,
                         SourceId = p.SourceId,
                         SourceRef = p.SourceRef,
                         SourceYear = p.SourceDate.GetValueOrDefault(),
-                        SourceYearTo = p.SourceDateTo.GetValueOrDefault()
+                        SourceYearTo = p.SourceDateTo.GetValueOrDefault(),
+                        MarriageCount = p.SourceMarriageCount,
+                        PersonCount = p.SourcePersonCount
                     }).ToList();
+
+                dataShaping.TotalRecords = result.Count();
+
+                result = result.Skip(dataShaping.RecordStart * dataShaping.RecordPageSize).Take(dataShaping.RecordPageSize).ToList();
             }
           
             return ssf.FileCount.ToInt32() == 0 ? result.Where(o => o.FileCount == 0).ToList() : result.Where(o => o.FileCount >= ssf.FileCount.ToInt32()).ToList();

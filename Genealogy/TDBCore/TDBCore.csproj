@@ -99,6 +99,9 @@
     <Compile Include="EntityModel\Log.cs">
       <DependentUpon>GeneralModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="EntityModel\USP_Persons_Filtered_Result.cs">
+      <DependentUpon>GeneralModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\IBatchDal.cs" />
     <Compile Include="Interfaces\ILogDal.cs" />
     <Compile Include="Interfaces\IUserDal.cs" />

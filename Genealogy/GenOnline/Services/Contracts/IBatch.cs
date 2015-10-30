@@ -15,20 +15,20 @@ namespace TancWebApp.Services.Contracts
     {
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = BatchMappings.AddPersons, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
-        string InsertPersons(string sheetUrl);
+        string InsertPersons(string sheetUrl, string batchRef);
 
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = BatchMappings.AddMarriages, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
-        string InsertMarriages(string sheetUrl);
+        string InsertMarriages(string sheetUrl, string batchRef);
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = BatchMappings.AddSources, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
-        string InsertSources(string sheetUrl);
+        string InsertSources(string sheetUrl, string batchRef);
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = BatchMappings.AddParishs, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
-        string InsertParishs(string sheetUrl);
+        string InsertParishs(string sheetUrl, string batchRef);
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = BatchMappings.RemoveBatch, BodyStyle = WebMessageBodyStyle.WrappedRequest)]

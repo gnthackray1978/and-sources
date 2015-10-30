@@ -54,7 +54,7 @@ namespace TDBCore.Types.domain
             switch (param)
             { 
                 case SourceSearchTypes.Standard:
-                    sourcesDataTable = _sourceDal.FillSourceTableByFilter(sourceSearchFilter).ToServiceSourceObject(shaper.Column, shaper.RecordPageSize, shaper.RecordStart);
+                    sourcesDataTable = _sourceDal.FillSourceTableByFilter(sourceSearchFilter, shaper).ToServiceSourceObject(shaper.Column, shaper.RecordPageSize, shaper.RecordStart, shaper.TotalRecords);
                     break;
                 case SourceSearchTypes.Treesources:
                     sourcesDataTable = _sourceDal.FillTreeSources(sourceSearchFilter).ToServiceSourceObject(shaper.Column, shaper.RecordPageSize, shaper.RecordStart);

@@ -21,7 +21,7 @@ namespace TDBCore.Types.DTOs
         public string DeathLocationId { get; set; }
         public string ReferenceLocationId { get; set; }      
         public string ReferenceDate { get; set; }
-        public int ReferenceYear { get; set; }
+ 
         public string SourceDescription { get; set; }
         public string SpouseChristianName { get; set; }
         public string SpouseSurname { get; set; }
@@ -29,7 +29,6 @@ namespace TDBCore.Types.DTOs
         public string Occupation { get; set; }
         public string Notes { get; set; }
         public string IsMale { get; set; }
-       
 
     }
 }

@@ -182,7 +182,11 @@ namespace GenOnline.Services
                     FromYear= (dateLB.ToInt32() + toDateLB.ToInt32()),
                     ToYear = (toDateUB.ToInt32() + dateUB.ToInt32()),
                     OriginalLocation = origLoc,
-                    FileCount = fileCount               
+                    FileCount = fileCount,
+                    UrStart = dateUB.ToInt32(),
+                    UrEnd = toDateUB.ToInt32(),
+                    LrStart = dateLB.ToInt32(),
+                    LrEnd = toDateLB.ToInt32()                    
                 };
 
              

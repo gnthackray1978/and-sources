@@ -157,8 +157,8 @@
           <Property Name="ParishRegistersDeposited" Type="nvarchar" MaxLength="100" />
           <Property Name="ParishNotes" Type="nvarchar" MaxLength="1000" />
           <Property Name="ParentParish" Type="nvarchar" MaxLength="500" />
-          <Property Name="ParishStartYear" Type="int" />
-          <Property Name="ParishEndYear" Type="int" />
+          <Property Name="ParishStartYear" Type="int" Nullable="false" />
+          <Property Name="ParishEndYear" Type="int" Nullable="false" />
           <Property Name="ParishCounty" Type="nvarchar" MaxLength="50" />
           <Property Name="ParishX" Type="decimal" Precision="12" Scale="6" />
           <Property Name="ParishY" Type="decimal" Precision="12" Scale="6" />
@@ -200,9 +200,9 @@
           <Property Name="DateAdded" Type="date" Nullable="false" />
           <Property Name="DateLastEdit" Type="date" Nullable="false" />
           <Property Name="UserId" Type="int" Nullable="false" />
-          <Property Name="OrigSurname" Type="nvarchar" MaxLength="150" Nullable="false" />
-          <Property Name="OrigFatherSurname" Type="nvarchar" MaxLength="150" Nullable="false" />
-          <Property Name="OrigMotherSurname" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="OthersideChristianName" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="OthersideSurname" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="OthersideRelationship" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="Occupation" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="ReferenceLocation" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="ReferenceDateStr" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -285,6 +285,8 @@
           <Property Name="SourceNotes" Type="text" />
           <Property Name="SourceFileCount" Type="int" />
           <Property Name="SourceDescription" Type="varchar" MaxLength="1000" />
+          <Property Name="SourcePersonCount" Type="int" Nullable="false" />
+          <Property Name="SourceMarriageCount" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="SourceTypes">
           <Key>
@@ -612,8 +614,12 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
           <Parameter Name="UpperBound" Type="int" Mode="In" />
           <Parameter Name="county" Type="nvarchar" Mode="In" />
           <Parameter Name="spouse" Type="nvarchar" Mode="In" />
+          <Parameter Name="othersideCName" Type="nvarchar" Mode="In" />
+          <Parameter Name="othersideSName" Type="nvarchar" Mode="In" />
+          <Parameter Name="othersideRelationship" Type="nvarchar" Mode="In" />
           <Parameter Name="sourceSearch" Type="bit" Mode="In" />
         </Function>
+        <Function Name="USP_UpdateSourceCounts" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="USPDeleteSource" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="sourceId" Type="uniqueidentifier" Mode="In" />
         </Function>
@@ -725,6 +731,8 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
           <Parameter Name="IsCopyHeldInverted" Type="bit" Mode="In" />
           <Parameter Name="IsCopyHeld" Type="bit" Mode="In" />
           <Parameter Name="types" Type="nvarchar" Mode="In" />
+          <Parameter Name="SourceMarriageCount" Type="int" Mode="In" />
+          <Parameter Name="SourcePersonCount" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="GeneralModelStoreContainer">
           <EntitySet Name="CountyDictionary" EntityType="Self.CountyDictionary" Schema="dbo" store:Type="Tables" />
@@ -900,6 +908,8 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
             <Parameter Name="IsCopyHeldInverted" Mode="In" Type="Boolean" />
             <Parameter Name="IsCopyHeld" Mode="In" Type="Boolean" />
             <Parameter Name="types" Mode="In" Type="String" />
+            <Parameter Name="SourceMarriageCount" Mode="In" Type="Int32" />
+            <Parameter Name="SourcePersonCount" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="ParishRecords" EntityType="GeneralModel.ParishRecord" />
           <EntitySet Name="ParishRecordSources" EntityType="GeneralModel.ParishRecordSource" />
@@ -1066,7 +1076,7 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
             <Parameter Name="yearIntLower" Mode="In" Type="Int32" />
             <Parameter Name="yearIntUpper" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="USP_Persons_Filtered_1" ReturnType="Collection(GeneralModel.USP_Persons_Filtered_1_Result)">
+          <FunctionImport Name="USP_Persons_Filtered_1" ReturnType="Collection(GeneralModel.USP_Persons_Filtered_Result)">
             <Parameter Name="cName" Mode="In" Type="String" />
             <Parameter Name="sName" Mode="In" Type="String" />
             <Parameter Name="fatherCName" Mode="In" Type="String" />
@@ -1079,10 +1089,14 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
             <Parameter Name="UpperBound" Mode="In" Type="Int32" />
             <Parameter Name="county" Mode="In" Type="String" />
             <Parameter Name="spouse" Mode="In" Type="String" />
+            <Parameter Name="othersideCName" Mode="In" Type="String" />
+            <Parameter Name="othersideSName" Mode="In" Type="String" />
+            <Parameter Name="othersideRelationship" Mode="In" Type="String" />
             <Parameter Name="sourceSearch" Mode="In" Type="Boolean" />
           </FunctionImport>
           <EntitySet Name="Log" EntityType="GeneralModel.Log" />
           <EntitySet Name="BatchLog" EntityType="GeneralModel.BatchLog" />
+          <FunctionImport Name="USP_UpdateSourceCounts" />
         </EntityContainer>
         <EntityType Name="Marriage">
           <Key>
@@ -1143,8 +1157,8 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
           <Property Type="String" Name="ParishRegistersDeposited" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="ParishNotes" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="ParentParish" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="ParishStartYear" />
-          <Property Type="Int32" Name="ParishEndYear" />
+          <Property Type="Int32" Name="ParishStartYear" Nullable="false" />
+          <Property Type="Int32" Name="ParishEndYear" Nullable="false" />
           <Property Type="String" Name="ParishCounty" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="Decimal" Name="ParishX" Precision="12" Scale="6" />
           <Property Type="Decimal" Name="ParishY" Precision="12" Scale="6" />
@@ -1198,6 +1212,8 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
           <Property Type="Int32" Name="SourceFileCount" />
           <NavigationProperty Name="SourceMappingParishs" Relationship="GeneralModel.FK_SourceMappingParishs_Sources" FromRole="Source" ToRole="SourceMappingParish" />
           <NavigationProperty Name="SourceMappings" Relationship="GeneralModel.FK_SourceMappings_Sources" FromRole="Source" ToRole="SourceMapping" />
+          <Property Name="SourcePersonCount" Type="Int32" Nullable="false" />
+          <Property Name="SourceMarriageCount" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="SourceType">
           <Key>
@@ -1377,9 +1393,6 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
           <Property Type="DateTime" Name="DateAdded" Nullable="false" Precision="0" />
           <Property Type="DateTime" Name="DateLastEdit" Nullable="false" Precision="0" />
           <Property Type="Int32" Name="UserId" Nullable="false" />
-          <Property Type="String" Name="OrigSurname" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="OrigFatherSurname" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="OrigMotherSurname" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Occupation" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="ReferenceLocation" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="ReferenceDateStr" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -1402,6 +1415,9 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
           <NavigationProperty Name="RelationB" Relationship="GeneralModel.FK_Relations_Persons1" FromRole="Person" ToRole="Relation" />
           <NavigationProperty Name="SourceMappings" Relationship="GeneralModel.FK_SourceMappings_Persons" FromRole="Person" ToRole="SourceMapping" />
           <NavigationProperty Name="MarriageMapWitnesses" Relationship="GeneralModel.FK_MarriageMapWitness_Persons" FromRole="Person" ToRole="MarriageMapWitness" />
+          <Property Name="OthersideChristianName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="OthersideSurname" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="OthersideRelationship" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_Relations_Persons">
           <End Type="GeneralModel.Person" Role="Person" Multiplicity="0..1" />
@@ -1675,6 +1691,44 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
           <Property Name="Ref" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="GoogleSheet" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
         </EntityType>
+        <ComplexType Name="USP_Persons_Filtered_Result">
+          <Property Type="Guid" Name="Person_id" Nullable="false" />
+          <Property Type="String" Name="ChristianName" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="Surname" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="BirthLocation" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="BirthDateStr" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="BaptismDateStr" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="DeathDateStr" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="DeathLocation" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="FatherChristianName" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="FatherSurname" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="MotherChristianName" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="MotherSurname" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="Notes" Nullable="true" MaxLength="8000" />
+          <Property Type="String" Name="Source" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="BirthInt" Nullable="false" />
+          <Property Type="Int32" Name="BapInt" Nullable="false" />
+          <Property Type="Int32" Name="DeathInt" Nullable="false" />
+          <Property Type="String" Name="tree_links" Nullable="false" />
+          <Property Type="String" Name="Occupation" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="SourceParishName" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="SourceDateStr" Nullable="false" MaxLength="9" />
+          <Property Type="Int32" Name="SourceDateInt" Nullable="false" />
+          <Property Type="String" Name="SpouseName" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="SpouseSurname" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="FatherOccupation" Nullable="false" MaxLength="150" />
+          <Property Type="Guid" Name="UniqueRef" Nullable="true" />
+          <Property Type="Int32" Name="TotalEvents" Nullable="false" />
+          <Property Type="Int32" Name="EventPriority" Nullable="false" />
+          <Property Type="String" Name="SourceRef" Nullable="false" MaxLength="500" />
+          <Property Type="Guid" Name="RefSourceId" Nullable="false" />
+          <Property Type="String" Name="ReferenceLocation" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="ReferenceDateStr" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="ReferenceDateInt" Nullable="false" />
+          <Property Type="String" Name="OthersideChristianName" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="OthersideSurname" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="OthersideRelationship" Nullable="false" MaxLength="150" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1768,6 +1822,8 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
           <EntitySetMapping Name="Sources">
             <EntityTypeMapping TypeName="GeneralModel.Source">
               <MappingFragment StoreEntitySet="Sources">
+                <ScalarProperty Name="SourceMarriageCount" ColumnName="SourceMarriageCount" />
+                <ScalarProperty Name="SourcePersonCount" ColumnName="SourcePersonCount" />
                 <ScalarProperty Name="SourceFileCount" ColumnName="SourceFileCount" />
                 <ScalarProperty Name="SourceNotes" ColumnName="SourceNotes" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -1996,6 +2052,9 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
           <EntitySetMapping Name="Persons">
             <EntityTypeMapping TypeName="GeneralModel.Person">
               <MappingFragment StoreEntitySet="Persons">
+                <ScalarProperty Name="OthersideRelationship" ColumnName="OthersideRelationship" />
+                <ScalarProperty Name="OthersideSurname" ColumnName="OthersideSurname" />
+                <ScalarProperty Name="OthersideChristianName" ColumnName="OthersideChristianName" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="IsEstDeath" ColumnName="IsEstDeath" />
                 <ScalarProperty Name="IsEstBirth" ColumnName="IsEstBirth" />
@@ -2014,9 +2073,6 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
                 <ScalarProperty Name="ReferenceDateStr" ColumnName="ReferenceDateStr" />
                 <ScalarProperty Name="ReferenceLocation" ColumnName="ReferenceLocation" />
                 <ScalarProperty Name="Occupation" ColumnName="Occupation" />
-                <ScalarProperty Name="OrigMotherSurname" ColumnName="OrigMotherSurname" />
-                <ScalarProperty Name="OrigFatherSurname" ColumnName="OrigFatherSurname" />
-                <ScalarProperty Name="OrigSurname" ColumnName="OrigSurname" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="DateLastEdit" ColumnName="DateLastEdit" />
                 <ScalarProperty Name="DateAdded" ColumnName="DateAdded" />
@@ -2303,8 +2359,8 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="USP_Persons_Filtered_1" FunctionName="GeneralModel.Store.USP_Persons_Filtered">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="GeneralModel.USP_Persons_Filtered_1_Result">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="GeneralModel.USP_Persons_Filtered_Result">
                 <ScalarProperty Name="Person_id" ColumnName="Person_id" />
                 <ScalarProperty Name="ChristianName" ColumnName="ChristianName" />
                 <ScalarProperty Name="Surname" ColumnName="Surname" />
@@ -2335,6 +2391,12 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
                 <ScalarProperty Name="EventPriority" ColumnName="EventPriority" />
                 <ScalarProperty Name="SourceRef" ColumnName="SourceRef" />
                 <ScalarProperty Name="RefSourceId" ColumnName="RefSourceId" />
+                <ScalarProperty Name="ReferenceLocation" ColumnName="ReferenceLocation" />
+                <ScalarProperty Name="ReferenceDateStr" ColumnName="ReferenceDateStr" />
+                <ScalarProperty Name="ReferenceDateInt" ColumnName="ReferenceDateInt" />
+                <ScalarProperty Name="OthersideChristianName" ColumnName="OthersideChristianName" />
+                <ScalarProperty Name="OthersideSurname" ColumnName="OthersideSurname" />
+                <ScalarProperty Name="OthersideRelationship" ColumnName="OthersideRelationship" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -2367,6 +2429,7 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="USP_UpdateSourceCounts" FunctionName="GeneralModel.Store.USP_UpdateSourceCounts" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -2394,7 +2457,7 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
         <edmx:EntityTypeShape EntityType="GeneralModel.Parish" Width="1.5" PointX="3.375" PointY="1.75" Height="3.7109993489583326" IsExpanded="true" />
         <edmx:EntityTypeShape EntityType="GeneralModel.SourceMappingParish" Width="2.25" PointX="6" PointY="0.5" Height="1.9802864583333326" IsExpanded="false" />
         <edmx:EntityTypeShape EntityType="GeneralModel.SourceMapping" Width="1.5" PointX="12.625" PointY="2.25" Height="2.5571907552083326" IsExpanded="false" />
-        <edmx:EntityTypeShape EntityType="GeneralModel.Source" Width="1.5" PointX="8.875" PointY="3.375" Height="4.2879036458333326" IsExpanded="false" />
+        <edmx:EntityTypeShape EntityType="GeneralModel.Source" Width="1.5" PointX="8.875" PointY="3.375" Height="4.2879036458333326" IsExpanded="true" />
         <edmx:EntityTypeShape EntityType="GeneralModel.SourceType" Width="2" PointX="9.125" PointY="0.5" Height="2.172587890625" IsExpanded="false" />
         <edmx:AssociationConnector Association="GeneralModel.FK_SourceMappings_Marriages">
           <edmx:ConnectorPoint PointX="21.875" PointY="4.1220914713541674" />
@@ -2450,7 +2513,7 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
           <edmx:ConnectorPoint PointX="3.375" PointY="2.6824446614583337" />
           <edmx:ConnectorPoint PointX="2.25" PointY="2.6824446614583337" />
         </edmx:AssociationConnector>
-        <edmx:EntityTypeShape EntityType="GeneralModel.Person" Width="1.5" PointX="0.75" PointY="4.75" Height="10.441549479166667" IsExpanded="true" />
+        <edmx:EntityTypeShape EntityType="GeneralModel.Person" Width="2" PointX="0.75" PointY="4.75" Height="10.441549479166667" IsExpanded="true" />
         <edmx:AssociationConnector Association="GeneralModel.FK_Relations_Persons">
           <edmx:ConnectorPoint PointX="2.25" PointY="13.809736269531257" />
           <edmx:ConnectorPoint PointX="13.40625" PointY="13.809736269531257" />
@@ -2489,8 +2552,8 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
         </edmx:AssociationConnector>
         <edmx:EntityTypeShape EntityType="GeneralModel.ParishCounter" Width="1.5" PointX="8.375" PointY="8.75" Height="2.5571907552083388" IsExpanded="false" />
         <edmx:EntityTypeShape EntityType="GeneralModel.uvw_1841Census" Width="1.5" PointX="3.375" PointY="9.75" Height="2.1725878906250031" IsExpanded="false" />
-        <edmx:EntityTypeShape EntityType="GeneralModel.Log" Width="1.5" PointX="5.375" PointY="7.75" />
-        <edmx:EntityTypeShape EntityType="GeneralModel.BatchLog" Width="1.5" PointX="8.375" PointY="4.75" />
+        <edmx:EntityTypeShape EntityType="GeneralModel.Log" Width="1.5" PointX="5.375" PointY="7.75" IsExpanded="false" />
+        <edmx:EntityTypeShape EntityType="GeneralModel.BatchLog" Width="1.5" PointX="7" PointY="4.75" IsExpanded="false" />
       </edmx:Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

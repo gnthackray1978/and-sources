@@ -207,6 +207,21 @@ namespace TDBCore.Types.libs
             return spo;
         }
 
+        public static ServiceSourceObject ToServiceSourceObject(this IList<ServiceSource> sources, string sortColumn, int pageSize, int pageNumber , int totalSize)
+        {
+            var spo = new ServiceSourceObject { serviceSources = sources.ToList() };
+
+            spo.Total = totalSize;
+
+            if (pageSize != 0)
+            {
+                spo.Batch = pageNumber;
+                spo.BatchLength = pageSize;              
+            }
+
+            return spo;
+        }
+
         public static ServicePersonObject ToServicePersonObject(this IList<ServicePerson> persons, string sortColumn, int pageSize, int pageNumber)
         {
             var spo = new ServicePersonObject
@@ -234,7 +249,11 @@ namespace TDBCore.Types.libs
                     SourceDateStr = p.SourceDateStr,
                     ReferenceLocation = p.ReferenceLocation,
                     SourceRef = p.SourceRef,
-                    SourceId = p.SourceId
+                    SourceId = p.SourceId,
+                    OthersideChristianName = p.OthersideChristianName,
+                    OthersideSurname = p.OthersideSurname,
+                    OthersideRelationship = p.OthersideRelationship
+                   
                 }).ToList()
             };
 

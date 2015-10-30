@@ -50,7 +50,7 @@ namespace TDBCore.EntityModel
         public virtual DbSet<Log> Log { get; set; }
         public virtual DbSet<BatchLog> BatchLog { get; set; }
     
-        public virtual ObjectResult<Source> GetSourcesBySourceTypes(string sourceRef, Nullable<int> sourceDateToUpper, Nullable<int> sourceDateLower, Nullable<int> sourceDateToLower, Nullable<int> sourceDateUpper, Nullable<int> userID, string originalLocation, Nullable<System.DateTime> dateAddedUpper, Nullable<System.DateTime> dateAddedLower, Nullable<bool> isThackrayFound, Nullable<bool> isThackrayFoundInverted, Nullable<bool> isViewedInvert, Nullable<bool> isViewed, Nullable<bool> isCopyHeldInverted, Nullable<bool> isCopyHeld, string types)
+        public virtual ObjectResult<Source> GetSourcesBySourceTypes(string sourceRef, Nullable<int> sourceDateToUpper, Nullable<int> sourceDateLower, Nullable<int> sourceDateToLower, Nullable<int> sourceDateUpper, Nullable<int> userID, string originalLocation, Nullable<System.DateTime> dateAddedUpper, Nullable<System.DateTime> dateAddedLower, Nullable<bool> isThackrayFound, Nullable<bool> isThackrayFoundInverted, Nullable<bool> isViewedInvert, Nullable<bool> isViewed, Nullable<bool> isCopyHeldInverted, Nullable<bool> isCopyHeld, string types, Nullable<int> sourceMarriageCount, Nullable<int> sourcePersonCount)
         {
             var sourceRefParameter = sourceRef != null ?
                 new ObjectParameter("SourceRef", sourceRef) :
@@ -116,10 +116,18 @@ namespace TDBCore.EntityModel
                 new ObjectParameter("types", types) :
                 new ObjectParameter("types", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Source>("GetSourcesBySourceTypes", sourceRefParameter, sourceDateToUpperParameter, sourceDateLowerParameter, sourceDateToLowerParameter, sourceDateUpperParameter, userIDParameter, originalLocationParameter, dateAddedUpperParameter, dateAddedLowerParameter, isThackrayFoundParameter, isThackrayFoundInvertedParameter, isViewedInvertParameter, isViewedParameter, isCopyHeldInvertedParameter, isCopyHeldParameter, typesParameter);
+            var sourceMarriageCountParameter = sourceMarriageCount.HasValue ?
+                new ObjectParameter("SourceMarriageCount", sourceMarriageCount) :
+                new ObjectParameter("SourceMarriageCount", typeof(int));
+    
+            var sourcePersonCountParameter = sourcePersonCount.HasValue ?
+                new ObjectParameter("SourcePersonCount", sourcePersonCount) :
+                new ObjectParameter("SourcePersonCount", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Source>("GetSourcesBySourceTypes", sourceRefParameter, sourceDateToUpperParameter, sourceDateLowerParameter, sourceDateToLowerParameter, sourceDateUpperParameter, userIDParameter, originalLocationParameter, dateAddedUpperParameter, dateAddedLowerParameter, isThackrayFoundParameter, isThackrayFoundInvertedParameter, isViewedInvertParameter, isViewedParameter, isCopyHeldInvertedParameter, isCopyHeldParameter, typesParameter, sourceMarriageCountParameter, sourcePersonCountParameter);
         }
     
-        public virtual ObjectResult<Source> GetSourcesBySourceTypes(string sourceRef, Nullable<int> sourceDateToUpper, Nullable<int> sourceDateLower, Nullable<int> sourceDateToLower, Nullable<int> sourceDateUpper, Nullable<int> userID, string originalLocation, Nullable<System.DateTime> dateAddedUpper, Nullable<System.DateTime> dateAddedLower, Nullable<bool> isThackrayFound, Nullable<bool> isThackrayFoundInverted, Nullable<bool> isViewedInvert, Nullable<bool> isViewed, Nullable<bool> isCopyHeldInverted, Nullable<bool> isCopyHeld, string types, MergeOption mergeOption)
+        public virtual ObjectResult<Source> GetSourcesBySourceTypes(string sourceRef, Nullable<int> sourceDateToUpper, Nullable<int> sourceDateLower, Nullable<int> sourceDateToLower, Nullable<int> sourceDateUpper, Nullable<int> userID, string originalLocation, Nullable<System.DateTime> dateAddedUpper, Nullable<System.DateTime> dateAddedLower, Nullable<bool> isThackrayFound, Nullable<bool> isThackrayFoundInverted, Nullable<bool> isViewedInvert, Nullable<bool> isViewed, Nullable<bool> isCopyHeldInverted, Nullable<bool> isCopyHeld, string types, Nullable<int> sourceMarriageCount, Nullable<int> sourcePersonCount, MergeOption mergeOption)
         {
             var sourceRefParameter = sourceRef != null ?
                 new ObjectParameter("SourceRef", sourceRef) :
@@ -185,7 +193,15 @@ namespace TDBCore.EntityModel
                 new ObjectParameter("types", types) :
                 new ObjectParameter("types", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Source>("GetSourcesBySourceTypes", mergeOption, sourceRefParameter, sourceDateToUpperParameter, sourceDateLowerParameter, sourceDateToLowerParameter, sourceDateUpperParameter, userIDParameter, originalLocationParameter, dateAddedUpperParameter, dateAddedLowerParameter, isThackrayFoundParameter, isThackrayFoundInvertedParameter, isViewedInvertParameter, isViewedParameter, isCopyHeldInvertedParameter, isCopyHeldParameter, typesParameter);
+            var sourceMarriageCountParameter = sourceMarriageCount.HasValue ?
+                new ObjectParameter("SourceMarriageCount", sourceMarriageCount) :
+                new ObjectParameter("SourceMarriageCount", typeof(int));
+    
+            var sourcePersonCountParameter = sourcePersonCount.HasValue ?
+                new ObjectParameter("SourcePersonCount", sourcePersonCount) :
+                new ObjectParameter("SourcePersonCount", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Source>("GetSourcesBySourceTypes", mergeOption, sourceRefParameter, sourceDateToUpperParameter, sourceDateLowerParameter, sourceDateToLowerParameter, sourceDateUpperParameter, userIDParameter, originalLocationParameter, dateAddedUpperParameter, dateAddedLowerParameter, isThackrayFoundParameter, isThackrayFoundInvertedParameter, isViewedInvertParameter, isViewedParameter, isCopyHeldInvertedParameter, isCopyHeldParameter, typesParameter, sourceMarriageCountParameter, sourcePersonCountParameter);
         }
     
         public virtual ObjectResult<Marriage> GetMarriagesBySourceList(string source)
@@ -849,7 +865,7 @@ namespace TDBCore.EntityModel
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<USP_Marriages_Filtered_Result>("USP_Marriages_Filtered", witnessNameParameter, sourcesParameter, femaleCNameParameter, femaleSNameParameter, maleCNameParameter, maleSNameParameter, marriageCountyParameter, marriageLocationParameter, yearIntLowerParameter, yearIntUpperParameter);
         }
     
-        public virtual ObjectResult<USP_Persons_Filtered_1_Result> USP_Persons_Filtered_1(string cName, string sName, string fatherCName, string fatherSName, string motherCName, string motherSName, string source, string bLocation, Nullable<int> lowerBound, Nullable<int> upperBound, string county, string spouse, Nullable<bool> sourceSearch)
+        public virtual ObjectResult<USP_Persons_Filtered_Result> USP_Persons_Filtered_1(string cName, string sName, string fatherCName, string fatherSName, string motherCName, string motherSName, string source, string bLocation, Nullable<int> lowerBound, Nullable<int> upperBound, string county, string spouse, string othersideCName, string othersideSName, string othersideRelationship, Nullable<bool> sourceSearch)
         {
             var cNameParameter = cName != null ?
                 new ObjectParameter("cName", cName) :
@@ -899,11 +915,28 @@ namespace TDBCore.EntityModel
                 new ObjectParameter("spouse", spouse) :
                 new ObjectParameter("spouse", typeof(string));
     
+            var othersideCNameParameter = othersideCName != null ?
+                new ObjectParameter("othersideCName", othersideCName) :
+                new ObjectParameter("othersideCName", typeof(string));
+    
+            var othersideSNameParameter = othersideSName != null ?
+                new ObjectParameter("othersideSName", othersideSName) :
+                new ObjectParameter("othersideSName", typeof(string));
+    
+            var othersideRelationshipParameter = othersideRelationship != null ?
+                new ObjectParameter("othersideRelationship", othersideRelationship) :
+                new ObjectParameter("othersideRelationship", typeof(string));
+    
             var sourceSearchParameter = sourceSearch.HasValue ?
                 new ObjectParameter("sourceSearch", sourceSearch) :
                 new ObjectParameter("sourceSearch", typeof(bool));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<USP_Persons_Filtered_1_Result>("USP_Persons_Filtered_1", cNameParameter, sNameParameter, fatherCNameParameter, fatherSNameParameter, motherCNameParameter, motherSNameParameter, sourceParameter, bLocationParameter, lowerBoundParameter, upperBoundParameter, countyParameter, spouseParameter, sourceSearchParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<USP_Persons_Filtered_Result>("USP_Persons_Filtered_1", cNameParameter, sNameParameter, fatherCNameParameter, fatherSNameParameter, motherCNameParameter, motherSNameParameter, sourceParameter, bLocationParameter, lowerBoundParameter, upperBoundParameter, countyParameter, spouseParameter, othersideCNameParameter, othersideSNameParameter, othersideRelationshipParameter, sourceSearchParameter);
+        }
+    
+        public virtual int USP_UpdateSourceCounts()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("USP_UpdateSourceCounts");
         }
     }
 }

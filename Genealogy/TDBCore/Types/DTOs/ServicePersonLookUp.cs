@@ -31,7 +31,14 @@ namespace TDBCore.Types.DTOs
 
         public int SourceDateInt { get; set; }
 
+        public int ReferenceYear { get; set; }
+
         public Guid SourceId { get; set; }
+
+
+        public string OthersideChristianName { get; set; }
+        public string OthersideSurname { get; set; }
+        public string OthersideRelationship { get; set; }
  
     }
 }
