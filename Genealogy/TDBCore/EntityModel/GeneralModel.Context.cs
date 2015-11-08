@@ -33,8 +33,6 @@ namespace TDBCore.EntityModel
         public virtual DbSet<SourceMapping> SourceMappings { get; set; }
         public virtual DbSet<Source> Sources { get; set; }
         public virtual DbSet<SourceType> SourceTypes { get; set; }
-        public virtual DbSet<Relation> Relations { get; set; }
-        public virtual DbSet<RelationType> RelationTypes { get; set; }
         public virtual DbSet<File> Files { get; set; }
         public virtual DbSet<ParishTranscriptionDetail> ParishTranscriptionDetails { get; set; }
         public virtual DbSet<ParishRecord> ParishRecords { get; set; }
@@ -43,12 +41,14 @@ namespace TDBCore.EntityModel
         public virtual DbSet<CountyDictionary> CountyDictionaries { get; set; }
         public virtual DbSet<MissingRecord> MissingRecords { get; set; }
         public virtual DbSet<Person> Persons { get; set; }
-        public virtual DbSet<MarriageRelation> MarriageRelations { get; set; }
-        public virtual DbSet<MarriageMapWitness> MarriageMapWitnesses { get; set; }
         public virtual DbSet<ParishCounter> ParishCounter { get; set; }
         public virtual DbSet<uvw_1841Census> uvw_1841Census { get; set; }
         public virtual DbSet<Log> Log { get; set; }
         public virtual DbSet<BatchLog> BatchLog { get; set; }
+        public virtual DbSet<MarriageMapWitness> MarriageMapWitness { get; set; }
+        public virtual DbSet<Relations> Relations { get; set; }
+        public virtual DbSet<RelationTypes> RelationTypes { get; set; }
+        public virtual DbSet<SourceMappingTypes> SourceMappingTypes { get; set; }
     
         public virtual ObjectResult<Source> GetSourcesBySourceTypes(string sourceRef, Nullable<int> sourceDateToUpper, Nullable<int> sourceDateLower, Nullable<int> sourceDateToLower, Nullable<int> sourceDateUpper, Nullable<int> userID, string originalLocation, Nullable<System.DateTime> dateAddedUpper, Nullable<System.DateTime> dateAddedLower, Nullable<bool> isThackrayFound, Nullable<bool> isThackrayFoundInverted, Nullable<bool> isViewedInvert, Nullable<bool> isViewed, Nullable<bool> isCopyHeldInverted, Nullable<bool> isCopyHeld, string types, Nullable<int> sourceMarriageCount, Nullable<int> sourcePersonCount)
         {
@@ -746,11 +746,6 @@ namespace TDBCore.EntityModel
                 new ObjectParameter("marriageId", typeof(System.Guid));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MarriageSources_Result>("GetMarriageSources", marriageIdParameter);
-        }
-    
-        public virtual int GetMarriagesWithWitnesses()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GetMarriagesWithWitnesses");
         }
     
         public virtual ObjectResult<GetMarriageByLocation_Result> GetMarriageByLocation()

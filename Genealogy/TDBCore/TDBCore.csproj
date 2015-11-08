@@ -99,6 +99,18 @@
     <Compile Include="EntityModel\Log.cs">
       <DependentUpon>GeneralModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="EntityModel\MarriageMapWitness.cs">
+      <DependentUpon>GeneralModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\Relations.cs">
+      <DependentUpon>GeneralModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\RelationTypes.cs">
+      <DependentUpon>GeneralModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\SourceMappingTypes.cs">
+      <DependentUpon>GeneralModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="EntityModel\USP_Persons_Filtered_Result.cs">
       <DependentUpon>GeneralModel.tt</DependentUpon>
     </Compile>
@@ -156,9 +168,6 @@
     <Compile Include="EntityModel\GetDescendants_Result.cs">
       <DependentUpon>GeneralModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="EntityModel\GetFilteredMarriages_Result.cs">
-      <DependentUpon>GeneralModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="EntityModel\GetMarriageByLocation_Result.cs">
       <DependentUpon>GeneralModel.tt</DependentUpon>
     </Compile>
@@ -166,12 +175,6 @@
       <DependentUpon>GeneralModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityModel\Marriage.cs">
-      <DependentUpon>GeneralModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityModel\MarriageMapWitness.cs">
-      <DependentUpon>GeneralModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityModel\MarriageRelation.cs">
       <DependentUpon>GeneralModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityModel\MarriageSources_Result.cs">
@@ -201,12 +204,6 @@
     <Compile Include="EntityModel\PersonSources_Result.cs">
       <DependentUpon>GeneralModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="EntityModel\Relation.cs">
-      <DependentUpon>GeneralModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityModel\RelationType.cs">
-      <DependentUpon>GeneralModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="EntityModel\ReorderMarriages_Result.cs">
       <DependentUpon>GeneralModel.tt</DependentUpon>
     </Compile>
@@ -226,9 +223,6 @@
       <DependentUpon>GeneralModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityModel\USP_Marriages_Filtered_Result.cs">
-      <DependentUpon>GeneralModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityModel\USP_Persons_Filtered_1_Result.cs">
       <DependentUpon>GeneralModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityModel\uvw_1841Census.cs">

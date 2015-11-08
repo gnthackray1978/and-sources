@@ -87,9 +87,9 @@ namespace UpdateSources
                 List<Person> persons = sourceDal.GetPersonsForSource(csvRow.SourceId);
                 // list of persons for this source
 
-                List<RelationType> relationTypes = relationsDal.GetRelationTypes2().ToList();
+                List<RelationTypes> relationTypes = relationsDal.GetRelationTypes2().ToList();
 
-                List<Relation> relations = new List<Relation>();
+                List<Relations> relations = new List<Relations>();
 
                 foreach (Person _person in persons)
                 {

@@ -18,7 +18,7 @@ namespace TDBCore.EntityModel
         public string WitnessNote { get; set; }
         public Nullable<System.DateTime> DateAdded { get; set; }
     
-        public virtual Marriage Marriage { get; set; }
-        public virtual Person Person { get; set; }
+        public virtual Marriage Marriages { get; set; }
+        public virtual Person Persons { get; set; }
     }
 }

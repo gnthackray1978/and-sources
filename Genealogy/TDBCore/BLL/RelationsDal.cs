@@ -41,13 +41,13 @@ namespace TDBCore.BLL
         {
 
             var relationDtos = new List<RelationDto>();
-
+            /*REMOVED BECAUSE THOUGHT ON UNYUSE*/
 
             if (relationTypeId == 1 && !ids.IsNullOrBelowMinSize(2))
             {
                 foreach (int relMapId in InsertRelations(ids, relationTypeId, userId))
                 {
-                    relationDtos.AddRange(GetRelationsById2(relMapId).ToList().Select(rrow => new RelationDto {PersonA = rrow.PersonA.Person_id, PersonB = rrow.PersonB.Person_id}));
+                    relationDtos.AddRange(GetRelationsById2(relMapId).ToList().Select(rrow => new RelationDto { PersonA = rrow.PersonsA.Person_id, PersonB = rrow.PersonsB.Person_id }));
                 }
             }
 
@@ -61,7 +61,7 @@ namespace TDBCore.BLL
         }
 
 
-        public IQueryable<RelationType> GetRelationTypes2()
+        public IQueryable<RelationTypes> GetRelationTypes2()
         {
 
 
@@ -70,38 +70,38 @@ namespace TDBCore.BLL
 
       
 
-        public IQueryable<Relation> GetRelationsByType2(int relationTypeId)
+        public IQueryable<Relations> GetRelationsByType2(int relationTypeId)
         {
 
-            return ModelContainer.Relations.Where(o => o.RelationType.RelationTypeId == relationTypeId);
+            return ModelContainer.Relations.Where(o => o.RelationTypes.RelationTypeId == relationTypeId);
         }
 
        
 
-        public IQueryable<Relation> GetRelationsById2(int relationMapId)
+        public IQueryable<Relations> GetRelationsById2(int relationMapId)
         {
             return ModelContainer.Relations.Where(o => o.RelationId == relationMapId);
 
         }
          
-        public IQueryable<Relation> GetRelationByChildOrParent(Guid personId, int typeId)
+        public IQueryable<Relations> GetRelationByChildOrParent(Guid personId, int typeId)
         {
-            return ModelContainer.Relations.Where(o => (o.PersonA.Person_id == personId || o.PersonB.Person_id == personId) && 
-                o.RelationType.RelationTypeId == typeId);
+            return ModelContainer.Relations.Where(o => (o.PersonsA.Person_id == personId || o.PersonsB.Person_id == personId) && 
+                o.RelationTypes.RelationTypeId == typeId);
 
         }
 
-        public IQueryable<Relation> GetRelationByChildOrParent(Guid personId)
+        public IQueryable<Relations> GetRelationByChildOrParent(Guid personId)
         {
-            return ModelContainer.Relations.Where(o => (o.PersonA.Person_id == personId || o.PersonB.Person_id == personId) );
+            return ModelContainer.Relations.Where(o => (o.PersonsA.Person_id == personId || o.PersonsB.Person_id == personId) );
 
         }
        
 
-        public IQueryable<Relation> GetRelationByPersons2(Guid person1, Guid person2)
+        public IQueryable<Relations> GetRelationByPersons2(Guid person1, Guid person2)
         {
-            return ModelContainer.Relations.Where(o => (o.PersonA.Person_id == person1 && o.PersonB.Person_id == person2) 
-                || (o.PersonB.Person_id == person1 && o.PersonA.Person_id == person2));
+            return ModelContainer.Relations.Where(o => (o.PersonsA.Person_id == person1 && o.PersonsB.Person_id == person2) 
+                || (o.PersonsB.Person_id == person1 && o.PersonsA.Person_id == person2));
         }
 
       
@@ -130,11 +130,11 @@ namespace TDBCore.BLL
 
             if (persona != null && personb != null && relationType != null)
             {
-                var relation = new Relation
+                var relation = new Relations
                 {
-                    PersonA = persona,
-                    PersonB = personb,
-                    RelationType = relationType,
+                    PersonsA = persona,
+                    PersonsB = personb,
+                    RelationTypes = relationType,
                     UserId = userId
                 };
 

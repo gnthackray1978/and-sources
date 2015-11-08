@@ -35,27 +35,33 @@ namespace TDBCore.Types.DTOs
 
         }
 
-        public static List<MarriageWitness> DeSerializeWitnesses(string witnessDtos,string marriageDate,string marriageLocation, Guid locationId)
+        public static List<MarriageWitness> DeSerializeWitnesses(string witnessDtos, ServiceMarriage marriage)
         {
             var witnesses = new List<MarriageWitness>();
 
             var serializer = new JavaScriptSerializer();
-            var marriages = serializer.DeserializeToMarriageWitnesses(witnessDtos,marriageDate.ParseToValidYear(), marriageDate,
-                                                                      marriageLocation, locationId);
+            var marriages = serializer.DeserializeToMarriageWitnesses(witnessDtos, marriage.MarriageDate.ParseToValidYear(), marriage.MarriageDate,
+                                                                      marriage.MarriageLocation, marriage.LocationId.ToGuid());
 
             foreach (WitnessDto witnessDto in marriages)
             {
-                var witPers3 = new ServicePerson();
+                var person = new ServicePerson();
                 var nMarriageWitness = new MarriageWitness();
 
-                witPers3.ReferenceYear = witnessDto.Year;
-                witPers3.ReferenceDate = witnessDto.Date;
-                witPers3.ReferenceLocation = witnessDto.Location;
-                witPers3.ReferenceLocationId = witnessDto.LocationId.ToString();
-                witPers3.ChristianName = witnessDto.Name;
-                witPers3.Surname = witnessDto.Surname;
+                person.ReferenceYear = witnessDto.Year;
+                person.ReferenceDate = witnessDto.Date;
+                person.ReferenceLocation = witnessDto.Location;
+                person.ReferenceLocationId = witnessDto.LocationId.ToString();
+                person.ChristianName = witnessDto.Name;
+                person.Surname = witnessDto.Surname;
+                person.OthersideChristianName = "";
+                person.OthersideSurname = "";
+                person.OthersideRelationship = "";
+                person.Notes = "Witness to marriage of " + marriage.MaleSName + " and " + marriage.FemaleSName + " " + marriage.MarriageDate + " at " + marriage.MarriageLocation;
+
+
                 nMarriageWitness.Description = witnessDto.Description;
-                nMarriageWitness.Person = witPers3;
+                nMarriageWitness.Person = person;
                 witnesses.Add(nMarriageWitness);
             }
 
