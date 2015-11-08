@@ -19,13 +19,13 @@ namespace TDBCore.BLL
 
         public List<MarriageWitness> GetWitnessesForMarriage(Guid marriageId)
         {
-            return ModelContainer.MarriageMapWitnesses.
-                Where(m => m.Marriage.Marriage_Id == marriageId).ToList().Select(p => p.Person != null ? new MarriageWitness { Description = p.WitnessNote, Person = p.Person.ToServicePerson() } : null).ToList();           
+            return ModelContainer.MarriageMapWitness.
+                Where(m => m.Marriages.Marriage_Id == marriageId).ToList().Select(p => p.Persons != null ? new MarriageWitness { Description = p.WitnessNote, Person = p.Persons.ToServicePerson() } : null).ToList();           
         }
 
         public string GetWitnesseStringForMarriage(Guid marriageId)
         {           
-            return string.Join(" ",ModelContainer.MarriageMapWitnesses.Where(m => m.Marriage.Marriage_Id == marriageId).Select(p => p.Person.Surname).ToArray());
+            return string.Join(" ",ModelContainer.MarriageMapWitness.Where(m => m.Marriages.Marriage_Id == marriageId).Select(p => p.Persons.Surname).ToArray());
         }
   
         public void InsertWitnessesForMarriage(Guid marriageId, IList<MarriageWitness> persons)
@@ -45,7 +45,7 @@ namespace TDBCore.BLL
                 var person = ModelContainer.Persons.FirstOrDefault(p=>p.Person_id== personDto.Person.PersonId);
 
                 if(person!=null)
-                    ModelContainer.MarriageMapWitnesses.Add(new MarriageMapWitness { Person = person, Marriage = mToUpDate, WitnessNote = personDto.Description });
+                    ModelContainer.MarriageMapWitness.Add(new MarriageMapWitness { Persons = person, Marriages = mToUpDate, WitnessNote = personDto.Description });
             }
              
             ModelContainer.SaveChanges();
@@ -54,14 +54,14 @@ namespace TDBCore.BLL
 
         public void DeleteWitnessesForMarriage(Guid marriageId)
         {
-            foreach (var mmw in ModelContainer.MarriageMapWitnesses.Where(m => m.Marriage.Marriage_Id == marriageId).ToList())
+            foreach (var mmw in ModelContainer.MarriageMapWitness.Where(m => m.Marriages.Marriage_Id == marriageId).ToList())
             {       
-                ModelContainer.MarriageMapWitnesses.Remove(mmw);
+                ModelContainer.MarriageMapWitness.Remove(mmw);
 
-                if (mmw.Person != null)
+                if (mmw.Persons != null)
                 {
-                    if (ModelContainer.MarriageMapWitnesses.Count(o => o.Person.Person_id == mmw.Person.Person_id) == 0)
-                        ModelContainer.Persons.Remove(mmw.Person);
+                    if (ModelContainer.MarriageMapWitness.Count(o => o.Persons.Person_id == mmw.Persons.Person_id) == 0)
+                        ModelContainer.Persons.Remove(mmw.Persons);
                 }
             }
             

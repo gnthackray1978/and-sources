@@ -188,7 +188,7 @@ namespace TDBCore.BLL
 
             foreach (var mr in result)
             {
-               mr.Witnesses = string.Join(" ", ModelContainer.MarriageMapWitnesses.Where(mw => mw.Marriage.Marriage_Id == mr.MarriageId).Select(p => p.Person.Surname).ToArray());
+                mr.Witnesses = string.Join(" ", ModelContainer.MarriageMapWitness.Where(mw => mw.Marriages.Marriage_Id == mr.MarriageId).Select(p => p.Persons.Surname).ToArray());
             }
             
 
@@ -285,6 +285,8 @@ namespace TDBCore.BLL
 
         public void UpdateMarriage(ServiceMarriage serviceMarriage)
         {
+            ModelContainer.Database.Log = s => System.Diagnostics.Debug.WriteLine(s);
+
             var marriage = ModelContainer.Marriages.FirstOrDefault(m => m.Marriage_Id == serviceMarriage.MarriageId);
 
             if (marriage != null)

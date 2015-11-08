@@ -251,6 +251,7 @@ namespace GenOnline.Services
                     string MaleLocation, string MaleNotes, string MaleOccupation, string MaleSName, string MarriageDate, string MarriageLocation, string MarriageWitnesses)
         {
 
+           
 
             WebHelper.WriteParams(FemaleLocationId, LocationId, MaleLocationId, SourceDescription, Sources, MarriageId, IsBanns, IsLicense, IsWidow, IsWidower,
                      FemaleBirthYear, FemaleCName, FemaleLocation, FemaleNotes, FemaleOccupation, FemaleSName, LocationCounty, MaleBirthYear, MaleCName,
@@ -286,8 +287,7 @@ namespace GenOnline.Services
 
             try
             {
-                _marriageSearch.Save(serviceMarriage, Sources.ParseToGuidList(), MarriageWitness.DeSerializeWitnesses(MarriageWitnesses, MarriageDate, MarriageLocation,
-                                                     LocationId.ToGuid()),new MarriageValidator(serviceMarriage));                            
+                _marriageSearch.Save(serviceMarriage, Sources.ParseToGuidList(), MarriageWitness.DeSerializeWitnesses(MarriageWitnesses, serviceMarriage), new MarriageValidator(serviceMarriage));                            
             }
             catch (Exception ex1)
             {

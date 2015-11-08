@@ -16,10 +16,10 @@ namespace TDBCore.EntityModel
     {
         public Person()
         {
-            this.RelationA = new HashSet<Relation>();
-            this.RelationB = new HashSet<Relation>();
             this.SourceMappings = new HashSet<SourceMapping>();
-            this.MarriageMapWitnesses = new HashSet<MarriageMapWitness>();
+            this.MarriageMapWitness = new HashSet<MarriageMapWitness>();
+            this.Relations = new HashSet<Relations>();
+            this.Relations1 = new HashSet<Relations>();
         }
     
         public System.Guid Person_id { get; set; }
@@ -69,9 +69,9 @@ namespace TDBCore.EntityModel
         public string OthersideSurname { get; set; }
         public string OthersideRelationship { get; set; }
     
-        public virtual ICollection<Relation> RelationA { get; set; }
-        public virtual ICollection<Relation> RelationB { get; set; }
         public virtual ICollection<SourceMapping> SourceMappings { get; set; }
-        public virtual ICollection<MarriageMapWitness> MarriageMapWitnesses { get; set; }
+        public virtual ICollection<MarriageMapWitness> MarriageMapWitness { get; set; }
+        public virtual ICollection<Relations> Relations { get; set; }
+        public virtual ICollection<Relations> Relations1 { get; set; }
     }
 }

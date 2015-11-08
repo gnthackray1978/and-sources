@@ -18,6 +18,7 @@ namespace TDBCore.EntityModel
         {
             this.SourceMappingParishs = new HashSet<SourceMappingParish>();
             this.SourceMappings = new HashSet<SourceMapping>();
+            this.SourceMappingTypes = new HashSet<SourceMappingTypes>();
         }
     
         public System.Guid SourceId { get; set; }
@@ -40,5 +41,6 @@ namespace TDBCore.EntityModel
     
         public virtual ICollection<SourceMappingParish> SourceMappingParishs { get; set; }
         public virtual ICollection<SourceMapping> SourceMappings { get; set; }
+        public virtual ICollection<SourceMappingTypes> SourceMappingTypes { get; set; }
     }
 }

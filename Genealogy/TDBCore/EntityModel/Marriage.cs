@@ -17,9 +17,7 @@ namespace TDBCore.EntityModel
         public Marriage()
         {
             this.SourceMappings = new HashSet<SourceMapping>();
-            this.MarriageRelations = new HashSet<MarriageRelation>();
-            this.MarriageRelations1 = new HashSet<MarriageRelation>();
-            this.MarriageMapWitnesses = new HashSet<MarriageMapWitness>();
+            this.MarriageMapWitness = new HashSet<MarriageMapWitness>();
         }
     
         public System.Guid Marriage_Id { get; set; }
@@ -65,8 +63,6 @@ namespace TDBCore.EntityModel
         public Nullable<bool> IsComposite { get; set; }
     
         public virtual ICollection<SourceMapping> SourceMappings { get; set; }
-        public virtual ICollection<MarriageRelation> MarriageRelations { get; set; }
-        public virtual ICollection<MarriageRelation> MarriageRelations1 { get; set; }
-        public virtual ICollection<MarriageMapWitness> MarriageMapWitnesses { get; set; }
+        public virtual ICollection<MarriageMapWitness> MarriageMapWitness { get; set; }
     }
 }

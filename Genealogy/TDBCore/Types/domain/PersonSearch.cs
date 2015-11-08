@@ -18,7 +18,7 @@ namespace TDBCore.Types.domain
     {
         readonly IPersonDal _personDal;
         readonly ISourceMappingsDal _sourceMappingsDal;
-        readonly IRelationsDal _relationsDal;
+      //  readonly IRelationsDal _relationsDal;
  
         private readonly ISecurity _security;
 
@@ -28,7 +28,7 @@ namespace TDBCore.Types.domain
             _security = security;
             _personDal = new PersonDal();
             _sourceMappingsDal = new SourceMappingsDal();
-            _relationsDal = new RelationsDal();
+          //  _relationsDal = new RelationsDal();
 
         }
 
@@ -139,7 +139,7 @@ namespace TDBCore.Types.domain
                  
             }
 
-            _relationsDal.GetRelationsByMapId(persons, 1, _security.UserId()).ForEach(r => _personDal.UpdateDuplicateRefs(r.PersonA, r.PersonB));
+      //      _relationsDal.GetRelationsByMapId(persons, 1, _security.UserId()).ForEach(r => _personDal.UpdateDuplicateRefs(r.PersonA, r.PersonB));
 
             return "";
         }

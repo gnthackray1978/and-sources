@@ -309,7 +309,10 @@ namespace TDBCore.Types.libs
                 SourceParishName = "",
                 SourceDateInt = 0,
                 SourceDateStr = "",
-                SourceRef = ""
+                SourceRef = "",
+                OthersideChristianName = person.OthersideChristianName,
+                OthersideSurname = person.OthersideSurname,
+                OthersideRelationship = person.OthersideRelationship
             };
 
             return sp;
