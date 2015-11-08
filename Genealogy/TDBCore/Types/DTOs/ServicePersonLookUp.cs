@@ -39,6 +39,8 @@ namespace TDBCore.Types.DTOs
         public string OthersideChristianName { get; set; }
         public string OthersideSurname { get; set; }
         public string OthersideRelationship { get; set; }
+
+        public string OtherSide { get; set; }
  
     }
 }

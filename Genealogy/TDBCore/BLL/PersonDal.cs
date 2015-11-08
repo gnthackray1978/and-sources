@@ -345,7 +345,7 @@ namespace TDBCore.BLL
                                                                                            SourceParishName = p.SourceParishName,
                                                                                            SourceRef = p.SourceRef,
                                                                                            SourceId = p.RefSourceId,
-                                                                                           OthersideChristianName = p.ChristianName,
+                                                                                           OthersideChristianName = p.OthersideChristianName,
                                                                                            OthersideSurname = p.OthersideSurname,
                                                                                            OthersideRelationship = p.OthersideRelationship,
                                                                                            ReferenceDate = p.ReferenceDateStr,
