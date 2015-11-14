@@ -600,25 +600,49 @@ namespace TDBCore.Types.domain
                 SourceId = @t.data.Get(CSVFiles.SourceFieldList, CSVField.SourceId).ToGuid() //data[10]
             });
             
+            var uniqSourceDtos = new List<SourceDto>();
+
+            foreach (var team in query)
+            {
+                if (team.SourceId != Guid.Empty)
+                {
+                    if (!uniqSourceDtos.Exists(e => e.SourceId == team.SourceId))
+                    {
+                        uniqSourceDtos.Add(team);
+                    }
+                }
+                else
+                {
+                    uniqSourceDtos.Add(team);
+                }
+            }
 
             var newCSV = new List<string>();
             var batchId = Guid.NewGuid();
             var startTime = DateTime.Now;
             var userId = 1;
 
-            foreach (var team in query)
+            foreach (var team in uniqSourceDtos)
             {
-                if (team.SourceId == Guid.Empty)
-                {                     
+                //if (team.SourceId == Guid.Empty)
+                //{                     
+                //    team.SourceId = _sourceDal.InsertSource(team);
+                //}
+                //else
+                //{
+                //    _sourceDal.UpdateSource(team);
+                //}
+
+
+                var src = _sourceDal.GetSource(team.SourceId);
+
+                if (src == null)
                     team.SourceId = _sourceDal.InsertSource(team);
-                }
                 else
-                {
-                    _sourceDal.UpdateSource(team);
-                }
+                    team.SourceId = src.SourceId;
 
 
-                if (team .Parishs!= null)
+                if (team.Parishs!= null && team.Parishs.Count >0)
                 {
                     _sourceMappingParishDal.InsertSourceMappingParish2(team.Parishs.First(), team.SourceId, userId);
                 }

@@ -49,8 +49,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FolderNameParser.cs" />
+    <Compile Include="FolderReader.cs" />
+    <Compile Include="Person.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Source.cs" />
+    <Compile Include="SourcePersonReader.cs" />
+    <Compile Include="SourcePersonWriter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
