@@ -17,8 +17,7 @@ namespace CSVImporter
             try
             {
 
-                CreateSourceCSV(csImportCsv);
-
+                UpdateKey();
             }
             catch (Exception e)
             {
@@ -31,7 +30,24 @@ namespace CSVImporter
         }
 
 
+        private static void UpdateKey()
+        {
+            var folderReader = new FolderReader(@"E:\GoogleDrive\familyhist\CategorizedRecords");
 
+            folderReader.ReadFolders();
+
+            var sourcePersonReader = new SourcePersonReader(@"https://docs.google.com/spreadsheets/d/10pxOz7dY1-67jxNI-hLqYcVcwn35gTcGUF3F0xygW8o/pub?output=csv");
+
+            sourcePersonReader.ReadSources();
+
+            sourcePersonReader.UpdateSources(folderReader.Index);
+
+            sourcePersonReader.AddMissingSources(folderReader.Index,folderReader.FolderTypeIndex);
+
+            var newFile = sourcePersonReader.DumpToCSV();
+
+            File.WriteAllLines(@"E:\GoogleDrive\familyhist\datadump\output.csv", newFile);
+        }
 
 
         private static void CreateSourceCSV(CsImportCsv csImportCsv)

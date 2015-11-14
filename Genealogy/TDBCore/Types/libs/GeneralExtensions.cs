@@ -180,7 +180,7 @@ namespace TDBCore.Types.libs
 
         public static bool ToBool(this string str)
         {
-            if (str == null) str = "";
+            if (str.IsNullOrEmpty()) str = "off";
 
             str = str.Trim();
 

@@ -91,6 +91,7 @@ namespace TDBCore.Types.domain.import
             ImportPersonCSV(lineList.ToArray());
         }
 
+
         public void ImportPersonCSVFromGoogle(string path)
         {            
             string csv = new WebClient().DownloadString(path);
@@ -108,6 +109,13 @@ namespace TDBCore.Types.domain.import
 
 
         }
+
+
+
+
+
+
+
 
         public void ImportPersonCSV(string[] allLines)
         {
