@@ -29,7 +29,7 @@ namespace TDBCore.Types.domain.import
 
         public static readonly IList<CSVField> SourceFieldList = new ReadOnlyCollection<CSVField>(new[] {
             CSVField.SourceDesc,  CSVField.SourceOrigLocat,CSVField.IsCopyHeld,CSVField.IsViewed,
-            CSVField.IsThackrayFound,CSVField.SourceDate,CSVField.SourceDateTo,CSVField.SourceRef,CSVField.Notes,CSVField.SourceParish,CSVField.SourceType,CSVField.SourceId
+            CSVField.IsThackrayFound,CSVField.SourceDate,CSVField.SourceDateTo,CSVField.SourceRef,CSVField.Notes,CSVField.SourceParish,CSVField.SourceType,CSVField.SourceId, CSVField.VirtualLocation
         });
 
         public CSVFiles()

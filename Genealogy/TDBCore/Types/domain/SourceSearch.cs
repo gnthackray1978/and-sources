@@ -157,6 +157,8 @@ namespace TDBCore.Types.domain
 
             if (!_security.IsValidInsert()) throw new SecurityException("Missing insert permission");
 
+            _sourceDal.InsertSource(sourceDto);
+
             UpdateRelatedData(sourceDto);
         }
 

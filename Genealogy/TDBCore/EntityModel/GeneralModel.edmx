@@ -272,7 +272,7 @@
           <Property Name="SourceDateTo" Type="int" />
           <Property Name="SourceDateStr" Type="nchar" MaxLength="100" />
           <Property Name="SourceDateStrTo" Type="nchar" MaxLength="100" />
-          <Property Name="OriginalLocation" Type="nvarchar" MaxLength="100" />
+          <Property Name="OriginalLocation" Type="nvarchar" MaxLength="300" />
           <Property Name="IsCopyHeld" Type="bit" />
           <Property Name="IsViewed" Type="bit" />
           <Property Name="IsThackrayFound" Type="bit" />
@@ -283,6 +283,7 @@
           <Property Name="SourceDescription" Type="varchar" MaxLength="1000" />
           <Property Name="SourcePersonCount" Type="int" Nullable="false" />
           <Property Name="SourceMarriageCount" Type="int" Nullable="false" />
+          <Property Name="VirtualLocation" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="SourceTypes">
           <Key>
@@ -1157,7 +1158,7 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
           <Property Type="String" Name="SourceDateStr" MaxLength="100" FixedLength="true" Unicode="true" />
           <Property Type="String" Name="SourceDateStrTo" MaxLength="100" FixedLength="true" Unicode="true" />
           <Property Type="String" Name="SourceDescription" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="OriginalLocation" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="OriginalLocation" MaxLength="300" FixedLength="false" Unicode="true" />
           <Property Type="Boolean" Name="IsCopyHeld" />
           <Property Type="Boolean" Name="IsViewed" />
           <Property Type="Boolean" Name="IsThackrayFound" />
@@ -1170,6 +1171,7 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
           <Property Name="SourcePersonCount" Type="Int32" Nullable="false" />
           <Property Name="SourceMarriageCount" Type="Int32" Nullable="false" />
           <NavigationProperty Name="SourceMappingTypes" Relationship="GeneralModel.FK_SourceMappingTypes_Sources" FromRole="Source" ToRole="SourceMappingTypes" />
+          <Property Name="VirtualLocation" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="SourceType">
           <Key>
@@ -1706,6 +1708,7 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
           <EntitySetMapping Name="Sources">
             <EntityTypeMapping TypeName="GeneralModel.Source">
               <MappingFragment StoreEntitySet="Sources">
+                <ScalarProperty Name="VirtualLocation" ColumnName="VirtualLocation" />
                 <ScalarProperty Name="SourceMarriageCount" ColumnName="SourceMarriageCount" />
                 <ScalarProperty Name="SourcePersonCount" ColumnName="SourcePersonCount" />
                 <ScalarProperty Name="SourceFileCount" ColumnName="SourceFileCount" />
@@ -2323,7 +2326,7 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
         <edmx:EntityTypeShape EntityType="GeneralModel.Parish" Width="1.5" PointX="3.125" PointY="0.625" Height="3.7109993489583326" IsExpanded="false" />
         <edmx:EntityTypeShape EntityType="GeneralModel.SourceMappingParish" Width="2.25" PointX="6" PointY="0.5" Height="1.9802864583333326" IsExpanded="false" />
         <edmx:EntityTypeShape EntityType="GeneralModel.SourceMapping" Width="1.5" PointX="12.625" PointY="2.25" Height="2.5571907552083326" IsExpanded="false" />
-        <edmx:EntityTypeShape EntityType="GeneralModel.Source" Width="1.5" PointX="8.875" PointY="3.375" Height="4.2879036458333326" IsExpanded="false" />
+        <edmx:EntityTypeShape EntityType="GeneralModel.Source" Width="1.5" PointX="8.875" PointY="3.375" Height="4.2879036458333326" IsExpanded="true" />
         <edmx:EntityTypeShape EntityType="GeneralModel.SourceType" Width="2" PointX="9.125" PointY="0.5" Height="2.172587890625" IsExpanded="false" />
         <edmx:AssociationConnector Association="GeneralModel.FK_SourceMappings_Marriages">
           <edmx:ConnectorPoint PointX="21.875" PointY="4.1220914713541674" />

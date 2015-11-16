@@ -43,6 +43,9 @@ namespace TDBCore.Types.libs
                     return sourceDto.SourceNotes;
                 case CSVField.SourceId:
                     return sourceDto.SourceId.ToString();
+                case CSVField.VirtualLocation:
+                    return sourceDto.VirtualLocation;
+
             }
 
             return "";
@@ -184,6 +187,7 @@ namespace TDBCore.Types.libs
                 SourceDateStrTo = sourceDto.SourceDateStrTo,
                 SourceDateStr = sourceDto.SourceDateStr,
                 OriginalLocation = sourceDto.OriginalLocation,
+                VirtualLocation = sourceDto.VirtualLocation,
                 IsViewed = sourceDto.IsViewed,
                 IsThackrayFound = sourceDto.IsThackrayFound,
                 IsCopyHeld = sourceDto.IsCopyHeld                   ,
