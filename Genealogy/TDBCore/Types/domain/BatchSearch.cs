@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -17,6 +18,8 @@ namespace TDBCore.Types.domain
 {
     public class BatchSearch
     {
+        List<ImpSource> _sources = new List<ImpSource>();
+
         private readonly IBatchDal _batchDal;
 
         private readonly ISecurity _security = new NoSecurity();
@@ -234,6 +237,9 @@ namespace TDBCore.Types.domain
                 PersonId = @t.data.Get(CSVFiles.BDFieldList, CSVField.PersonId).ToGuid()
             });
 
+
+
+
             var batchId = Guid.NewGuid();
             var startTime = DateTime.Now;
 
@@ -267,7 +273,7 @@ namespace TDBCore.Types.domain
                     });
                 }
 
-                if (team.PersonId != Guid.Empty)
+                if (team.PersonId != Guid.Empty && team.SourceId!= Guid.Empty)
                 {
                     _sourceMappingDal.Insert(team.SourceId, null, null, 1, team.PersonId, DateTime.Today.ToShortDateString(), null);
                 }
@@ -556,6 +562,10 @@ namespace TDBCore.Types.domain
 
 
         #region sources
+
+
+
+
         public Guid ImportSourceCSVFromGoogle(string path, string batchRef)
         {
             string csv = new WebClient().DownloadString(path);
@@ -571,10 +581,9 @@ namespace TDBCore.Types.domain
 
             return ImportSources(lineList, batchRef);
 
-
         }
 
-
+     
         public Guid ImportSources(List<string> allLines, string batchRef)
         {
 
@@ -597,7 +606,8 @@ namespace TDBCore.Types.domain
                 SourceNotes = @t.data.Get(CSVFiles.SourceFieldList, CSVField.Notes), //data[8],
                 Parishs = @t.data.Get(CSVFiles.SourceFieldList, CSVField.SourceParish).ParseToGuidList(), // data[9],
                 SourceTypes = @t.data.Get(CSVFiles.SourceFieldList, CSVField.SourceType).ParseToIntList(), //data[10]
-                SourceId = @t.data.Get(CSVFiles.SourceFieldList, CSVField.SourceId).ToGuid() //data[10]
+                SourceId = @t.data.Get(CSVFiles.SourceFieldList, CSVField.SourceId).ToGuid(), //data[10]
+                VirtualLocation = @t.data.Get(CSVFiles.SourceFieldList, CSVField.VirtualLocation)
             });
             
             var uniqSourceDtos = new List<SourceDto>();
@@ -622,27 +632,36 @@ namespace TDBCore.Types.domain
             var startTime = DateTime.Now;
             var userId = 1;
 
+            int idx = 0;
+
+            Debug.WriteLine(uniqSourceDtos.Count);
+
             foreach (var team in uniqSourceDtos)
             {
-                //if (team.SourceId == Guid.Empty)
-                //{                     
-                //    team.SourceId = _sourceDal.InsertSource(team);
-                //}
-                //else
-                //{
-                //    _sourceDal.UpdateSource(team);
-                //}
+                idx++;
 
+
+
+                if ((idx % 5) == 0)
+                    Debug.WriteLine(idx + " ");
+                else
+                    Debug.Write(idx + " ");
 
                 var src = _sourceDal.GetSource(team.SourceId);
 
-                if (src == null)
+                if (src.SourceId == Guid.Empty)
+                {
+                    Debug.Write("w");
+
                     team.SourceId = _sourceDal.InsertSource(team);
+                }
                 else
-                    team.SourceId = src.SourceId;
+                {
+                    _sourceDal.UpdateSourceVirtualLocation(team.SourceId, team.VirtualLocation);
+                }
 
 
-                if (team.Parishs!= null && team.Parishs.Count >0)
+                if (team.Parishs != null && team.Parishs.Count > 0)
                 {
                     _sourceMappingParishDal.InsertSourceMappingParish2(team.Parishs.First(), team.SourceId, userId);
                 }
@@ -660,6 +679,8 @@ namespace TDBCore.Types.domain
                     TimeRun = startTime,
                     Ref = batchRef
                 });
+
+               
             }
 
             return batchId;

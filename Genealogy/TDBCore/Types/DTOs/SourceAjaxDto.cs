@@ -30,6 +30,8 @@ namespace TDBCore.Types.DTOs
 
         public string SourceTypes { get; set; }
 
+        public string VirtualLocation { get; set; }
+
         public List<FileBasicInfo> Files { get; set; }
 
     }

@@ -31,5 +31,7 @@ namespace TDBCore.Types.DTOs
 
         public List<ServiceFile> Files { get; set; }
 
+        public string VirtualLocation { get; set; }
+
     }
 }

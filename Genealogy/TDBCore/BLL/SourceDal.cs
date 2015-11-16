@@ -136,7 +136,9 @@ namespace TDBCore.BLL
         }
 
         public Guid InsertSource(SourceDto sourceAjaxDto)
-        {       
+        {
+            if (sourceAjaxDto.SourceId == null) sourceAjaxDto.SourceId = Guid.Empty;
+
             var source = new Source
             {
                 SourceDescription = sourceAjaxDto.SourceDesc,
@@ -152,7 +154,8 @@ namespace TDBCore.BLL
                 SourceRef = sourceAjaxDto.SourceRef,
                 SourceFileCount = sourceAjaxDto.SourceFileCount,
                 SourceNotes = sourceAjaxDto.SourceNotes,
-                SourceId = Guid.NewGuid(),
+                SourceId = (sourceAjaxDto.SourceId == Guid.Empty ? Guid.NewGuid() : sourceAjaxDto.SourceId ),
+                VirtualLocation = sourceAjaxDto.VirtualLocation,
                 DateAdded = DateTime.Today
             };
 
@@ -162,6 +165,18 @@ namespace TDBCore.BLL
 
             return source.SourceId;
         }
+
+        public void UpdateSourceVirtualLocation(Guid sourceId, string virtualLocation) {
+            var source = ModelContainer.Sources.FirstOrDefault(o => o.SourceId == sourceId);
+
+
+            if (source == null) return;
+
+            source.VirtualLocation = virtualLocation;
+
+            ModelContainer.SaveChanges();
+        }
+
 
         public void UpdateSource(SourceDto sourceAjaxDto)
         {
@@ -185,7 +200,7 @@ namespace TDBCore.BLL
             source.SourceRef = sourceAjaxDto.SourceRef;
             source.SourceFileCount = sourceAjaxDto.SourceFileCount;
             source.SourceNotes = sourceAjaxDto.SourceNotes;
-
+            source.VirtualLocation = (!string.IsNullOrEmpty(sourceAjaxDto.VirtualLocation)? sourceAjaxDto.VirtualLocation : source.VirtualLocation); // dont overwrite this unless we have a value
             source.DateAdded = DateTime.Today;
 
 
@@ -452,16 +467,46 @@ namespace TDBCore.BLL
                    SourceDateStr = tp.SourceDateStr,
                    SourceDateStrTo = tp.SourceDateStrTo,
                    SourceDesc = tp.SourceDescription,
-                   SourceFileCount = tp.SourceFileCount.GetValueOrDefault(),
+                   SourceFileCount = (tp.SourceFileCount !=null ? tp.SourceFileCount.GetValueOrDefault(): 0),
                    SourceNotes = tp.SourceNotes,
                    SourceRef = tp.SourceRef,
-                   SourceId = tp.SourceId
+                   SourceId = tp.SourceId,
+                   VirtualLocation = tp.VirtualLocation
                 };
             }
 
             return new SourceDto();
         }
-      
+
+
+        public SourceDto GetSourceByOriginalLocation(string originalLocation)
+        {
+            var tp = ModelContainer.Sources.FirstOrDefault(o => o.OriginalLocation == originalLocation);
+
+            if (tp != null)
+            {
+                return new SourceDto
+                {
+                    IsCopyHeld = tp.IsCopyHeld.GetValueOrDefault(),
+                    IsThackrayFound = tp.IsThackrayFound.GetValueOrDefault(),
+                    IsViewed = tp.IsViewed.GetValueOrDefault(),
+                    OriginalLocation = tp.OriginalLocation,
+                    SourceDateStr = tp.SourceDateStr,
+                    SourceDateStrTo = tp.SourceDateStrTo,
+                    SourceDesc = tp.SourceDescription,
+                    SourceFileCount = (tp.SourceFileCount != null ? tp.SourceFileCount.GetValueOrDefault() : 0),
+                    SourceNotes = tp.SourceNotes,
+                    SourceRef = tp.SourceRef,
+                    SourceId = tp.SourceId,
+                    VirtualLocation = tp.VirtualLocation
+                };
+            }
+
+            return new SourceDto();
+        }
+
+
+
         public IQueryable<Source> FillSourceTableByPersonOrMarriageId2(Guid recordId)
         {
             return ModelContainer.Sources.Where(o => o.SourceMappings.Any(p => p.Marriage.Marriage_Id == recordId || p.Person.Person_id == recordId)); 
@@ -525,6 +570,9 @@ namespace TDBCore.BLL
             return result;
  
         }
- 
+
+
+
+       
     }
 }

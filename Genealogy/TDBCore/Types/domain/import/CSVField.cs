@@ -92,7 +92,8 @@
         SourceRef,
         SourceParish,
         SourceType,
-        PersonId
+        PersonId,
+        VirtualLocation
 
     }
 }

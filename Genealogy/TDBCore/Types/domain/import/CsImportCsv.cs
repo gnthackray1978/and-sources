@@ -332,7 +332,8 @@ namespace TDBCore.Types.domain.import
                 SourceNotes = @t.data.Get(CSVFiles.SourceFieldList, CSVField.Notes), //data[8],
                 Parishs = @t.data.Get(CSVFiles.SourceFieldList, CSVField.SourceParish).ParseToGuidList(), // data[9],
                 SourceTypes = @t.data.Get(CSVFiles.SourceFieldList, CSVField.SourceType).ParseToIntList(), //data[10]
-                SourceId = @t.data.Get(CSVFiles.SourceFieldList, CSVField.SourceId).ToGuid() //data[10]
+                SourceId = @t.data.Get(CSVFiles.SourceFieldList, CSVField.SourceId).ToGuid(), //data[10]
+                VirtualLocation  = @t.data.Get(CSVFiles.SourceFieldList, CSVField.VirtualLocation) //data[10]
             });
             
 

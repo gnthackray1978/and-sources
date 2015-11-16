@@ -235,6 +235,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Types\domain\BatchSearch.cs" />
+    <Compile Include="Types\domain\import\Person.cs" />
+    <Compile Include="Types\domain\import\Source.cs" />
     <Compile Include="Types\domain\LogSearch.cs" />
     <Compile Include="Types\domain\MapDataSources.cs" />
     <Compile Include="Types\domain\MarriageSearch.cs" />
