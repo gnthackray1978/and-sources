@@ -311,7 +311,8 @@ namespace TDBCore.BLL
                 personSearchFilter.Location = "";
             }
 
-            var temp =  ModelContainer.USP_Persons_Filtered_1(personSearchFilter.CName, personSearchFilter.Surname,
+          
+            var temp =  ModelContainer.PersonsFiltered2(personSearchFilter.CName, personSearchFilter.Surname,
                 personSearchFilter.FatherChristianName, personSearchFilter.FatherSurname,
                 personSearchFilter.MotherChristianName, personSearchFilter.MotherSurname,
                 personSearchFilter.SourceString, personSearchFilter.Location, personSearchFilter.LowerDate,
@@ -350,7 +351,8 @@ namespace TDBCore.BLL
                                                                                            OthersideRelationship = p.OthersideRelationship,
                                                                                            ReferenceDate = p.ReferenceDateStr,
                                                                                            ReferenceLocation = p.ReferenceLocation,
-                                                                                           ReferenceYear = p.ReferenceDateInt
+                                                                                           ReferenceYear = p.ReferenceDateInt,
+                                                                                           MarriageId = p.marriageId.GetValueOrDefault().ToString()
                                                                                        }).ToList();
 
 

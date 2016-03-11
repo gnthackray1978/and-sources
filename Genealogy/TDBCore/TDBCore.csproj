@@ -102,6 +102,9 @@
     <Compile Include="EntityModel\MarriageMapWitness.cs">
       <DependentUpon>GeneralModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="EntityModel\PersonsFiltered2_Result.cs">
+      <DependentUpon>GeneralModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="EntityModel\Relations.cs">
       <DependentUpon>GeneralModel.tt</DependentUpon>
     </Compile>

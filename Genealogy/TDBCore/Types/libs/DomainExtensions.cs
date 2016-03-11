@@ -258,7 +258,8 @@ namespace TDBCore.Types.libs
                     OthersideSurname = p.OthersideSurname,
                     OthersideRelationship = p.OthersideRelationship,
                     OtherSide = (p.OthersideChristianName + " " + p.OthersideSurname + " ("+ p.OthersideRelationship + ")").Replace("()","").Trim(),
-                    ReferenceYear = p.ReferenceYear
+                    ReferenceYear = p.ReferenceYear,
+                    MarriageId = p.MarriageId
                 }).ToList()
             };
 

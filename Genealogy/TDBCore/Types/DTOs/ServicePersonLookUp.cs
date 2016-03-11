@@ -41,6 +41,8 @@ namespace TDBCore.Types.DTOs
         public string OthersideRelationship { get; set; }
 
         public string OtherSide { get; set; }
+
+        public string MarriageId { get; set; }
  
     }
 }
