@@ -29,6 +29,7 @@ namespace TDBCore.Types.DTOs
         public string Occupation { get; set; }
         public string Notes { get; set; }
         public string IsMale { get; set; }
+        
 
     }
 }

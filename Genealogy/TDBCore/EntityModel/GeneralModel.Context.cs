@@ -933,5 +933,74 @@ namespace TDBCore.EntityModel
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("USP_UpdateSourceCounts");
         }
+    
+        public virtual ObjectResult<PersonsFiltered2_Result> PersonsFiltered2(string cName, string sName, string fatherCName, string fatherSName, string motherCName, string motherSName, string source, string bLocation, Nullable<int> lowerBound, Nullable<int> upperBound, string county, string spouse, string othersideCName, string othersideSName, string othersideRelationship, Nullable<bool> sourceSearch)
+        {
+            var cNameParameter = cName != null ?
+                new ObjectParameter("cName", cName) :
+                new ObjectParameter("cName", typeof(string));
+    
+            var sNameParameter = sName != null ?
+                new ObjectParameter("sName", sName) :
+                new ObjectParameter("sName", typeof(string));
+    
+            var fatherCNameParameter = fatherCName != null ?
+                new ObjectParameter("fatherCName", fatherCName) :
+                new ObjectParameter("fatherCName", typeof(string));
+    
+            var fatherSNameParameter = fatherSName != null ?
+                new ObjectParameter("fatherSName", fatherSName) :
+                new ObjectParameter("fatherSName", typeof(string));
+    
+            var motherCNameParameter = motherCName != null ?
+                new ObjectParameter("motherCName", motherCName) :
+                new ObjectParameter("motherCName", typeof(string));
+    
+            var motherSNameParameter = motherSName != null ?
+                new ObjectParameter("motherSName", motherSName) :
+                new ObjectParameter("motherSName", typeof(string));
+    
+            var sourceParameter = source != null ?
+                new ObjectParameter("source", source) :
+                new ObjectParameter("source", typeof(string));
+    
+            var bLocationParameter = bLocation != null ?
+                new ObjectParameter("bLocation", bLocation) :
+                new ObjectParameter("bLocation", typeof(string));
+    
+            var lowerBoundParameter = lowerBound.HasValue ?
+                new ObjectParameter("LowerBound", lowerBound) :
+                new ObjectParameter("LowerBound", typeof(int));
+    
+            var upperBoundParameter = upperBound.HasValue ?
+                new ObjectParameter("UpperBound", upperBound) :
+                new ObjectParameter("UpperBound", typeof(int));
+    
+            var countyParameter = county != null ?
+                new ObjectParameter("county", county) :
+                new ObjectParameter("county", typeof(string));
+    
+            var spouseParameter = spouse != null ?
+                new ObjectParameter("spouse", spouse) :
+                new ObjectParameter("spouse", typeof(string));
+    
+            var othersideCNameParameter = othersideCName != null ?
+                new ObjectParameter("othersideCName", othersideCName) :
+                new ObjectParameter("othersideCName", typeof(string));
+    
+            var othersideSNameParameter = othersideSName != null ?
+                new ObjectParameter("othersideSName", othersideSName) :
+                new ObjectParameter("othersideSName", typeof(string));
+    
+            var othersideRelationshipParameter = othersideRelationship != null ?
+                new ObjectParameter("othersideRelationship", othersideRelationship) :
+                new ObjectParameter("othersideRelationship", typeof(string));
+    
+            var sourceSearchParameter = sourceSearch.HasValue ?
+                new ObjectParameter("sourceSearch", sourceSearch) :
+                new ObjectParameter("sourceSearch", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PersonsFiltered2_Result>("PersonsFiltered2", cNameParameter, sNameParameter, fatherCNameParameter, fatherSNameParameter, motherCNameParameter, motherSNameParameter, sourceParameter, bLocationParameter, lowerBoundParameter, upperBoundParameter, countyParameter, spouseParameter, othersideCNameParameter, othersideSNameParameter, othersideRelationshipParameter, sourceSearchParameter);
+        }
     }
 }

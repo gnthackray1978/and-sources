@@ -179,7 +179,7 @@
           <Property Name="FatherSurname" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="MotherChristianName" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="MotherSurname" Type="nvarchar" MaxLength="500" Nullable="false" />
-          <Property Name="Source" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Source" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="BirthInt" Type="int" Nullable="false" />
           <Property Name="BapInt" Type="int" Nullable="false" />
           <Property Name="DeathInt" Type="int" Nullable="false" />
@@ -1055,6 +1055,24 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
             <End Role="Source" EntitySet="Sources" />
             <End Role="SourceMappingTypes" EntitySet="SourceMappingTypes" />
           </AssociationSet>
+          <FunctionImport Name="PersonsFiltered2" ReturnType="Collection(GeneralModel.PersonsFiltered2_Result)">
+            <Parameter Name="cName" Mode="In" Type="String" />
+            <Parameter Name="sName" Mode="In" Type="String" />
+            <Parameter Name="fatherCName" Mode="In" Type="String" />
+            <Parameter Name="fatherSName" Mode="In" Type="String" />
+            <Parameter Name="motherCName" Mode="In" Type="String" />
+            <Parameter Name="motherSName" Mode="In" Type="String" />
+            <Parameter Name="source" Mode="In" Type="String" />
+            <Parameter Name="bLocation" Mode="In" Type="String" />
+            <Parameter Name="LowerBound" Mode="In" Type="Int32" />
+            <Parameter Name="UpperBound" Mode="In" Type="Int32" />
+            <Parameter Name="county" Mode="In" Type="String" />
+            <Parameter Name="spouse" Mode="In" Type="String" />
+            <Parameter Name="othersideCName" Mode="In" Type="String" />
+            <Parameter Name="othersideSName" Mode="In" Type="String" />
+            <Parameter Name="othersideRelationship" Mode="In" Type="String" />
+            <Parameter Name="sourceSearch" Mode="In" Type="Boolean" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="Marriage">
           <Key>
@@ -1316,7 +1334,7 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
           <Property Type="String" Name="MotherChristianName" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="MotherSurname" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Notes" Unicode="false" MaxLength="8000" FixedLength="false" />
-          <Property Type="String" Name="Source" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Source" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="BirthInt" Nullable="false" />
           <Property Type="Int32" Name="BapInt" Nullable="false" />
           <Property Type="Int32" Name="DeathInt" Nullable="false" />
@@ -1615,6 +1633,45 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
           </End>
           <End Type="GeneralModel.SourceMappingTypes" Role="SourceMappingTypes" Multiplicity="*" />
         </Association>
+        <ComplexType Name="PersonsFiltered2_Result">
+          <Property Type="Guid" Name="Person_id" Nullable="false" />
+          <Property Type="String" Name="ChristianName" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="Surname" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="BirthLocation" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="BirthDateStr" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="BaptismDateStr" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="DeathDateStr" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="DeathLocation" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="FatherChristianName" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="FatherSurname" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="MotherChristianName" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="MotherSurname" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="Notes" Nullable="true" MaxLength="8000" />
+          <Property Type="String" Name="Source" Nullable="false" MaxLength="500" />
+          <Property Type="Int32" Name="BirthInt" Nullable="false" />
+          <Property Type="Int32" Name="BapInt" Nullable="false" />
+          <Property Type="Int32" Name="DeathInt" Nullable="false" />
+          <Property Type="String" Name="tree_links" Nullable="false" />
+          <Property Type="String" Name="Occupation" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="SourceParishName" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="SourceDateStr" Nullable="false" MaxLength="9" />
+          <Property Type="Int32" Name="SourceDateInt" Nullable="false" />
+          <Property Type="String" Name="SpouseName" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="SpouseSurname" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="FatherOccupation" Nullable="false" MaxLength="150" />
+          <Property Type="Guid" Name="UniqueRef" Nullable="true" />
+          <Property Type="Int32" Name="TotalEvents" Nullable="false" />
+          <Property Type="Int32" Name="EventPriority" Nullable="false" />
+          <Property Type="String" Name="SourceRef" Nullable="false" MaxLength="500" />
+          <Property Type="Guid" Name="RefSourceId" Nullable="false" />
+          <Property Type="String" Name="ReferenceLocation" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="ReferenceDateStr" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="ReferenceDateInt" Nullable="false" />
+          <Property Type="String" Name="OthersideChristianName" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="OthersideSurname" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="OthersideRelationship" Nullable="false" MaxLength="150" />
+          <Property Type="Guid" Name="marriageId" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2299,6 +2356,49 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
             </EndProperty>
             <Condition ColumnName="SourceId" IsNull="false" />
           </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="PersonsFiltered2" FunctionName="GeneralModel.Store.USP_Persons_Filtered">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GeneralModel.PersonsFiltered2_Result">
+                <ScalarProperty Name="Person_id" ColumnName="Person_id" />
+                <ScalarProperty Name="ChristianName" ColumnName="ChristianName" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="BirthLocation" ColumnName="BirthLocation" />
+                <ScalarProperty Name="BirthDateStr" ColumnName="BirthDateStr" />
+                <ScalarProperty Name="BaptismDateStr" ColumnName="BaptismDateStr" />
+                <ScalarProperty Name="DeathDateStr" ColumnName="DeathDateStr" />
+                <ScalarProperty Name="DeathLocation" ColumnName="DeathLocation" />
+                <ScalarProperty Name="FatherChristianName" ColumnName="FatherChristianName" />
+                <ScalarProperty Name="FatherSurname" ColumnName="FatherSurname" />
+                <ScalarProperty Name="MotherChristianName" ColumnName="MotherChristianName" />
+                <ScalarProperty Name="MotherSurname" ColumnName="MotherSurname" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="BirthInt" ColumnName="BirthInt" />
+                <ScalarProperty Name="BapInt" ColumnName="BapInt" />
+                <ScalarProperty Name="DeathInt" ColumnName="DeathInt" />
+                <ScalarProperty Name="tree_links" ColumnName="tree_links" />
+                <ScalarProperty Name="Occupation" ColumnName="Occupation" />
+                <ScalarProperty Name="SourceParishName" ColumnName="SourceParishName" />
+                <ScalarProperty Name="SourceDateStr" ColumnName="SourceDateStr" />
+                <ScalarProperty Name="SourceDateInt" ColumnName="SourceDateInt" />
+                <ScalarProperty Name="SpouseName" ColumnName="SpouseName" />
+                <ScalarProperty Name="SpouseSurname" ColumnName="SpouseSurname" />
+                <ScalarProperty Name="FatherOccupation" ColumnName="FatherOccupation" />
+                <ScalarProperty Name="UniqueRef" ColumnName="UniqueRef" />
+                <ScalarProperty Name="TotalEvents" ColumnName="TotalEvents" />
+                <ScalarProperty Name="EventPriority" ColumnName="EventPriority" />
+                <ScalarProperty Name="SourceRef" ColumnName="SourceRef" />
+                <ScalarProperty Name="RefSourceId" ColumnName="RefSourceId" />
+                <ScalarProperty Name="ReferenceLocation" ColumnName="ReferenceLocation" />
+                <ScalarProperty Name="ReferenceDateStr" ColumnName="ReferenceDateStr" />
+                <ScalarProperty Name="ReferenceDateInt" ColumnName="ReferenceDateInt" />
+                <ScalarProperty Name="OthersideChristianName" ColumnName="OthersideChristianName" />
+                <ScalarProperty Name="OthersideSurname" ColumnName="OthersideSurname" />
+                <ScalarProperty Name="OthersideRelationship" ColumnName="OthersideRelationship" />
+                <ScalarProperty Name="marriageId" ColumnName="marriageId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -2326,7 +2426,7 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
         <edmx:EntityTypeShape EntityType="GeneralModel.Parish" Width="1.5" PointX="3.125" PointY="0.625" Height="3.7109993489583326" IsExpanded="false" />
         <edmx:EntityTypeShape EntityType="GeneralModel.SourceMappingParish" Width="2.25" PointX="6" PointY="0.5" Height="1.9802864583333326" IsExpanded="false" />
         <edmx:EntityTypeShape EntityType="GeneralModel.SourceMapping" Width="1.5" PointX="12.625" PointY="2.25" Height="2.5571907552083326" IsExpanded="false" />
-        <edmx:EntityTypeShape EntityType="GeneralModel.Source" Width="1.5" PointX="8.875" PointY="3.375" Height="4.2879036458333326" IsExpanded="true" />
+        <edmx:EntityTypeShape EntityType="GeneralModel.Source" Width="1.5" PointX="8.875" PointY="3.375" Height="4.2879036458333326" IsExpanded="false" />
         <edmx:EntityTypeShape EntityType="GeneralModel.SourceType" Width="2" PointX="9.125" PointY="0.5" Height="2.172587890625" IsExpanded="false" />
         <edmx:AssociationConnector Association="GeneralModel.FK_SourceMappings_Marriages">
           <edmx:ConnectorPoint PointX="21.875" PointY="4.1220914713541674" />
@@ -2376,7 +2476,7 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
           <edmx:ConnectorPoint PointX="3.375" PointY="2.6824446614583337" />
           <edmx:ConnectorPoint PointX="2.25" PointY="2.6824446614583337" />
         </edmx:AssociationConnector>
-        <edmx:EntityTypeShape EntityType="GeneralModel.Person" Width="2" PointX="0.5" PointY="2.875" Height="10.441549479166667" IsExpanded="true" />
+        <edmx:EntityTypeShape EntityType="GeneralModel.Person" Width="2" PointX="0.5" PointY="2.875" Height="10.441549479166667" IsExpanded="false" />
         <edmx:AssociationConnector Association="GeneralModel.FK_SourceMappings_Persons">
           <edmx:ConnectorPoint PointX="2.25" PointY="13.142381578420629" />
           <edmx:ConnectorPoint PointX="12.90625" PointY="13.142381578420629" />
