@@ -16,7 +16,17 @@ using TDBCore.Types.validators;
 
 namespace GenWEBAPI.Controllers
 {
+    public class MyClass
+    {
+        public int Id { get; set; }
 
+        public string description { get; set; }
+    }
+    public class LoginInfo
+    {
+        public string username { get; set; }
+        public string password { get; set; }
+    }
     //test comment
 
     public class TestController2 : ApiController
@@ -35,6 +45,30 @@ namespace GenWEBAPI.Controllers
                 iMarriagesDal,
                 iMarriageWitnessesDal, iSourceDal, iSourceMappingsDal, iPersonDal);
         }
-        
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Route("/Marriage?0={id}")]
+        [Route("api/test")]
+        [HttpPost]
+        public IHttpActionResult GetSomeRows(LoginInfo loginInfo)
+        {
+            var a = "";
+            try
+            {
+                a = loginInfo.username;
+            }
+            catch (Exception e)
+            {
+                a = e.Message;
+            }
+
+            var r = new List<MyClass>
+            {
+                new MyClass {Id = 1 , description = a}
+            };
+
+            return Ok(r);
+        }
     }
 }
