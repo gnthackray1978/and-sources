@@ -31,7 +31,7 @@ namespace GenOnline
             this.Bind<IUserDal>().To<UserDal>().InRequestScope();
             this.Bind<ILogDal>().To<LogDal>().InRequestScope();
             this.Bind<IBatchDal>().To<BatchDal>().InRequestScope(); 
-            this.Bind<ISecurity>().To<Security>().InRequestScope().WithConstructorArgument("user", new WebUser()).WithConstructorArgument("isSecurityEnabled", false); ;
+            this.Bind<ISecurity>().To<Security>().InRequestScope().WithConstructorArgument("user", new WebUser()).WithConstructorArgument("isSecurityEnabled", false); 
                       
         }
     }

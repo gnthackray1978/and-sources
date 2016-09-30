@@ -348,7 +348,7 @@
           <AutoAssignPort>False</AutoAssignPort>
           <DevelopmentServerPort>0</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://local.gendb.net:666/</IISUrl>
+          <IISUrl>http://localhost:666/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
@@ -364,5 +364,6 @@
   </Target>
   <Target Name="AfterBuild">
   </Target>
+   <IISUrl>http://local.gendb.net:666/</IISUrl>
   -->
 </Project>
