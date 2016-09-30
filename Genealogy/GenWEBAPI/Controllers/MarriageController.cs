@@ -20,38 +20,28 @@ namespace GenWEBAPI.Controllers
     public static class UriMappingMarriage
     {
         //marriages
-        public const string AddMarriage = "/marriage";
+        public const string AddMarriage = "marriage";
 
-        public const string GetMarriages = "/marriages";
+        public const string GetMarriages = "marriages";
 
-        public const string GetMarriage = "/marriage";
+        public const string GetMarriage = "marriage";
 
-        public const string DeleteMarriages = "/marriage/delete";
+        public const string DeleteMarriages = "marriage/delete";
 
-        public const string SetMarriageDuplicate = "/marriage/createduplicate";
-        public const string MergeMarriages = "/marriage/mergemarriages";
-        public const string RemoveMarriageLinks = "/marriage/removelinks";
-        public const string ReorderMarriages = "/marriage/reorder";
-        public const string SwitchSpouses = "/marriage/switchspouses";
+        public const string SetMarriageDuplicate = "marriages/createduplicate";
+        public const string MergeMarriages = "marriages/mergemarriages";
+        public const string RemoveMarriageLinks = "marriages/removelinks";
+        public const string ReorderMarriages = "marriages/reorder";
+        public const string SwitchSpouses = "marriages/switchspouses";
 
     }
-    public class MyClass
-    {
-        public int Id { get; set; }
 
-        public string description { get; set; }
-    }
-    public class LoginInfo
-    {
-        public string username { get; set; }
-        public string password { get; set; }
-    }
 
-    public class TestController : ApiController
+    public class MarriageController : ApiController
     {
         private readonly MarriageSearch _marriageSearch;
 
-        public TestController(IMarriagesDal iMarriagesDal,
+        public MarriageController(IMarriagesDal iMarriagesDal,
             IMarriageWitnessesDal iMarriageWitnessesDal,
             ISourceDal iSourceDal,
             ISourceMappingsDal iSourceMappingsDal,
@@ -62,32 +52,6 @@ namespace GenWEBAPI.Controllers
                 iMarriagesDal,
                 iMarriageWitnessesDal, iSourceDal, iSourceMappingsDal, iPersonDal);
         }
-
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
-        // [Route("/Marriage?0={id}")]
-        [Route("api/test")]
-        [HttpPost]
-        public IHttpActionResult GetSomeRows(LoginInfo loginInfo)
-        {
-            var a = "";
-            try
-            {
-                a = loginInfo.username;
-            }
-            catch (Exception e)
-            {
-                a = e.Message;
-            }
-
-            var r = new List<MyClass>
-            {
-                new MyClass {Id = 1 , description = a}
-            };
-
-            return Ok(r);
-        }
-
-
 
 
         [Route(UriMappingMarriage.GetMarriage)]
@@ -119,7 +83,12 @@ namespace GenWEBAPI.Controllers
             {
                 return Content(HttpStatusCode.BadRequest, retVal);
             }
-            
+
+            if (serviceMarriage.MarriageId == Guid.Empty)
+            {
+                return Content(HttpStatusCode.NotFound, id);
+            }
+
             return Ok(serviceMarriage);
         }
 
@@ -198,6 +167,9 @@ namespace GenWEBAPI.Controllers
                 return Content(HttpStatusCode.BadRequest, retVal);
             }
 
+           
+
+
             return Ok(serviceMarriageObject);
             
         }
@@ -261,7 +233,7 @@ namespace GenWEBAPI.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [Route(UriMappingMarriage.RemoveMarriageLinks)]
         [HttpPost]
-        public string RemoveMarriageLink(string marriage)
+        public IHttpActionResult RemoveMarriageLink(string marriage)
         {
             // var iModel = new MarriageSearch(new Security(new WebUser()));    
             string retVal = "";
@@ -276,7 +248,12 @@ namespace GenWEBAPI.Controllers
             }
 
 
-            return WebHelper.MakeReturn(marriage, retVal);
+            if (retVal != "")
+            {
+                return Content(HttpStatusCode.BadRequest, retVal);
+            }
+
+            return Ok(true);
 
         }
 
@@ -284,7 +261,7 @@ namespace GenWEBAPI.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [Route(UriMappingMarriage.ReorderMarriages)]
         [HttpPost]
-        public string ReorderMarriages(string marriage)
+        public IHttpActionResult ReorderMarriages(string marriage)
         {
             //  var iModel = new MarriageSearch(new Security(new WebUser()));
 
@@ -300,7 +277,12 @@ namespace GenWEBAPI.Controllers
             }
 
 
-            return WebHelper.MakeReturn(marriage, retVal);
+            if (retVal != "")
+            {
+                return Content(HttpStatusCode.BadRequest, retVal);
+            }
+
+            return Ok(true);
 
         }
 
@@ -308,7 +290,7 @@ namespace GenWEBAPI.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [Route(UriMappingMarriage.SwitchSpouses)]
         [HttpPost]
-        public string SwitchSpouses(string marriage)
+        public IHttpActionResult SwitchSpouses(string marriage)
         {
 
             string retVal = "";
@@ -323,14 +305,19 @@ namespace GenWEBAPI.Controllers
             }
 
 
-            return WebHelper.MakeReturn(marriage, retVal);
+            if (retVal != "")
+            {
+                return Content(HttpStatusCode.BadRequest, retVal);
+            }
+
+            return Ok(true);
         }
 
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [Route(UriMappingMarriage.MergeMarriages)]
         [HttpPost]
-        public string MergeMarriage(string marriage)
+        public IHttpActionResult MergeMarriage(string marriage)
         {
 
             string retVal = "";
@@ -345,7 +332,12 @@ namespace GenWEBAPI.Controllers
             }
 
 
-            return WebHelper.MakeReturn(marriage, retVal);
+            if (retVal != "")
+            {
+                return Content(HttpStatusCode.BadRequest, retVal);
+            }
+
+            return Ok(true);
         }
 
 
@@ -353,7 +345,7 @@ namespace GenWEBAPI.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [Route(UriMappingMarriage.AddMarriage)]
         [HttpPost]
-        public string AddMarriage(ServiceMarriage serviceMarriage,string sources, string marriageWitnesses)
+        public IHttpActionResult AddMarriage(ServiceMarriage serviceMarriage,string sources, string marriageWitnesses)
         {
 
 
@@ -400,7 +392,12 @@ namespace GenWEBAPI.Controllers
             }
 
 
-            return WebHelper.MakeReturn(serviceMarriage.MarriageId.ToString(), retVal);
+            if (retVal != "")
+            {
+                return Content(HttpStatusCode.BadRequest, retVal);
+            }
+
+            return Ok(true);
 
         }
     }

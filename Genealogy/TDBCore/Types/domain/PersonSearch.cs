@@ -31,7 +31,14 @@ namespace TDBCore.Types.domain
           //  _relationsDal = new RelationsDal();
 
         }
+        public PersonSearch(ISecurity security, IPersonDal iPersonDal, ISourceMappingsDal iSourceMappingsDal)
+        {
+            _security = security;
+            _personDal = iPersonDal;
+            _sourceMappingsDal = iSourceMappingsDal;
+            
 
+        }
 
 
         public ServicePersonObject Search(PersonSearchTypes filterMode, PersonSearchFilter personSearchFilter, DataShaping shaper, IValidator validator = null)
