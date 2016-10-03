@@ -20,7 +20,7 @@ namespace GenWEBAPI.Controllers
     public static class UriMappingMarriage
     {
         //marriages
-        public const string AddMarriage = "marriage";
+        public const string AddMarriage = "addmarriage";
 
         public const string GetMarriages = "marriages";
 
@@ -36,6 +36,15 @@ namespace GenWEBAPI.Controllers
 
     }
 
+
+    public class ServiceMarriageData
+    {
+        public ServiceMarriage serviceMarriage { get; set; }
+
+        public string sources { get; set; }
+
+        public List<ServiceWitness> marriageWitnesses { get; set; }
+    }
 
     public class MarriageController : ApiController
     {
@@ -99,9 +108,9 @@ namespace GenWEBAPI.Controllers
         [HttpGet]
         public IHttpActionResult GetMarriages(string uniqref, string malecname, string malesname, string femalecname,
             string femalesname, string location, string lowerDate, string upperDate, string sourceFilter, string parishFilter, string marriageWitness,
-            string pno, string psize, string sortcol)
+            string pno, string psize, string sortcol = "")
         {
-            //var iModel = new MarriageSearch(new Security(new WebUser()));
+ 
 
 
             var serviceMarriageObject = new ServiceMarriageObject();
@@ -118,16 +127,16 @@ namespace GenWEBAPI.Controllers
                 {
                     var marriageFilter = new MarriageSearchFilter()
                     {
-                        MaleCName = malecname,
-                        MaleSName = malesname,
-                        FemaleCName = femalecname,
-                        FemaleSName = femalesname,
-                        Location = location,
+                        MaleCName = malecname ?? "",
+                        MaleSName = malesname ?? "",
+                        FemaleCName = femalecname ?? "",
+                        FemaleSName = femalesname ?? "",
+                        Location = location ?? "",
                         LowerDate = lowerDate.ToInt32(),
                         UpperDate = upperDate.ToInt32(),
-                        Witness = marriageWitness,
-                        Parish = parishFilter,
-                        Source = sourceFilter,
+                        Witness = marriageWitness ?? "",
+                        Parish = parishFilter ?? "",
+                        Source = sourceFilter ?? "",
                         ParentId = Guid.Empty
                     };
 
@@ -137,7 +146,7 @@ namespace GenWEBAPI.Controllers
                     serviceMarriageObject = _marriageSearch.Search(MarriageFilterTypes.Standard, marriageFilter,
                                   new DataShaping()
                                   {
-                                      Column = sortcol,
+                                      Column = sortcol ?? "",
                                       RecordPageSize = psize.ToInt32(),
                                       RecordStart = pno.ToInt32()
                                   }, marriageValidation);
@@ -149,7 +158,7 @@ namespace GenWEBAPI.Controllers
                     serviceMarriageObject = _marriageSearch.Search(MarriageFilterTypes.Duplicates, new MarriageSearchFilter() { ParentId = parentId },
                                   new DataShaping()
                                   {
-                                      Column = sortcol,
+                                      Column = sortcol ?? "",
                                       RecordPageSize = psize.ToInt32(),
                                       RecordStart = 0
                                   });
@@ -344,47 +353,22 @@ namespace GenWEBAPI.Controllers
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [Route(UriMappingMarriage.AddMarriage)]
-        [HttpPost]
-        public IHttpActionResult AddMarriage(ServiceMarriage serviceMarriage,string sources, string marriageWitnesses)
+        [HttpPost]        
+        public IHttpActionResult AddMarriage(ServiceMarriageData marriageData)
         {
 
-
-
-            //WebHelper.WriteParams(FemaleLocationId, LocationId, MaleLocationId, SourceDescription, Sources, MarriageId, IsBanns, IsLicense, IsWidow, IsWidower,
-            //         FemaleBirthYear, FemaleCName, FemaleLocation, FemaleNotes, FemaleOccupation, FemaleSName, LocationCounty, MaleBirthYear, MaleCName,
-            //         MaleLocation, MaleNotes, MaleOccupation, MaleSName, MarriageDate, MarriageLocation);
-
+            ServiceMarriage serviceMarriage = marriageData.serviceMarriage;
+            
             string retVal = "";
-
-            //var serviceMarriage = new ServiceMarriage
-            //{
-            //    MarriageId = MarriageId.ToGuid(),
-            //    MarriageDate = MarriageDate,
-            //    MaleCName = MaleCName,
-            //    MaleSName = MaleSName,
-            //    FemaleCName = FemaleCName,
-            //    FemaleSName = FemaleSName,
-            //    MaleNotes = MaleNotes,
-            //    FemaleNotes = FemaleNotes,
-            //    MarriageLocation = MarriageLocation,
-            //    LocationId = LocationId,
-            //    LocationCounty = LocationCounty,
-            //    MaleLocation = MaleLocation,
-            //    FemaleLocation = FemaleLocation,
-            //    IsBanns = IsBanns.ToBool(),
-            //    IsLicense = IsLicense.ToBool(),
-            //    IsWidow = IsWidow.ToBool(),
-            //    IsWidower = IsWidower.ToBool(),
-            //    MaleOccupation = MaleOccupation,
-            //    FemaleOccupation = FemaleOccupation,
-            //    MaleBirthYear = MaleBirthYear.ToInt32(),
-            //    FemaleBirthYear = FemaleBirthYear.ToInt32(),
-            //    SourceDescription = SourceDescription
-            //};
-
+            
             try
             {
-                _marriageSearch.Save(serviceMarriage, sources.ParseToGuidList(), MarriageWitness.DeSerializeWitnesses(marriageWitnesses, serviceMarriage), new MarriageValidator(serviceMarriage));
+                var tp = MarriageWitness.FormatWitnessCollection(marriageData.marriageWitnesses, marriageData.serviceMarriage);
+
+                _marriageSearch.Save(serviceMarriage, marriageData.sources.ParseToGuidList(), tp, new MarriageValidator(serviceMarriage));
+
+            
+
             }
             catch (Exception ex1)
             {
@@ -397,7 +381,9 @@ namespace GenWEBAPI.Controllers
                 return Content(HttpStatusCode.BadRequest, retVal);
             }
 
-            return Ok(true);
+
+
+            return Ok(serviceMarriage.MarriageId);
 
         }
     }

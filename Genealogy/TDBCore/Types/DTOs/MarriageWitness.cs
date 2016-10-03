@@ -69,5 +69,40 @@ namespace TDBCore.Types.DTOs
 
         }
 
+
+        public static List<MarriageWitness> FormatWitnessCollection(List<ServiceWitness> serviceWitnesses , ServiceMarriage marriage)
+        {
+            var witnesses = new List<MarriageWitness>();
+
+            var serializer = new JavaScriptSerializer();
+            //var marriages = serializer.DeserializeToMarriageWitnesses(witnessDtos, marriage.MarriageDate.ParseToValidYear(), marriage.MarriageDate,
+             //                                                         marriage.MarriageLocation, marriage.LocationId.ToGuid());
+
+            foreach (var witnessDto in serviceWitnesses)
+            {
+                var person = new ServicePerson();
+                var nMarriageWitness = new MarriageWitness();
+
+                person.ReferenceYear = marriage.MarriageDate.ParseToValidYear();
+                person.ReferenceDate = marriage.MarriageDate;
+                person.ReferenceLocation = marriage.MarriageLocation;
+                person.ReferenceLocationId = marriage.LocationId;
+                person.ChristianName = witnessDto.Name;
+                person.Surname = witnessDto.Surname;
+                person.OthersideChristianName = "";
+                person.OthersideSurname = "";
+                person.OthersideRelationship = "";
+                person.Notes = "Witness to marriage of " + marriage.MaleSName + " and " + marriage.FemaleSName + " " + marriage.MarriageDate + " at " + marriage.MarriageLocation;
+
+
+                nMarriageWitness.Description = witnessDto.Description;
+                nMarriageWitness.Person = person;
+                witnesses.Add(nMarriageWitness);
+            }
+
+            return witnesses;
+
+        }
+
     }
 }

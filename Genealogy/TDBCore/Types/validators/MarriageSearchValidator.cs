@@ -34,7 +34,22 @@ namespace TDBCore.Types.validators
                      _sm.MaleLocation == "" && _sm.Source == "" && _sm.Witness == "") ||
                     (_sm.UpperDate == 0 && _sm.LowerDate == 0))
                 {
-                    _errorMessage = "Invalid search params";
+                    if ((_sm.MaleCName == "" && _sm.FemaleCName == "" && _sm.MaleSName == "" &&
+                         _sm.FemaleSName == "" &&
+                         _sm.County == "" && _sm.Location == "" && _sm.FemaleLocation == "" &&
+                         _sm.MaleLocation == "" && _sm.Source == "" && _sm.Witness == ""))
+                    {
+                        _errorMessage =
+                            "1 of the fields MaleCName,FemaleCName,MaleSName,FemaleSName,County,Location,FemaleLocation,MaleLocation,Source,Witness must have a value";
+                    }
+
+                    if (_sm.UpperDate == 0 && _sm.LowerDate == 0)
+                    {
+                        _errorMessage +=
+                            "UpperDate and LowerDate must both be greater than zero";
+                    }
+
+                    _errorMessage = "Invalid search params: " + _errorMessage;
                     return false;
                 }
                 else

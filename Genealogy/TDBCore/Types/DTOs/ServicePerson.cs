@@ -32,4 +32,17 @@ namespace TDBCore.Types.DTOs
         
 
     }
+
+    public class ServicePersonAdd : ServicePerson
+    {
+        public string personGuid { get; set; }
+
+        public string datebapstr { get; set; }
+        public string datebirthstr { get; set; }
+        public string datedeath { get; set; }
+        public string years { get; set; }
+        public string months { get; set; }
+        public string weeks { get; set; }
+        public string days { get; set; }
+    }
 }

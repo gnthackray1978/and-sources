@@ -4,12 +4,28 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using TDBCore.Types.domain.import;
+using TDBCore.Types.DTOs;
 
 namespace TDBCore.Types.libs
 {
     public static class GeneralExtensions
     {
+        public static ServicePerson Get(this ServicePersonAdd fieldList)
+        {
+            ServicePerson retVal = fieldList;
 
+            string datebirthstr = DateTools.MakeDateString(fieldList.datebapstr, fieldList.datebirthstr, fieldList.datedeath, fieldList.years, fieldList.months, fieldList.weeks, fieldList.days);
+
+            
+            retVal.PersonId = fieldList.personGuid.ToGuid();
+            retVal.Birth = datebirthstr;
+            retVal.BirthYear = fieldList.datebirthstr.ParseToValidYear();
+            retVal.BaptismYear = fieldList.datebapstr.ParseToValidYear();
+            retVal.DeathYear = fieldList.datebirthstr.ParseToValidYear();
+
+
+            return retVal;
+        }
 
         public static string Get(this string[] fieldList,IList<CSVField> fields , CSVField field)
         {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using GenOnline;
 using GenOnline.Helpers;
 using TDBCore.BLL;
@@ -49,7 +50,9 @@ namespace GenWEBAPI.Controllers
             _personSearch = new PersonSearch(iSecurity, iPersonDal, iSourceMappingsDal);
         }
 
-
+        [Route(UriPersonMappings.AssignLocations)]
+        [HttpPost]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult AssignLocations()
         {
             string retVal = "";
@@ -71,6 +74,9 @@ namespace GenWEBAPI.Controllers
             return Ok(true);
         }
 
+        [Route(UriPersonMappings.UpdateDateEstimates)]
+        [HttpPost]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult UpdateDateEstimates()
         {
             string retVal = "";
@@ -92,6 +98,9 @@ namespace GenWEBAPI.Controllers
             return Ok(true);
         }
 
+        [Route(UriPersonMappings.SetPersonDuplicate)]
+        [HttpPost]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult SetDuplicate(string persons)
         {
             string retVal = "";
@@ -113,6 +122,9 @@ namespace GenWEBAPI.Controllers
             return Ok(true);
         }
 
+        [Route(UriPersonMappings.MergeSources)]
+        [HttpPost]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult MergeSources(string person)
         {
             string retVal = "";
@@ -135,6 +147,9 @@ namespace GenWEBAPI.Controllers
             return Ok(true);
         }
 
+        [Route(UriPersonMappings.RemoveLinks)]
+        [HttpPost]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult RemoveLink(string person)
         {
             string retVal = "";
@@ -157,6 +172,9 @@ namespace GenWEBAPI.Controllers
             return Ok(true);
         }
 
+        [Route(UriPersonMappings.SetPersonRelationship)]
+        [HttpPost]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult SetPersonRelation(string persons, string relationType)
         {
             string retVal = "";
@@ -178,6 +196,9 @@ namespace GenWEBAPI.Controllers
             return Ok(true);
         }
 
+        [Route(UriPersonMappings.DeletePerson)]
+        [HttpPost]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult DeletePerson(string personId)
         {
             string retVal = "";
@@ -201,60 +222,63 @@ namespace GenWEBAPI.Controllers
             return Ok(true);
         }
 
-        public string AddPerson(string personId, string birthparishId, string deathparishId, string referenceparishId, string sources, string christianName, string surname, string fatherchristianname,
-            string fathersurname, string motherchristianname, string mothersurname,
-            string source, string ismale, string occupation, string datebirthstr,
-            string datebapstr, string birthloc, string birthcounty, string datedeath,
-            string deathloc, string deathcounty, string notes, string refdate,
-            string refloc, string fatheroccupation, string spousesurname, string spousechristianname, string years, string months, string weeks, string days)
+
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [Route(UriPersonMappings.AddPerson)]
+        [HttpPost]
+        public string AddPerson(ServicePersonAdd servicePerson, string sources)
         {
             string retVal = "";
 
-            WebHelper.WriteParams(birthparishId, deathparishId, referenceparishId, sources, christianName, surname, fatherchristianname,
-             fathersurname, motherchristianname, mothersurname,
-             source, ismale, occupation, datebirthstr,
-             datebapstr, birthloc, birthcounty, datedeath,
-             deathloc, deathcounty, notes, refdate,
-             refloc, fatheroccupation, spousesurname, spousechristianname, years, months, weeks, days);
+            //WebHelper.WriteParams(birthparishId, deathparishId, referenceparishId, sources, christianName, surname, fatherchristianname,
+             //fathersurname, motherchristianname, mothersurname,
+             //source, ismale, occupation, datebirthstr,
+             //datebapstr, birthloc, birthcounty, datedeath,
+             //deathloc, deathcounty, notes, refdate,
+             //refloc, fatheroccupation, spousesurname, spousechristianname, years, months, weeks, days);
 
 
             var iModel = new PersonSearch(new Security(new WebUser()));
 
 
-            datebirthstr = DateTools.MakeDateString(datebapstr, datebirthstr, datedeath, years, months, weeks, days);
+            //datebirthstr = DateTools.MakeDateString(datebapstr, datebirthstr, datedeath, years, months, weeks, days);
 
-            var sp = new ServicePerson
-            {
-                PersonId = personId.ToGuid(),
-                ChristianName = christianName,
-                Surname = surname,
-                FatherChristianName = fatherchristianname,
-                FatherSurname = fathersurname,
-                MotherChristianName = motherchristianname,
-                MotherSurname = mothersurname,
-                IsMale = ismale,
-                Occupation = occupation,
-                Birth = datebirthstr,
-                Baptism = datebapstr,
-                Death = datedeath,
-                BirthLocation = birthloc,
-                DeathLocation = deathloc,
-                BirthCounty = birthcounty,
-                DeathCounty = deathcounty,
-                Notes = notes,
-                ReferenceDate = refdate,
-                FatherOccupation = fatheroccupation,
-                SpouseChristianName = spousechristianname,
-                SpouseSurname = spousesurname,
-                ReferenceLocation = refloc,
-                BirthLocationId = birthparishId,
-                ReferenceLocationId = referenceparishId,
-                DeathLocationId = deathparishId,
-                SourceDescription = source,
-                BirthYear = datebirthstr.ParseToValidYear(),//DateTools.GetDateYear(datebirthstr),
-                BaptismYear = datebapstr.ParseToValidYear(),// DateTools.GetDateYear(),
-                DeathYear = datedeath.ParseToValidYear()// DateTools.GetDateYear(datedeath)
-            };
+            //var sp = new ServicePerson
+            //{
+            //    PersonId = personId.ToGuid(),
+            //    ChristianName = christianName,
+            //    Surname = surname,
+            //    FatherChristianName = fatherchristianname,
+            //    FatherSurname = fathersurname,
+            //    MotherChristianName = motherchristianname,
+            //    MotherSurname = mothersurname,
+            //    IsMale = ismale,
+            //    Occupation = occupation,
+            //    Birth = datebirthstr,
+            //    Baptism = datebapstr,
+            //    Death = datedeath,
+            //    BirthLocation = birthloc,
+            //    DeathLocation = deathloc,
+            //    BirthCounty = birthcounty,
+            //    DeathCounty = deathcounty,
+            //    Notes = notes,
+            //    ReferenceDate = refdate,
+            //    FatherOccupation = fatheroccupation,
+            //    SpouseChristianName = spousechristianname,
+            //    SpouseSurname = spousesurname,
+            //    ReferenceLocation = refloc,
+            //    BirthLocationId = birthparishId,
+            //    ReferenceLocationId = referenceparishId,
+            //    DeathLocationId = deathparishId,
+            //    SourceDescription = source,
+            //    BirthYear = datebirthstr.ParseToValidYear(),//DateTools.GetDateYear(datebirthstr),
+            //    BaptismYear = datebapstr.ParseToValidYear(),// DateTools.GetDateYear(),
+            //    DeathYear = datedeath.ParseToValidYear()// DateTools.GetDateYear(datedeath)
+            //};
+
+            var sp = servicePerson.Get();
 
 
             try
