@@ -2,6 +2,15 @@
 
 namespace TDBCore.Types.DTOs
 {
+
+
+    public class ServiceWitness
+    {
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public string Description { get; set; }
+    }
+
     public class ServiceMarriage : ServiceMarriageLookup
     {
  
