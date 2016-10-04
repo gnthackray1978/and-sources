@@ -228,69 +228,29 @@ namespace GenWEBAPI.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [Route(UriPersonMappings.AddPerson)]
         [HttpPost]
-        public string AddPerson(ServicePersonAdd servicePerson, string sources)
+        public IHttpActionResult AddPerson(ServicePersonAdd servicePersonAdd, string sources)
         {
             string retVal = "";
 
-            //WebHelper.WriteParams(birthparishId, deathparishId, referenceparishId, sources, christianName, surname, fatherchristianname,
-             //fathersurname, motherchristianname, mothersurname,
-             //source, ismale, occupation, datebirthstr,
-             //datebapstr, birthloc, birthcounty, datedeath,
-             //deathloc, deathcounty, notes, refdate,
-             //refloc, fatheroccupation, spousesurname, spousechristianname, years, months, weeks, days);
+            var personSearch = new PersonSearch(new Security(new WebUser()));
 
-
-            var iModel = new PersonSearch(new Security(new WebUser()));
-
-
-            //datebirthstr = DateTools.MakeDateString(datebapstr, datebirthstr, datedeath, years, months, weeks, days);
-
-            //var sp = new ServicePerson
-            //{
-            //    PersonId = personId.ToGuid(),
-            //    ChristianName = christianName,
-            //    Surname = surname,
-            //    FatherChristianName = fatherchristianname,
-            //    FatherSurname = fathersurname,
-            //    MotherChristianName = motherchristianname,
-            //    MotherSurname = mothersurname,
-            //    IsMale = ismale,
-            //    Occupation = occupation,
-            //    Birth = datebirthstr,
-            //    Baptism = datebapstr,
-            //    Death = datedeath,
-            //    BirthLocation = birthloc,
-            //    DeathLocation = deathloc,
-            //    BirthCounty = birthcounty,
-            //    DeathCounty = deathcounty,
-            //    Notes = notes,
-            //    ReferenceDate = refdate,
-            //    FatherOccupation = fatheroccupation,
-            //    SpouseChristianName = spousechristianname,
-            //    SpouseSurname = spousesurname,
-            //    ReferenceLocation = refloc,
-            //    BirthLocationId = birthparishId,
-            //    ReferenceLocationId = referenceparishId,
-            //    DeathLocationId = deathparishId,
-            //    SourceDescription = source,
-            //    BirthYear = datebirthstr.ParseToValidYear(),//DateTools.GetDateYear(datebirthstr),
-            //    BaptismYear = datebapstr.ParseToValidYear(),// DateTools.GetDateYear(),
-            //    DeathYear = datedeath.ParseToValidYear()// DateTools.GetDateYear(datedeath)
-            //};
-
-            var sp = servicePerson.Get();
-
+            var servicePerson = servicePersonAdd.AsServicePerson();
 
             try
             {
-                iModel.Save(sp, sources.ParseToGuidList(), new PersonValidator(sp));
+                personSearch.Save(servicePerson, sources.ParseToGuidList(), new PersonValidator(servicePerson));
             }
             catch (Exception ex1)
             {
                 retVal = ex1.Message;
             }
 
-            return WebHelper.MakeReturn(sp.PersonId.ToString(), retVal);
+            if (retVal != "")
+            {
+                return Content(HttpStatusCode.BadRequest, retVal);
+            }
+
+            return Ok(servicePerson.PersonId);
         }
 
 
@@ -326,7 +286,7 @@ namespace GenWEBAPI.Controllers
             
         }
 
-        public IHttpActionResult GetPersons(string _parentId,
+        public IHttpActionResult GetPersons(string parentId,
             string christianName,
             string surname,
             string fatherChristianName,
@@ -345,23 +305,20 @@ namespace GenWEBAPI.Controllers
             string spouse,
             string parishFilter,
 
-            string page_number,
-            string page_size,
-            string sort_col)
+            string pageNumber,
+            string pageSize,
+            string sortCol)
         {
             string retVal = "";
-
-            Guid parentId = _parentId.ToGuid();
-
+         
             var spo = new ServicePersonObject();
 
-
-            var iModel = new PersonSearch(new Security(new WebUser()));
+            var personSearch = new PersonSearch(new Security(new WebUser()));
 
             try
             {
 
-                if (parentId == Guid.Empty)
+                if (parentId.ToGuid() == Guid.Empty)
                 {
 
                     var searchParams = new PersonSearchFilter
@@ -384,17 +341,17 @@ namespace GenWEBAPI.Controllers
                     };
 
 
-                    spo = iModel.Search(PersonSearchTypes.Simple, searchParams,
+                    spo = personSearch.Search(PersonSearchTypes.Simple, searchParams,
                                   new DataShaping
                                   {
-                                      RecordStart = page_number.ToInt32(),
-                                      RecordPageSize = page_size.ToInt32()
+                                      RecordStart = pageNumber.ToInt32(),
+                                      RecordPageSize = pageSize.ToInt32()
                                   }, new PersonSearchValidator(searchParams));
                 }
                 else
                 {
 
-                    spo = iModel.Search(PersonSearchTypes.Duplicates, new PersonSearchFilter { ParentId = parentId },
+                    spo = personSearch.Search(PersonSearchTypes.Duplicates, new PersonSearchFilter { ParentId = parentId.ToGuid() },
                                         new DataShaping
                                         {
                                             RecordStart = 0,

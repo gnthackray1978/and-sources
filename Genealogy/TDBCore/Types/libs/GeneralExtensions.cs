@@ -10,7 +10,7 @@ namespace TDBCore.Types.libs
 {
     public static class GeneralExtensions
     {
-        public static ServicePerson Get(this ServicePersonAdd fieldList)
+        public static ServicePerson AsServicePerson(this ServicePersonAdd fieldList)
         {
             ServicePerson retVal = fieldList;
 
