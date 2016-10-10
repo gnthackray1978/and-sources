@@ -38,6 +38,14 @@ namespace GenWEBAPI.Controllers
 
     }
 
+    public class ServicePersonData
+    {
+        public ServicePersonAdd servicePersonAdd { get; set; }
+
+        public string sources { get; set; }
+         
+    }
+
     public class PersonsController : ApiController
     {
 
@@ -222,23 +230,22 @@ namespace GenWEBAPI.Controllers
             return Ok(true);
         }
 
-
-
-
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [Route(UriPersonMappings.AddPerson)]
         [HttpPost]
-        public IHttpActionResult AddPerson(ServicePersonAdd servicePersonAdd, string sources)
+        public IHttpActionResult AddPerson(ServicePersonData servicePersonData)
         {
+
+
             string retVal = "";
 
             var personSearch = new PersonSearch(new Security(new WebUser()));
 
-            var servicePerson = servicePersonAdd.AsServicePerson();
+            var servicePerson = servicePersonData.servicePersonAdd.AsServicePerson();
 
             try
             {
-                personSearch.Save(servicePerson, sources.ParseToGuidList(), new PersonValidator(servicePerson));
+                personSearch.Save(servicePerson, servicePersonData.sources.ParseToGuidList(), new PersonValidator(servicePerson));
             }
             catch (Exception ex1)
             {
@@ -253,7 +260,9 @@ namespace GenWEBAPI.Controllers
             return Ok(servicePerson.PersonId);
         }
 
-
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [Route(UriPersonMappings.GetPerson)]
+        [HttpGet]
         public IHttpActionResult GetPerson(string id)
         {
             string retVal = "";
@@ -286,6 +295,9 @@ namespace GenWEBAPI.Controllers
             
         }
 
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [Route(UriPersonMappings.GetPersons)]
+        [HttpGet]
         public IHttpActionResult GetPersons(string parentId,
             string christianName,
             string surname,
@@ -301,13 +313,13 @@ namespace GenWEBAPI.Controllers
             string filterIncludeBirths,
             string filterIncludeDeaths,
             string filterIncludeSources,
-            string filterSource,
+            string sourceFilter,
             string spouse,
             string parishFilter,
 
-            string pageNumber,
-            string pageSize,
-            string sortCol)
+            string pno,
+            string psize,
+            string sortcol)
         {
             string retVal = "";
          
@@ -323,29 +335,29 @@ namespace GenWEBAPI.Controllers
 
                     var searchParams = new PersonSearchFilter
                     {
-                        CName = christianName,
-                        Surname = surname,
-                        FatherChristianName = fatherChristianName,
-                        FatherSurname = fatherSurname,
-                        MotherChristianName = motherChristianName,
-                        MotherSurname = motherSurname,
-                        Location = location,
+                        CName = christianName ?? "",
+                        Surname = surname ?? "",
+                        FatherChristianName = fatherChristianName ?? "",
+                        FatherSurname = fatherSurname ?? "",
+                        MotherChristianName = motherChristianName ?? "",
+                        MotherSurname = motherSurname ?? "",
+                        Location = location ?? "",
                         LowerDate = lowerDate.ToInt32(),
                         UpperDate = upperDate.ToInt32(),
                         IsIncludeBirths = filterIncludeBirths.ToBool(),
                         IsIncludeDeaths = filterIncludeDeaths.ToBool(),
                         IsIncludeSources = filterIncludeSources.ToBool(),
-                        SpouseChristianName = spouse,
-                        SourceString = filterSource,
-                        ParishString = parishFilter
+                        SpouseChristianName = spouse ?? "",
+                        SourceString = sourceFilter ?? "",
+                        ParishString = parishFilter ?? ""
                     };
 
 
                     spo = personSearch.Search(PersonSearchTypes.Simple, searchParams,
                                   new DataShaping
                                   {
-                                      RecordStart = pageNumber.ToInt32(),
-                                      RecordPageSize = pageSize.ToInt32()
+                                      RecordStart = pno.ToInt32(),
+                                      RecordPageSize = psize.ToInt32()
                                   }, new PersonSearchValidator(searchParams));
                 }
                 else

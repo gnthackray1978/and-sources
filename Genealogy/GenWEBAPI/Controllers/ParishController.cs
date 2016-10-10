@@ -26,23 +26,21 @@ namespace GenWEBAPI.Controllers
         public const string Get1841Census = "1841census";
         public const string GetParishs = "parishs";
 
-        public const string DeleteParishs = "/Delete";
-        public const string GetParishsFromLocations = "/GetParishsFromLocations?0={parishLocation}";
+        public const string DeleteParishs = "parishs/delete";
+        public const string GetParishsFromLocations = "parishlocations"; //"/GetParishsFromLocations?0={parishLocation}";
 
-        public const string GetParish = "/GetParish?0={parishId}";
-        public const string GetParishDetails = "/GetParishDetails?0={parishId}";
+        public const string GetParish = "parish";// "/GetParish?0={parishId}";
+        public const string GetParishDetails = "parishdetail";//"/GetParishDetails?0={parishId}";
 
-        public const string GetSearchResults = "/GetSearchResults?0={parishIds}&1={startYear}&2={endYear}";
+        public const string GetSearchResults = "parishpresence";//"/GetSearchResults?0={parishIds}&1={startYear}&2={endYear}";
 
-        public const string GetParishsTypes = "/GetParishsTypes";
+        public const string GetParishsTypes = "parishtypes";
+       
+        public const string AddParish = "parish";
 
-        
+        public const string GetParishCounters = "parishcounter";// "/GetParishCounters?0={startYear}&1={endYear}";
 
-        public const string AddParish = "/Add";
-
-        public const string GetParishCounters = "/GetParishCounters?0={startYear}&1={endYear}";
-
-        public const string GetParishNames = "/GetParishNames?0={parishIds}";
+        public const string GetParishNames = "parishnames";// "/GetParishNames?0={parishIds}";
 
     }
 
@@ -94,6 +92,8 @@ namespace GenWEBAPI.Controllers
         // parishs
         public IHttpActionResult GetParishs(string deposited, string name, string county, string pageNumber, string pageSize, string sortCol)
         {
+            string retVal = "";
+
             var psf = new ParishSearchFilter
             {
                 County = county,
@@ -101,16 +101,34 @@ namespace GenWEBAPI.Controllers
                 Name = name
             };
 
-            ServiceParishObject result = _parishSearch.StandardSearch(psf, new DataShaping() { RecordPageSize = pageSize.ToInt32(), RecordStart = pageNumber.ToInt32() });
+            var result = new ServiceParishObject();
 
-            
+            try
+            {
+                result = _parishSearch.StandardSearch(psf, new DataShaping() { RecordPageSize = pageSize.ToInt32(), RecordStart = pageNumber.ToInt32() });
+            }
+            catch (Exception ex1)
+            {
+                retVal = ex1.Message;
+            }
+
+            if (retVal != "")
+            {
+                return Content(HttpStatusCode.BadRequest, retVal);
+            }
 
             return Ok(result);
         }
 
-        public string DeleteParishs(string parishIds)
+
+        [Route(UriParishMappings.DeleteParishs)]
+        [HttpPost]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+
+        public IHttpActionResult DeleteParishs(string parishIds)
         {
             var retVal = "";
+
             try
             {
                 retVal = _parishSearch.Delete(parishIds);
@@ -119,34 +137,57 @@ namespace GenWEBAPI.Controllers
             {
                 retVal = ex1.Message;
             }
-            finally
-            {
-                if (retVal != "") retVal += Environment.NewLine;
 
+            if (retVal != "")
+            {
+                return Content(HttpStatusCode.BadRequest, retVal);
             }
 
-            return WebHelper.MakeReturn(parishIds, retVal);
+            return Ok(retVal);
         }
 
-        public List<string> GetParishNames(string parishIds)
+        [Route(UriParishMappings.GetParishNames)]
+        [HttpGet]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        public IHttpActionResult GetParishNames(string parishIds)
         {
-            return _parishSearch.GetParishNames(new ParishSearchFilter
+            var parishs = new List<string>();
+
+            string retVal = "";
+
+            try
             {
-                ParishIds = parishIds.ParseToGuidList()
-            });
+                var psf = new ParishSearchFilter()
+                {
+                    ParishIds = parishIds.ParseToGuidList()
+                };
+
+                parishs = _parishSearch.GetParishNames(psf);
+            }
+            catch (Exception ex1)
+            {
+                retVal = ex1.Message;
+            }
+
+            if (retVal != "")
+            {
+                return Content(HttpStatusCode.BadRequest, retVal);
+            }
+
+            return Ok(parishs);
         }
 
-
-        public string AddParish(string ParishId, string ParishStartYear, string ParishEndYear,
-                                string ParishLat, string ParishLong,
-                                string ParishName, string ParishParent,
-                                string ParishNote, string ParishCounty, string ParishDeposited)
+        [Route(UriParishMappings.AddParish)]
+        [HttpPost]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        public IHttpActionResult AddParish(string parishId, string parishStartYear, string parishEndYear,
+                                string parishLat, string parishLong,  string parishName, string parishParent, string parishNote, string parishCounty, string parishDeposited)
         {
 
-            WebHelper.WriteParams(ParishId, ParishStartYear, ParishEndYear,
-                                  ParishLat, ParishLong,
-                                  ParishName, ParishParent,
-                                  ParishNote, ParishCounty, ParishDeposited);
+            WebHelper.WriteParams(parishId, parishStartYear, parishEndYear,
+                                  parishLat, parishLong,
+                                  parishName, parishParent,
+                                  parishNote, parishCounty, parishDeposited);
 
             string retVal = "";
 
@@ -154,16 +195,16 @@ namespace GenWEBAPI.Controllers
 
             var sp = new ServiceParish
             {
-                ParishId = ParishId.ToGuid(),
-                ParishStartYear = ParishStartYear.ToInt32(),
-                ParishDeposited = ParishDeposited,
-                ParishEndYear = ParishEndYear.ToInt32(),
-                ParishLat = ParishLat.ToDouble(),
-                ParishLong = ParishLong.ToDouble(),
-                ParishName = ParishName,
-                ParishNote = ParishNote,
-                ParishParent = ParishParent,
-                ParishCounty = ParishCounty
+                ParishId = parishId.ToGuid(),
+                ParishStartYear = parishStartYear.ToInt32(),
+                ParishDeposited = parishDeposited,
+                ParishEndYear = parishEndYear.ToInt32(),
+                ParishLat = parishLat.ToDouble(),
+                ParishLong = parishLong.ToDouble(),
+                ParishName = parishName,
+                ParishNote = parishNote,
+                ParishParent = parishParent,
+                ParishCounty = parishCounty
             };
 
             try
@@ -175,12 +216,19 @@ namespace GenWEBAPI.Controllers
                 retVal = ex1.Message;
             }
 
-            return WebHelper.MakeReturn(sp.ParishId.ToString(), retVal);
+            if (retVal != "")
+            {
+                return Content(HttpStatusCode.BadRequest, retVal);
+            }
+
+            return Ok(sp.ParishId);
         }
 
 
-
-        public ServiceParish GetParish(string parishId)
+        [Route(UriParishMappings.GetParish)]
+        [HttpGet]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        public IHttpActionResult GetParish(string parishId)
         {
             var parish = new ServiceParish();
             string retVal = "";
@@ -192,21 +240,21 @@ namespace GenWEBAPI.Controllers
             {
                 retVal = "Exception: " + ex1.Message;
             }
-            finally
+            if (retVal != "")
             {
-                if (retVal != "") retVal += Environment.NewLine;
-                parish.ErrorStatus = retVal;
+                return Content(HttpStatusCode.BadRequest, retVal);
             }
-            return parish;
+
+            return Ok(parish.ParishId);
         }
 
 
-        public List<ServiceSuperParish> GetParishsFromLocations(string parishLocation)
+        [Route(UriParishMappings.GetParishsFromLocations)]
+        [HttpGet]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        public IHttpActionResult GetParishsFromLocations(string parishLocation)
         {
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
-
-            _logSearch.WriteLog("GetParishsFromLocations: " + parishLocation, 1, WebHelper.GetRequestIp(), null);
+            string retVal = "";
 
             var results = new List<ServiceSuperParish>();
 
@@ -216,25 +264,28 @@ namespace GenWEBAPI.Controllers
             }
             catch (Exception exception)
             {
-                _logSearch.WriteLog("GetParishsFromLocations", 1, WebHelper.GetRequestIp(), exception);
+                // _logSearch.WriteLog("GetParishsFromLocations", 1, WebHelper.GetRequestIp(), exception);
+                retVal = "Exception: " + exception.Message;
+            }
+             
+            if (retVal != "")
+            {
+                return Content(HttpStatusCode.BadRequest, retVal);
             }
 
-
-            stopWatch.Stop();
-            // Get the elapsed time as a TimeSpan value.
-            TimeSpan ts = stopWatch.Elapsed;
-
-            _logSearch.WriteLog("GetParishsFromLocations finished in " + ts.TotalMilliseconds, 1, WebHelper.GetRequestIp(), null);
-            return results;
+            return Ok(results);
         }
 
-        public List<ServiceParishDataType> GetParishTypes()
+        [Route(UriParishMappings.GetParishsTypes)]
+        [HttpGet]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        public IHttpActionResult GetParishTypes()
         {
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
+            //  Stopwatch stopWatch = new Stopwatch();
+            //  stopWatch.Start();
 
-            _logSearch.WriteLog("GetParishTypes", 1, WebHelper.GetRequestIp(), null);
-
+            //  _logSearch.WriteLog("GetParishTypes", 1, WebHelper.GetRequestIp(), null);
+            string retVal = "";
             var results = new List<ServiceParishDataType>();
 
             try
@@ -243,43 +294,97 @@ namespace GenWEBAPI.Controllers
             }
             catch (Exception exception)
             {
-                _logSearch.WriteLog("GetParishTypes", 1, WebHelper.GetRequestIp(), exception);
+                //    _logSearch.WriteLog("GetParishTypes", 1, WebHelper.GetRequestIp(), exception);
+                retVal = "Exception: " + exception.Message;
             }
 
-            stopWatch.Stop();
+            //  stopWatch.Stop();
             // Get the elapsed time as a TimeSpan value.
-            TimeSpan ts = stopWatch.Elapsed;
+            //   TimeSpan ts = stopWatch.Elapsed;
 
-            _logSearch.WriteLog("GetParishTypes finished in " + ts.TotalMilliseconds, 1, WebHelper.GetRequestIp(), null);
+            //   _logSearch.WriteLog("GetParishTypes finished in " + ts.TotalMilliseconds, 1, WebHelper.GetRequestIp(), null);
 
-            return results;
-        }
-
-        public List<ServiceSearchResult> GetSearchResults(string parishIds, string startYear, string endYear)
-        {
-            return _mapDataSources.GetSearchResults(new ParishSearchFilter
+            if (retVal != "")
             {
-                ParishIds = parishIds.ParseToGuidList(),
-                DateFrom = startYear.ToInt32(),
-                DateTo = endYear.ToInt32()
-            });
+                return Content(HttpStatusCode.BadRequest, retVal);
+            }
+
+            return Ok(results);
         }
 
-        public List<ServiceParishCounter> GetParishCounters(string startYear, string endYear)
+        [Route(UriParishMappings.GetSearchResults)]
+        [HttpGet]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        public IHttpActionResult GetSearchResults(string parishIds, string startYear, string endYear)
         {
-            return _mapDataSources.GetParishCounters(new ParishSearchFilter
+            string retVal = "";
+
+            List<ServiceSearchResult> results = new List<ServiceSearchResult>();
+
+            try
             {
-                DateFrom = startYear.ToInt32(),
-                DateTo = endYear.ToInt32()
-            });
+                results = _mapDataSources.GetSearchResults(new ParishSearchFilter
+                {
+                    ParishIds = parishIds.ParseToGuidList(),
+                    DateFrom = startYear.ToInt32(),
+                    DateTo = endYear.ToInt32()
+                });
+            }
+            catch (Exception exception)
+            {
+                //    _logSearch.WriteLog("GetParishTypes", 1, WebHelper.GetRequestIp(), exception);
+                retVal = "Exception: " + exception.Message;
+            }
+
+            if (retVal != "")
+            {
+                return Content(HttpStatusCode.BadRequest, retVal);
+            }
+
+            return Ok(results);
         }
 
-
-        public ServiceParishDetailObject GetParishDetail(string parishId)
+        [Route(UriParishMappings.GetParishCounters)]
+        [HttpGet]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        public IHttpActionResult GetParishCounters(string startYear, string endYear)
         {
-            _logSearch.WriteLog("GetParishDetail", 1, WebHelper.GetRequestIp(), null);
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
+            string retVal = "";
+
+            var results = new List<ServiceParishCounter>();
+
+            try
+            {
+                results = _mapDataSources.GetParishCounters(new ParishSearchFilter
+                {
+                    DateFrom = startYear.ToInt32(),
+                    DateTo = endYear.ToInt32()
+                });
+
+            }
+            catch (Exception exception)
+            {
+                //    _logSearch.WriteLog("GetParishTypes", 1, WebHelper.GetRequestIp(), exception);
+                retVal = "Exception: " + exception.Message;
+            }
+
+            if (retVal != "")
+            {
+                return Content(HttpStatusCode.BadRequest, retVal);
+            }
+
+            return Ok(results);
+
+        }
+
+        [Route(UriParishMappings.GetParishDetails)]
+        [HttpGet]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        public IHttpActionResult GetParishDetail(string parishId)
+        {
+            //_logSearch.WriteLog("GetParishDetail", 1, WebHelper.GetRequestIp(), null);
+           // Stopwatch stopWatch = new Stopwatch();
+           // stopWatch.Start();
 
             var serviceParishDetailObject = new ServiceParishDetailObject();
             string retVal = "";
@@ -290,22 +395,20 @@ namespace GenWEBAPI.Controllers
             }
             catch (Exception ex1)
             {
-                _logSearch.WriteLog("GetParishDetail", 1, WebHelper.GetRequestIp(), ex1);
+               // _logSearch.WriteLog("GetParishDetail", 1, WebHelper.GetRequestIp(), ex1);
                 retVal = "Exception: " + ex1.Message;
             }
-            finally
+
+            if (retVal != "")
             {
-                if (retVal != "") retVal += Environment.NewLine;
-
-                serviceParishDetailObject.ErrorStatus = retVal;
+                return Content(HttpStatusCode.BadRequest, retVal);
             }
-
-            stopWatch.Stop();
+            // stopWatch.Stop();
             // Get the elapsed time as a TimeSpan value.
-            TimeSpan ts = stopWatch.Elapsed;
+            //TimeSpan ts = stopWatch.Elapsed;
 
-            _logSearch.WriteLog("GetParishDetail finished in " + ts.TotalMilliseconds, 1, WebHelper.GetRequestIp(), null);
-            return serviceParishDetailObject;
+            // _logSearch.WriteLog("GetParishDetail finished in " + ts.TotalMilliseconds, 1, WebHelper.GetRequestIp(), null);
+            return Ok(serviceParishDetailObject);
         }
 
 
