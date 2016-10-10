@@ -161,6 +161,11 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="TestPages\highlight.pack.js" />
+    <Content Include="TestPages\marriages.html" />
+    <Content Include="TestPages\parishs.html" />
+    <Content Include="TestPages\persons.html" />
+    <Content Include="TestPages\testlib.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -169,10 +174,14 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\BatchController.cs" />
     <Compile Include="Controllers\ParishController.cs" />
     <Compile Include="Controllers\PersonsController.cs" />
+    <Compile Include="Controllers\SourceController.cs" />
+    <Compile Include="Controllers\SourceTypeController.cs" />
     <Compile Include="Controllers\test2Controller.cs" />
     <Compile Include="Controllers\MarriageController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

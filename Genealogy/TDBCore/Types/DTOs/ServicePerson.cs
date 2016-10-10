@@ -33,7 +33,7 @@ namespace TDBCore.Types.DTOs
 
     }
 
-    public class ServicePersonAdd : ServicePerson
+    public class ServicePersonAdd : ServicePersonLookUp
     {
         public string personGuid { get; set; }
 
@@ -44,5 +44,21 @@ namespace TDBCore.Types.DTOs
         public string months { get; set; }
         public string weeks { get; set; }
         public string days { get; set; }
+
+        public string BirthCounty { get; set; }
+        public string DeathCounty { get; set; }
+        public string BirthLocationId { get; set; }
+        public string DeathLocationId { get; set; }
+        public string ReferenceLocationId { get; set; }
+        public string ReferenceDate { get; set; }
+
+        public string SourceDescription { get; set; }
+        public string SpouseChristianName { get; set; }
+        public string SpouseSurname { get; set; }
+        public string FatherOccupation { get; set; }
+        public string Occupation { get; set; }
+        public string Notes { get; set; }
+        public string IsMale { get; set; }
+
     }
 }

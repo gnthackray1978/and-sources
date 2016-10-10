@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Parish  Tester</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+    <script src="highlight.pack.js"></script>
+    <script src="testlib.js"></script>
+
+    <script>
+
+
+
+
+	function getParish(){
+		
+		var params = {id : 'CEB4A571-B475-4457-8B7B-00B3FD1A131F'};
+        
+		var url = getUrl() + "marriage?" + $.param(params);
+					
+		writeLine('URL', url);
+		
+		$.ajaxSetup({ cache: false });
+
+        $.ajax({
+            url: url,
+            dataType: "json",
+           
+			type: "GET",
+            success: success,
+            error: error,
+			
+            timeout: 3000000 // sets timeout to 3 seconds
+        });
+	}
+
+	function getPersonByFilter(){
+		
+		var params = {
+			uniqref : '',
+			malecname : 'george',
+			malesname : 'thackray',
+			femalecname : '',
+			femalesname : '',
+			location : '',
+			lowerDate : '1700',
+			upperDate : '1850',
+			sourceFilter : '',
+			parishFilter : '',
+			marriageWitness : '',
+			pno : '0',
+			psize : '20',
+			sortcol : ''
+		};
+        
+		var url = getUrl() + "marriages?" + $.param(params);
+				 	
+		writeLine('URL', url);
+		
+		$.ajaxSetup({ cache: false });
+
+        $.ajax({
+            url: url,
+            dataType: "json",
+           
+			type: "GET",
+            success: success,
+            error: error,
+			
+            timeout: 3000000 // sets timeout to 3 seconds
+        });
+	}
+
+	function addPerson(){
+		 
+		var marriageWitnesses = []; 
+		
+		marriageWitnesses.push(
+			{
+				name: 'John',
+				surname : 'Smith Witness1',
+				description: 'wit desc 1'
+			}
+		);
+		
+		marriageWitnesses.push(
+			{
+				name: 'Sarah',
+				surname : 'Smith Witness2',
+				description: 'wit desc 2'
+			}
+		);
+		
+		 
+		var serviceMarriage = {
+			MarriageId : 'CEB4A571-B475-4457-8B7B-00B3FD1A131F',
+			MarriageDate : '1 Jan 1800',
+			MaleCName : 'George',
+			MaleSName : 'Test',
+			FemaleCName : 'Sarah',
+			FemaleSName : 'Test',
+			MaleNotes : 'some male test notes',
+			FemaleNotes : 'some female test notes',
+			MarriageLocation : 'Grantham',
+			LocationId : '69FC0FDA-0885-4B78-A188-0F0866FAF498',
+			LocationCounty : 'Lincolnshire',
+			MaleLocation : 'Grantham',
+			FemaleLocation : 'Sleaford',
+			IsBanns : 'true',
+			IsLicense : 'false',
+			IsWidow : 'false',
+			IsWidower : 'true',
+			MaleOccupation : 'Male occupation',
+			FemaleOccupation : 'Female occupation',
+			MaleBirthYear : '1780',
+			FemaleBirthYear : '1780',
+			SourceDescription : 'source description'
+		};	
+			
+		var serviceMarriageData = {
+			serviceMarriage : serviceMarriage,
+			sources : 'E54A4328-B1FD-4D13-AB49-00004230CC11',
+			marriageWitnesses : marriageWitnesses//JSON.stringify(marriageWitnesses)
+		};
+		
+		
+		
+		
+		var url = getUrl() + "addmarriage/";
+		
+		
+		
+		writeLine('URL', url);
+		
+	
+		
+	//	p = { 
+	//			username: 'y', 
+		//		password: 'x' 
+		//	};
+		
+		$.ajax({
+            url: url,
+            dataType: "json",
+        
+            type: "POST",
+			data: serviceMarriageData,
+			success: success,
+            error: error
+        });
+	}
+	
+
+    $(document).ready(function() {
+        
+        $("#Get1841Censusid").click(function (e) {
+			resetStyling();
+			 
+			e.preventDefault();
+        });
+		
+        $("#GetParishsid").click(function (e) {
+			resetStyling();
+			 
+			e.preventDefault();
+        });
+			
+        $("#DeleteParishsid").click(function (e) {
+			resetStyling();
+			 
+			e.preventDefault();
+        });			
+
+        $("#GetParishNamesid").click(function (e) {
+            resetStyling();
+
+            e.preventDefault();
+        });
+
+        $("#AddParishid").click(function (e) {
+            resetStyling();
+
+            e.preventDefault();
+        });
+
+        $("#GetParishid").click(function (e) {
+            resetStyling();
+
+            e.preventDefault();
+        });
+
+        $("#GetParishsFromLocationsid").click(function (e) {
+            resetStyling();
+
+            e.preventDefault();
+        });
+
+        $("#GetParishsTypesid").click(function (e) {
+            resetStyling();
+
+            e.preventDefault();
+        });
+
+        $("#GetSearchResultsid").click(function (e) {
+            resetStyling();
+
+            e.preventDefault();
+        });
+
+        $("#GetParishCountersid").click(function (e) {
+            resetStyling();
+
+            e.preventDefault();
+        });
+
+        $("#GetParishDetailsid").click(function (e) {
+            resetStyling();
+
+            e.preventDefault();
+        });
+
+        $("#GetParishsTypesid").click(function (e) {
+            resetStyling();
+
+            e.preventDefault();
+        });
+
+
+    });
+    </script>
+
+</head>
+<body>
+
+<div class="row">
+    <div class="col-sm-2">
+        <a id='Get1841Censusid' href=''>Get1841Census</a>
+    </div>
+    <div class="col-sm-2">
+        <a id='GetParishsid' href=''>GetParishs</a>
+    </div>
+    <div class="col-sm-2">
+        <a id='DeleteParishsid' href=''>DeleteParishs</a>
+    </div>
+    <div class="col-sm-2">
+        <a id='GetParishNamesid' href=''>GetParishNames</a>
+    </div>
+    <div class="col-sm-2">
+        <a id='AddParishid' href=''>AddParish</a>
+    </div>
+    <div class="col-sm-2">
+        <a id='GetParishid' href=''>GetParish</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-2">
+        <a id='GetParishsFromLocationsid' href=''>GetParishsFromLocations</a>
+    </div>
+    <div class="col-sm-2">
+        <a id='GetParishsTypesid' href=''>GetParishsTypes</a>
+    </div>
+    <div class="col-sm-2">
+        <a id='GetSearchResultsid' href=''>GetSearchResults</a>
+    </div>
+    <div class="col-sm-2">
+        <a id='GetParishCountersid' href=''>GetParishCounters</a>
+    </div>
+    <div class="col-sm-2">
+        <a id='GetParishDetailsid' href=''>GetParishDetails</a>
+    </div>
+    <div class="col-sm-2">
+        <a id='getpersons' href=''></a>
+    </div>
+</div>
+
+
+
+<br/>
+<textarea id="result" style="width: 1600px; resize: horizontal;"></textarea>
+<pre><code id="prettyResult" class="json" style="width: 1024px;"></code></pre>
+
+</body>
+</html>

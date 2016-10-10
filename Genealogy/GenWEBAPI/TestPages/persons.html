@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Person Tests</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+    <script src="highlight.pack.js"></script>
+    <script src="testlib.js"></script>
+
+    <script>
+	
+ 
+
+
+	function getPerson(){
+		
+	    var params = { id: '0288ACD2-B26C-4FB5-A098-E4572233E50D' };
+        
+		var url = getUrl() + "person?" + $.param(params);
+					
+		writeLine('URL', url);
+		
+		$.ajaxSetup({ cache: false });
+
+        $.ajax({
+            url: url,
+            dataType: "json",
+           
+			type: "GET",
+            success: success,
+            error: error,
+			
+            timeout: 3000000 // sets timeout to 3 seconds
+        });
+	}
+
+	function getPersonByFilter(){
+		
+		var params = {
+		    parentId : '',
+
+		    christianName : 'george',
+		    surname : 'thackray',
+
+		    fatherChristianName : '',
+		    fatherSurname : '',
+		    motherChristianName : '',
+			motherSurname : '',
+
+
+			location : '',
+
+			county : '',
+
+			lowerDate : '1700',
+			upperDate : '1800',
+
+			filterTreeResults : '',
+			filterIncludeBirths : '',
+			filterIncludeDeaths : '',
+			filterIncludeSources : '',
+
+			sourceFilter : '',
+			spouse : '',
+			parishFilter : '',
+
+			pno : '0',
+			psize : '20',
+			sortcol : ''
+		};
+        
+		var url = getUrl() + "persons?" + $.param(params);
+				 	
+		writeLine('URL', url);
+		
+		$.ajaxSetup({ cache: false });
+
+        $.ajax({
+            url: url,
+            dataType: "json",
+           
+			type: "GET",
+            success: success,
+            error: error,
+			
+            timeout: 3000000 // sets timeout to 3 seconds
+        });
+	}
+
+	function addPerson() {
+
+	    var servicePersonAdd = {
+	        personGuid: '',
+	        datebapstr: 'Abt 1820',
+	        datebirthstr: '',
+	        datedeath: '',
+	        years: '',
+	        months: '',
+	        weeks: '',
+	        days: '',
+	        Baptism: '',
+	        Birth: '1820',
+	        Death: '',
+	        BirthCounty: 'Yorkshire',
+	        DeathCounty: '',
+	        BirthLocationId: '',
+	        DeathLocationId: '',
+	        ReferenceLocationId: '',
+	        ReferenceDate: '',
+	        SourceDescription: '',
+	        SpouseChristianName: '',
+	        SpouseSurname: '',
+	        FatherOccupation: '',
+	        Occupation: 'test example',
+	        Notes: '',
+	        IsMale: '',
+
+	        ChristianName: 'George',
+	        Surname: 'Thackray',
+	        FatherChristianName: '',
+	        FatherSurname: '',
+	        MotherChristianName: '',
+	        MotherSurname: '',
+
+	        BirthLocation: 'test birth locat',
+	        DeathLocation: 'test death locat',
+	        UniqueReference: '',
+	        Sources: '',
+	        Events: '',
+	        Spouse: '',
+	        LinkedTrees: '',
+	        ReferenceLocation: '',
+	        SourceParishName: '',
+	        SourceDateStr: '',
+	        SourceRef: '',
+
+	        OthersideChristianName: 'Sally',
+	        OthersideSurname: 'Smith',
+	        OthersideRelationship: 'Wife',
+	        OtherSide: '',
+	        MarriageId: ''
+	    };
+
+	    var servicePersonData = {
+	        servicePersonAdd: servicePersonAdd,
+	        sources: 'E54A4328-B1FD-4D13-AB49-00004230CC11' 
+	    };
+		
+		
+	    var url = getUrl() + "person/add";
+		
+		
+		
+		writeLine('URL', url);
+		
+		$.ajax({
+            url: url,
+            dataType: "json",
+        
+            type: "POST",
+            data: servicePersonData,
+			success: success,
+            error: error
+        });
+	}
+	
+
+    $(document).ready(function() {
+        
+        $("#getpersonid").click(function (e) {
+			resetStyling();
+			getPerson();
+			e.preventDefault();
+        });
+		
+        $("#addperson").click(function (e) {
+			resetStyling();
+			addPerson();
+			e.preventDefault();
+        });
+			
+		$("#getpersons").click(function(e) {
+			resetStyling();
+			getPersonByFilter();
+			e.preventDefault();
+        });			
+
+    });
+    </script>
+
+</head>
+<body>
+ 
+<div class="row">
+    <div class="col-sm-4"><a id='getpersonid' href=''>Get Person</a>
+    </div>
+    <div class="col-sm-4"><a id='addperson' href=''>Add Person</a>
+    </div>
+    <div class="col-sm-4"><a id='getpersons' href=''>Get Persons</a>
+    </div>
+</div>
+
+
+<br/>
+   <textarea id="result" rows="5" style="width: 100%;resize: horizontal;"></textarea>
+   <pre><code id="prettyResult" class="json" style="width: 1024px;"></code></pre>
+
+</body>
+</html>

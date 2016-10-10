@@ -12,19 +12,76 @@ namespace TDBCore.Types.libs
     {
         public static ServicePerson AsServicePerson(this ServicePersonAdd fieldList)
         {
-            ServicePerson retVal = fieldList;
+            //ServicePersonLookUp retVal = fieldList;
 
             string datebirthstr = DateTools.MakeDateString(fieldList.datebapstr, fieldList.datebirthstr, fieldList.datedeath, fieldList.years, fieldList.months, fieldList.weeks, fieldList.days);
 
             
-            retVal.PersonId = fieldList.personGuid.ToGuid();
-            retVal.Birth = datebirthstr;
-            retVal.BirthYear = fieldList.datebirthstr.ParseToValidYear();
-            retVal.BaptismYear = fieldList.datebapstr.ParseToValidYear();
-            retVal.DeathYear = fieldList.datebirthstr.ParseToValidYear();
+            //retVal.PersonId = fieldList.personGuid.ToGuid();
+            //retVal.Birth = datebirthstr;
+            
+            //retVal.BaptismYear = fieldList.datebapstr.ParseToValidYear();
+            //retVal.DeathYear = fieldList.datebirthstr.ParseToValidYear();
 
 
-            return retVal;
+            var servicePerson = new ServicePerson
+            {
+
+                Baptism = fieldList.datebapstr ?? "",
+                BaptismYear = fieldList.datebapstr.ParseToValidYear(),
+                Birth = datebirthstr ?? "",
+                BirthCounty = fieldList.BirthCounty ?? "",
+                BirthLocation = fieldList.BirthLocation ?? "",
+                BirthLocationId = fieldList.BirthLocationId ?? "",
+                BirthYear = fieldList.datebirthstr.ParseToValidYear(),
+                ChristianName = fieldList.ChristianName ?? "",
+                DeathCounty = fieldList.DeathCounty ?? "",
+                DeathLocation = fieldList.DeathLocation ?? "",
+                DeathLocationId = fieldList.DeathLocationId ?? "",
+                DeathYear = fieldList.datebirthstr.ParseToValidYear(),
+                Events = fieldList.Events ?? "",
+                FatherChristianName = fieldList.FatherChristianName ?? "",
+                FatherOccupation = fieldList.Occupation ?? "",
+                FatherSurname = fieldList.FatherSurname ?? "",
+                IsMale = fieldList.IsMale ?? "",
+                LinkedTrees = fieldList.LinkedTrees ?? "",
+                MotherChristianName = fieldList.MotherChristianName ?? "",
+                MotherSurname = fieldList.MotherSurname ?? "",
+                Notes = fieldList.Notes ?? "",
+                Occupation = fieldList.Occupation ?? "",
+                OtherSide = fieldList.OtherSide ?? "",
+                OthersideChristianName = fieldList.OthersideChristianName ?? "",
+                OthersideSurname = fieldList.OthersideSurname ?? "",
+                OthersideRelationship = fieldList.OthersideRelationship ?? "",
+                PersonId = fieldList.PersonId,
+                ReferenceDate = fieldList.ReferenceDate ?? "",
+                ReferenceLocation = fieldList.ReferenceLocation ?? "",
+                ReferenceLocationId = fieldList.ReferenceLocationId ?? "",
+                ReferenceYear = fieldList.ReferenceYear,
+                SourceDateInt = fieldList.SourceDateInt,
+                SourceDateStr = fieldList.SourceDateStr ?? "",
+                SourceDescription = fieldList.SourceDescription ?? "",
+                SourceId = fieldList.SourceId,
+                SourceParishName = fieldList.SourceParishName ?? "",
+                SourceRef = fieldList.SourceRef ?? "",
+                Sources = fieldList.Sources ?? "",
+                SpouseChristianName = fieldList.SpouseChristianName ?? "",
+                SpouseSurname = fieldList.SpouseSurname ?? "",
+                Surname = fieldList.Surname ?? "",
+                UniqueReference = fieldList.UniqueReference ?? "",
+            };
+
+            //servicePerson.Baptism = fieldList.
+            //servicePerson.Death = fieldList.dea
+            // servicePerson.Spouse
+
+
+
+
+
+
+
+            return servicePerson;
         }
 
         public static string Get(this string[] fieldList,IList<CSVField> fields , CSVField field)
@@ -103,6 +160,7 @@ namespace TDBCore.Types.libs
 
             int retVal = 0;
 
+            yearVal = yearVal ?? "";
 
 
             var regex = new Regex(@"\d\d\d\d");

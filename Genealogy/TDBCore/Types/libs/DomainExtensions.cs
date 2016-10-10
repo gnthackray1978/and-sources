@@ -283,6 +283,7 @@ namespace TDBCore.Types.libs
             var sp = new ServicePerson()
             {
                 Baptism = person.BaptismDateStr,
+                BaptismYear = person.BapInt,
                 Birth = person.BirthDateStr,
                 BirthCounty = person.BirthCounty,
                 BirthLocation = person.BirthLocation,
@@ -293,15 +294,18 @@ namespace TDBCore.Types.libs
                 Death = person.DeathDateStr,
                 DeathCounty = person.DeathCounty,
                 DeathLocation = person.DeathLocation,
+                DeathLocationId = person.DeathLocationId.ToString(),
                 FatherChristianName = person.FatherChristianName,
                 FatherOccupation = person.FatherOccupation,
                 FatherSurname = person.FatherSurname,
                 LinkedTrees = "SP_only",
+                
                 MotherChristianName = person.MotherChristianName,
                 MotherSurname = person.MotherSurname,
                 Notes = person.Notes,
                 Occupation = person.Occupation,
                 PersonId = person.Person_id,
+                ReferenceYear = person.ReferenceDateInt,
                 ReferenceDate = person.ReferenceDateStr,
                 ReferenceLocation = person.ReferenceLocation,
                 ReferenceLocationId = person.ReferenceLocationId.ToString(),
@@ -318,7 +322,8 @@ namespace TDBCore.Types.libs
                 SourceRef = "",
                 OthersideChristianName = person.OthersideChristianName,
                 OthersideSurname = person.OthersideSurname,
-                OthersideRelationship = person.OthersideRelationship
+                OthersideRelationship = person.OthersideRelationship,
+                IsMale = person.IsMale.ToString()
             };
 
             return sp;
