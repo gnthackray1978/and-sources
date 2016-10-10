@@ -16,4 +16,21 @@ namespace TDBCore.Types.DTOs
         public string ParishNote { get; set; }
 
     }
+
+    public class ServiceParishAdd
+    {
+        public string ParishId { get; set; }
+        public string ParishName { get; set; }
+        public string ParishDeposited { get; set; }
+        public string ParishParent { get; set; }
+        public string ParishCounty { get; set; }
+        public string ParishStartYear { get; set; }
+        public string ParishEndYear { get; set; }
+        public string ParishLat { get; set; }
+        public string ParishLong { get; set; }
+        public string ParishNote { get; set; }
+
+    }
+
+
 }

@@ -201,7 +201,6 @@ namespace GenWEBAPI.Controllers
         [Route(UriSourceMappings.GetSourceNames)]
         [HttpGet]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-
         public IHttpActionResult GetSourceNames(string sourceIds)
         {
             var servicesources = new List<string>();
@@ -230,12 +229,9 @@ namespace GenWEBAPI.Controllers
             return Ok(servicesources);
         }
 
-
-
         [Route(UriSourceMappings.GetSources)]
         [HttpGet]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-
         public IHttpActionResult GetSources(string sourceTypes, string sourceRef, string sourceDesc, string origLoc,
             string dateLb, string toDateLb, string dateUb, string toDateUb, string fileCount, string isThackrayFound,
             string isCopyHeld, string isViewed, string isChecked, string pageNumber, string pageSize, string sortColumn)
@@ -285,7 +281,6 @@ namespace GenWEBAPI.Controllers
             return Ok(serviceSourceObject);
         }
 
-
         [Route(UriSourceMappings.DeleteSource)]
         [HttpPost]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
@@ -312,7 +307,6 @@ namespace GenWEBAPI.Controllers
 
             return Ok(true);
         }
-
 
         [Route(UriSourceMappings.AddSource)]
         [HttpPost]
