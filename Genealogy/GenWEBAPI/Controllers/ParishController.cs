@@ -32,6 +32,7 @@ namespace GenWEBAPI.Controllers
         public const string GetParish = "parish";// "/GetParish?0={parishId}";
         public const string GetParishDetails = "parishdetail";//"/GetParishDetails?0={parishId}";
 
+
         public const string GetSearchResults = "parishpresence";//"/GetSearchResults?0={parishIds}&1={startYear}&2={endYear}";
 
         public const string GetParishsTypes = "parishtypes";
@@ -90,8 +91,9 @@ namespace GenWEBAPI.Controllers
         [HttpGet]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         // parishs
-        public IHttpActionResult GetParishs(string deposited, string name, string county, string pageNumber, string pageSize, string sortCol)
+        public IHttpActionResult GetParishs(string deposited, string name, string county, string pno, string psize, string sortcol)
         {
+            //string pno, string psize, string sortcol = ""
             string retVal = "";
 
             var psf = new ParishSearchFilter
@@ -105,7 +107,7 @@ namespace GenWEBAPI.Controllers
 
             try
             {
-                result = _parishSearch.StandardSearch(psf, new DataShaping() { RecordPageSize = pageSize.ToInt32(), RecordStart = pageNumber.ToInt32() });
+                result = _parishSearch.StandardSearch(psf, new DataShaping() { RecordPageSize = psize.ToInt32(), RecordStart = pno.ToInt32(), Column = sortcol });
             }
             catch (Exception ex1)
             {
@@ -124,7 +126,6 @@ namespace GenWEBAPI.Controllers
         [Route(UriParishMappings.DeleteParishs)]
         [HttpPost]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-
         public IHttpActionResult DeleteParishs(string parishIds)
         {
             var retVal = "";
@@ -180,14 +181,10 @@ namespace GenWEBAPI.Controllers
         [Route(UriParishMappings.AddParish)]
         [HttpPost]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        public IHttpActionResult AddParish(string parishId, string parishStartYear, string parishEndYear,
-                                string parishLat, string parishLong,  string parishName, string parishParent, string parishNote, string parishCounty, string parishDeposited)
+        public IHttpActionResult AddParish(ServiceParishAdd serviceParishAdd)
         {
 
-            WebHelper.WriteParams(parishId, parishStartYear, parishEndYear,
-                                  parishLat, parishLong,
-                                  parishName, parishParent,
-                                  parishNote, parishCounty, parishDeposited);
+       
 
             string retVal = "";
 
@@ -195,16 +192,16 @@ namespace GenWEBAPI.Controllers
 
             var sp = new ServiceParish
             {
-                ParishId = parishId.ToGuid(),
-                ParishStartYear = parishStartYear.ToInt32(),
-                ParishDeposited = parishDeposited,
-                ParishEndYear = parishEndYear.ToInt32(),
-                ParishLat = parishLat.ToDouble(),
-                ParishLong = parishLong.ToDouble(),
-                ParishName = parishName,
-                ParishNote = parishNote,
-                ParishParent = parishParent,
-                ParishCounty = parishCounty
+                ParishId = serviceParishAdd.ParishId.ToGuid(),
+                ParishStartYear = serviceParishAdd.ParishStartYear.ToInt32(),
+                ParishDeposited = serviceParishAdd.ParishDeposited,
+                ParishEndYear = serviceParishAdd.ParishEndYear.ToInt32(),
+                ParishLat = serviceParishAdd.ParishLat.ToDouble(),
+                ParishLong = serviceParishAdd.ParishLong.ToDouble(),
+                ParishName = serviceParishAdd.ParishName,
+                ParishNote = serviceParishAdd.ParishNote,
+                ParishParent = serviceParishAdd.ParishParent,
+                ParishCounty = serviceParishAdd.ParishCounty
             };
 
             try
@@ -228,7 +225,7 @@ namespace GenWEBAPI.Controllers
         [Route(UriParishMappings.GetParish)]
         [HttpGet]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        public IHttpActionResult GetParish(string parishId)
+        public IHttpActionResult GetParish(string id)
         {
             var parish = new ServiceParish();
             string retVal = "";

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <title>Parish  Tester</title>
@@ -14,14 +14,18 @@
 
     <script>
 
-
-
-
-	function getParish(){
-		
-		var params = {id : 'CEB4A571-B475-4457-8B7B-00B3FD1A131F'};
+	function getParishs(){
+	    
+		var params = {
+		    deposited: '',
+		    name: '',
+		    county: 'Yorkshire',
+		    pageNumber: '1',
+		    pageSize: '25',
+		    sortCol: ''
+		};
         
-		var url = getUrl() + "marriage?" + $.param(params);
+		var url = getUrl() + "parishs" + $.param(params);
 					
 		writeLine('URL', url);
 		
@@ -39,26 +43,31 @@
         });
 	}
 
-	function getPersonByFilter(){
+	function getparish() {
+	    var params = { id: '0288ACD2-B26C-4FB5-A098-E4572233E50D' };
+
+	    var url = getUrl() + "parish" + $.param(params);
+
+	    writeLine('URL', url);
+
+	    $.ajaxSetup({ cache: false });
+
+	    $.ajax({
+	        url: url,
+	        dataType: "json",
+
+	        type: "GET",
+	        success: success,
+	        error: error,
+
+	        timeout: 3000000 // sets timeout to 3 seconds
+	    });
+	}
+
+	function get1841Census(){
 		
-		var params = {
-			uniqref : '',
-			malecname : 'george',
-			malesname : 'thackray',
-			femalecname : '',
-			femalesname : '',
-			location : '',
-			lowerDate : '1700',
-			upperDate : '1850',
-			sourceFilter : '',
-			parishFilter : '',
-			marriageWitness : '',
-			pno : '0',
-			psize : '20',
-			sortcol : ''
-		};
-        
-		var url = getUrl() + "marriages?" + $.param(params);
+		
+	    var url = getUrl() + "1841census";
 				 	
 		writeLine('URL', url);
 		
@@ -76,160 +85,255 @@
         });
 	}
 
-	function addPerson(){
-		 
-		var marriageWitnesses = []; 
-		
-		marriageWitnesses.push(
-			{
-				name: 'John',
-				surname : 'Smith Witness1',
-				description: 'wit desc 1'
-			}
-		);
-		
-		marriageWitnesses.push(
-			{
-				name: 'Sarah',
-				surname : 'Smith Witness2',
-				description: 'wit desc 2'
-			}
-		);
-		
-		 
-		var serviceMarriage = {
-			MarriageId : 'CEB4A571-B475-4457-8B7B-00B3FD1A131F',
-			MarriageDate : '1 Jan 1800',
-			MaleCName : 'George',
-			MaleSName : 'Test',
-			FemaleCName : 'Sarah',
-			FemaleSName : 'Test',
-			MaleNotes : 'some male test notes',
-			FemaleNotes : 'some female test notes',
-			MarriageLocation : 'Grantham',
-			LocationId : '69FC0FDA-0885-4B78-A188-0F0866FAF498',
-			LocationCounty : 'Lincolnshire',
-			MaleLocation : 'Grantham',
-			FemaleLocation : 'Sleaford',
-			IsBanns : 'true',
-			IsLicense : 'false',
-			IsWidow : 'false',
-			IsWidower : 'true',
-			MaleOccupation : 'Male occupation',
-			FemaleOccupation : 'Female occupation',
-			MaleBirthYear : '1780',
-			FemaleBirthYear : '1780',
-			SourceDescription : 'source description'
-		};	
-			
-		var serviceMarriageData = {
-			serviceMarriage : serviceMarriage,
-			sources : 'E54A4328-B1FD-4D13-AB49-00004230CC11',
-			marriageWitnesses : marriageWitnesses//JSON.stringify(marriageWitnesses)
-		};
-		
-		
-		
-		
-		var url = getUrl() + "addmarriage/";
-		
-		
-		
+	function addParish(){
+	
+		var url = getUrl() + "parish";
+					
 		writeLine('URL', url);
 		
-	
-		
-	//	p = { 
-	//			username: 'y', 
-		//		password: 'x' 
-		//	};
+	    var serviceParishAdd = { 
+            ParishId : '',
+            ParishName : 'George Test Parish',
+            ParishDeposited : '',
+            ParishParent : '',
+            ParishCounty : 'Yorkshire',
+            ParishStartYear : '1600',
+            ParishEndYear : '1850',
+            ParishLat: '',
+            ParishLong : '',
+            ParishNote: ''
+		};
 		
 		$.ajax({
             url: url,
             dataType: "json",
         
             type: "POST",
-			data: serviceMarriageData,
+            data: serviceParishAdd,
 			success: success,
             error: error
         });
 	}
 	
+	function getParishsFromLocationsid() {
+	    
+	    var params = { parishLocation: 'locat' };
 
-    $(document).ready(function() {
+	    var url = getUrl() + "parishlocations"+ $.param(params);
+
+	    writeLine('URL', url);
+
+	    $.ajaxSetup({ cache: false });
+
+	    $.ajax({
+	        url: url,
+	        dataType: "json",
+
+	        type: "GET",
+	        success: success,
+	        error: error,
+
+	        timeout: 3000000 // sets timeout to 3 seconds
+	    });
+	}
+
+	function deleteParishsid() {
+	    var url = getUrl() + "parishs/delete";
+
+	    writeLine('URL', url);
+	  
+	    $.ajax({
+	        url: url,
+	        dataType: "json",
+	        type: "POST",
+	        data: {
+	            parishIds: '1234'
+	        },
+	        success: success,
+	        error: error
+	    });
+	}
+
+
+
+	function getparishnames() {
+
+	    var params = { parishIds: 'ids' };
+
+	    var url = getUrl() + "parishnames" + $.param(params);
+
+	    writeLine('URL', url);
+
+	    $.ajaxSetup({ cache: false });
+
+	    $.ajax({
+	        url: url,
+	        dataType: "json",
+	        type: "GET",
+	        success: success,
+	        error: error,
+	        timeout: 3000000 // sets timeout to 3 seconds
+	    });
+	}
+
+	function getparishtypesid() {
+	    
+	    var url = getUrl() + "parishtypes";
+
+	    writeLine('URL', url);
+
+	    $.ajaxSetup({ cache: false });
+
+	    $.ajax({
+	        url: url,
+	        dataType: "json",
+	        type: "GET",
+	        success: success,
+	        error: error,
+	        timeout: 3000000 // sets timeout to 3 seconds
+	    });
+	}
+
+	function getsearchresultsid() {
+	    //string parishIds, string startYear, string endYear
+
+	    var params = {
+	        parishIds: 'ids',
+	        startYear: 0,
+	        endYear: 1900
+	    };
+
+	    var url = getUrl() + "parishpresence" + $.param(params);
+
+	    writeLine('URL', url);
+
+	    $.ajaxSetup({ cache: false });
+
+	    $.ajax({
+	        url: url,
+	        dataType: "json",
+	        type: "GET",
+	        success: success,
+	        error: error,
+	        timeout: 3000000 // sets timeout to 3 seconds
+	    });
+	}
+
+	function getparishcountersid() {
+	    //parishcounter
+
+	    var params = {
+	        startYear: 0,
+	        endYear: 1900
+	    };
+
+	    var url = getUrl() + "parishcounter" + $.param(params);
+
+	    writeLine('URL', url);
+
+	    $.ajaxSetup({ cache: false });
+
+	    $.ajax({
+	        url: url,
+	        dataType: "json",
+	        type: "GET",
+	        success: success,
+	        error: error,
+	        timeout: 3000000 // sets timeout to 3 seconds
+	    });
+
+	}
+
+	function getParishDetailsid() {
+	    var params = {
+	        parishId: '1'
+	         
+	    };
+
+	    var url = getUrl() + "parishdetail" + $.param(params);
+
+	    writeLine('URL', url);
+
+	    $.ajaxSetup({ cache: false });
+
+	    $.ajax({
+	        url: url,
+	        dataType: "json",
+	        type: "GET",
+	        success: success,
+	        error: error,
+	        timeout: 3000000 // sets timeout to 3 seconds
+	    });
+	}
+	
+
+	$(document).ready(function() {
         
         $("#Get1841Censusid").click(function (e) {
 			resetStyling();
-			 
+            get1841Census();
 			e.preventDefault();
         });
 		
-        $("#GetParishsid").click(function (e) {
+        $("#GetParishs").click(function (e) {
 			resetStyling();
-			 
+            getParish(); 
 			e.preventDefault();
         });
-			
+
+        $("#GetParish").click(function (e) {
+            resetStyling();
+            getparishid();
+            e.preventDefault();
+        });
+
         $("#DeleteParishsid").click(function (e) {
 			resetStyling();
-			 
+            deleteParishsid();
 			e.preventDefault();
         });			
 
         $("#GetParishNamesid").click(function (e) {
             resetStyling();
-
+            getparishnames();
             e.preventDefault();
         });
 
         $("#AddParishid").click(function (e) {
             resetStyling();
-
-            e.preventDefault();
-        });
-
-        $("#GetParishid").click(function (e) {
-            resetStyling();
-
+            addParish();
             e.preventDefault();
         });
 
         $("#GetParishsFromLocationsid").click(function (e) {
             resetStyling();
-
+            getParishsFromLocationsid();
             e.preventDefault();
         });
 
         $("#GetParishsTypesid").click(function (e) {
             resetStyling();
-
+            getparishtypesid();
             e.preventDefault();
         });
 
         $("#GetSearchResultsid").click(function (e) {
             resetStyling();
-
+            getsearchresultsid();
             e.preventDefault();
         });
 
         $("#GetParishCountersid").click(function (e) {
             resetStyling();
-
+            getparishcountersid();
             e.preventDefault();
         });
 
         $("#GetParishDetailsid").click(function (e) {
             resetStyling();
-
+            getParishDetailsid();
             e.preventDefault();
         });
-
-        $("#GetParishsTypesid").click(function (e) {
-            resetStyling();
-
-            e.preventDefault();
-        });
-
 
     });
     </script>
@@ -242,7 +346,7 @@
         <a id='Get1841Censusid' href=''>Get1841Census</a>
     </div>
     <div class="col-sm-2">
-        <a id='GetParishsid' href=''>GetParishs</a>
+        <a id='GetParishs' href=''>GetParishs</a>
     </div>
     <div class="col-sm-2">
         <a id='DeleteParishsid' href=''>DeleteParishs</a>
@@ -254,7 +358,7 @@
         <a id='AddParishid' href=''>AddParish</a>
     </div>
     <div class="col-sm-2">
-        <a id='GetParishid' href=''>GetParish</a>
+        <a id='GetParish' href=''>GetParish</a>
     </div>
 </div>
 
