@@ -64,7 +64,7 @@ namespace GenWEBAPI.Controllers
     public class SourceController : ApiController
     {
         [Route(UriSourceMappings.AddMarriageTreeSource)]
-        [HttpGet]
+        [HttpPost]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult AddMarriageSources(string record, string sources)
         {
@@ -90,7 +90,7 @@ namespace GenWEBAPI.Controllers
         }
 
         [Route(UriSourceMappings.AddPersonTreeSource)]
-        [HttpGet]
+        [HttpPost]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult AddPersonSources(string record, string sources)
         {
@@ -314,8 +314,6 @@ namespace GenWEBAPI.Controllers
         public IHttpActionResult AddSource(ServiceSourceAdd serviceSourceAdd)
         {
             string retVal = "";
-
-
 
             var jss = new JavaScriptSerializer();
 
