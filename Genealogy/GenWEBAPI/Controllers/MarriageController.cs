@@ -21,13 +21,9 @@ namespace GenWEBAPI.Controllers
     {
         //marriages
         public const string AddMarriage = "addmarriage";
-
         public const string GetMarriages = "marriages";
-
         public const string GetMarriage = "marriage";
-
         public const string DeleteMarriages = "marriage/delete";
-
         public const string SetMarriageDuplicate = "marriages/createduplicate";
         public const string MergeMarriages = "marriages/mergemarriages";
         public const string RemoveMarriageLinks = "marriages/removelinks";

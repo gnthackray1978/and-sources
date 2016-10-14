@@ -18,27 +18,16 @@ namespace GenWEBAPI.Controllers
 {
     public static class UriSourceMappings
     {
-        public const string Get1841CensusSources = "1841censussources";//"/Get1841CensusSources?0={sourceId}";
-
-        public const string Get1841CensusPlaces = "1841censusplaces";// "/Get1841CensusPlaces";
-
-        public const string GetSourceNames = "sources/names";// "/GetSourceNames?0={sourceIds}";
-
-        public const string DeleteSource = "sources/delete";// "/Delete";
-
-        public const string GetSources = "sources";
-                                        //"/Select?0={sourceTypes}&1={sourceRef}&2={sourceDesc}&3={origLoc}" +
-                                        //                             "&4={dateLB}&5={toDateLB}&6={dateUB}&7={toDateUB}&8={fileCount}&9={isThackrayFound}" +
-                                        //                             "&10={isCopyHeld}&11={isViewed}&12={isChecked}&13={page_number}&14={page_size}&15={sortColumn}";
-
-        public const string GetSource = "source";// "/GetSource?0={sourceId}";
-
-        public const string AddSource = "source";//"/Add";
-
-        public const string AddPersonTreeSource = "sources/persontree";// "/AddPersonTreeSource";
-        public const string AddMarriageTreeSource = "sources/marriagetree"; //"/AddMarriageTreeSource";
-
-        public const string RemoveTreeSources = "sources/tree/delete";//"/RemoveTreeSources";
+        public const string Get1841CensusSources = "1841censussources";
+        public const string Get1841CensusPlaces = "1841censusplaces";
+        public const string GetSourceNames = "sources/names";
+        public const string DeleteSource = "sources/delete";
+        public const string GetSources = "sources";                                      
+        public const string GetSource = "source";
+        public const string AddSource = "source";
+        public const string AddPersonTreeSource = "sources/persontree";
+        public const string AddMarriageTreeSource = "sources/marriagetree"; 
+        public const string RemoveTreeSources = "sources/tree/delete";
     }
 
 
@@ -61,12 +50,18 @@ namespace GenWEBAPI.Controllers
         public string FileIds { get; set; }          
     }
 
+    public class SourceRecordSourceMap
+    {
+        public string Records { get; set; }
+        public string Sources { get; set; }
+    }
+
     public class SourceController : ApiController
     {
         [Route(UriSourceMappings.AddMarriageTreeSource)]
         [HttpPost]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        public IHttpActionResult AddMarriageSources(string record, string sources)
+        public IHttpActionResult AddMarriageSources(SourceRecordSourceMap sourceRecordSourceMap)
         {
             var sourceSearch = new SourceSearch(new Security(new WebUser()));
 
@@ -74,7 +69,7 @@ namespace GenWEBAPI.Controllers
 
             try
             {
-                retVal = sourceSearch.AddSources(record.ParseToGuidList(), sources.ParseToGuidList(), SourceTypes.Marriage);
+                retVal = sourceSearch.AddSources(sourceRecordSourceMap.Records.ParseToGuidList(), sourceRecordSourceMap.Sources.ParseToGuidList(), SourceTypes.Marriage);
             }
             catch (Exception ex1)
             {
@@ -92,14 +87,14 @@ namespace GenWEBAPI.Controllers
         [Route(UriSourceMappings.AddPersonTreeSource)]
         [HttpPost]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        public IHttpActionResult AddPersonSources(string record, string sources)
+        public IHttpActionResult AddPersonSources(SourceRecordSourceMap sourceRecordSourceMap)
         {
             var sourceSearch = new SourceSearch(new Security(new WebUser()));
             string retVal = "";
 
             try
             {
-                sourceSearch.AddSources(record.ParseToGuidList(), sources.ParseToGuidList(), SourceTypes.Person);
+                sourceSearch.AddSources(sourceRecordSourceMap.Records.ParseToGuidList(), sourceRecordSourceMap.Sources.ParseToGuidList(), SourceTypes.Person);
             }
             catch (Exception ex1)
             {
@@ -248,12 +243,12 @@ namespace GenWEBAPI.Controllers
                 ThackrayFound = isChecked.ToNullableBool() == true ? isThackrayFound.ToNullableBool() : null,
                 Viewed = isChecked.ToNullableBool() == true ? isViewed.ToNullableBool() : null,
                 SourceTypes = sourceTypes.ParseToIntList(),
-                Ref = sourceRef,
-                Description = sourceDesc,
+                Ref = sourceRef ?? "",
+                Description = sourceDesc ?? "",
                 FromYear = (dateLb.ToInt32() + toDateLb.ToInt32()),
                 ToYear = (toDateUb.ToInt32() + dateUb.ToInt32()),
-                OriginalLocation = origLoc,
-                FileCount = fileCount,
+                OriginalLocation = origLoc ?? "",
+                FileCount = fileCount ?? "",
                 UrStart = dateUb.ToInt32(),
                 UrEnd = toDateUb.ToInt32(),
                 LrStart = dateLb.ToInt32(),
@@ -284,7 +279,7 @@ namespace GenWEBAPI.Controllers
         [Route(UriSourceMappings.DeleteSource)]
         [HttpPost]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        public IHttpActionResult DeleteSource(string sourceId)
+        public IHttpActionResult DeleteSource([FromBody]string sourceId)
         {
 
             var sourceSearch = new SourceSearch(new Security(new WebUser()));
@@ -317,7 +312,7 @@ namespace GenWEBAPI.Controllers
 
             var jss = new JavaScriptSerializer();
 
-            var obj = jss.Deserialize<dynamic>(serviceSourceAdd.FileIds);
+            var obj = jss.Deserialize<dynamic>(serviceSourceAdd.FileIds?? "");
 
             var tp = new List<ServiceFile>();
 

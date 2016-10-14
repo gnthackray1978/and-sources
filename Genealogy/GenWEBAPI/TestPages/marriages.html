@@ -17,185 +17,260 @@
 
 
 	
-	function getMarriage(){
+        function getmarriageid() {
 		
-		var params = {id : 'CEB4A571-B475-4457-8B7B-00B3FD1A131F'};
+            var params = {id : 'CEB4A571-B475-4457-8B7B-00B3FD1A131F'};
         
-		var url = getUrl() + "marriage?" + $.param(params);
+            var url = getUrl() + "marriage?" + $.param(params);
 					
-		writeLine('URL', url);
+            writeLine('URL', url);
 		
-		$.ajaxSetup({ cache: false });
+            $.ajaxSetup({ cache: false });
 
-        $.ajax({
-            url: url,
-            dataType: "json",
+            $.ajax({
+                url: url,
+                dataType: "json",
            
-			type: "GET",
-            success: success,
-            error: error,
+                type: "GET",
+                success: success,
+                error: error,
 			
-            timeout: 3000000 // sets timeout to 3 seconds
-        });
-	}
+                timeout: 3000000 // sets timeout to 3 seconds
+            });
+        }
 
-
-	function getMarriageByFilter(){
+        function getMarriageByFilter(){
 		
-		var params = {
-			uniqref : '',
-			malecname : 'george',
-			malesname : 'thackray',
-			femalecname : '',
-			femalesname : '',
-			location : '',
-			lowerDate : '1700',
-			upperDate : '1850',
-			sourceFilter : '',
-			parishFilter : '',
-			marriageWitness : '',
-			pno : '0',
-			psize : '20',
-			sortcol : ''
-		};
+            var params = {
+                uniqref : '',
+                malecname : 'george',
+                malesname : 'thackray',
+                femalecname : '',
+                femalesname : '',
+                location : '',
+                lowerDate : '1700',
+                upperDate : '1850',
+                sourceFilter : '',
+                parishFilter : '',
+                marriageWitness : '',
+                pno : '0',
+                psize : '20',
+                sortcol : ''
+            };
         
-		var url = getUrl() + "marriages?" + $.param(params);
+            var url = getUrl() + "marriages?" + $.param(params);
 				 	
-		writeLine('URL', url);
+            writeLine('URL', url);
 		
-		$.ajaxSetup({ cache: false });
+            $.ajaxSetup({ cache: false });
 
-        $.ajax({
-            url: url,
-            dataType: "json",
+            $.ajax({
+                url: url,
+                dataType: "json",
            
-			type: "GET",
-            success: success,
-            error: error,
+                type: "GET",
+                success: success,
+                error: error,
 			
-            timeout: 3000000 // sets timeout to 3 seconds
-        });
-	}
-	
-	 
-	
-	
-	function addMarriage(){
+                timeout: 3000000 // sets timeout to 3 seconds
+            });
+        }
+
+        function addMarriage(){
 		 
-		var marriageWitnesses = []; 
+            var marriageWitnesses = []; 
 		
-		marriageWitnesses.push(
-			{
-				name: 'John',
-				surname : 'Smith Witness1',
-				description: 'wit desc 1'
-			}
-		);
+            marriageWitnesses.push(
+                {
+                    name: 'John',
+                    surname : 'Smith Witness1',
+                    description: 'wit desc 1'
+                }
+            );
 		
-		marriageWitnesses.push(
-			{
-				name: 'Sarah',
-				surname : 'Smith Witness2',
-				description: 'wit desc 2'
-			}
-		);
+            marriageWitnesses.push(
+                {
+                    name: 'Sarah',
+                    surname : 'Smith Witness2',
+                    description: 'wit desc 2'
+                }
+            );
 		
 		 
-		var serviceMarriage = {
-			MarriageId : 'CEB4A571-B475-4457-8B7B-00B3FD1A131F',
-			MarriageDate : '1 Jan 1800',
-			MaleCName : 'George',
-			MaleSName : 'Test',
-			FemaleCName : 'Sarah',
-			FemaleSName : 'Test',
-			MaleNotes : 'some male test notes',
-			FemaleNotes : 'some female test notes',
-			MarriageLocation : 'Grantham',
-			LocationId : '69FC0FDA-0885-4B78-A188-0F0866FAF498',
-			LocationCounty : 'Lincolnshire',
-			MaleLocation : 'Grantham',
-			FemaleLocation : 'Sleaford',
-			IsBanns : 'true',
-			IsLicense : 'false',
-			IsWidow : 'false',
-			IsWidower : 'true',
-			MaleOccupation : 'Male occupation',
-			FemaleOccupation : 'Female occupation',
-			MaleBirthYear : '1780',
-			FemaleBirthYear : '1780',
-			SourceDescription : 'source description'
-		};	
+            var serviceMarriage = {
+                MarriageId : 'CEB4A571-B475-4457-8B7B-00B3FD1A131F',
+                MarriageDate : '1 Jan 1800',
+                MaleCName : 'George',
+                MaleSName : 'Test',
+                FemaleCName : 'Sarah',
+                FemaleSName : 'Test',
+                MaleNotes : 'some male test notes',
+                FemaleNotes : 'some female test notes',
+                MarriageLocation : 'Grantham',
+                LocationId : '69FC0FDA-0885-4B78-A188-0F0866FAF498',
+                LocationCounty : 'Lincolnshire',
+                MaleLocation : 'Grantham',
+                FemaleLocation : 'Sleaford',
+                IsBanns : 'true',
+                IsLicense : 'false',
+                IsWidow : 'false',
+                IsWidower : 'true',
+                MaleOccupation : 'Male occupation',
+                FemaleOccupation : 'Female occupation',
+                MaleBirthYear : '1780',
+                FemaleBirthYear : '1780',
+                SourceDescription : 'source description'
+            };	
 			
-		var serviceMarriageData = {
-			serviceMarriage : serviceMarriage,
-			sources : 'E54A4328-B1FD-4D13-AB49-00004230CC11',
-			marriageWitnesses : marriageWitnesses//JSON.stringify(marriageWitnesses)
-		};
+            var serviceMarriageData = {
+                serviceMarriage : serviceMarriage,
+                sources : 'E54A4328-B1FD-4D13-AB49-00004230CC11',
+                marriageWitnesses : marriageWitnesses//JSON.stringify(marriageWitnesses)
+            };
 		
 		
 		
 		
-		var url = getUrl() + "addmarriage/";
+            var url = getUrl() + "addmarriage/";
 		
 		
 		
-		writeLine('URL', url);
+            writeLine('URL', url);
 		
 	
 		
-	//	p = { 
-	//			username: 'y', 
-		//		password: 'x' 
-		//	};
+            //	p = { 
+            //			username: 'y', 
+            //		password: 'x' 
+            //	};
 		
-		$.ajax({
-            url: url,
-            dataType: "json",
+            $.ajax({
+                url: url,
+                dataType: "json",
         
-            type: "POST",
-			data: serviceMarriageData,
-			success: success,
-            error: error
-        });
-	}
-	
+                type: "POST",
+                data: serviceMarriageData,
+                success: success,
+                error: error
+            });
+        }
 
-	
-    $(document).ready(function() {
+
+        function deleteMarriages() {
+            
+        }
+        function setMarriageDuplicate() {
+
+        }
+        function mergeMarriages() {
+
+        }
+        function removeMarriageLinks() {
+
+        }
+        function reorderMarriages() {
+
+        }
+        function switchSpouses() {
+
+        }
+
+
+
+        $(document).ready(function() {
         
-		$("#getmarriageid").click(function(e) {
-			resetStyling();
-           getMarriage();
-		   e.preventDefault();
-        });
+            $("#getmarriageid").click(function(e) {
+                resetStyling();
+                getMarriage();
+                e.preventDefault();
+            });
 		
-		$("#getmarriages").click(function(e) {
-			resetStyling();
-           getMarriageByFilter();
-		   e.preventDefault();
-        });
+            $("#getmarriages").click(function(e) {
+                resetStyling();
+                getMarriageByFilter();
+                e.preventDefault();
+            });
 			
-		$("#addmarriage").click(function(e) {
-			resetStyling();
-           addMarriage();
-		   e.preventDefault();
-        });			
+            $("#addmarriage").click(function(e) {
+                resetStyling();
+                addMarriage();
+                e.preventDefault();
+            });			
 
-    });
+
+            $("#deletemarriageid").click(function (e) {
+                resetStyling();
+                getMarriage();
+                e.preventDefault();
+            });
+
+            $("#marriageduplicatesid").click(function (e) {
+                resetStyling();
+                getMarriageByFilter();
+                e.preventDefault();
+            });
+
+            $("#mergemarriagesid").click(function (e) {
+                resetStyling();
+                addMarriage();
+                e.preventDefault();
+            });
+
+
+            $("#removemarriagelinksid").click(function (e) {
+                resetStyling();
+                getMarriage();
+                e.preventDefault();
+            });
+
+            $("#reordermarriagesid").click(function (e) {
+                resetStyling();
+                getMarriageByFilter();
+                e.preventDefault();
+            });
+
+            $("#switchspousesid").click(function (e) {
+                resetStyling();
+                addMarriage();
+                e.preventDefault();
+            });
+
+        });
     </script>
 
 </head>
 <body>
 
-    <div class="row">
-        <div class="col-sm-4" ><a id='getmarriageid' href=''>GetMarriage</a></div>
-        <div class="col-sm-4" ><a id='addmarriage' href=''>AddMarriage</a></div>
-        <div class="col-sm-4" ><a id='getmarriages' href=''>GetMarriages</a></div>
-    </div>
+<div class="row">
+    <div class="col-sm-4" ><a id='getmarriageid' href=''>GetMarriage</a></div>
+    <div class="col-sm-4" ><a id='addmarriage' href=''>AddMarriage</a></div>
+    <div class="col-sm-4" ><a id='getmarriages' href=''>GetMarriages</a></div>
+    
+    <div class="col-sm-4"><a id='deletemarriageid' href=''>Delete Marriages</a></div>
+    <div class="col-sm-4"><a id='marriageduplicatesid' href=''>Set Marriage Duplicate</a></div>
+    <div class="col-sm-4"><a id='mergemarriagesid' href=''>Marge Marriages</a></div>
+    
+    <div class="col-sm-4"><a id='removemarriagelinksid' href=''>Remove Marriage Links</a></div>
+    <div class="col-sm-4"><a id='reordermarriagesid' href=''>Reorder Marriages</a></div>
+    <div class="col-sm-4"><a id='switchspousesid' href=''>Switch Spouses</a></div>
+</div>
 
 <br/>
-   <textarea id="result" style="width: 100%; resize: horizontal;"></textarea>
-   <pre><code id="prettyResult" class="json" style="width: 1024px;"></code></pre>
+<textarea id="result" style="width: 100%; resize: horizontal;"></textarea>
+<pre><code id="prettyResult" class="json" style="width: 1024px;"></code></pre>
 
 </body>
 </html>
+
+
+<!--public const string AddMarriage = "addmarriage";
+public const string GetMarriages = "marriages";
+public const string GetMarriage = "marriage";
+
+public const string DeleteMarriages = "marriage/delete";
+public const string SetMarriageDuplicate = "marriages/createduplicate";
+public const string MergeMarriages = "marriages/mergemarriages";
+
+        public const string RemoveMarriageLinks = "marriages/removelinks";
+        public const string ReorderMarriages = "marriages/reorder";
+        public const string SwitchSpouses = "marriages/switchspouses";-->

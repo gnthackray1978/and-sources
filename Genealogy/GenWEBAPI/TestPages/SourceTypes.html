@@ -16,9 +16,14 @@
         //sourcetypes
         function getSourceTypesId() {
 
-            var params = { sourceIds: 'CEB4A571-B475-4457-8B7B-00B3FD1A131F' };
+            var params = { 
+                description:'xxx', 
+                pageNumber:'1', 
+                pageSize:'2', 
+                sortCol:'3' 
+            };
 
-            var url = getUrl() + "sources/names?" + $.param(params);
+            var url = getUrl() + "sourcetypes?" + $.param(params);
 
             writeLine('URL', url);
 
@@ -38,9 +43,9 @@
         //sourcetype
         function getSourceTypeId() {
 
-            var params = { sourceId: 'CEB4A571-B475-4457-8B7B-00B3FD1A131F' };
+            var params = { typeId: '3' };
 
-            var url = getUrl() + "1841censusplaces?" + $.param(params);
+            var url = getUrl() + "sourcetype?" + $.param(params);
 
             writeLine('URL', url);
 
@@ -60,9 +65,9 @@
         //sourcetypenames
         function getSourceTypeNamesId() {
 
-            var params = { sourceId: 'CEB4A571-B475-4457-8B7B-00B3FD1A131F' };
+            var params = { typeIds: '1,2,3' };
 
-            var url = getUrl() + "1841censussources?" + $.param(params);
+            var url = getUrl() + "sourcetypenames?" + $.param(params);
 
             writeLine('URL', url);
 
@@ -82,29 +87,34 @@
         //sourcetypes/delete
         function deleteSourceTypeId() {
 
+        
+            var url = getUrl() + "sourcetypes/delete";
+
+            writeLine('URL', url);
+            var sourceIds = '=1,2,3';
+
+
+            $.ajax({
+                url: url,
+                dataType: "json",
+
+                type: "POST",
+                data: sourceIds,
+                success: success,
+                error: error
+            });
         }
+
         //sourcetype
         function addSourceTypeId() {
-            var params = {
-                sourceTypes: '',
-                sourceRef: '',
-                sourceDesc: '',
-                origLoc: '',
-                dateLb: '',
-                toDateLb: '',
-                dateUb: '',
-                toDateUb: '',
-                fileCount: '',
-                isThackrayFound: '',
-                isCopyHeld: '',
-                isViewed: '',
-                isChecked: '',
-                pageNumber: '',
-                pageSize: '',
-                sortColumn: ''
+
+            var serviceTypeAdd = {
+                TypeId:'12',
+                Description:'test one',
+                Order:'5'
             };
 
-            var url = getUrl() + "sources?" + $.param(params);
+            var url = getUrl() + "sourcetype";
 
             writeLine('URL', url);
 
@@ -114,7 +124,8 @@
                 url: url,
                 dataType: "json",
 
-                type: "GET",
+                type: "POST",
+                data: serviceTypeAdd,
                 success: success,
                 error: error,
 

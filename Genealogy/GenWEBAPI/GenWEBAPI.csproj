@@ -161,12 +161,15 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="TestPages\highlight.pack.js" />
+    <Content Include="TestPages\libs\highlight.pack.js" />
     <Content Include="TestPages\marriages.html" />
     <Content Include="TestPages\parishs.html" />
     <Content Include="TestPages\persons.html" />
+    <Content Include="TestPages\batches.html" />
+    <Content Include="TestPages\users.html" />
+    <Content Include="TestPages\SourceTypes.html" />
     <Content Include="TestPages\sources.html" />
-    <Content Include="TestPages\testlib.js" />
+    <Content Include="TestPages\libs\testlib.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

@@ -35,27 +35,27 @@
             });
         }
 
-        function Get1841CensusPlaces() {
+        //function Get1841CensusPlaces() {
 
-            var params = { sourceId: 'CEB4A571-B475-4457-8B7B-00B3FD1A131F' };
+        //    var params = { sourceId: 'CEB4A571-B475-4457-8B7B-00B3FD1A131F' };
 
-            var url = getUrl() + "1841censusplaces?" + $.param(params);
+        //    var url = getUrl() + "1841censusplaces?" + $.param(params);
 
-            writeLine('URL', url);
+        //    writeLine('URL', url);
 
-            $.ajaxSetup({ cache: false });
+        //    $.ajaxSetup({ cache: false });
 
-            $.ajax({
-                url: url,
-                dataType: "json",
+        //    $.ajax({
+        //        url: url,
+        //        dataType: "json",
 
-                type: "GET",
-                success: success,
-                error: error,
+        //        type: "GET",
+        //        success: success,
+        //        error: error,
 
-                timeout: 3000000 // sets timeout to 3 seconds
-            });
-        }
+        //        timeout: 3000000 // sets timeout to 3 seconds
+        //    });
+        //}
 
         function Get1841CensusSources() {
 
@@ -78,30 +78,43 @@
                 timeout: 3000000 // sets timeout to 3 seconds
             });
         }
-
  
         function DeleteSource() {
+            var url = getUrl() + "sources/delete";
 
+            writeLine('URL', url);
+
+            var recordId = '=CEB4A571-B475-4457-8B7B-00B3FD1A131F';
+
+            $.ajax({
+                url: url,
+                dataType: "json",
+
+                type: "POST",
+                data: recordId,
+                success: success,
+                error: error
+            });
         }
 
         function GetSources() {
             var params = {
-                sourceTypes: '',
-                sourceRef: '',
-                sourceDesc: '',
-                origLoc: '',
-                dateLb: '',
-                toDateLb: '',
-                dateUb: '',
-                toDateUb: '',
-                fileCount: '',
-                isThackrayFound: '',
-                isCopyHeld: '',
-                isViewed: '',
-                isChecked: '',
-                pageNumber: '',
-                pageSize: '',
-                sortColumn: ''
+                sourceTypes: '',//sourceTypes
+                sourceRef: '',//sourceRef
+                sourceDesc: '',//sourceDesc
+                origLoc: '',//origLoc
+                dateLb: '',//dateLb
+                toDateLb: '',//toDateLb
+                dateUb: '',//dateUb
+                toDateUb: '',//toDateUb
+                fileCount: '',//fileCount
+                isThackrayFound: '',//isThackrayFound
+                isCopyHeld: '',//isCopyHeld
+                isViewed: '',//isViewed
+                isChecked: '',//isChecked
+                pageNumber: '',//pageNumber
+                pageSize: '',//pageSize
+                sortColumn: ''//sortColumn
             };
 
             var url = getUrl() + "sources?" + $.param(params);
@@ -179,7 +192,10 @@
 
         function AddPersonTreeSource() {
 
-            
+            var sourceRecordSourceMap = {
+                Records: 'CEB4A571-B475-4457-8B7B-00B3FD1A131F,CEB4A571-B475-4457-8B7B-00B3FD1A131F',
+                Sources: 'CEB4A571-B475-4457-8B7B-00B3FD1A131F,CEB4A571-B475-4457-8B7B-00B3FD1A131F'
+            };
 
             var url = getUrl() + "source/persontree";
 
@@ -190,16 +206,19 @@
                 dataType: "json",
 
                 type: "POST",
-                data: {
-                    record: 'CEB4A571-B475-4457-8B7B-00B3FD1A131F,CEB4A571-B475-4457-8B7B-00B3FD1A131F',
-                    sources: 'CEB4A571-B475-4457-8B7B-00B3FD1A131F,CEB4A571-B475-4457-8B7B-00B3FD1A131F'
-                },
+                data: sourceRecordSourceMap,
                 success: success,
                 error: error
             });
         }
 
         function AddMarriageTreeSource() {
+
+            var sourceRecordSourceMap = {
+                Records: 'CEB4A571-B475-4457-8B7B-00B3FD1A131F,CEB4A571-B475-4457-8B7B-00B3FD1A131F',
+                Sources: 'CEB4A571-B475-4457-8B7B-00B3FD1A131F,CEB4A571-B475-4457-8B7B-00B3FD1A131F'
+            };
+
             var url = getUrl() + "source/marriagetree";
 
             writeLine('URL', url);
@@ -209,27 +228,26 @@
                 dataType: "json",
 
                 type: "POST",
-                data: {
-                    record: 'CEB4A571-B475-4457-8B7B-00B3FD1A131F,CEB4A571-B475-4457-8B7B-00B3FD1A131F'
-                },
+                data: sourceRecordSourceMap,
                 success: success,
                 error: error
             });
 
         }
+
         function RemoveTreeSources() {
             var url = getUrl() + "sources/tree/delete";
 
             writeLine('URL', url);
+
+            var recordId = '=CEB4A571-B475-4457-8B7B-00B3FD1A131F';
 
             $.ajax({
                 url: url,
                 dataType: "json",
 
                 type: "POST",
-                data: {
-                    record: 'CEB4A571-B475-4457-8B7B-00B3FD1A131F'
-                },
+                data: recordId,
                 success: success,
                 error: error
             });
@@ -237,23 +255,66 @@
 
         $(document).ready(function() {
 
-            $("#getmarriageid").click(function(e) {
+            $("#get1841CensusSourcesId").click(function (e) {
                 resetStyling();
-                getMarriage();
+                Get1841CensusSources();
                 e.preventDefault();
             });
 
-            $("#getmarriages").click(function(e) {
+            //$("#get1841CensusPlacesId").click(function (e) {
+            //    resetStyling();
+            //    Get1841CensusPlaces();
+            //    e.preventDefault();
+            //});
+
+            $("#getSourceNamesId").click(function (e) {
                 resetStyling();
-                getMarriageByFilter();
+                GetSourceNames();
                 e.preventDefault();
             });
 
-            $("#addmarriage").click(function(e) {
+            $("#deleteSourcesId").click(function (e) {
                 resetStyling();
-                addMarriage();
+                DeleteSource();
                 e.preventDefault();
             });
+
+            $("#getSourcesId").click(function (e) {
+                resetStyling();
+                GetSources();
+                e.preventDefault();
+            });
+
+            $("#getSourceId").click(function (e) {
+                resetStyling();
+                GetSource();
+                e.preventDefault();
+            });
+
+            $("#addSourceId").click(function (e) {
+                resetStyling();
+                AddSource();
+                e.preventDefault();
+            });
+
+            $("#addPersonTreeId").click(function (e) {
+                resetStyling();
+                AddPersonTreeSource();
+                e.preventDefault();
+            });
+
+            $("#addMarriageTreeId").click(function (e) {
+                resetStyling();
+                AddMarriageTreeSource();
+                e.preventDefault();
+            });
+
+            $("#removeTreeSourceId").click(function (e) {
+                resetStyling();
+                RemoveTreeSources();
+                e.preventDefault();
+            });
+
 
         });
     </script>
@@ -264,7 +325,7 @@
 <div class="row">
     
     <div class="col-sm-4"><a id='get1841CensusSourcesId' href=''>1841 Census Sources</a>  </div>
-    <div class="col-sm-4"><a id='get1841CensusPlacesId' href=''>1841 Census Places</a> </div>
+    <!--<div class="col-sm-4"><a id='get1841CensusPlacesId' href=''>1841 Census Places</a> </div>-->
     <div class="col-sm-4"><a id='getSourceNamesId' href=''>Get Source Names</a> </div>
     <div class="col-sm-4"><a id='deleteSourcesId' href=''>Delete Sources</a>  </div>
     <div class="col-sm-4"><a id='getSourcesId' href=''>Get Sources</a> </div>
