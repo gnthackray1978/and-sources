@@ -231,7 +231,7 @@ namespace GenWEBAPI.Controllers
             string retVal = "";
             try
             {
-                parish = _parishSearch.GetParish(parishId.ToGuid());
+                parish = _parishSearch.GetParish(id.ToGuid());
             }
             catch (Exception ex1)
             {

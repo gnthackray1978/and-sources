@@ -26,7 +26,7 @@ namespace TDBCore.Types.validators
 
         public string GetErrors()
         {
-            return "";
+            return "Reference or OriginalLocation or Description must have a value";
         }
     }
 }

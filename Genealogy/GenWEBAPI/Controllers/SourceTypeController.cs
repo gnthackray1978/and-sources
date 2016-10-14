@@ -158,7 +158,7 @@ namespace GenWEBAPI.Controllers
         [Route(UriSourceTypesMappings.DeleteSourceTypes)]
         [HttpPost]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        public IHttpActionResult DeleteSourceTypes(string sourceIds)
+        public IHttpActionResult DeleteSourceTypes([FromBody]string sourceIds)
         {
             string retVal = "";
 
