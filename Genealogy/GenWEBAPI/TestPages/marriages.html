@@ -12,10 +12,9 @@
     <script src="./libs/highlight.pack.js"></script>
     <script src="./libs/testlib.js"></script>
     <script>
-	
 
 
-
+        var marriageid;
 	
         function getmarriageid() {
 		
@@ -159,18 +158,23 @@
         function deleteMarriages() {
             
         }
+
         function setMarriageDuplicate() {
 
         }
+
         function mergeMarriages() {
 
         }
+
         function removeMarriageLinks() {
 
         }
+
         function reorderMarriages() {
 
         }
+
         function switchSpouses() {
 
         }
@@ -181,7 +185,7 @@
         
             $("#getmarriageid").click(function(e) {
                 resetStyling();
-                getMarriage();
+                getmarriageid();
                 e.preventDefault();
             });
 		
@@ -197,41 +201,39 @@
                 e.preventDefault();
             });			
 
-
             $("#deletemarriageid").click(function (e) {
                 resetStyling();
-                getMarriage();
+                deleteMarriages();
                 e.preventDefault();
             });
 
             $("#marriageduplicatesid").click(function (e) {
                 resetStyling();
-                getMarriageByFilter();
+                setMarriageDuplicate();
                 e.preventDefault();
             });
 
             $("#mergemarriagesid").click(function (e) {
                 resetStyling();
-                addMarriage();
+                mergeMarriages();
                 e.preventDefault();
             });
 
-
             $("#removemarriagelinksid").click(function (e) {
                 resetStyling();
-                getMarriage();
+                removeMarriageLinks();
                 e.preventDefault();
             });
 
             $("#reordermarriagesid").click(function (e) {
                 resetStyling();
-                getMarriageByFilter();
+                reorderMarriages();
                 e.preventDefault();
             });
 
             $("#switchspousesid").click(function (e) {
                 resetStyling();
-                addMarriage();
+                switchSpouses();
                 e.preventDefault();
             });
 
