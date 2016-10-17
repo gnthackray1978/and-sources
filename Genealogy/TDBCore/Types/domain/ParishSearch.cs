@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
  
 using TDBCore.BLL;
@@ -32,6 +33,8 @@ namespace TDBCore.Types.domain
 
             _parishsDal.DeleteParishs(parishIds.ParseToGuidList());
  
+
+
             return parishIds;
         }
 
@@ -93,9 +96,9 @@ namespace TDBCore.Types.domain
             if (iValidator != null)
                 _validator = iValidator;
 
-            if (!_validator.ValidEntry()) return;
+            if (!_validator.ValidEntry()) throw new InvalidDataException(_validator.GetErrors()); ;
  
-            if (serviceParish.ParishId == Guid.Empty)
+            if (serviceParish.ParishId != Guid.Empty)
             {
                 Edit(serviceParish);
             }

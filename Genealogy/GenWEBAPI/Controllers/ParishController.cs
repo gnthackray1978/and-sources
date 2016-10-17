@@ -98,9 +98,9 @@ namespace GenWEBAPI.Controllers
 
             var psf = new ParishSearchFilter
             {
-                County = county,
-                Deposited = deposited,
-                Name = name
+                County = county ?? "",
+                Deposited = deposited?? "",
+                Name = name??""
             };
 
             var result = new ServiceParishObject();
@@ -126,9 +126,10 @@ namespace GenWEBAPI.Controllers
         [Route(UriParishMappings.DeleteParishs)]
         [HttpPost]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        public IHttpActionResult DeleteParishs(string parishIds)
+        public IHttpActionResult DeleteParishs([FromBody] string parishIds)
         {
             var retVal = "";
+            var errorMessage = "";
 
             try
             {
@@ -136,12 +137,12 @@ namespace GenWEBAPI.Controllers
             }
             catch (Exception ex1)
             {
-                retVal = ex1.Message;
+                errorMessage = ex1.Message;
             }
 
-            if (retVal != "")
+            if (errorMessage != "")
             {
-                return Content(HttpStatusCode.BadRequest, retVal);
+                return Content(HttpStatusCode.BadRequest, errorMessage);
             }
 
             return Ok(retVal);
@@ -194,14 +195,14 @@ namespace GenWEBAPI.Controllers
             {
                 ParishId = serviceParishAdd.ParishId.ToGuid(),
                 ParishStartYear = serviceParishAdd.ParishStartYear.ToInt32(),
-                ParishDeposited = serviceParishAdd.ParishDeposited,
+                ParishDeposited = serviceParishAdd.ParishDeposited ?? "",
                 ParishEndYear = serviceParishAdd.ParishEndYear.ToInt32(),
                 ParishLat = serviceParishAdd.ParishLat.ToDouble(),
                 ParishLong = serviceParishAdd.ParishLong.ToDouble(),
-                ParishName = serviceParishAdd.ParishName,
-                ParishNote = serviceParishAdd.ParishNote,
-                ParishParent = serviceParishAdd.ParishParent,
-                ParishCounty = serviceParishAdd.ParishCounty
+                ParishName = serviceParishAdd.ParishName ?? "",
+                ParishNote = serviceParishAdd.ParishNote ??"",
+                ParishParent = serviceParishAdd.ParishParent??"",
+                ParishCounty = serviceParishAdd.ParishCounty ??""
             };
 
             try

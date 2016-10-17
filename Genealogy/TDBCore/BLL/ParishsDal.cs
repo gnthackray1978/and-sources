@@ -337,14 +337,16 @@ namespace TDBCore.BLL
 
         public void DeleteParishs(List<Guid> parishIds)
         {
-            //hackray1978@gmail.com's googlecode.com password: SG2fZ8wM3MZ9 
-            var customer = ModelContainer.Parishs.Where(c => parishIds.Contains(c.ParishId));
+            
+            var customer = ModelContainer.Parishs.Where(c => parishIds.Contains(c.ParishId) && c!= null).ToList();
 
-            foreach (var parish in customer.Where(parish => parish != null))
+            foreach (var parish in customer)
             {
                 ModelContainer.Parishs.Remove(parish);
                 ModelContainer.SaveChanges();
             }
+
+
         }
 
         public void UpdateParish(ServiceParish serviceParish)
@@ -399,6 +401,7 @@ namespace TDBCore.BLL
             else
             {
                 parishId = parishs.First().ParishId;
+                serviceParish.ParishId = parishId;
             }
 
 
