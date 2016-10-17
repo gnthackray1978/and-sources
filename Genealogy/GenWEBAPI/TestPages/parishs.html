@@ -14,18 +14,20 @@
 
     <script>
 
+        var createId = '00000000-0000-0000-0000-000000000000';
+
 	function getParishs(){
 	    
 		var params = {
 		    deposited: '',
 		    name: '',
 		    county: 'Yorkshire',
-		    pageNumber: '1',
-		    pageSize: '25',
+		    pNo: '1',
+		    pSize: '25',
 		    sortCol: ''
 		};
         
-		var url = getUrl() + "parishs" + $.param(params);
+		var url = getUrl() + "parishs?" + $.param(params);
 					
 		writeLine('URL', url);
 		
@@ -44,7 +46,7 @@
 	}
 
 	function getparish() {
-	    var params = { id: '0288ACD2-B26C-4FB5-A098-E4572233E50D' };
+	    var params = { id: '7CB9FDE8-644C-467D-8B4D-02109BE0AD47' };
 
 	    var url = getUrl() + "parish" + $.param(params);
 
@@ -94,7 +96,7 @@
 	    var serviceParishAdd = { 
             ParishId : '',
             ParishName : 'George Test Parish',
-            ParishDeposited : '',
+            ParishDeposited : 'NYRO',
             ParishParent : '',
             ParishCounty : 'Yorkshire',
             ParishStartYear : '1600',
@@ -110,16 +112,20 @@
         
             type: "POST",
             data: serviceParishAdd,
-			success: success,
+            success: function(xhr, textStatus) {
+                createId = xhr;
+
+                success(xhr, textStatus);
+            },
             error: error
         });
 	}
 	
 	function getParishsFromLocationsid() {
 	    
-	    var params = { parishLocation: 'locat' };
+	    var params = { parishLocation: '53.957700,-1.082290,0.5,0.5' };
 
-	    var url = getUrl() + "parishlocations"+ $.param(params);
+	    var url = getUrl() + "parishlocations?"+ $.param(params);
 
 	    writeLine('URL', url);
 
@@ -146,9 +152,8 @@
 	        url: url,
 	        dataType: "json",
 	        type: "POST",
-	        data: {
-	            parishIds: '1234'
-	        },
+	        data: '='+ createId,
+	        
 	        success: success,
 	        error: error
 	    });
@@ -158,9 +163,9 @@
 
 	function getparishnames() {
 
-	    var params = { parishIds: 'ids' };
+	    var params = { parishIds: '5ECC8A5D-7694-4849-9B86-00C264FFABDF,F0104802-D414-44A5-95BC-01185A638E0A,7CB9FDE8-644C-467D-8B4D-02109BE0AD47' };
 
-	    var url = getUrl() + "parishnames" + $.param(params);
+	    var url = getUrl() + "parishnames?" + $.param(params);
 
 	    writeLine('URL', url);
 
@@ -277,13 +282,13 @@
 		
         $("#GetParishs").click(function (e) {
 			resetStyling();
-            getParish(); 
+			getParishs();
 			e.preventDefault();
         });
 
         $("#GetParish").click(function (e) {
             resetStyling();
-            getparishid();
+            getparish();
             e.preventDefault();
         });
 
