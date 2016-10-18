@@ -57,7 +57,7 @@
                 sortcol : ''
             };
         
-            var url = getUrl() + "marriages?" + $.param(params);
+            var url = getUrl() + "filteredmarriages?" + $.param(params);
 				 	
             writeLine('URL', url);
 		
@@ -75,7 +75,7 @@
             });
         }
 
-        function addMarriage(){
+        function addMarriage(finished){
 		 
             var marriageWitnesses = []; 
 		
@@ -126,22 +126,10 @@
                 sources : 'E54A4328-B1FD-4D13-AB49-00004230CC11',
                 marriageWitnesses : marriageWitnesses//JSON.stringify(marriageWitnesses)
             };
-		
-		
-		
-		
+
             var url = getUrl() + "addmarriage/";
-		
-		
-		
+
             writeLine('URL', url);
-		
-	
-		
-            //	p = { 
-            //			username: 'y', 
-            //		password: 'x' 
-            //	};
 		
             $.ajax({
                 url: url,
@@ -149,18 +137,62 @@
         
                 type: "POST",
                 data: serviceMarriageData,
-                success: success,
+                success: function (xhr, textStatus) {
+                    marriageid = xhr;
+                    finished(marriageid);
+                    success(xhr, textStatus);
+                },
                 error: error
             });
         }
 
 
         function deleteMarriages() {
-            
+            var url = getUrl() + "marriage/delete";
+
+            writeLine('URL', url);
+
+            $.ajax({
+                url: url,
+                dataType: "json",
+                type: "POST",
+                data: '=' + marriageid,
+
+                success: success,
+                error: error
+            });
         }
 
         function setMarriageDuplicate() {
+            //marriages/createduplicate
+            addMarriage(function(id) {
+                var marid1 = id;
 
+                addMarriage(function (id) {
+                    var marid2 = id;
+
+                    var url = getUrl() + "marriages/createduplicate";
+
+                    writeLine('URL', url);
+
+                    var param = marid1 + ',' + marid2;
+
+                    $.ajax({
+                        url: url,
+                        dataType: "json",
+                        type: "POST",
+                        data: '=' + param,
+
+                        success: function (xhr, textStatus) {
+                            //marriageid = xhr;
+                            
+                            success(xhr, textStatus);
+                        },
+                        error: error
+                    });
+                });
+
+            });
         }
 
         function mergeMarriages() {

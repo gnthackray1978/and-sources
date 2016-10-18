@@ -22,6 +22,7 @@ namespace GenWEBAPI.Controllers
         //marriages
         public const string AddMarriage = "addmarriage";
         public const string GetMarriages = "marriages";
+        public const string GetFilteredMarriages = "filteredmarriages";
         public const string GetMarriage = "marriage";
         public const string DeleteMarriages = "marriage/delete";
         public const string SetMarriageDuplicate = "marriages/createduplicate";
@@ -97,10 +98,51 @@ namespace GenWEBAPI.Controllers
             return Ok(serviceMarriage);
         }
 
+        [Route(UriMappingMarriage.GetMarriages)]
+        [HttpGet]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        public IHttpActionResult GetMarriages(string ids)
+        {
+            
+            var marriageFilter = new MarriageSearchFilter()
+            {
+                Ids = ids.ParseToGuidList()
+            };
+            var marriageValidation = new MarriageSearchValidator(marriageFilter);
+            // ahouls use search function here     
+            string retVal = "";
 
+            var serviceMarriageObject = new ServiceMarriageObject();
+
+            try
+            {
+
+                serviceMarriageObject = _marriageSearch.Search(MarriageFilterTypes.IdList, marriageFilter,
+                                  new DataShaping()
+                                  {
+                                      Column = "",
+                                      RecordPageSize = 25,
+                                      RecordStart = 0
+                                  }, marriageValidation);
+
+            }
+            catch (Exception ex1)
+            {
+                retVal = "Exception: " + ex1.Message;
+            }
+ 
+            if (retVal != "")
+            {
+                return Content(HttpStatusCode.BadRequest, retVal);
+            }
+
+            
+
+            return Ok(serviceMarriageObject );
+        }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        [Route(UriMappingMarriage.GetMarriages)]
+        [Route(UriMappingMarriage.GetFilteredMarriages)]
         [HttpGet]
         public IHttpActionResult GetMarriages(string uniqref, string malecname, string malesname, string femalecname,
             string femalesname, string location, string lowerDate, string upperDate, string sourceFilter, string parishFilter, string marriageWitness,

@@ -54,7 +54,6 @@ namespace TDBCore.Types.domain
             {
 
                 case PersonSearchTypes.Duplicates:
-
                     if (personSearchFilter.ParentId != Guid.Empty)
                     {
                         tpServicePerson = _personDal.GetByDupeRef(personSearchFilter.ParentId);
@@ -64,11 +63,12 @@ namespace TDBCore.Types.domain
                   
 
                 case PersonSearchTypes.Simple:
-
-                    tpServicePerson = _personDal.GetByFilter(personSearchFilter).OrderBy(o => o.BirthYear).ToList();
-                      
+                    tpServicePerson = _personDal.GetByFilter(personSearchFilter).OrderBy(o => o.BirthYear).ToList();                      
                     break;
 
+                case PersonSearchTypes.IdList:
+                    tpServicePerson = _personDal.GetByIdList(personSearchFilter).OrderBy(o => o.BirthYear).ToList();
+                    break;
             }
 
 

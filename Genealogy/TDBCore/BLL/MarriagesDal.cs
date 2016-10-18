@@ -195,7 +195,17 @@ namespace TDBCore.BLL
 
             return result;
         }
- 
+
+        public List<MarriageResult> GetByListId(List<Guid> marriageIds)
+        {
+            var results = ModelContainer.Marriages.Where(m => marriageIds.Contains(m.Marriage_Id)).ToList();
+
+            return results.Select(r => new MarriageResult()
+            {
+                MarriageId = r.Marriage_Id, FemaleCName = r.FemaleCName, FemaleSName = r.FemaleSName, MaleCName = r.MaleCName, MaleSName = r.MaleSName, MarriageLocation = r.MarriageLocation, MarriageTotalEvents = r.TotalEvents.GetValueOrDefault(), MarriageYear = r.YearIntVal.GetValueOrDefault(), UniqueRef = r.UniqueRef.GetValueOrDefault()
+            }).ToList();
+        }
+
         public void MergeMarriages(Guid marriageToMergeIntoId, Guid marriageToMergeId)
         {
             var m1 = ModelContainer.Marriages.FirstOrDefault(m => m.Marriage_Id == marriageToMergeIntoId);

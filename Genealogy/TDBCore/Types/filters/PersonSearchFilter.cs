@@ -6,6 +6,7 @@ namespace TDBCore.Types
 {
     public class PersonSearchFilter
     {
+        public List<Guid> Ids { get; set; }
         public string CName { get;  set; }
         public string Surname { get;  set; }
         public string Location { get;  set; }

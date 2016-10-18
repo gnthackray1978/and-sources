@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using TDBCore.Types.filters;
 using TDBCore.Types.libs;
 
@@ -16,6 +17,10 @@ namespace TDBCore.Types.validators
 
         public bool ValidEntry()
         {
+            if (_sm.Ids.Any())
+            {
+                return true;
+            }
 
             if (_sm.Source.ToGuid() != Guid.Empty)
             {

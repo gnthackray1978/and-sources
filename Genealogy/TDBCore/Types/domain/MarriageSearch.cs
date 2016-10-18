@@ -75,6 +75,11 @@ namespace TDBCore.Types.domain
                             _marriagesDll.GetFilteredMarriages(marriageSearchFilter)
                                          .ToServiceMarriageObject(shaping.Column, shaping.RecordPageSize, shaping.RecordStart);
                         break;
+                    
+                    case MarriageFilterTypes.IdList:
+                        serviceMarriageObject = _marriagesDll.GetByListId(marriageSearchFilter.Ids).ToServiceMarriageObject(shaping.Column, shaping.RecordPageSize, shaping.RecordStart);
+                        break;
+
                 }
 
             }

@@ -17,6 +17,8 @@ namespace TDBCore.BLL
         IList<MarriageResult> GetDataByUniqueRef(Guid uniqueRef);
         IList<Guid> GetDataByDupeRefByMarriageId(Guid marriageId);
         List<MarriageResult> GetFilteredMarriages(MarriageSearchFilter m);
+
+        List<MarriageResult> GetByListId(List<Guid> marriageIds);
         void MergeMarriages(Guid marriageToMergeIntoId, Guid marriageToMergeId);
         Guid InsertMarriage(ServiceMarriage sm);
 
