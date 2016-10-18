@@ -272,7 +272,49 @@ namespace TDBCore.BLL
 
 
         }
+
         
+
+        public IList<ServicePerson> GetByIdList(PersonSearchFilter personIds)
+        {
+            var results = ModelContainer.Persons.Where(m => personIds.Ids.Contains(m.Person_id)).ToList();
+
+            return results.Select(p => new ServicePerson()
+            {
+                PersonId = p.Person_id,
+                ChristianName = p.ChristianName,
+                Surname = p.Surname,
+                BirthLocation = p.BirthLocation,
+                Birth = p.BirthDateStr,
+                Baptism = p.BaptismDateStr,
+                Death = p.DeathDateStr,
+                DeathLocation = p.DeathLocation,
+                FatherChristianName = p.FatherChristianName,
+                FatherSurname = p.FatherSurname,
+                MotherChristianName = p.MotherChristianName,
+                MotherSurname = p.MotherSurname,
+                SourceDescription = p.Source,
+                BirthYear = (p.BirthInt == 0) ? p.BapInt : p.BirthInt,
+                DeathYear = p.DeathInt,
+                
+                Occupation = p.Occupation,
+                SpouseChristianName = p.SpouseName,
+                SpouseSurname = p.SpouseSurname,
+                Spouse = p.SpouseName + " " + p.SpouseSurname,
+                FatherOccupation = p.FatherOccupation,
+                Events = p.TotalEvents.ToString(CultureInfo.InvariantCulture),
+                UniqueReference = p.UniqueRef.GetValueOrDefault().ToString(),
+               
+                OthersideChristianName = p.OthersideChristianName,
+                OthersideSurname = p.OthersideSurname,
+                OthersideRelationship = p.OthersideRelationship,
+                ReferenceDate = p.ReferenceDateStr,
+                ReferenceLocation = p.ReferenceLocation,
+                ReferenceYear = p.ReferenceDateInt
+                
+            }).ToList();
+        }
+
         public IList<ServicePerson> GetByDupeRef(Guid dupeRef)
         {
 

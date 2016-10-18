@@ -35,7 +35,7 @@ namespace GenWEBAPI.Controllers
         public const string AddPerson = "person/add";
         public const string GetPerson = "person";
         public const string GetPersons = "persons";
-
+        public const string GetFilterPersons = "filterpersons";
     }
 
     public class ServicePersonData
@@ -296,9 +296,9 @@ namespace GenWEBAPI.Controllers
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        [Route(UriPersonMappings.GetPersons)]
+        [Route(UriPersonMappings.GetFilterPersons)]
         [HttpGet]
-        public IHttpActionResult GetPersons(string parentId,
+        public IHttpActionResult GetFilteredPersons(string parentId,
             string christianName,
             string surname,
             string fatherChristianName,
@@ -373,6 +373,60 @@ namespace GenWEBAPI.Controllers
                 }
 
 
+            }
+            catch (Exception ex1)
+            {
+                retVal = ex1.Message;
+            }
+            finally
+            {
+                if (retVal != "") retVal += Environment.NewLine;
+
+                spo.ErrorStatus = retVal;
+            }
+
+
+
+            if (retVal != "")
+            {
+                return Content(HttpStatusCode.BadRequest, retVal);
+            }
+
+
+
+
+            return Ok(spo);
+        }
+
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [Route(UriPersonMappings.GetPersons)]
+        [HttpGet]
+        public IHttpActionResult GetPersons(string ids)
+        {
+            string retVal = "";
+
+            var spo = new ServicePersonObject();
+
+            var personSearch = new PersonSearch(new Security(new WebUser()));
+
+            try
+            {
+              
+                var searchParams = new PersonSearchFilter
+                {
+                    Ids = ids.ParseToGuidList()
+                       
+                };
+
+                spo = personSearch.Search(PersonSearchTypes.IdList, searchParams,
+                                new DataShaping
+                                {
+                                    RecordStart = 0,
+                                    RecordPageSize = 25
+                                }, new PersonSearchValidator(searchParams));
+                               
             }
             catch (Exception ex1)
             {

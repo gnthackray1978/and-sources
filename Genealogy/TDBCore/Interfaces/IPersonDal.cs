@@ -13,6 +13,7 @@ namespace TDBCore.BLL
         void UpdateDuplicateRefs(Guid person1, Guid person2);
         Guid Insert(ServicePerson person);
         ServicePerson Get(Guid personId);
+        IList<ServicePerson> GetByIdList(PersonSearchFilter personSearchFilter);
         IList<ServicePerson> GetByDupeRef(Guid dupeRef);
         List<ServicePerson> GetByFilter(PersonSearchFilter personSearchFilter);
         void UpdateUniqueRefs();

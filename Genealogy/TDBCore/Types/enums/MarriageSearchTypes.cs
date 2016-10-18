@@ -7,6 +7,7 @@ namespace TDBCore.Types.enums
         Relations = 0,
         Duplicates = 1,
         Standard = 2,
-        Simple = 3
+        Simple = 3,
+        IdList =4
     }
 }

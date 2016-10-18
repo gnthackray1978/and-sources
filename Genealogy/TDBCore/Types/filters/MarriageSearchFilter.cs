@@ -7,6 +7,7 @@ namespace TDBCore.Types.filters
 {
     public class MarriageSearchFilter
     {
+        public List<Guid> Ids { get; set; }
 
         public Guid ParentId { get; set; }
 
