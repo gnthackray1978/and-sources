@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="GeneralModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="GeneralModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="CountyDictionary">
           <Key>
             <PropertyRef Name="dictId" />
@@ -1028,10 +1028,6 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
           <EntitySet Name="BatchLog" EntityType="GeneralModel.BatchLog" />
           <FunctionImport Name="USP_UpdateSourceCounts" />
           <EntitySet Name="MarriageMapWitness" EntityType="GeneralModel.MarriageMapWitness" />
-          <AssociationSet Name="FK_MarriageMapWitness_Marriages" Association="GeneralModel.FK_MarriageMapWitness_Marriages">
-            <End Role="Marriage" EntitySet="Marriages" />
-            <End Role="MarriageMapWitness" EntitySet="MarriageMapWitness" />
-          </AssociationSet>
           <AssociationSet Name="FK_MarriageMapWitness_Persons" Association="GeneralModel.FK_MarriageMapWitness_Persons">
             <End Role="Person" EntitySet="Persons" />
             <End Role="MarriageMapWitness" EntitySet="MarriageMapWitness" />
@@ -1073,6 +1069,10 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
             <Parameter Name="othersideRelationship" Mode="In" Type="String" />
             <Parameter Name="sourceSearch" Mode="In" Type="Boolean" />
           </FunctionImport>
+          <AssociationSet Name="FK_MarriageMapWitness_Marriages" Association="GeneralModel.FK_MarriageMapWitness_Marriages">
+            <End Role="Marriage" EntitySet="Marriages" />
+            <End Role="MarriageMapWitness" EntitySet="MarriageMapWitness" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Marriage">
           <Key>
@@ -1575,13 +1575,9 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
           <Property Name="MarriageMapWitnessIndex" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="WitnessNote" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="DateAdded" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Marriages" Relationship="GeneralModel.FK_MarriageMapWitness_Marriages" FromRole="MarriageMapWitness" ToRole="Marriage" />
           <NavigationProperty Name="Persons" Relationship="GeneralModel.FK_MarriageMapWitness_Persons" FromRole="MarriageMapWitness" ToRole="Person" />
+          <NavigationProperty Name="Marriages" Relationship="GeneralModel.FK_MarriageMapWitness_Marriages" FromRole="MarriageMapWitness" ToRole="Marriage" />
         </EntityType>
-        <Association Name="FK_MarriageMapWitness_Marriages">
-          <End Type="GeneralModel.Marriage" Role="Marriage" Multiplicity="1" />
-          <End Type="GeneralModel.MarriageMapWitness" Role="MarriageMapWitness" Multiplicity="*" />
-        </Association>
         <Association Name="FK_MarriageMapWitness_Persons">
           <End Type="GeneralModel.Person" Role="Person" Multiplicity="1" />
           <End Type="GeneralModel.MarriageMapWitness" Role="MarriageMapWitness" Multiplicity="*" />
@@ -1672,6 +1668,10 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
           <Property Type="String" Name="OthersideRelationship" Nullable="false" MaxLength="150" />
           <Property Type="Guid" Name="marriageId" Nullable="true" />
         </ComplexType>
+        <Association Name="FK_MarriageMapWitness_Marriages">
+          <End Type="GeneralModel.Marriage" Role="Marriage" Multiplicity="1" />
+          <End Type="GeneralModel.MarriageMapWitness" Role="MarriageMapWitness" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2277,14 +2277,6 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="FK_MarriageMapWitness_Marriages" TypeName="GeneralModel.FK_MarriageMapWitness_Marriages" StoreEntitySet="MarriageMapWitness">
-            <EndProperty Name="MarriageMapWitness">
-              <ScalarProperty Name="MarriageMapWitnessIndex" ColumnName="MarriageMapWitnessIndex" />
-            </EndProperty>
-            <EndProperty Name="Marriage">
-              <ScalarProperty Name="Marriage_Id" ColumnName="MarriageId" />
-            </EndProperty>
-          </AssociationSetMapping>
           <AssociationSetMapping Name="FK_MarriageMapWitness_Persons" TypeName="GeneralModel.FK_MarriageMapWitness_Persons" StoreEntitySet="MarriageMapWitness">
             <EndProperty Name="MarriageMapWitness">
               <ScalarProperty Name="MarriageMapWitnessIndex" ColumnName="MarriageMapWitnessIndex" />
@@ -2399,6 +2391,14 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <AssociationSetMapping Name="FK_MarriageMapWitness_Marriages" TypeName="GeneralModel.FK_MarriageMapWitness_Marriages" StoreEntitySet="MarriageMapWitness">
+            <EndProperty Name="MarriageMapWitness">
+              <ScalarProperty Name="MarriageMapWitnessIndex" ColumnName="MarriageMapWitnessIndex" />
+            </EndProperty>
+            <EndProperty Name="Marriage">
+              <ScalarProperty Name="Marriage_Id" ColumnName="MarriageId" />
+            </EndProperty>
+          </AssociationSetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -2422,7 +2422,7 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <edmx:Diagram Name="GeneralModel" ZoomLevel="150">
-        <edmx:EntityTypeShape EntityType="GeneralModel.Marriage" Width="1.5" PointX="16.625" PointY="1.625" Height="9.6723437499999978" IsExpanded="false" />
+        <edmx:EntityTypeShape EntityType="GeneralModel.Marriage" Width="1.5" PointX="18.875" PointY="1" Height="9.6723437499999978" IsExpanded="true" />
         <edmx:EntityTypeShape EntityType="GeneralModel.Parish" Width="1.5" PointX="3.125" PointY="0.625" Height="3.7109993489583326" IsExpanded="false" />
         <edmx:EntityTypeShape EntityType="GeneralModel.SourceMappingParish" Width="2.25" PointX="6" PointY="0.5" Height="1.9802864583333326" IsExpanded="false" />
         <edmx:EntityTypeShape EntityType="GeneralModel.SourceMapping" Width="1.5" PointX="12.625" PointY="2.25" Height="2.5571907552083326" IsExpanded="false" />
@@ -2486,8 +2486,7 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
         <edmx:EntityTypeShape EntityType="GeneralModel.uvw_1841Census" Width="1.5" PointX="6.5" PointY="9.375" Height="2.1725878906250031" IsExpanded="false" />
         <edmx:EntityTypeShape EntityType="GeneralModel.Log" Width="1.5" PointX="5.375" PointY="7.75" IsExpanded="false" />
         <edmx:EntityTypeShape EntityType="GeneralModel.BatchLog" Width="1.5" PointX="4.875" PointY="2.5" IsExpanded="false" />
-        <edmx:EntityTypeShape EntityType="GeneralModel.MarriageMapWitness" Width="2.75" PointX="17.625" PointY="4.875" />
-        <edmx:AssociationConnector Association="GeneralModel.FK_MarriageMapWitness_Marriages" />
+        <edmx:EntityTypeShape EntityType="GeneralModel.MarriageMapWitness" Width="2.75" PointX="14" PointY="3.375" />
         <edmx:AssociationConnector Association="GeneralModel.FK_MarriageMapWitness_Persons" />
         <edmx:EntityTypeShape EntityType="GeneralModel.Relations" Width="1.5" PointX="4.625" PointY="9.875" />
         <edmx:EntityTypeShape EntityType="GeneralModel.RelationTypes" Width="1.5" PointX="1" PointY="15.25" />
@@ -2496,6 +2495,7 @@ warning 6002: The table/view 'ThackrayDB.dbo.uvw_1841Census' does not have a pri
         <edmx:AssociationConnector Association="GeneralModel.FK_Relations_Persons1" />
         <edmx:AssociationConnector Association="GeneralModel.FK_Relations_RelationTypes" />
         <edmx:AssociationConnector Association="GeneralModel.FK_SourceMappingTypes_Sources" />
+        <edmx:AssociationConnector Association="GeneralModel.FK_MarriageMapWitness_Marriages" />
       </edmx:Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

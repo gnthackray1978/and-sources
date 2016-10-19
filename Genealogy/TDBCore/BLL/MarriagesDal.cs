@@ -251,7 +251,7 @@ namespace TDBCore.BLL
             marriage.UserId = sm.UserId;
             marriage.MaleBirthYear = sm.MaleBirthYear;
             marriage.FemaleBirthYear = sm.FemaleBirthYear;
-            marriage.UniqueRef = sm.UniqueRef.ToGuid();
+            marriage.UniqueRef = sm.UniqueRef.ToGuid() == Guid.Empty ? Guid.NewGuid() : sm.UniqueRef.ToGuid();
             marriage.TotalEvents = sm.TotalEvents.ToInt32();
             marriage.EventPriority = sm.Priority.ToInt32();
             marriage.Marriage_Id = System.Guid.NewGuid();
