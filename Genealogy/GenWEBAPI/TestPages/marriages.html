@@ -15,7 +15,43 @@
 
 
         var marriageid;
-	
+
+        function getfiltermarriages() {
+            var params = {
+                uniqref: '',
+                malecname: 'george',
+                malesname: 'thackray',
+                femalecname: '',
+                femalesname: '',
+                location: '',
+                lowerDate: '1700',
+                upperDate: '1850',
+                sourceFilter: '',
+                parishFilter: '',
+                marriageWitness: '',
+                pno: '0',
+                psize: '20',
+                sortcol: ''
+            };
+
+            var url = getUrl() + "filteredmarriages?" + $.param(params);
+
+            writeLine('URL', url);
+
+            $.ajaxSetup({ cache: false });
+
+            $.ajax({
+                url: url,
+                dataType: "json",
+
+                type: "GET",
+                success: success,
+                error: error,
+
+                timeout: 3000000 // sets timeout to 3 seconds
+            });
+        }
+
         function getmarriageid() {
 		
             var params = {id : 'CEB4A571-B475-4457-8B7B-00B3FD1A131F'};
@@ -41,23 +77,10 @@
         function getMarriageByFilter(){
 		
             var params = {
-                uniqref : '',
-                malecname : 'george',
-                malesname : 'thackray',
-                femalecname : '',
-                femalesname : '',
-                location : '',
-                lowerDate : '1700',
-                upperDate : '1850',
-                sourceFilter : '',
-                parishFilter : '',
-                marriageWitness : '',
-                pno : '0',
-                psize : '20',
-                sortcol : ''
+                ids: '6232F158-E85B-4E1F-960C-004044037CF3,C144E2D0-224C-419C-B697-00469E301AEA'
             };
         
-            var url = getUrl() + "filteredmarriages?" + $.param(params);
+            var url = getUrl() + "marriages?" + $.param(params);
 				 	
             writeLine('URL', url);
 		
@@ -97,7 +120,7 @@
 		
 		 
             var serviceMarriage = {
-                MarriageId : 'CEB4A571-B475-4457-8B7B-00B3FD1A131F',
+                MarriageId : '',// 'CEB4A571-B475-4457-8B7B-00B3FD1A131F',
                 MarriageDate : '1 Jan 1800',
                 MaleCName : 'George',
                 MaleSName : 'Test',
@@ -139,7 +162,8 @@
                 data: serviceMarriageData,
                 success: function (xhr, textStatus) {
                     marriageid = xhr;
-                    finished(marriageid);
+                    if(finished)
+                        finished(marriageid);
                     success(xhr, textStatus);
                 },
                 error: error
@@ -162,6 +186,8 @@
                 error: error
             });
         }
+
+
 
         function setMarriageDuplicate() {
             //marriages/createduplicate
@@ -269,6 +295,11 @@
                 e.preventDefault();
             });
 
+            $("#getfiltermarriagesid").click(function (e) {
+                resetStyling();
+                getfiltermarriages();
+                e.preventDefault();
+            });
         });
     </script>
 
@@ -287,6 +318,11 @@
     <div class="col-sm-4"><a id='removemarriagelinksid' href=''>Remove Marriage Links</a></div>
     <div class="col-sm-4"><a id='reordermarriagesid' href=''>Reorder Marriages</a></div>
     <div class="col-sm-4"><a id='switchspousesid' href=''>Switch Spouses</a></div>
+
+    <div class="col-sm-4"><a id='getfiltermarriagesid' href=''>Get Filtered Marriages</a></div>
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4"></div>
+
 </div>
 
 <br/>
