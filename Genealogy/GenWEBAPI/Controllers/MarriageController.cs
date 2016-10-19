@@ -165,6 +165,7 @@ namespace GenWEBAPI.Controllers
                 {
                     var marriageFilter = new MarriageSearchFilter()
                     {
+                        Ids = new List<Guid>(),
                         MaleCName = malecname ?? "",
                         MaleSName = malesname ?? "",
                         FemaleCName = femalecname ?? "",
@@ -226,7 +227,7 @@ namespace GenWEBAPI.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [Route(UriMappingMarriage.DeleteMarriages)]
         [HttpPost]
-        public IHttpActionResult DeleteMarriages(string marriageIds)
+        public IHttpActionResult DeleteMarriages([FromBody]string marriageIds)
         {
             string retVal = "";
 
@@ -253,7 +254,7 @@ namespace GenWEBAPI.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [Route(UriMappingMarriage.SetMarriageDuplicate)]
         [HttpPost]
-        public IHttpActionResult SetMarriageDuplicate(string marriages)
+        public IHttpActionResult SetMarriageDuplicate([FromBody]string marriages)
         {
             string retVal = "";
 
