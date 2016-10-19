@@ -74,10 +74,10 @@
             });
         }
 
-        function getMarriageByFilter(){
+        function getMarriagesByIdList(ids){
 		
             var params = {
-                ids: '6232F158-E85B-4E1F-960C-004044037CF3,C144E2D0-224C-419C-B697-00469E301AEA'
+                ids: ids
             };
         
             var url = getUrl() + "marriages?" + $.param(params);
@@ -98,57 +98,77 @@
             });
         }
 
-        function addMarriage(finished){
-		 
-            var marriageWitnesses = []; 
-		
+
+
+        
+
+        function makeMarriage(pmalecname, pmalesname, pfemalecname, pfemalesname, pdate) {
+
+
+            var malecname = pmalecname  == undefined ? 'george' : pmalecname;
+            var malesname = pmalesname == undefined ? 'test' : pmalesname;
+            var femalecname = pfemalecname == undefined ? 'sarah' : pfemalecname;
+            var femalesname = pfemalesname == undefined ? 'taylor' : pfemalesname;
+            var date = pdate == undefined ? '1 Jan 1800' : pdate;
+
+            var marriageWitnesses = [];
+
             marriageWitnesses.push(
                 {
                     name: 'John',
-                    surname : 'Smith Witness1',
+                    surname: 'Smith Witness1',
                     description: 'wit desc 1'
                 }
             );
-		
+
             marriageWitnesses.push(
                 {
                     name: 'Sarah',
-                    surname : 'Smith Witness2',
+                    surname: 'Smith Witness2',
                     description: 'wit desc 2'
                 }
             );
-		
-		 
+
+
             var serviceMarriage = {
-                MarriageId : '',// 'CEB4A571-B475-4457-8B7B-00B3FD1A131F',
-                MarriageDate : '1 Jan 1800',
-                MaleCName : 'George',
-                MaleSName : 'Test',
-                FemaleCName : 'Sarah',
-                FemaleSName : 'Test',
-                MaleNotes : 'some male test notes',
-                FemaleNotes : 'some female test notes',
-                MarriageLocation : 'Grantham',
-                LocationId : '69FC0FDA-0885-4B78-A188-0F0866FAF498',
-                LocationCounty : 'Lincolnshire',
-                MaleLocation : 'Grantham',
-                FemaleLocation : 'Sleaford',
-                IsBanns : 'true',
-                IsLicense : 'false',
-                IsWidow : 'false',
-                IsWidower : 'true',
-                MaleOccupation : 'Male occupation',
-                FemaleOccupation : 'Female occupation',
-                MaleBirthYear : '1780',
-                FemaleBirthYear : '1780',
-                SourceDescription : 'source description'
-            };	
-			
-            var serviceMarriageData = {
-                serviceMarriage : serviceMarriage,
-                sources : 'E54A4328-B1FD-4D13-AB49-00004230CC11',
-                marriageWitnesses : marriageWitnesses//JSON.stringify(marriageWitnesses)
+                MarriageId: '',// 'CEB4A571-B475-4457-8B7B-00B3FD1A131F',
+                MarriageDate: date,
+                MaleCName: malecname,
+                MaleSName: malesname,
+                FemaleCName: femalecname,
+                FemaleSName: femalesname,
+                MaleNotes: 'some male test notes',
+                FemaleNotes: 'some female test notes',
+                MarriageLocation: 'Grantham',
+                LocationId: '69FC0FDA-0885-4B78-A188-0F0866FAF498',
+                LocationCounty: 'Lincolnshire',
+                MaleLocation: 'Grantham',
+                FemaleLocation: 'Sleaford',
+                IsBanns: 'true',
+                IsLicense: 'false',
+                IsWidow: 'false',
+                IsWidower: 'true',
+                MaleOccupation: 'Male occupation',
+                FemaleOccupation: 'Female occupation',
+                MaleBirthYear: '1780',
+                FemaleBirthYear: '1780',
+                SourceDescription: 'source description'
             };
+
+            var serviceMarriageData = {
+                serviceMarriage: serviceMarriage,
+                sources: 'E54A4328-B1FD-4D13-AB49-00004230CC11',
+                marriageWitnesses: marriageWitnesses//JSON.stringify(marriageWitnesses)
+            };
+
+            return serviceMarriageData;
+        }
+
+
+
+        function addMarriage(finished) {
+
+            var serviceMarriageData = makeMarriage();
 
             var url = getUrl() + "addmarriage/";
 
@@ -203,6 +223,8 @@
 
                     var param = marid1 + ',' + marid2;
 
+                    
+
                     $.ajax({
                         url: url,
                         dataType: "json",
@@ -211,17 +233,57 @@
 
                         success: function (xhr, textStatus) {
                             //marriageid = xhr;
+
                             
+                            getMarriagesByIdList(param);
+
                             success(xhr, textStatus);
                         },
                         error: error
                     });
+
+
+
                 });
 
             });
         }
 
         function mergeMarriages() {
+
+            var url = getUrl() + "addmarriage/";
+
+            writeLine('URL', url);
+
+            var p1 = {
+                url: url,
+                dataType: "json",
+                type: "POST",
+                data: makeMarriage('George1', 'TestGroom1', 'Sarah1', 'TestBride1', '1 Jan 1800'),
+                success: function(xhr, textStatus) {                    
+                    success(xhr, textStatus);
+                }
+            };
+
+            var p2 = {
+                url: url,
+                dataType: "json",
+                type: "POST",
+                data: makeMarriage('George2', 'TestGroom2', 'Sarah2', 'TestBride2', '1 Jan 1800'),
+                success: function (xhr, textStatus) {
+                    success(xhr, textStatus);
+                }
+            };
+
+            var pm1 = $.ajax(p1);
+
+            var pm2 = $.ajax(p2);
+
+            $.when(pm1, pm2).done(function (a1, a2) {
+                console.log('finished');
+            });
+
+
 
         }
 
@@ -249,7 +311,7 @@
 		
             $("#getmarriages").click(function(e) {
                 resetStyling();
-                getMarriageByFilter();
+                getMarriagesByIdList('6232F158-E85B-4E1F-960C-004044037CF3,C144E2D0-224C-419C-B697-00469E301AEA');
                 e.preventDefault();
             });
 			
