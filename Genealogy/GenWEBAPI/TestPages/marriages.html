@@ -210,43 +210,63 @@
 
 
         function setMarriageDuplicate() {
-            //marriages/createduplicate
-            addMarriage(function(id) {
-                var marid1 = id;
 
-                addMarriage(function (id) {
-                    var marid2 = id;
+            var url = getUrl() + "addmarriage/";
 
-                    var url = getUrl() + "marriages/createduplicate";
+            writeLine('URL', url);
+            var marriages = [];
 
-                    writeLine('URL', url);
+            var p1 = {
+                url: url,
+                dataType: "json",
+                type: "POST",
+                data: makeMarriage('George1', 'TestGroom1', 'Sarah1', 'TestBride1', '1 Jan 1800'),
+                success: function (xhr, textStatus) {
 
-                    var param = marid1 + ',' + marid2;
+                    marriages.push(xhr);
 
-                    
+                    success(xhr, textStatus);
+                }
+            };
 
-                    $.ajax({
-                        url: url,
-                        dataType: "json",
-                        type: "POST",
-                        data: '=' + param,
+            var p2 = {
+                url: url,
+                dataType: "json",
+                type: "POST",
+                data: makeMarriage('George2', 'TestGroom2', 'Sarah2', 'TestBride2', '1 Jan 1800'),
+                success: function (xhr, textStatus) {
+                    marriages.push(xhr);
 
-                        success: function (xhr, textStatus) {
-                            //marriageid = xhr;
+                    success(xhr, textStatus);
+                }
+            };
 
-                            
-                            getMarriagesByIdList(param);
+            $.when($.ajax(p1), $.ajax(p2)).done(function (a1, a2) {
 
-                            success(xhr, textStatus);
-                        },
-                        error: error
-                    });
+                url = getUrl() + "marriages/createduplicate";
 
+                writeLine('URL', url);
 
+                var param = marriages[0] + ',' + marriages[1];
 
+                $.ajax({
+                    url: url,
+                    dataType: "json",
+                    type: "POST",
+                    data: '=' + param,
+
+                    success: function (xhr, textStatus) {
+                        
+                        getMarriagesByIdList(param);
+
+                        success(xhr, textStatus);
+                    },
+                    error: error
                 });
 
+                writeLine('finished ', url);
             });
+
         }
 
         function mergeMarriages() {
@@ -254,6 +274,8 @@
             var url = getUrl() + "addmarriage/";
 
             writeLine('URL', url);
+
+            var marriages = [];
 
             var p1 = {
                 url: url,
@@ -275,28 +297,225 @@
                 }
             };
 
-            var pm1 = $.ajax(p1);
+            
+            $.when($.ajax(p1), $.ajax(p2)).done(function (a1, a2) {
 
-            var pm2 = $.ajax(p2);
+                url = getUrl() + "marriages/mergemarriages";
 
-            $.when(pm1, pm2).done(function (a1, a2) {
-                console.log('finished');
+                writeLine('URL', url);
+
+                var param = marriages[0] + ',' + marriages[1];
+
+                $.ajax({
+                    url: url,
+                    dataType: "json",
+                    type: "POST",
+                    data: '=' + param,
+
+                    success: function (xhr, textStatus) {
+
+                        getMarriagesByIdList(param);
+
+                        success(xhr, textStatus);
+                    },
+                    error: error
+                });
+
+                writeLine('finished ', url);
             });
-
-
 
         }
 
         function removeMarriageLinks() {
+           
+            writeLine('URL', getUrl() + "addmarriage/");
 
+            var marriages = [];
+
+            var p1 = {
+                url: getUrl() + "addmarriage/",
+                dataType: "json",
+                type: "POST",
+                data: makeMarriage('George1', 'TestGroom1', 'Sarah1', 'TestBride1', '1 Jan 1800'),
+                success: function (xhr, textStatus) {
+                    marriages.push(xhr);
+                    success(xhr, textStatus);
+                }
+            };
+
+            var p2 = {
+                url: getUrl() + "addmarriage/",
+                dataType: "json",
+                type: "POST",
+                data: makeMarriage('George2', 'TestGroom2', 'Sarah2', 'TestBride2', '1 Jan 1800'),
+                success: function (xhr, textStatus) {
+                    marriages.push(xhr);
+                    success(xhr, textStatus);
+                }
+            };
+
+            var mm = {
+                url: getUrl() + "marriages/mergemarriages",
+                dataType: "json",
+                type: "POST",
+                data: '=' + marriages[0] + ',' + marriages[1],
+
+                success: function (xhr, textStatus) {
+
+                    writeLine('merged marriages', xhr);
+
+                    getMarriagesByIdList(marriages[0] + ',' + marriages[1]);
+
+                    success(xhr, textStatus);
+                },
+                error: error
+            }
+
+
+            $.when($.ajax(p1), $.ajax(p2), $.ajax(mm)).done(function (a1, a2,a3) {
+               
+                writeLine('URL', getUrl() + "marriages/removelinks");
+
+                $.ajax({
+                    url: getUrl() + "marriages/removelinks",
+                    dataType: "json",
+                    type: "POST",
+                    data: '=' + marriages[0] + ',' + marriages[1],
+
+                    success: function (xhr, textStatus) {
+
+                        getMarriagesByIdList(marriages[0] + ',' + marriages[1]);
+
+                        success(xhr, textStatus);
+                    },
+                    error: error
+                });
+
+                writeLine('finished ', url);
+            });
         }
 
         function reorderMarriages() {
+            writeLine('URL', getUrl() + "addmarriage/");
 
+            var marriages = [];
+
+            var p1 = {
+                url: getUrl() + "addmarriage/",
+                dataType: "json",
+                type: "POST",
+                data: makeMarriage('George1', 'TestGroom1', 'Sarah1', 'TestBride1', '1 Jan 1800'),
+                success: function (xhr, textStatus) {
+                    marriages.push(xhr);
+                    success(xhr, textStatus);
+                }
+            };
+
+            var p2 = {
+                url: getUrl() + "addmarriage/",
+                dataType: "json",
+                type: "POST",
+                data: makeMarriage('George2', 'TestGroom2', 'Sarah2', 'TestBride2', '1 Jan 1800'),
+                success: function (xhr, textStatus) {
+                    marriages.push(xhr);
+                    success(xhr, textStatus);
+                }
+            };
+
+            var mm = {
+                url: getUrl() + "marriages/mergemarriages",
+                dataType: "json",
+                type: "POST",
+                data: '=' + marriages[0] + ',' + marriages[1],
+
+                success: function (xhr, textStatus) {
+
+                    writeLine('merged marriages', xhr);
+
+                    getMarriagesByIdList(marriages[0] + ',' + marriages[1]);
+
+                    success(xhr, textStatus);
+                },
+                error: error
+            }
+
+
+            $.when($.ajax(p1), $.ajax(p2), $.ajax(mm)).done(function (a1, a2, a3) {
+
+                writeLine('URL', getUrl() + "marriages/reorder");
+
+                $.ajax({
+                    url: getUrl() + "marriages/reorder",
+                    dataType: "json",
+                    type: "POST",
+                    data: '=' + marriages[0] + ',' + marriages[1],
+
+                    success: function (xhr, textStatus) {
+
+                        getMarriagesByIdList(marriages[0] + ',' + marriages[1]);
+
+                        success(xhr, textStatus);
+                    },
+                    error: error
+                });
+
+                writeLine('finished ', url);
+            });
         }
 
         function switchSpouses() {
+            var url = getUrl() + "addmarriage/";
 
+            writeLine('URL', url);
+
+            var marriages = [];
+
+            var p1 = {
+                url: url,
+                dataType: "json",
+                type: "POST",
+                data: makeMarriage('Sarah', 'tb', 'george', 'tg', '1 Jan 1800'),
+                success: function (xhr, textStatus) {
+                    success(xhr, textStatus);
+                }
+            };
+
+            var p2 = {
+                url: url,
+                dataType: "json",
+                type: "POST",
+                data: makeMarriage('sarah2', 'tb2', 'george2', 'tg2', '1 Jan 1800'),
+                success: function (xhr, textStatus) {
+                    success(xhr, textStatus);
+                }
+            };
+
+
+            $.when($.ajax(p1), $.ajax(p2)).done(function (a1, a2) {
+
+                url = getUrl() + "marriages/switchspouses";
+
+                writeLine('URL', url);
+
+                var param = marriages[0] + ',' + marriages[1];
+
+                $.ajax({
+                    url: url,
+                    dataType: "json",
+                    type: "POST",
+                    data: '=' + param,
+
+                    success: function (xhr, textStatus) {
+
+                        getMarriagesByIdList(param);
+
+                        success(xhr, textStatus);
+                    },
+                    error: error
+                });
+
+                writeLine('finished ', url);
+            });
         }
 
 

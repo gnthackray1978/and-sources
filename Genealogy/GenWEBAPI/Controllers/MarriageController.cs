@@ -397,32 +397,35 @@ namespace GenWEBAPI.Controllers
         {
 
             ServiceMarriage serviceMarriage = marriageData.serviceMarriage;
-            
-            string retVal = "";
-            
-            try
-            {
-                var tp = MarriageWitness.FormatWitnessCollection(marriageData.marriageWitnesses, marriageData.serviceMarriage);
-
-                _marriageSearch.Save(serviceMarriage, marriageData.sources.ParseToGuidList(), tp, new MarriageValidator(serviceMarriage));
-
-            
-
-            }
-            catch (Exception ex1)
-            {
-                retVal = ex1.Message;
-            }
 
 
-            if (retVal != "")
-            {
-                return Content(HttpStatusCode.BadRequest, retVal);
-            }
+            return Ok(true);
+
+            //string retVal = "";
+
+            //try
+            //{
+            //    var tp = MarriageWitness.FormatWitnessCollection(marriageData.marriageWitnesses, marriageData.serviceMarriage);
+
+            //    _marriageSearch.Save(serviceMarriage, marriageData.sources.ParseToGuidList(), tp, new MarriageValidator(serviceMarriage));
 
 
 
-            return Ok(serviceMarriage.MarriageId);
+            //}
+            //catch (Exception ex1)
+            //{
+            //    retVal = ex1.Message;
+            //}
+
+
+            //if (retVal != "")
+            //{
+            //    return Content(HttpStatusCode.BadRequest, retVal);
+            //}
+
+
+
+            //return Ok(serviceMarriage.MarriageId);
 
         }
     }
