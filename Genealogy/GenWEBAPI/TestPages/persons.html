@@ -13,16 +13,91 @@
     <script src="./libs/testlib.js"></script>
 
     <script>
-	
- 
+
+    var personids = [];
+
+    function makePerson(cname, sname, bdate) {
+
+        if (!cname) cname = 'George';
+        if (!sname) sname = 'Test';
+        if (!bdate) bdate = '1820';
+            
+
+        var servicePersonAdd = {
+            personGuid: '',
+            datebapstr: 'Abt ' + bdate,
+            datebirthstr: '',
+            datedeath: '',
+            years: '',
+            months: '',
+            weeks: '',
+            days: '',
+            Baptism: '',
+            Birth: bdate,
+            Death: '',
+            BirthCounty: 'Yorkshire',
+            DeathCounty: '',
+            BirthLocationId: '',
+            DeathLocationId: '',
+            ReferenceLocationId: '',
+            ReferenceDate: '',
+            SourceDescription: '',
+            SpouseChristianName: '',
+            SpouseSurname: '',
+            FatherOccupation: '',
+            Occupation: 'test example',
+            Notes: '',
+            IsMale: '',
+
+            ChristianName: cname,
+            Surname: sname,
+            FatherChristianName: '',
+            FatherSurname: '',
+            MotherChristianName: '',
+            MotherSurname: '',
+
+            BirthLocation: 'test birth locat',
+            DeathLocation: 'test death locat',
+            UniqueReference: '',
+            Sources: '',
+            Events: '',
+            Spouse: '',
+            LinkedTrees: '',
+            ReferenceLocation: '',
+            SourceParishName: '',
+            SourceDateStr: '',
+            SourceRef: '',
+
+            OthersideChristianName: 'Sally',
+            OthersideSurname: 'Smith',
+            OthersideRelationship: 'Wife',
+            OtherSide: '',
+            MarriageId: ''
+        };
+
+        var servicePersonData = {
+            servicePersonAdd: servicePersonAdd,
+            sources: 'E54A4328-B1FD-4D13-AB49-00004230CC11'
+        };
+
+        return servicePersonData;
+    }
 
 
-	function getPerson(){
+
+    function getPerson(){
 		
-	    var params = { id: '0288ACD2-B26C-4FB5-A098-E4572233E50D' };
-        
+
+        if (personids.length === 0) {
+            writeLine('function error', 'no marriage ids add a marriage');
+            return;
+        }
+     
+        var params = { id: personids[0] };
+ 
 		var url = getUrl() + "person?" + $.param(params);
-					
+		reset();
+
 		writeLine('URL', url);
 		
 		$.ajaxSetup({ cache: false });
@@ -38,6 +113,35 @@
             timeout: 3000000 // sets timeout to 3 seconds
         });
 	}
+
+    function getPersons() {
+
+        if (personids.length < 2) {
+	        writeLine('function error', 'not enough person ids add a person');
+	        return;
+	    }
+
+	    var params = {
+	        ids: arraytocsvstring(personids)
+	    };
+
+	    var url = getUrl() + "persons?" + $.param(params);
+	    reset();
+	    writeLine('URL', url);
+
+	    $.ajaxSetup({ cache: false });
+
+	    $.ajax({
+	        url: url,
+	        dataType: "json",
+
+	        type: "GET",
+	        success: success,
+	        error: error,
+
+	        timeout: 3000000 // sets timeout to 3 seconds
+	    });
+	};
 
 	function getPersonByFilter(){
 		
@@ -94,67 +198,9 @@
 
 	function addPerson() {
 
-	    var servicePersonAdd = {
-	        personGuid: '',
-	        datebapstr: 'Abt 1820',
-	        datebirthstr: '',
-	        datedeath: '',
-	        years: '',
-	        months: '',
-	        weeks: '',
-	        days: '',
-	        Baptism: '',
-	        Birth: '1820',
-	        Death: '',
-	        BirthCounty: 'Yorkshire',
-	        DeathCounty: '',
-	        BirthLocationId: '',
-	        DeathLocationId: '',
-	        ReferenceLocationId: '',
-	        ReferenceDate: '',
-	        SourceDescription: '',
-	        SpouseChristianName: '',
-	        SpouseSurname: '',
-	        FatherOccupation: '',
-	        Occupation: 'test example',
-	        Notes: '',
-	        IsMale: '',
+	    var servicePersonData = makePerson();
 
-	        ChristianName: 'George',
-	        Surname: 'Thackray',
-	        FatherChristianName: '',
-	        FatherSurname: '',
-	        MotherChristianName: '',
-	        MotherSurname: '',
-
-	        BirthLocation: 'test birth locat',
-	        DeathLocation: 'test death locat',
-	        UniqueReference: '',
-	        Sources: '',
-	        Events: '',
-	        Spouse: '',
-	        LinkedTrees: '',
-	        ReferenceLocation: '',
-	        SourceParishName: '',
-	        SourceDateStr: '',
-	        SourceRef: '',
-
-	        OthersideChristianName: 'Sally',
-	        OthersideSurname: 'Smith',
-	        OthersideRelationship: 'Wife',
-	        OtherSide: '',
-	        MarriageId: ''
-	    };
-
-	    var servicePersonData = {
-	        servicePersonAdd: servicePersonAdd,
-	        sources: 'E54A4328-B1FD-4D13-AB49-00004230CC11' 
-	    };
-		
-		
 	    var url = getUrl() + "person/add";
-		
-		
 		
 		writeLine('URL', url);
 		
@@ -164,31 +210,266 @@
         
             type: "POST",
             data: servicePersonData,
-			success: success,
+            success: function (xhr, textStatus) {
+                if (xhr != null)
+                    personids.push(xhr);
+
+                success(xhr, textStatus);
+            },
             error: error
         });
 	}
-	
 
-    $(document).ready(function() {
+
+	function updateestimatesid() {
+	    var url = getUrl() + "persons/updatedateestimates";
+
+	    writeLine('URL', url);
+	    
+	    $.ajax({
+	        url: url,
+	        dataType: "json",
+	        type: "POST",
+	      
+	        success: function (xhr, textStatus) {	            
+	            success(xhr, textStatus);
+	        },
+	        error: error
+	    });
+
+	    writeLine('finished ', url);
+	};
+
+	function assignlocationsid() {
+	    var url = getUrl() + "persons/assignlocations";
+
+	    writeLine('URL', url);
+
+	    $.ajax({
+	        url: url,
+	        dataType: "json",
+	        type: "POST",
+
+	        success: function (xhr, textStatus) {
+	            success(xhr, textStatus);
+	        },
+	        error: error
+	    });
+
+	    writeLine('finished ', url);
+	};
+	function setrelationsid() {
+
+	};
+	function setduplicatesid() {
+	    var url = getUrl() + "person/add";
+
+	    writeLine('URL', url);
+
+	    var persons = [];
+
+	    var p1 = {
+	        url: url,
+	        dataType: "json",
+	        type: "POST",
+	        data: makePerson('George1', 'Test1', '1 Jan 1800'),
+	        success: function (xhr, textStatus) {
+	            success(xhr, textStatus);
+	        }
+	    };
+
+	    var p2 = {
+	        url: url,
+	        dataType: "json",
+	        type: "POST",
+	        data: makePerson('George2', 'Test2', '1 Jan 1800'),
+	        success: function (xhr, textStatus) {
+	            success(xhr, textStatus);
+	        }
+	    };
+
+
+	    $.when($.ajax(p1), $.ajax(p2)).done(function (a1, a2) {
+
+	        url = getUrl() + "persons/setduplicate";
+
+	        writeLine('URL', url);
+
+	        var param = persons[0] + ',' + persons[1];
+
+	        $.ajax({
+	            url: url,
+	            dataType: "json",
+	            type: "POST",
+	            data: '=' + param,
+
+	            success: function (xhr, textStatus) {
+
+	                personids = persons;
+
+	                getPersons();
+
+	                success(xhr, textStatus);
+	            },
+	            error: error
+	        });
+
+	        writeLine('finished ', url);
+	    });
+	};
+	function mergepersonsid() {
+	    var url = getUrl() + "person/add";
+
+	    writeLine('URL', url);
+
+	    var persons = [];
+
+	    var p1 = {
+	        url: url,
+	        dataType: "json",
+	        type: "POST",
+	        data: makePerson('George1', 'Test1','1 Jan 1800'),
+	        success: function (xhr, textStatus) {
+	            success(xhr, textStatus);
+	        }
+	    };
+
+	    var p2 = {
+	        url: url,
+	        dataType: "json",
+	        type: "POST",
+	        data: makePerson('George2', 'Test2', '1 Jan 1800'),
+	        success: function (xhr, textStatus) {
+	            success(xhr, textStatus);
+	        }
+	    };
+
+
+	    $.when($.ajax(p1), $.ajax(p2)).done(function (a1, a2) {
+
+	        url = getUrl() + "persons/mergepersons";
+
+	        writeLine('URL', url);
+
+	        var param = persons[0] + ',' + persons[1];
+
+	        $.ajax({
+	            url: url,
+	            dataType: "json",
+	            type: "POST",
+	            data: '=' + param,
+
+	            success: function (xhr, textStatus) {
+
+	                personids = persons;
+
+	                getPersons();
+
+	                success(xhr, textStatus);
+	            },
+	            error: error
+	        });
+
+	        writeLine('finished ', url);
+	    });
+	};
+
+	function removelinksid() {
+
+	};
+
+	function deleteid() {
+	    var url = getUrl() + "person/delete";
+
+	    if (personids.length < 2) {
+	        writeLine('function error', 'not enough person ids add a person');
+	        return;
+	    }
+
+	    writeLine('URL', url);
+
+	    $.ajax({
+	        url: url,
+	        dataType: "json",
+	        type: "POST",
+	        data: '=' + arraytocsvstring(personids),
+
+	        success: success,
+	        error: error
+	    });
+	};
+
+	$(document).ready(function() {
         
-        $("#getpersonid").click(function (e) {
+	    $("#getpersonid").click(function (e) {
 			resetStyling();
 			getPerson();
 			e.preventDefault();
         });
 		
-        $("#addperson").click(function (e) {
-			resetStyling();
-			addPerson();
-			e.preventDefault();
+	    $("#getpersonsid").click(function (e) {
+            resetStyling();
+            getPersons();
+            e.preventDefault();
         });
 			
-		$("#getpersons").click(function(e) {
+	    $("#getfilteredpersonsid").click(function (e) {
 			resetStyling();
 			getPersonByFilter();
 			e.preventDefault();
         });			
+
+
+
+		$("#updateestimatesid").click(function (e) {
+		    resetStyling();
+		    updateestimatesid();
+		    e.preventDefault();
+		});
+
+		$("#assignlocationsid").click(function (e) {
+		    resetStyling();
+		    assignlocationsid();
+		    e.preventDefault();
+		});
+
+		$("#setrelationsid").click(function (e) {
+		    resetStyling();
+		    setrelationsid();
+		    e.preventDefault();
+		});
+
+
+		$("#setduplicatesid").click(function (e) {
+		    resetStyling();
+		    setduplicatesid();
+		    e.preventDefault();
+		});
+
+		$("#mergepersonsid").click(function (e) {
+		    resetStyling();
+		    mergepersonsid();
+		    e.preventDefault();
+		});
+
+		$("#removelinksid").click(function (e) {
+		    resetStyling();
+		    removelinksid();
+		    e.preventDefault();
+		});
+
+
+
+		$("#deleteid").click(function (e) {
+		    resetStyling();
+		    deleteid();
+		    e.preventDefault();
+		});
+		$("#addpersonid").click(function (e) {
+		    resetStyling();
+		    addPerson();
+		    e.preventDefault();
+		});
 
     });
     </script>
@@ -197,11 +478,34 @@
 <body>
  
 <div class="row">
-    <div class="col-sm-4"><a id='getpersonid' href=''>Get Person</a>
+    <div class="col-sm-4"><a id='getpersonid' href=''>Get Person</a></div>
+    <div class="col-sm-4"><a id='getpersonsid' href=''>Get  Persons</a></div>
+    <div class="col-sm-4"><a id='getfilteredpersonsid' href=''>Get Filtered Persons</a></div>
+</div>
+
+<div class="row">
+    <div class="col-sm-4"><a id='updateestimatesid' href=''>Update Estimates</a>
     </div>
-    <div class="col-sm-4"><a id='addperson' href=''>Add Person</a>
+    <div class="col-sm-4"><a id='assignlocationsid' href=''>Assign Locations</a>
     </div>
-    <div class="col-sm-4"><a id='getpersons' href=''>Get Persons</a>
+    <div class="col-sm-4"><a id='setrelationsid' href=''>Set Relations</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-4"><a id='setduplicatesid' href=''>Set Duplicates</a>
+    </div>
+    <div class="col-sm-4"><a id='mergepersonsid' href=''>Merge Persons</a>
+    </div>
+    <div class="col-sm-4"><a id='removelinksid' href=''>Remove Links</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-4"><a id='deleteid' href=''>Delete</a>
+    </div>
+    <div class="col-sm-4">
+        <a id='addpersonid' href=''>Add Person</a>
     </div>
 </div>
 

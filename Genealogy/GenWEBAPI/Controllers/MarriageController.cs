@@ -281,7 +281,7 @@ namespace GenWEBAPI.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [Route(UriMappingMarriage.RemoveMarriageLinks)]
         [HttpPost]
-        public IHttpActionResult RemoveMarriageLink(string marriage)
+        public IHttpActionResult RemoveMarriageLink([FromBody]string marriage)
         {
             // var iModel = new MarriageSearch(new Security(new WebUser()));    
             string retVal = "";
@@ -309,7 +309,7 @@ namespace GenWEBAPI.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [Route(UriMappingMarriage.ReorderMarriages)]
         [HttpPost]
-        public IHttpActionResult ReorderMarriages(string marriage)
+        public IHttpActionResult ReorderMarriages([FromBody]string marriage)
         {
             //  var iModel = new MarriageSearch(new Security(new WebUser()));
 
@@ -338,7 +338,7 @@ namespace GenWEBAPI.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [Route(UriMappingMarriage.SwitchSpouses)]
         [HttpPost]
-        public IHttpActionResult SwitchSpouses(string marriage)
+        public IHttpActionResult SwitchSpouses([FromBody]string marriage)
         {
 
             string retVal = "";
@@ -365,7 +365,7 @@ namespace GenWEBAPI.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [Route(UriMappingMarriage.MergeMarriages)]
         [HttpPost]
-        public IHttpActionResult MergeMarriage(string marriage)
+        public IHttpActionResult MergeMarriage([FromBody]string marriage)
         {
 
             string retVal = "";
