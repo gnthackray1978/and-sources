@@ -208,7 +208,10 @@ namespace TDBCore.BLL
         {
             //todo fix the service person so it cant contain nulls!!
 
-            var personEntity = new Person
+            using (var context = new GeneralModelContainer())
+            {
+
+                var personEntity = new Person
                 {
                     IsMale = person.IsMale.ToBool(),
                     ChristianName = person.ChristianName ?? "",
@@ -228,7 +231,7 @@ namespace TDBCore.BLL
                     BapInt = person.BaptismYear,
                     BirthInt = person.BirthYear,
                     DeathInt = person.DeathYear,
-                    ReferenceDateInt =person.ReferenceDate.ParseToValidYear(),// DateTools.GetDateYear(),
+                    ReferenceDateInt = person.ReferenceDate.ParseToValidYear(), // DateTools.GetDateYear(),
                     ReferenceLocation = person.ReferenceLocation ?? "",
                     BirthCounty = person.BirthCounty ?? "",
                     DeathCounty = person.DeathCounty ?? "",
@@ -256,12 +259,13 @@ namespace TDBCore.BLL
                 };
 
 
-            ModelContainer.Persons.Add(personEntity);
+                context.Persons.Add(personEntity);
 
-            ModelContainer.SaveChanges();
+                context.SaveChanges();
 
-            person.PersonId = personEntity.Person_id;
-            return personEntity.Person_id;
+                person.PersonId = personEntity.Person_id;
+                return personEntity.Person_id;
+            }
         }
   
         public ServicePerson Get(Guid personId)

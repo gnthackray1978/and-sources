@@ -9,16 +9,20 @@ namespace TDBCore.BLL
     public class BaseBll
     {
 
-        private static GeneralModelContainer _generalModelContainer; 
-        
+        private static GeneralModelContainer _generalModelContainer;
+
+      
+
         protected GeneralModelContainer ModelContainer
         {
-            get { return _generalModelContainer ?? (_generalModelContainer = new GeneralModelContainer()); }
+            //get { return _generalModelContainer ?? (_generalModelContainer = new GeneralModelContainer()); }
 
-            set
-            {
-                _generalModelContainer = value;
-            }
+            //set
+            //{
+            //    _generalModelContainer = value;
+            //}
+
+            get { return null; }
         }
 
         protected SqlConnection GetConnection()

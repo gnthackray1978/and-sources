@@ -18,6 +18,33 @@
     $("#result").val(newText);
 }
 
+function arraytocsvstring(array) {
+
+    var idx = 0;
+    var retStr = '';
+
+    while (idx < array.length) {
+        retStr += array[idx];
+
+        if(idx !== (array.length-1)) {
+            retStr += ',';
+        }
+    
+        idx++;
+    }
+
+    return retStr;
+}
+
+function reset() {
+   
+    $("#result").height(50);
+    $("#result").val('');
+    $("#prettyResult").html('');
+    $("#prettyResult").height(50);
+}
+
+
 function success(xhr, textStatus) {
     hljs.initHighlightingOnLoad();
 

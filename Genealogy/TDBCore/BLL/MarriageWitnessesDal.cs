@@ -19,53 +19,88 @@ namespace TDBCore.BLL
 
         public List<MarriageWitness> GetWitnessesForMarriage(Guid marriageId)
         {
-            return ModelContainer.MarriageMapWitness.
-                Where(m => m.Marriages.Marriage_Id == marriageId).ToList().Select(p => p.Persons != null ? new MarriageWitness { Description = p.WitnessNote, Person = p.Persons.ToServicePerson() } : null).ToList();           
+            using (var context = new GeneralModelContainer())
+            {
+                return context.MarriageMapWitness.
+                    Where(m => m.Marriages.Marriage_Id == marriageId)
+                    .ToList()
+                    .Select(
+                        p =>
+                            p.Persons != null
+                                ? new MarriageWitness
+                                {
+                                    Description = p.WitnessNote,
+                                    Person = p.Persons.ToServicePerson()
+                                }
+                                : null)
+                    .ToList();
+            }
         }
 
         public string GetWitnesseStringForMarriage(Guid marriageId)
-        {           
-            return string.Join(" ",ModelContainer.MarriageMapWitness.Where(m => m.Marriages.Marriage_Id == marriageId).Select(p => p.Persons.Surname).ToArray());
+        {
+            using (var context = new GeneralModelContainer())
+            {
+                return string.Join(" ",
+                    context.MarriageMapWitness.Where(m => m.Marriages.Marriage_Id == marriageId)
+                        .Select(p => p.Persons.Surname)
+                        .ToArray());
+            }
         }
   
         public void InsertWitnessesForMarriage(Guid marriageId, IList<MarriageWitness> persons)
         {
-            Marriage mToUpDate = ModelContainer.Marriages.FirstOrDefault(m => m.Marriage_Id == marriageId);
-
-            DeleteWitnessesForMarriage(marriageId);
-
-            foreach (var dupePerson in persons.RemoveDuplicateReferences())
+            using (var context = new GeneralModelContainer())
             {
-                _personDal.Delete(dupePerson.Person.PersonId);
-                  
-            }
-           
-            foreach (var personDto in persons)
-            {
-                var person = ModelContainer.Persons.FirstOrDefault(p=>p.Person_id== personDto.Person.PersonId);
+                Marriage mToUpDate = context.Marriages.FirstOrDefault(m => m.Marriage_Id == marriageId);
 
-                if(person!=null)
-                    ModelContainer.MarriageMapWitness.Add(new MarriageMapWitness { Persons = person, Marriages = mToUpDate, WitnessNote = personDto.Description });
-            }
-             
-            ModelContainer.SaveChanges();
+                DeleteWitnessesForMarriage(marriageId);
 
+                foreach (var dupePerson in persons.RemoveDuplicateReferences())
+                {
+                    _personDal.Delete(dupePerson.Person.PersonId);
+
+                }
+
+                foreach (var personDto in persons)
+                {
+                    var person = context.Persons.FirstOrDefault(p => p.Person_id == personDto.Person.PersonId);
+
+                    if (person != null)
+                        context.MarriageMapWitness.Add(new MarriageMapWitness
+                        {
+                            Persons = person,
+                            Marriages = mToUpDate,
+                            WitnessNote = personDto.Description
+                        });
+                }
+
+                context.SaveChanges();
+            }
         }
 
         public void DeleteWitnessesForMarriage(Guid marriageId)
         {
-            foreach (var mmw in ModelContainer.MarriageMapWitness.Where(m => m.Marriages.Marriage_Id == marriageId).ToList())
-            {       
-                ModelContainer.MarriageMapWitness.Remove(mmw);
 
-                if (mmw.Persons != null)
+            using (var context = new GeneralModelContainer())
+            {
+                foreach (
+                    var mmw in
+                        context.MarriageMapWitness.Where(m => m.Marriages.Marriage_Id == marriageId).ToList())
                 {
-                    if (ModelContainer.MarriageMapWitness.Count(o => o.Persons.Person_id == mmw.Persons.Person_id) == 0)
-                        ModelContainer.Persons.Remove(mmw.Persons);
+                    context.MarriageMapWitness.Remove(mmw);
+
+                    if (mmw.Persons != null)
+                    {
+                        if (
+                            context.MarriageMapWitness.Count(o => o.Persons.Person_id == mmw.Persons.Person_id) ==
+                            0)
+                            context.Persons.Remove(mmw.Persons);
+                    }
                 }
+
+                context.SaveChanges();
             }
-            
-            ModelContainer.SaveChanges();
         }
  
 
