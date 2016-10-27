@@ -227,13 +227,22 @@ namespace TDBCore.BLL
                         .Select(p => p.FileId)
                         .ToList();
 
-                foreach (var sourceMapping in GetSourceMappingsWithFiles(sourceId)
-                    .Where(sRow => deletionList.Contains(sRow.File.FiletId))
-                    .Select(sRow => ModelContainer.SourceMappings.FirstOrDefault(sm => sm.MappingId == sRow.MappingId))
-                    .Where(sourceMapping => sourceMapping != null))
+                //foreach (var sourceMapping in GetSourceMappingsWithFiles(sourceId)
+                //    .Where(sRow => deletionList.Contains(sRow.File.FiletId))
+                //    .Select(sRow => context.SourceMappings.FirstOrDefault(sm => sm.MappingId == sRow.MappingId))
+                //    .Where(s => s != null))
+                //{
+                //    context.SourceMappings.Remove(sourceMapping);
+                //}
+
+                foreach (var sourceMapping in GetSourceMappingsWithFiles(sourceId).Where(sRow => deletionList.Contains(sRow.File.FiletId)))
                 {
-                    context.SourceMappings.Remove(sourceMapping);
+                    var smap = context.SourceMappings.FirstOrDefault(sm => sm.MappingId == sourceMapping.MappingId);
+
+                    if(smap!=null)
+                        context.SourceMappings.Remove(smap);
                 }
+            
 
                 context.SaveChanges();
 

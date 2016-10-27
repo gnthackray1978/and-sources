@@ -184,16 +184,19 @@ namespace TDBCore.BLL
         }
 
         public void UpdateSourceVirtualLocation(Guid sourceId, string virtualLocation) {
-            var source = ModelContainer.Sources.FirstOrDefault(o => o.SourceId == sourceId);
-
-
-            if (source == null) return;
-
-            source.VirtualLocation = virtualLocation;
 
             using (var context = new GeneralModelContainer())
             {
+                var source = context.Sources.FirstOrDefault(o => o.SourceId == sourceId);
+
+
+                if (source == null) return;
+
+                source.VirtualLocation = virtualLocation;
+
+                
                 context.SaveChanges();
+                 
             }
         }
 
