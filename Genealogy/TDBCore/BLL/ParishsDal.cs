@@ -252,7 +252,7 @@ namespace TDBCore.BLL
 
 
                 var parishTranscriptDataTable =
-                    ModelContainer.ParishTranscriptionDetails.Where(o => o.Parish.ParishId == parishId);
+                    context.ParishTranscriptionDetails.Where(o => o.Parish.ParishId == parishId);
 
 
                 foreach (var ptranrow in parishTranscriptDataTable)

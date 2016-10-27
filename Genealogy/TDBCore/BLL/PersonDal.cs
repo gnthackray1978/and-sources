@@ -37,7 +37,7 @@ namespace TDBCore.BLL
                 if (person != null)
                 {
                     person.IsDeleted = true;
-                    ModelContainer.SaveChanges();
+                    context.SaveChanges();
                 }
 
 
@@ -729,10 +729,14 @@ namespace TDBCore.BLL
 
         public LocationDictionary GetEntryByLocatAndCounty(string locat, string county)
         {
-            LocationDictionary retVal = ModelContainer.LocationDictionaries.FirstOrDefault(o => o.LocationName == locat && o.LocationCounty == county);
+            using (var context = new GeneralModelContainer())
+            {
+                var retVal =
+                    context.LocationDictionaries.FirstOrDefault(
+                        o => o.LocationName == locat && o.LocationCounty == county);
 
-            return retVal;
-
+                return retVal;
+            }
         }
     }
 }
