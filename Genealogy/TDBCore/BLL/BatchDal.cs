@@ -13,99 +13,98 @@ namespace TDBCore.BLL
     {
         public Guid AddRecord(BatchDto batchDto)
         {
-            
-            var newBatch = new BatchLog
+            using (var context = new GeneralModelContainer())
             {
-                BatchId = batchDto.BatchId,
-                Id = batchDto.Id,
-                PersonId = batchDto.PersonId,
-                MarriageId = batchDto.MarriageId,
-                SourceId = batchDto.SourceId,
-                ParishId = batchDto.ParishId,
-                TimeRun = batchDto.TimeRun,
-                IsDeleted = batchDto.IsDeleted,
-                Ref = batchDto.Ref
-            };
+                var newBatch = new BatchLog
+                {
+                    BatchId = batchDto.BatchId,
+                    Id = batchDto.Id,
+                    PersonId = batchDto.PersonId,
+                    MarriageId = batchDto.MarriageId,
+                    SourceId = batchDto.SourceId,
+                    ParishId = batchDto.ParishId,
+                    TimeRun = batchDto.TimeRun,
+                    IsDeleted = batchDto.IsDeleted,
+                    Ref = batchDto.Ref
+                };
 
-            ModelContainer.BatchLog.Add(newBatch);
+                context.BatchLog.Add(newBatch);
 
-            ModelContainer.SaveChanges();
+                context.SaveChanges();
 
-            return newBatch.Id;
-      }
+                return newBatch.Id;
+            }
+        }
 
         public void RemoveBatch(Guid batchId)
         {
-            var batch = ModelContainer.BatchLog.Where(c => batchId == c.BatchId).ToList();
-
-            foreach (var _batch in batch.Where(b => b != null))
+            using (var context = new GeneralModelContainer())
             {
-                var found = false;
+                var batchLogs = context.BatchLog.Where(c => batchId == c.BatchId).ToList();
 
-                if (_batch.PersonId != null)
+                foreach (var batchLog in batchLogs.Where(b => b != null))
                 {
+                    var found = false;
 
-                    var person = ModelContainer.Persons.FirstOrDefault(p => p.Person_id == _batch.PersonId);
-
-                    if (person != null)
+                    if (batchLog.PersonId != null)
                     {
-                        ModelContainer.Persons.Remove(person);
-                        found = true;
+
+                        var person = context.Persons.FirstOrDefault(p => p.Person_id == batchLog.PersonId);
+
+                        if (person != null)
+                        {
+                            context.Persons.Remove(person);
+                            found = true;
+                        }
                     }
-                }
 
-                if (_batch.MarriageId != null)
-                {
-                    var marriage = ModelContainer.Marriages.FirstOrDefault(p => p.Marriage_Id == _batch.MarriageId);
-
-                    if (marriage != null)
+                    if (batchLog.MarriageId != null)
                     {
-                        ModelContainer.Marriages.Remove(marriage);
-                        found = true;
-                    }
-                }
+                        var marriage = context.Marriages.FirstOrDefault(p => p.Marriage_Id == batchLog.MarriageId);
 
-                if (found)
-                {
-                    _batch.IsDeleted = true;
-                    ModelContainer.SaveChanges();
+                        if (marriage != null)
+                        {
+                            context.Marriages.Remove(marriage);
+                            found = true;
+                        }
+                    }
+
+                    if (found)
+                    {
+                        batchLog.IsDeleted = true;
+                        context.SaveChanges();
+                    }
+
                 }
-                 
             }
         }
 
         public List<BatchDto> GetBatchsAndContents(BatchSearchFilter searchFilter)
         {
+            using (var context = new GeneralModelContainer())
+            {
+                //search filter current unused
 
-            //search filter current unused
-
-            var retList = new List<BatchDto>();
-
-            foreach (var b in ModelContainer.BatchLog.ToList()) {
-                retList.Add(new BatchDto
+                return context.BatchLog.ToList().Select(b => new BatchDto
                 {
-                    Id = b.Id,
-                    BatchId = b.BatchId,
-                    PersonId = b.PersonId,
-                    MarriageId = b.MarriageId,
-                    SourceId = b.SourceId,
-                    ParishId = b.ParishId,
-                    TimeRun = b.TimeRun,
-                    Ref = b.Ref,
-                    IsDeleted = b.IsDeleted.GetValueOrDefault()
-                });
+                    Id = b.Id, BatchId = b.BatchId, PersonId = b.PersonId, MarriageId = b.MarriageId, SourceId = b.SourceId, ParishId = b.ParishId, TimeRun = b.TimeRun, Ref = b.Ref, IsDeleted = b.IsDeleted.GetValueOrDefault()
+                }).ToList();
             }
-
-            return retList;
         }
 
         public List<ShortBatch> GetBatchList(BatchSearchFilter searchFilter)
         {
-            //search filter current unused
-            return ModelContainer.BatchLog.ToList().GroupBy(g => g.BatchId).Select(b => new ShortBatch
+            using (var context = new GeneralModelContainer())
             {
-                BatchId = b.First().BatchId, TimeRun = b.First().TimeRun, Ref = b.First().Ref, IsDeleted = b.First().IsDeleted.GetValueOrDefault()
-            }).ToList();
+                //search filter current unused
+                return context.BatchLog.ToList().GroupBy(g => g.BatchId).Select(b => new ShortBatch
+                {
+                    BatchId = b.First().BatchId,
+                    TimeRun = b.First().TimeRun,
+                    Ref = b.First().Ref,
+                    IsDeleted = b.First().IsDeleted.GetValueOrDefault()
+                }).ToList();
+            }
         }
     }
 }
