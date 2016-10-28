@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
  
 using TDBCore.BLL;
-  
+using TDBCore.Interfaces;
 using TDBCore.Types.DTOs;
  
 using TDBCore.Types.filters;

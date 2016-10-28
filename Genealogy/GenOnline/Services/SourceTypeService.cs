@@ -6,6 +6,7 @@ using System.ServiceModel.Activation;
 using GenOnline.Helpers;
 using GenOnline.Services.Contracts;
 using TDBCore.BLL;
+using TDBCore.Interfaces;
 using TDBCore.Types.domain;
 using TDBCore.Types.DTOs;
 using TDBCore.Types.filters;

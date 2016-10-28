@@ -25,12 +25,12 @@ namespace TDBCore.BLL
         void DeleteBySourceIdMarriageIdOrPersonId(Guid? sourceId, Guid? recordId);
         void DeleteSourcesForPersonOrMarriage(Guid recordId);
         void DeleteSourcesForPersonOrMarriage(Guid recordId, int? mapTypeId);
-        IQueryable<SourceMapping> GetBySourceIdAndMapTypeId2(Guid? sourceId, int? mapTypeId);
-        IQueryable<SourceMapping> GetByFileIdAndSourceId2(Guid? sourceId, Guid? fileId);
-        IQueryable<SourceMapping> GetByPersonOrMarriageIdAndSourceId2(Guid? sourceId, Guid? recordId);
-        IQueryable<SourceMapping> GetByMarriageIdOrPersonId2(Guid? recordId);
+        IEnumerable<SourceMapping> GetBySourceIdAndMapTypeId2(Guid? sourceId, int? mapTypeId);
+        IEnumerable<SourceMapping> GetByFileIdAndSourceId2(Guid? sourceId, Guid? fileId);
+        IEnumerable<SourceMapping> GetByPersonOrMarriageIdAndSourceId2(Guid? sourceId, Guid? recordId);
+        IEnumerable<SourceMapping> GetByMarriageIdOrPersonId2(Guid? recordId);
         string GetSourceGuidList(Guid? recordId);
-        IQueryable<SourceMapping> GetSourceMappingsWithFiles(Guid? recordId);
-        IQueryable<SourceMapping> GetBySourceTypesBySourceId2(Guid? recordId);
+        IEnumerable<SourceMapping> GetSourceMappingsWithFiles(Guid? recordId);
+        IEnumerable<SourceMapping> GetBySourceTypesBySourceId2(Guid? recordId);
     }
 }

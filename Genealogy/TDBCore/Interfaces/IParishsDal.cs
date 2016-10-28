@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using TDBCore.EntityModel;
 using TDBCore.Types.DTOs;
 using TDBCore.Types.filters;
 using TDBCore.Types.libs;
 
-namespace TDBCore.BLL
+namespace TDBCore.Interfaces
 {
     public interface IParishsDal
     {
@@ -24,10 +23,10 @@ namespace TDBCore.BLL
         List<SilverParish> GetParishsByLocationString(string locations);
         List<ParishDataType> GetParishTypes();
         List<SilverParish> GetParishsByLocation(List<RectangleD> locations);
-        IQueryable<Parish> GetParishsByLocationBox3(double xD, double yD, double boxlenD);
+        IEnumerable<Parish> GetParishsByLocationBox3(double xD, double yD, double boxlenD);
         List<string> GetParishNames(List<Guid> parishIds);
-        IQueryable<Parish> GetParishsByCounty2(string county);
-        IQueryable<ParishRecordSource> GetParishRecordSources();
+        IEnumerable<Parish> GetParishsByCounty2(string county);
+        IEnumerable<ParishRecordSource> GetParishRecordSources();
         void DeleteParishs(List<Guid> parishIds);
         void UpdateParish(ServiceParish serviceParish);
         Guid InsertParish(ServiceParish serviceParish);

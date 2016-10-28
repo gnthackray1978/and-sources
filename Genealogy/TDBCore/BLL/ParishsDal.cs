@@ -19,16 +19,25 @@ namespace TDBCore.BLL
              
         public List<CensusPlace> Get1841Census()
         {
-            return ModelContainer.uvw_1841Census.ToList().Select(entry => new CensusPlace
+            using (var context = new GeneralModelContainer())
+            {
+                return context.uvw_1841Census.ToList().Select(entry => new CensusPlace
                 {
-                    ParishId = entry.ParishId, PlaceName = entry.ParishName, LocX = entry.ParishX.GetValueOrDefault(), LocY = entry.ParishY.GetValueOrDefault()
+                    ParishId = entry.ParishId,
+                    PlaceName = entry.ParishName,
+                    LocX = entry.ParishX.GetValueOrDefault(),
+                    LocY = entry.ParishY.GetValueOrDefault()
                 }).ToList();
+            }
         }
 
 
         public List<ParishCounter> GetParishCounter()
         {
-            return ModelContainer.ParishCounter.ToList();
+            using (var context = new GeneralModelContainer())
+            {
+                return context.ParishCounter.ToList();
+            }
         }
 
 
@@ -41,104 +50,127 @@ namespace TDBCore.BLL
             parishName = parishName.Trim();
             parentParish = parentParish.Trim();
 
-            var parishs = ModelContainer.Parishs.Where(o => o.ParishName.ToLower().Contains(parishName) && o.ParishRegistersDeposited.ToLower().Contains(deposited.ToLower()));
-
-    
-            if (!parishs.Any())
+            using (var context = new GeneralModelContainer())
             {
-                var parish = new Parish
+                var parishs =
+                    context.Parishs.Where(
+                        o =>
+                            o.ParishName.ToLower().Contains(parishName) &&
+                            o.ParishRegistersDeposited.ToLower().Contains(deposited.ToLower()));
+
+
+                if (!parishs.Any())
                 {
-                    ParishId = parishId,
-                    ParentParish = parentParish,
-                    ParishCounty = parishCounty,
-                    ParishEndYear = endYear,
-                    ParishName = parishName,
-                    ParishNotes = parishNotes,
-                    ParishRegistersDeposited = deposited,
-                    ParishStartYear = startYear,
-                    ParishX = parishX,
-                    ParishY = parishY
-                };
+                    var parish = new Parish
+                    {
+                        ParishId = parishId,
+                        ParentParish = parentParish,
+                        ParishCounty = parishCounty,
+                        ParishEndYear = endYear,
+                        ParishName = parishName,
+                        ParishNotes = parishNotes,
+                        ParishRegistersDeposited = deposited,
+                        ParishStartYear = startYear,
+                        ParishX = parishX,
+                        ParishY = parishY
+                    };
 
-                ModelContainer.Parishs.Add(parish);
+                    context.Parishs.Add(parish);
+                }
+                else
+                {
+                    parishId = parishs.First().ParishId;
+                }
+
+
+                context.SaveChanges();
+
+                return parishId;
             }
-            else
-            {
-                parishId = parishs.First().ParishId;
-            }
-
-
-            ModelContainer.SaveChanges();
-
-            return parishId;
         }
 
 
         public Parish GetParishById2(Guid parishId)
-        {           
-            Parish parishEntity = ModelContainer.Parishs.FirstOrDefault(o => o.ParishId == parishId);
-             
-            return parishEntity;
+        {
+            using (var context = new GeneralModelContainer())
+            {
+                var parishEntity = context.Parishs.FirstOrDefault(o => o.ParishId == parishId);
+
+                return parishEntity;
+            }
         }
 
         public ServiceParish GetParishById(Guid parishId)
         {
-            var pe = ModelContainer.Parishs.FirstOrDefault(o => o.ParishId == parishId);
+            using (var context = new GeneralModelContainer())
+            {
+                var pe = context.Parishs.FirstOrDefault(o => o.ParishId == parishId);
 
-            if (pe == null) return new ServiceParish();
+                if (pe == null) return new ServiceParish();
 
-            var ret = new ServiceParish
+                var ret = new ServiceParish
                 {
                     ParishCounty = pe.ParishCounty,
                     ParishDeposited = pe.ParishRegistersDeposited,
-                    ParishId =  pe.ParishId,
-                    ParishLat = (double)pe.ParishX.GetValueOrDefault(),
-                    ParishLong = (double)pe.ParishY.GetValueOrDefault(),
+                    ParishId = pe.ParishId,
+                    ParishLat = (double) pe.ParishX.GetValueOrDefault(),
+                    ParishLong = (double) pe.ParishY.GetValueOrDefault(),
                     ParishEndYear = pe.ParishEndYear,
                     ParishStartYear = pe.ParishStartYear,
                     ParishName = pe.ParishName,
                     ParishNote = pe.ParishNotes,
-                    ParishParent = pe.ParentParish                       
+                    ParishParent = pe.ParentParish
                 };
 
-            return ret;
+                return ret;
+            }
         }
 
 
         public List<ServiceParish> GetParishByFilter(ParishSearchFilter parishSearchFilter, DataShaping dataShaping)
         {
-            IQueryable<Parish> parishDataTable;
-
-            if (parishSearchFilter.Name == "%" && parishSearchFilter.Deposited == "%" && parishSearchFilter.County == "%")
+            using (var context = new GeneralModelContainer())
             {
-                parishDataTable = ModelContainer.Parishs;
+                IQueryable<Parish> parishDataTable;
+
+                if (parishSearchFilter.Name == "%" && parishSearchFilter.Deposited == "%" &&
+                    parishSearchFilter.County == "%")
+                {
+                    parishDataTable = context.Parishs;
+                }
+                else
+                {
+                    parishSearchFilter.Name = parishSearchFilter.Name.Replace('%', ' ').Trim();
+                    parishSearchFilter.Deposited = parishSearchFilter.Deposited.Replace('%', ' ').Trim();
+                    parishSearchFilter.County = parishSearchFilter.County.Replace('%', ' ').Trim();
+
+                    parishDataTable =
+                        context.Parishs.Where(o => o.ParishName.Contains(parishSearchFilter.Name) &&
+                                                          o.ParishRegistersDeposited.Contains(
+                                                              parishSearchFilter.Deposited) &&
+                                                          o.ParishCounty.Contains(parishSearchFilter.County));
+                }
+
+                dataShaping.TotalRecords = parishDataTable.Count();
+
+                return
+                    parishDataTable.OrderBy(o => o.ParishName)
+                        .Skip(dataShaping.RecordStart*dataShaping.RecordPageSize)
+                        .Take(dataShaping.RecordPageSize)
+                        .Select(p => new ServiceParish
+                        {
+                            ParishCounty = p.ParishCounty,
+                            ParishDeposited = p.ParishRegistersDeposited,
+                            ParishId = p.ParishId,
+                            ParishEndYear = p.ParishEndYear,
+                            ParishStartYear = p.ParishStartYear,
+                            ParishName = p.ParishName,
+                            ParishParent = p.ParentParish,
+                            ParishNote = p.ParishNotes
+
+
+                        }).ToList();
             }
-            else
-            {
-                parishSearchFilter.Name = parishSearchFilter.Name.Replace('%', ' ').Trim();
-                parishSearchFilter.Deposited = parishSearchFilter.Deposited.Replace('%', ' ').Trim();
-                parishSearchFilter.County = parishSearchFilter.County.Replace('%', ' ').Trim();
-
-                parishDataTable = ModelContainer.Parishs.Where(o => o.ParishName.Contains(parishSearchFilter.Name) &&
-                    o.ParishRegistersDeposited.Contains(parishSearchFilter.Deposited) && o.ParishCounty.Contains(parishSearchFilter.County));
-            }
-
-            dataShaping.TotalRecords = parishDataTable.Count();
-
-            return parishDataTable.OrderBy(o=>o.ParishName).Skip(dataShaping.RecordStart * dataShaping.RecordPageSize).Take(dataShaping.RecordPageSize).Select(p => new ServiceParish
-            {
-                ParishCounty = p.ParishCounty,
-                ParishDeposited = p.ParishRegistersDeposited,
-                ParishId = p.ParishId,
-                ParishEndYear = p.ParishEndYear,
-                ParishStartYear = p.ParishStartYear,
-                ParishName = p.ParishName,
-                ParishParent = p.ParentParish,
-                ParishNote = p.ParishNotes
-
-
-            }).ToList();
-
             //serviceParishObject.serviceParishs.Skip(shaper.RecordStart * shaper.RecordPageSize).Take(shaper.RecordPageSize).ToList();
         }
       
@@ -175,63 +207,69 @@ namespace TDBCore.BLL
 
         public ParishCollection GetParishDetail(Guid parishId)
         {
-            var parishCollection = new ParishCollection();
 
-
-            var parishRecordsDataTable = ModelContainer.ParishRecords.Where(o => o.Parish.ParishId == parishId);
-            ;// _parishRecordsBll.GetParishRecordsById2(parishId);
-
-            parishCollection.parishRecords.Clear();
-            parishCollection.parishTranscripts.Clear();
-
-            foreach (var prr in parishRecordsDataTable)
+            using (var context = new GeneralModelContainer())
             {
-                var parishRecord = new ParishRecord();
+                var parishCollection = new ParishCollection();
 
 
-                if (prr.ParishRecordSource.RecordTypeId == 1 || prr.ParishRecordSource.RecordTypeId == 2)
+                var parishRecordsDataTable = context.ParishRecords.Where(o => o.Parish.ParishId == parishId);
+                ; // _parishRecordsBll.GetParishRecordsById2(parishId);
+
+                parishCollection.parishRecords.Clear();
+                parishCollection.parishTranscripts.Clear();
+
+                foreach (var prr in parishRecordsDataTable)
+                {
+                    var parishRecord = new ParishRecord();
+
+
+                    if (prr.ParishRecordSource.RecordTypeId == 1 || prr.ParishRecordSource.RecordTypeId == 2)
+                    {
+                        var parishTranscript = new ParishTranscript
+                        {
+                            ParishTranscriptRecord =
+                                prr.RecordType.ToUpper().Trim() + " " + prr.Year.ToString() + "-" +
+                                prr.YearEnd.ToString() +
+                                " " + prr.ParishRecordSource.RecordTypeName.ToUpper(),
+                            ParishId = prr.Parish.ParishId
+                        };
+
+                        parishCollection.parishTranscripts.Add(parishTranscript);
+                    }
+                    else
+                    {
+                        parishRecord.dataType = prr.ParishRecordSource.RecordTypeId;
+                        if (prr.YearEnd != null) parishRecord.endYear = prr.YearEnd.Value;
+                        if (prr.Year != null) parishRecord.startYear = prr.Year.Value;
+                        parishRecord.parishRecordType = prr.RecordType;
+                        parishRecord.parishId = prr.Parish.ParishId;
+
+                        parishCollection.parishRecords.Add(parishRecord);
+
+                    }
+                }
+
+
+                var parishTranscriptDataTable =
+                    context.ParishTranscriptionDetails.Where(o => o.Parish.ParishId == parishId);
+
+
+                foreach (var ptranrow in parishTranscriptDataTable)
                 {
                     var parishTranscript = new ParishTranscript
                     {
-                        ParishTranscriptRecord =
-                            prr.RecordType.ToUpper().Trim() + " " + prr.Year.ToString() + "-" + prr.YearEnd.ToString() +
-                            " " + prr.ParishRecordSource.RecordTypeName.ToUpper(),
-                        ParishId = prr.Parish.ParishId
+                        ParishTranscriptRecord = ptranrow.ParishDataString,
+                        ParishId = ptranrow.Parish.ParishId
                     };
 
                     parishCollection.parishTranscripts.Add(parishTranscript);
-                }
-                else
-                {
-                    parishRecord.dataType = prr.ParishRecordSource.RecordTypeId;
-                    if (prr.YearEnd != null) parishRecord.endYear = prr.YearEnd.Value;
-                    if (prr.Year != null) parishRecord.startYear = prr.Year.Value;
-                    parishRecord.parishRecordType = prr.RecordType;
-                    parishRecord.parishId = prr.Parish.ParishId;
-
-                    parishCollection.parishRecords.Add(parishRecord);
 
                 }
+
+
+                return parishCollection;
             }
-
-
-            var parishTranscriptDataTable = ModelContainer.ParishTranscriptionDetails.Where(o => o.Parish.ParishId == parishId); 
-
-
-            foreach (var ptranrow in parishTranscriptDataTable)
-            {
-                var parishTranscript = new ParishTranscript
-                {
-                    ParishTranscriptRecord = ptranrow.ParishDataString,
-                    ParishId = ptranrow.Parish.ParishId
-                };
-
-                parishCollection.parishTranscripts.Add(parishTranscript);
-
-            }
-
-
-            return parishCollection;
         }
  
         public List<SilverParish> GetParishsByLocationString(string locations)
@@ -300,89 +338,112 @@ namespace TDBCore.BLL
             return results;
         }
 
-        public IQueryable<Parish> GetParishsByLocationBox3(double xD, double yD, double boxlenD)
-        {            
-            var x = Convert.ToDecimal(xD);
-            var y = Convert.ToDecimal(yD);
-            var boxlen = Convert.ToDecimal(boxlenD);
+        public IEnumerable<Parish> GetParishsByLocationBox3(double xD, double yD, double boxlenD)
+        {
+            using (var context = new GeneralModelContainer())
+            {
+                var x = Convert.ToDecimal(xD);
+                var y = Convert.ToDecimal(yD);
+                var boxlen = Convert.ToDecimal(boxlenD);
 
-            var parishDataTable = ModelContainer.Parishs.Where(o => o.ParishX >= x
-                                                                           && o.ParishX <= (x + boxlen)
-                                                                           && o.ParishY >= y
-                                                                           && o.ParishY <= (y + boxlen));
+                var parishDataTable = context.Parishs.Where(o => o.ParishX >= x
+                                                                        && o.ParishX <= (x + boxlen)
+                                                                        && o.ParishY >= y
+                                                                        && o.ParishY <= (y + boxlen));
 
-            return parishDataTable;
+                return parishDataTable;
+            }
         }
 
         public List<string> GetParishNames(List<Guid> parishIds)
         {
-            var parishDataTable = ModelContainer.Parishs.Where(p => parishIds.Contains(p.ParishId)).Select(s => s.ParishName).ToList();
+            using (var context = new GeneralModelContainer())
+            {
+                var parishDataTable =
+                    context.Parishs.Where(p => parishIds.Contains(p.ParishId)).Select(s => s.ParishName).ToList();
 
-            return parishDataTable;
+                return parishDataTable;
+            }
         }
 
-        public IQueryable<Parish> GetParishsByCounty2(string county)
+        public IEnumerable<Parish> GetParishsByCounty2(string county)
         {
-            var parishDataTable = ModelContainer.Parishs.Where(o => o.ParishCounty.Trim().ToLower().Contains(county.ToLower()));
+            using (var context = new GeneralModelContainer())
+            {
+                var parishDataTable =
+                    context.Parishs.Where(o => o.ParishCounty.Trim().ToLower().Contains(county.ToLower()));
 
-            return parishDataTable;
+                return parishDataTable.ToList();
+            }
         }
 
-        public IQueryable<ParishRecordSource> GetParishRecordSources()
+        public IEnumerable<ParishRecordSource> GetParishRecordSources()
         {
-            return ModelContainer.ParishRecordSources;
+            using (var context = new GeneralModelContainer())
+            {
+                return context.ParishRecordSources;
+            }
         }
 
 
 
         public void DeleteParishs(List<Guid> parishIds)
         {
-            
-            var customer = ModelContainer.Parishs.Where(c => parishIds.Contains(c.ParishId) && c!= null).ToList();
-
-            foreach (var parish in customer)
+            using (var context = new GeneralModelContainer())
             {
-                ModelContainer.Parishs.Remove(parish);
-                ModelContainer.SaveChanges();
-            }
+                var customer = context.Parishs.Where(c => parishIds.Contains(c.ParishId) && c != null).ToList();
 
+                foreach (var parish in customer)
+                {
+                    context.Parishs.Remove(parish);
+                    context.SaveChanges();
+                }
+            }
 
         }
 
         public void UpdateParish(ServiceParish serviceParish)
         {
-            var parish = ModelContainer.Parishs.First(o => o.ParishId == serviceParish.ParishId);
-
-            if (parish != null)
+            using (var context = new GeneralModelContainer())
             {
-                parish.ParishName = serviceParish.ParishName;
-                parish.ParentParish = serviceParish.ParishParent;
-                parish.ParishCounty = serviceParish.ParishCounty;
-                parish.ParishEndYear = serviceParish.ParishEndYear;
-                parish.ParishStartYear = serviceParish.ParishStartYear;
-                parish.ParishNotes = serviceParish.ParishNote;
-                parish.ParishX = (decimal)serviceParish.ParishLat;
-                parish.ParishY = (decimal)serviceParish.ParishLong;
-                parish.ParishRegistersDeposited = serviceParish.ParishDeposited;
-            }
+                var parish = context.Parishs.First(o => o.ParishId == serviceParish.ParishId);
 
-            ModelContainer.SaveChanges();
+                if (parish != null)
+                {
+                    parish.ParishName = serviceParish.ParishName;
+                    parish.ParentParish = serviceParish.ParishParent;
+                    parish.ParishCounty = serviceParish.ParishCounty;
+                    parish.ParishEndYear = serviceParish.ParishEndYear;
+                    parish.ParishStartYear = serviceParish.ParishStartYear;
+                    parish.ParishNotes = serviceParish.ParishNote;
+                    parish.ParishX = (decimal) serviceParish.ParishLat;
+                    parish.ParishY = (decimal) serviceParish.ParishLong;
+                    parish.ParishRegistersDeposited = serviceParish.ParishDeposited;
+                }
+
+                context.SaveChanges();
+            }
         }
 
         public Guid InsertParish(ServiceParish serviceParish)
         {
-
-            var parishId = Guid.NewGuid();
-            serviceParish.ParishId = parishId;
-            serviceParish.ParishName = serviceParish.ParishName.Trim();
-            serviceParish.ParishParent = serviceParish.ParishParent.Trim();
-
-            var parishs = ModelContainer.Parishs.Where(o => o.ParishName.ToLower().Contains(serviceParish.ParishName) && o.ParishRegistersDeposited.ToLower().Contains(serviceParish.ParishDeposited.ToLower()));
-
-
-            if (!parishs.Any())
+            using (var context = new GeneralModelContainer())
             {
-                var parish = new Parish
+                var parishId = Guid.NewGuid();
+                serviceParish.ParishId = parishId;
+                serviceParish.ParishName = serviceParish.ParishName.Trim();
+                serviceParish.ParishParent = serviceParish.ParishParent.Trim();
+
+                var parishs =
+                    context.Parishs.Where(
+                        o =>
+                            o.ParishName.ToLower().Contains(serviceParish.ParishName) &&
+                            o.ParishRegistersDeposited.ToLower().Contains(serviceParish.ParishDeposited.ToLower()));
+
+
+                if (!parishs.Any())
+                {
+                    var parish = new Parish
                     {
                         ParishId = serviceParish.ParishId,
                         ParentParish = serviceParish.ParishParent,
@@ -392,22 +453,23 @@ namespace TDBCore.BLL
                         ParishNotes = serviceParish.ParishNote,
                         ParishRegistersDeposited = serviceParish.ParishDeposited,
                         ParishStartYear = serviceParish.ParishStartYear,
-                        ParishX = (decimal)serviceParish.ParishLat,
-                        ParishY = (decimal)serviceParish.ParishLong
+                        ParishX = (decimal) serviceParish.ParishLat,
+                        ParishY = (decimal) serviceParish.ParishLong
                     };
 
-                ModelContainer.Parishs.Add(parish);
+                    context.Parishs.Add(parish);
+                }
+                else
+                {
+                    parishId = parishs.First().ParishId;
+                    serviceParish.ParishId = parishId;
+                }
+
+
+                context.SaveChanges();
+
+                return parishId;
             }
-            else
-            {
-                parishId = parishs.First().ParishId;
-                serviceParish.ParishId = parishId;
-            }
-
-
-            ModelContainer.SaveChanges();
-
-            return parishId;
         }
          
     }

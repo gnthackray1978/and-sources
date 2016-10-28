@@ -8,6 +8,7 @@ using System.Web.Http.Cors;
 using GenOnline;
 using GenOnline.Helpers;
 using TDBCore.BLL;
+using TDBCore.Interfaces;
 using TDBCore.Types.domain;
 using TDBCore.Types.DTOs;
 using TDBCore.Types.filters;
