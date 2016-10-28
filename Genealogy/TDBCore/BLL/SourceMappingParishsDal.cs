@@ -12,31 +12,38 @@ namespace TDBCore.BLL
         
         public List<Guid> GetParishIds(Guid sourceId)
         {
-            return ModelContainer.SourceMappingParishs.Where(o => o.Source.SourceId == sourceId).Select(p=>p.Parish.ParishId).ToList();
+            using (var context = new GeneralModelContainer())
+            {
+                return
+                    context.SourceMappingParishs.Where(o => o.Source.SourceId == sourceId)
+                        .Select(p => p.Parish.ParishId)
+                        .ToList();
+            }
         }        
          
         public int? InsertSourceMappingParish2(Guid sourceMappingParishId, Guid sourceMappingSourceId, int? userId)
         {
-            var smp = new SourceMappingParish();
-
-            var source = ModelContainer.Sources.FirstOrDefault(o => o.SourceId == sourceMappingSourceId);
-            var parish = ModelContainer.Parishs.FirstOrDefault(o => o.ParishId == sourceMappingParishId);
-
-            if (source != null && parish != null)
+            using (var context = new GeneralModelContainer())
             {
+                var smp = new SourceMappingParish();
+
+                var source = context.Sources.FirstOrDefault(o => o.SourceId == sourceMappingSourceId);
+                var parish = context.Parishs.FirstOrDefault(o => o.ParishId == sourceMappingParishId);
+
+                if (source == null || parish == null) return smp.SourceMappingParishsRowId;
+
                 smp.Parish = parish;
                 smp.Source = source;
                 smp.SourceMappingDateAdded = DateTime.Today;
                 smp.SourceMappingUser = userId;
 
 
-                ModelContainer.SourceMappingParishs.Add(smp);
+                context.SourceMappingParishs.Add(smp);
 
-                ModelContainer.SaveChanges();
+                context.SaveChanges();
+
+                return smp.SourceMappingParishsRowId;
             }
-
-            return smp.SourceMappingParishsRowId;
-             
         }
  
     }

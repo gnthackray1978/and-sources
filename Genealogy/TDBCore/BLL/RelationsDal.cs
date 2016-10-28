@@ -12,27 +12,32 @@ namespace TDBCore.BLL
     {        
         public void DeleteRelationMapping(List<Guid> selectedRecordIds)
         {
-            if (selectedRecordIds.Count <= 0) return;
+            
 
-            var personA = selectedRecordIds[0];
+                if (selectedRecordIds.Count <= 0) return;
 
-            if (selectedRecordIds.Count == 1)
-            {
-                var relationMaps = GetRelationByChildOrParent(personA, 1).FirstOrDefault();
+                var personA = selectedRecordIds[0];
 
-                if (relationMaps != null)
+                if (selectedRecordIds.Count == 1)
                 {
-                    DeleteRelationMapping(relationMaps.RelationId);
+                    var relationMaps = GetRelationByChildOrParent(personA, 1).FirstOrDefault();
+
+                    if (relationMaps != null)
+                    {
+                        DeleteRelationMapping(relationMaps.RelationId);
+                    }
                 }
-            }
-            else
-            {
-                foreach (var relationship in selectedRecordIds.Select(selectedPerson => GetRelationByPersons2(personA, selectedPerson)
-                    .FirstOrDefault()).Where(relationship => relationship != null))
+                else
                 {
-                    DeleteRelationMapping(relationship.RelationId);
+                    foreach (
+                        var relationship in
+                            selectedRecordIds.Select(selectedPerson => GetRelationByPersons2(personA, selectedPerson)
+                                .FirstOrDefault()).Where(relationship => relationship != null))
+                    {
+                        DeleteRelationMapping(relationship.RelationId);
+                    }
                 }
-            }
+            
         }
 
 
@@ -63,45 +68,65 @@ namespace TDBCore.BLL
 
         public IQueryable<RelationTypes> GetRelationTypes2()
         {
+            using (var context = new GeneralModelContainer())
+            {
 
-
-            return ModelContainer.RelationTypes;
+                return context.RelationTypes;
+            }
         }
 
       
 
         public IQueryable<Relations> GetRelationsByType2(int relationTypeId)
         {
-
-            return ModelContainer.Relations.Where(o => o.RelationTypes.RelationTypeId == relationTypeId);
+            using (var context = new GeneralModelContainer())
+            {
+                return context.Relations.Where(o => o.RelationTypes.RelationTypeId == relationTypeId);
+            }
         }
 
        
 
         public IQueryable<Relations> GetRelationsById2(int relationMapId)
         {
-            return ModelContainer.Relations.Where(o => o.RelationId == relationMapId);
+            using (var context = new GeneralModelContainer())
+            {
+                return context.Relations.Where(o => o.RelationId == relationMapId);
+            }
 
         }
          
         public IQueryable<Relations> GetRelationByChildOrParent(Guid personId, int typeId)
         {
-            return ModelContainer.Relations.Where(o => (o.PersonsA.Person_id == personId || o.PersonsB.Person_id == personId) && 
-                o.RelationTypes.RelationTypeId == typeId);
-
+            using (var context = new GeneralModelContainer())
+            {
+                return
+                    context.Relations.Where(
+                        o => (o.PersonsA.Person_id == personId || o.PersonsB.Person_id == personId) &&
+                             o.RelationTypes.RelationTypeId == typeId);
+            }
         }
 
         public IQueryable<Relations> GetRelationByChildOrParent(Guid personId)
         {
-            return ModelContainer.Relations.Where(o => (o.PersonsA.Person_id == personId || o.PersonsB.Person_id == personId) );
-
+            using (var context = new GeneralModelContainer())
+            {
+                return
+                    context.Relations.Where(
+                        o => (o.PersonsA.Person_id == personId || o.PersonsB.Person_id == personId));
+            }
         }
        
 
         public IQueryable<Relations> GetRelationByPersons2(Guid person1, Guid person2)
         {
-            return ModelContainer.Relations.Where(o => (o.PersonsA.Person_id == person1 && o.PersonsB.Person_id == person2) 
-                || (o.PersonsB.Person_id == person1 && o.PersonsA.Person_id == person2));
+            using (var context = new GeneralModelContainer())
+            {
+                return
+                    context.Relations.Where(
+                        o => (o.PersonsA.Person_id == person1 && o.PersonsB.Person_id == person2)
+                             || (o.PersonsB.Person_id == person1 && o.PersonsA.Person_id == person2));
+            }
         }
 
       
@@ -111,11 +136,14 @@ namespace TDBCore.BLL
         {
             var relMap = GetRelationsByType2(relationMappingId).FirstOrDefault();
 
-            if (relMap != null)
-            {
-                ModelContainer.Relations.Remove(relMap);
+            if (relMap == null) return;
 
-                ModelContainer.SaveChanges();
+            using (var context = new GeneralModelContainer())
+            {
+
+                context.Relations.Remove(relMap);
+
+                context.SaveChanges();
             }
         }
 
@@ -123,29 +151,31 @@ namespace TDBCore.BLL
 
         public int InsertRelation(Guid personA, Guid personB, int relationTypeId, int userId)
         {
-
-            var persona = ModelContainer.Persons.FirstOrDefault(o => o.Person_id == personA);
-            var personb = ModelContainer.Persons.FirstOrDefault(o => o.Person_id == personB);
-            var relationType = ModelContainer.RelationTypes.FirstOrDefault(o => o.RelationTypeId == relationTypeId);
-
-            if (persona != null && personb != null && relationType != null)
+            using (var context = new GeneralModelContainer())
             {
-                var relation = new Relations
+                var persona = context.Persons.FirstOrDefault(o => o.Person_id == personA);
+                var personb = context.Persons.FirstOrDefault(o => o.Person_id == personB);
+                var relationType = context.RelationTypes.FirstOrDefault(o => o.RelationTypeId == relationTypeId);
+
+                if (persona != null && personb != null && relationType != null)
                 {
-                    PersonsA = persona,
-                    PersonsB = personb,
-                    RelationTypes = relationType,
-                    UserId = userId
-                };
+                    var relation = new Relations
+                    {
+                        PersonsA = persona,
+                        PersonsB = personb,
+                        RelationTypes = relationType,
+                        UserId = userId
+                    };
 
-                ModelContainer.Relations.Add(relation);
-                ModelContainer.SaveChanges();
+                    context.Relations.Add(relation);
+                    context.SaveChanges();
 
-                return relation.RelationId;
+                    return relation.RelationId;
+                }
+
+
+                return 0;
             }
-
-           
-            return 0;
         }
          
     

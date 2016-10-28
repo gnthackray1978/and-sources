@@ -13,7 +13,7 @@
     <script src="./libs/testlib.js"></script>
     <script>
 
-        function GetSourceNames() {
+        function GetBatches() {
 
             var params = { sourceIds: 'CEB4A571-B475-4457-8B7B-00B3FD1A131F' };
 
@@ -35,7 +35,7 @@
             });
         }
 
-        function Get1841CensusPlaces() {
+        function AddPersons() {
 
             var params = { sourceId: 'CEB4A571-B475-4457-8B7B-00B3FD1A131F' };
 
@@ -57,7 +57,7 @@
             });
         }
 
-        function Get1841CensusSources() {
+        function AddMarriages() {
 
             var params = { sourceId: 'CEB4A571-B475-4457-8B7B-00B3FD1A131F' };
 
@@ -80,11 +80,11 @@
         }
 
  
-        function DeleteSource() {
+        function AddParishs() {
 
         }
 
-        function GetSources() {
+        function AddSources() {
             var params = {
                 sourceTypes: '',
                 sourceRef: '',
@@ -122,7 +122,7 @@
             });
         }
 
-        function GetSource() {
+        function RemoveBatch() {
             var params = { sourceId: 'CEB4A571-B475-4457-8B7B-00B3FD1A131F' };
 
             var url = getUrl() + "source?" + $.param(params);
@@ -143,118 +143,44 @@
             });
         }
 
-        function AddSource() {
-          
-            var serviceSourceAdd = {
-                SourceId :'',
-                IsCopyHeld :'true',
-                IsThackrayFound :'true',
-                IsViewed :'true',
-                OriginalLocation :'mars',
-                SourceDesc :'test source mars',
-                SourceRef :'ref mars',
-                SourceNotes :'some test notes',
-                SourceDateStr :'1 Jan 1732',
-                SourceDateStrTo :'31 Sep 1740',
-                SourceFileCount :'',
-                Parishs :'',
-                SourceTypes: '1,2,3',
-                FileIds: ''
-            };
-
-            var url = getUrl() + "source";
-
-            writeLine('URL', url);
-
-            $.ajax({
-                url: url,
-                dataType: "json",
-
-                type: "POST",
-                data: serviceSourceAdd,
-                success: success,
-                error: error
-            });
-        }
-
-        function AddPersonTreeSource() {
-
-            
-
-            var url = getUrl() + "source/persontree";
-
-            writeLine('URL', url);
-
-            $.ajax({
-                url: url,
-                dataType: "json",
-
-                type: "POST",
-                data: {
-                    record: 'CEB4A571-B475-4457-8B7B-00B3FD1A131F,CEB4A571-B475-4457-8B7B-00B3FD1A131F',
-                    sources: 'CEB4A571-B475-4457-8B7B-00B3FD1A131F,CEB4A571-B475-4457-8B7B-00B3FD1A131F'
-                },
-                success: success,
-                error: error
-            });
-        }
-
-        function AddMarriageTreeSource() {
-            var url = getUrl() + "source/marriagetree";
-
-            writeLine('URL', url);
-
-            $.ajax({
-                url: url,
-                dataType: "json",
-
-                type: "POST",
-                data: {
-                    record: 'CEB4A571-B475-4457-8B7B-00B3FD1A131F,CEB4A571-B475-4457-8B7B-00B3FD1A131F'
-                },
-                success: success,
-                error: error
-            });
-
-        }
-        function RemoveTreeSources() {
-            var url = getUrl() + "sources/tree/delete";
-
-            writeLine('URL', url);
-
-            $.ajax({
-                url: url,
-                dataType: "json",
-
-                type: "POST",
-                data: {
-                    record: 'CEB4A571-B475-4457-8B7B-00B3FD1A131F'
-                },
-                success: success,
-                error: error
-            });
-        }
-
+     
         $(document).ready(function() {
 
-            $("#getmarriageid").click(function(e) {
+            $("#GetBatchesid").click(function (e) {
                 resetStyling();
-                getMarriage();
+                GetBatches();
                 e.preventDefault();
             });
 
-            $("#getmarriages").click(function(e) {
+            $("#AddPersonsid").click(function (e) {
                 resetStyling();
-                getMarriageByFilter();
+                AddPersons();
                 e.preventDefault();
             });
 
-            $("#addmarriage").click(function(e) {
+            $("#AddMarriagesid").click(function (e) {
                 resetStyling();
-                addMarriage();
+                AddMarriages();
                 e.preventDefault();
             });
 
+            $("#AddParishsid").click(function (e) {
+                resetStyling();
+                AddParishs();
+                e.preventDefault();
+            });
+
+            $("#AddSourcesid").click(function (e) {
+                resetStyling();
+                AddSources();
+                e.preventDefault();
+            });
+
+            $("#RemoveBatchid").click(function (e) {
+                resetStyling();
+                RemoveBatch();
+                e.preventDefault();
+            });
         });
     </script>
 
@@ -263,16 +189,13 @@
 
 <div class="row">
     
-    <div class="col-sm-4"><a id='get1841CensusSourcesId' href=''>1841 Census Sources</a>  </div>
-    <div class="col-sm-4"><a id='get1841CensusPlacesId' href=''>1841 Census Places</a> </div>
-    <div class="col-sm-4"><a id='getSourceNamesId' href=''>Get Source Names</a> </div>
-    <div class="col-sm-4"><a id='deleteSourcesId' href=''>Delete Sources</a>  </div>
-    <div class="col-sm-4"><a id='getSourcesId' href=''>Get Sources</a> </div>
-    <div class="col-sm-4"><a id='getSourceId' href=''>Get Source</a> </div>
-    <div class="col-sm-4"><a id='addSourceId' href=''>Add Source</a>  </div>
-    <div class="col-sm-4"><a id='addPersonTreeId' href=''>Add Person Tree Source</a> </div>
-    <div class="col-sm-4"><a id='addMarriageTreeId' href=''>Add Marriage Tree Source</a> </div>
-    <div class="col-sm-4"><a id='removeTreeSourceId' href=''>Remove Tree Sources</a> </div>
+    <div class="col-sm-4"><a id='GetBatchesid' href=''>Get Batches</a>  </div>
+    <div class="col-sm-4"><a id='AddPersonsid' href=''>Add Persons</a> </div>
+    <div class="col-sm-4"><a id='AddMarriagesid' href=''>Add Marriages</a> </div>
+    <div class="col-sm-4"><a id='AddParishsid' href=''>Add Parishs</a>  </div>
+    <div class="col-sm-4"><a id='AddSourcesid' href=''>Add Sources</a> </div>
+    <div class="col-sm-4"><a id='RemoveBatchid' href=''>Remove Batch</a> </div>
+
 </div>
 
 <br />
@@ -282,26 +205,14 @@
 </body>
 </html>
 
+        <!--public const string GetBatches = "batches";//"/GetBatches?0={batch_ref}&1={page_number}&2={page_size}&3={sort_col}";
 
+        public const string AddPersons = "batchperson";//"/AddPersons";
 
-        <!--public const string Get1841CensusSources = "1841censussources";//"/Get1841CensusSources?0={sourceId}";
-            9
-        public const string Get1841CensusPlaces = "1841censusplaces";// "/Get1841CensusPlaces";
+        public const string AddMarriages = "batchmarriage";// "/AddMarriages";
 
-        public const string GetSourceNames = "sources/names";// "/GetSourceNames?0={sourceIds}";
+        public const string AddParishs = "batchparishs";// "/AddParishs";
 
-        public const string DeleteSource = "sources/delete";// "/Delete";
+        public const string AddSources = "batchsources";// "/AddSources";
 
-        public const string GetSources = "sources";
-                                        //"/Select?0={sourceTypes}&1={sourceRef}&2={sourceDesc}&3={origLoc}" +
-                                        //                             "&4={dateLB}&5={toDateLB}&6={dateUB}&7={toDateUB}&8={fileCount}&9={isThackrayFound}" +
-                                        //                             "&10={isCopyHeld}&11={isViewed}&12={isChecked}&13={page_number}&14={page_size}&15={sortColumn}";
-
-        public const string GetSource = "source";// "/GetSource?0={sourceId}";
-
-        public const string AddSource = "source";//"/Add";
-
-        public const string AddPersonTreeSource = "sources/persontree";// "/AddPersonTreeSource";
-        public const string AddMarriageTreeSource = "sources/marriagetree"; //"/AddMarriageTreeSource";
-
-        public const string RemoveTreeSources = "sources/tree/delete";//"/RemoveTreeSources";-->
+        public const string RemoveBatch = "batch/delete";//"/RemoveBatch";-->

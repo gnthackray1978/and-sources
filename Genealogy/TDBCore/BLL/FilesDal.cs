@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TDBCore.EntityModel;
 using TDBCore.Types.DTOs;
 
  
@@ -9,39 +10,50 @@ namespace TDBCore.BLL
     public class FilesDal : BaseBll, IFilesDal
     {  
         public Guid AddFile2(string description, string filePath, int userId, string thumbPath)
-        {            
-            var file = new EntityModel.File
+        {
+            using (var context = new GeneralModelContainer())
             {
-                FileContent = "",
-                FileDate = DateTime.Today,
-                FileDescription = description,
-                FileEntryAdded = DateTime.Today,
-                FileLocation = filePath,
-                FilerUserAdded = userId,
-                FileThumbLocation = thumbPath,
-                FiletId = Guid.NewGuid()
-            };
+                var file = new EntityModel.File
+                {
+                    FileContent = "",
+                    FileDate = DateTime.Today,
+                    FileDescription = description,
+                    FileEntryAdded = DateTime.Today,
+                    FileLocation = filePath,
+                    FilerUserAdded = userId,
+                    FileThumbLocation = thumbPath,
+                    FiletId = Guid.NewGuid()
+                };
 
-            ModelContainer.Files.Add(file);
+                context.Files.Add(file);
 
-            ModelContainer.SaveChanges();
+                context.SaveChanges();
 
-            return file.FiletId;
+                return file.FiletId;
+            }
         }
 
         public IQueryable<EntityModel.File> GetFilesByParentId2(Guid parentId)
-        {        
-            return ModelContainer.Files.Where(s => s.SourceMappings.Any(o => o.Source.SourceId == parentId));
+        {
+            using (var context = new GeneralModelContainer())
+            {
+                return context.Files.Where(s => s.SourceMappings.Any(o => o.Source.SourceId == parentId));
+            }
         }
 
         public List<ServiceFile> GetFilesByParent(Guid parentId)
         {
-            return ModelContainer.Files.Where(s => s.SourceMappings.Any(o => o.Source.SourceId == parentId)).Select(p => new ServiceFile
-                {
-                    FileId = p.FiletId,
-                    FileDescription =p.FileDescription,
-                    FileLocation =  p.FileLocation          
-                }).ToList();
+            using (var context = new GeneralModelContainer())
+            {
+                return
+                    context.Files.Where(s => s.SourceMappings.Any(o => o.Source.SourceId == parentId))
+                        .Select(p => new ServiceFile
+                        {
+                            FileId = p.FiletId,
+                            FileDescription = p.FileDescription,
+                            FileLocation = p.FileLocation
+                        }).ToList();
+            }
         }
     }
 }
